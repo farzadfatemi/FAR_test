@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.eclipse:gef:3.2.100-v20070620">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/gef/3.2.100-v20070620/gef-3.2.100-v20070620.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/gef/3.2.100-v20070620/gef-3.2.100-v20070620-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/eclipse/gef/3.2.100-v20070620/gef-3.2.100-v20070620-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

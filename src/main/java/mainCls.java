@@ -1,4 +1,6 @@
+import com.Farzad.utils.IOUtil.FileUtils;
 import com.Farzad.utils.ImageUtils.GenerateSVG;
+import com.Farzad.utils.xmlutils.XmlUtils;
 
 /**
  * Created by VOLCANO on 4/7/2017.
@@ -6,7 +8,8 @@ import com.Farzad.utils.ImageUtils.GenerateSVG;
 public class mainCls {
     public static void main(String[] args) {
         try {
-            System.out.println(GenerateSVG.getModelSVGs());
+           String str = GenerateSVG.getModelSVGs();
+            FileUtils.WriteToHTML (str);
 //            System.out.println(GenerateSVG2.getModelSVGs());
 //            System.out.println(CryptoUtils.getSaltedPassword("FARmelody2".getBytes()));
 //            XmlUtils.ReadXMLFile2();

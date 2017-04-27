@@ -25,8 +25,8 @@
         <module name="FAR_test" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="FAR_test" target="1.5" />
+    <bytecodeTargetLevel target="1.8">
+      <module name="FAR_test" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

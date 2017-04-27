@@ -29,7 +29,7 @@ public class GenerateSVG {
                 " <a xlink:href=\"https://google.com\">\n" +
                 "      <rect fill=\"" + svgShape.getFillColor() + "\"  x=\"" + svgShape.getX() + "\" y=\"" + svgShape.getY() + "\" width=\"" + svgShape.getWidth()
                 + "\" height=\"" + svgShape.getHeight() + "\" stroke=\"" + svgShape.getStrokeColor() + "\" />\n" +
-                "      <text x=\"" + (svgShape.getX() + 10) + "\" xml:space=\"preserve\" y=\"" + (svgShape.getY() + (svgShape.getHeight() / 2)) + "\" clip-path=\"url(#clipPath20)\" stroke=\"none\"\n" +
+                "      <text x=\"" + (svgShape.getX() + 10) + "\" xml:space=\"preserve\" y=\"" + (svgShape.getY() + 40) + "\" clip-path=\"url(#clipPath20)\" stroke=\"none\"\n" +
                 "      font-family=\"" + svgShape.getFont() + "\" fill=\"#FFFFFF\"  >" + svgShape.getName() + "</text>\n" +
                 "    </a>\n";
         if (svgShape.getName() != null && svgShape.getName().equals("Actors1")) {
@@ -37,7 +37,7 @@ public class GenerateSVG {
 //                    "<defs><style>.cls-1{fill:#faab19;}</style></defs><title>Colour</title><path class=\"cls-1\" " +
 //                    "d=\"M12.5,13.37a5.51,5.51,0,0,1,5.5,5.5v1H7v-1a5.51,5.51,0,0,1,5.5-5.5m0-2.5a8,8,0,0,0-8,8v3.52h16V18.87a8,8,0,0,0-8-8Zm-8,11.52v0Z\"/>" +
 //                    "<path class=\"cls-1\" d=\"M12.5,5a2.6,2.6,0,1,1-2.6,2.6A2.6,2.6,0,0,1,12.5,5m0-2.5a5.1,5.1,0,1,0,5.1,5.1,5.1,5.1,0,0,0-5.1-5.1Z\"/> ";
-            result += "<image x=\"" + (svgShape.getX()+svgShape.getWidth()-30) + "\" y=\"" + (svgShape.getY()+5) + "\" width=\"30\" height=\"30\" xlink:href=\"Actor_Business.svg\" />";
+            result += "<image x=\"" + (svgShape.getX() + svgShape.getWidth() - 30) + "\" y=\"" + (svgShape.getY() + 5) + "\" width=\"30\" height=\"30\" xlink:href=\"Actor_Business.svg\" />";
         }
         result += "</g>" +
                 "</svg>"
@@ -55,8 +55,10 @@ public class GenerateSVG {
             return ""
                     +
                     "<svg>" +
+                    " <circle cx=\"" + x1 + "\" cy=\"" + y1 + "\" r=\"3\" fill=\"#000000\" />" +
                     "      <line fill=\"black\" x1=\"" + x1 + "\" x2=\"" + x2 + "\" y1=\"" + y1 + "\" y2=\"" + y2 + "\" " +
-                    "stroke=\"rgb(193,232,255)\" stroke-width=\"" + source.getStrokeWidth() + "\"/>\n" +
+                    "stroke=\"#000000\" stroke-width=\"" + source.getStrokeWidth() + "\"/>\n" +
+                    "<circle cx=\"" + x2 + "\" cy=\"" + y2 + "\" r=\"3\" fill=\"#000000\" />" +
                     "</svg>"
                     ;
         } else

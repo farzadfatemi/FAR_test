@@ -9,34 +9,47 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 
 public class FileUtils {
     private static final String FILENAME = "D:\\FAR_Documents\\__Startamap\\archiModelToSVG.html";
+
     public static void WriteToHTML(String body) {
 
-            try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILENAME))) {
+        try (BufferedWriter bw = new BufferedWriter (new FileWriter (FILENAME))) {
 
-                String content = "<html>\n" +
-                        "  <head>\n" +
-                        "    <title>$Title$</title>\n" +
-                        "  </head>\n" +
-                        "  <body> ";
-                content += body;
-                content += "  </body>\n" +
-                        "</html>";
-                bw.write(content);
+            String content = "<html>\n" +
+                    "  <head>\n" +
+                    "    <title>SVG ARCHI MODEL</title>\n" +
+                    "  </head>\n" +
+                    "  <body> ";
+            content += body;
+            content += "  </body>\n" +
+                    "</html>";
+            bw.write (content);
 
-                if(Desktop.isDesktopSupported())
-                {
-                    Desktop.getDesktop().browse(new URI("file:///D:/FAR_Documents/__Startamap/archiModelToSVG.html"));
-                }
+            lunchBrowser ();
+        } catch (IOException e) {
 
-            } catch (IOException | URISyntaxException e) {
+            e.printStackTrace ();
 
-                e.printStackTrace();
+        }
 
-            }
+    }
+
+    private static void lunchBrowser() {
+
+        try {
+
+
+//            if (Desktop.isDesktopSupported ()) {
+//                Desktop.getDesktop ().browse (new URI ("file:///D:/FAR_Documents/__Startamap/archiModelToSVG.html"));
+//            }
+            Runtime.getRuntime().exec(new String[]{"cmd", "/c","start chrome file:///D:/FAR_Documents/__Startamap/archiModelToSVG.html"});
+        } catch (Exception e) {
+
+            e.printStackTrace ();
+
+        }
 
     }
 

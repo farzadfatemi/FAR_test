@@ -22,34 +22,45 @@ public class GenerateSVG {
     private static Map<String, SVGSingleShape> All_CHILDREN_SVG_SHAPES_AND_CONNECTORS = new TreeMap<String, SVGSingleShape>();
 
     public static String getSVGShape(SVGSingleShape svgShape) {
-        return ""
+        String result = ""
                 +
                 "<svg>" +
+                " <g>" +
                 " <a xlink:href=\"https://google.com\">\n" +
-                "      <text fill=\"" + svgShape.getStrokeColor() + "\" x=\"" + (svgShape.getX() + 1) + "\" xml:space=\"preserve\" y=\"" + (svgShape.getY() - 3) + "\" clip-path=\"url(#clipPath20)\" stroke=\"none\"\n" +
-                "      font-family=\""+svgShape.getFont()+"\" fill=\""+svgShape.getFontColor()+"\" >" + svgShape.getName() + "</text\n" +
-                "      ><rect fill=\"" + svgShape.getFillColor() + "\"  x=\"" + svgShape.getX() + "\" y=\"" + svgShape.getY() + "\" width=\"" + svgShape.getWidth() + "\" height=\"" + svgShape.getHeight() + "\" />\n" +
-                "    </a>\n" +
+                "      <rect fill=\"" + svgShape.getFillColor() + "\"  x=\"" + svgShape.getX() + "\" y=\"" + svgShape.getY() + "\" width=\"" + svgShape.getWidth()
+                + "\" height=\"" + svgShape.getHeight() + "\" stroke=\"" + svgShape.getStrokeColor() + "\" />\n" +
+                "      <text x=\"" + (svgShape.getX() + 10) + "\" xml:space=\"preserve\" y=\"" + (svgShape.getY() + (svgShape.getHeight() / 2)) + "\" clip-path=\"url(#clipPath20)\" stroke=\"none\"\n" +
+                "      font-family=\"" + svgShape.getFont() + "\" fill=\"#FFFFFF\"  >" + svgShape.getName() + "</text>\n" +
+                "    </a>\n";
+        if (svgShape.getName() != null && svgShape.getName().equals("Actors1")) {
+//            result +=
+//                    "<defs><style>.cls-1{fill:#faab19;}</style></defs><title>Colour</title><path class=\"cls-1\" " +
+//                    "d=\"M12.5,13.37a5.51,5.51,0,0,1,5.5,5.5v1H7v-1a5.51,5.51,0,0,1,5.5-5.5m0-2.5a8,8,0,0,0-8,8v3.52h16V18.87a8,8,0,0,0-8-8Zm-8,11.52v0Z\"/>" +
+//                    "<path class=\"cls-1\" d=\"M12.5,5a2.6,2.6,0,1,1-2.6,2.6A2.6,2.6,0,0,1,12.5,5m0-2.5a5.1,5.1,0,1,0,5.1,5.1,5.1,5.1,0,0,0-5.1-5.1Z\"/> ";
+            result += "<image x=\"" + (svgShape.getX()+svgShape.getWidth()-30) + "\" y=\"" + (svgShape.getY()+5) + "\" width=\"30\" height=\"30\" xlink:href=\"Actor_Business.svg\" />";
+        }
+        result += "</g>" +
                 "</svg>"
-                ;
+        ;
+        return result;
 
     }
 
     private static String getSVGline(SVGSingleShape source, SVGSingleShape target) {
-       if(source !=null) {
-           int x1 = source.getX() + source.getWidth();
-           int x2 = target.getX();
-           int y1 = source.getY();
-           int y2 = target.getY();
-           return ""
-                   +
-                   "<svg>" +
-                   "      <line fill=\"black\" x1=\"" + x1 + "\" x2=\"" + x2 + "\" y1=\"" + y1 + "\" y2=\"" + y2 + "\" " +
-                   "stroke=\"rgb(193,232,255)\" stroke-width=\"" + source.getStrokeWidth() + "\"/>\n" +
-                   "</svg>"
-                   ;
-       }else
-           return null;
+        if (source != null) {
+            int x1 = source.getX() + source.getWidth();
+            int x2 = target.getX();
+            int y1 = source.getY();
+            int y2 = target.getY();
+            return ""
+                    +
+                    "<svg>" +
+                    "      <line fill=\"black\" x1=\"" + x1 + "\" x2=\"" + x2 + "\" y1=\"" + y1 + "\" y2=\"" + y2 + "\" " +
+                    "stroke=\"rgb(193,232,255)\" stroke-width=\"" + source.getStrokeWidth() + "\"/>\n" +
+                    "</svg>"
+                    ;
+        } else
+            return null;
 
     }
 
@@ -201,8 +212,8 @@ public class GenerateSVG {
 
                                         svgChildSingleShape = new SVGSingleShape();
                                         svgChildSingleShape.setId(childDia.getId());
-                                        svgChildSingleShape.setX(dia.getBounds().getX()+childDia.getBounds().getX());
-                                        svgChildSingleShape.setY(dia.getBounds().getY()+ childDia.getBounds().getY());
+                                        svgChildSingleShape.setX(dia.getBounds().getX() + childDia.getBounds().getX());
+                                        svgChildSingleShape.setY(dia.getBounds().getY() + childDia.getBounds().getY());
                                         svgChildSingleShape.setWidth(childDia.getBounds().getWidth());
                                         svgChildSingleShape.setHeight(childDia.getBounds().getHeight());
                                         svgChildSingleShape.setName(childDia.getName());

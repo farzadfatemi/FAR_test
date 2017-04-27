@@ -14,9 +14,12 @@ public class SVGSingleShape {
     private String name;
     private String fillColor;
     private String strokeColor;
+    private int strokeWidth;
     private String type;
     private String documentation;
     private String targetId;
+    private String font;
+    private String fontColor;
     private List<String> connections;
 
     public int getX() {
@@ -113,6 +116,30 @@ public class SVGSingleShape {
 
     public void setConnections(List<String> connections) {
         this.connections = connections;
+    }
+
+    public int getStrokeWidth() {
+        return strokeWidth;
+    }
+
+    public void setStrokeWidth(int strokeWidth) {
+        this.strokeWidth = strokeWidth;
+    }
+
+    public String getFont() {
+        return font;
+    }
+
+    public void setFont(String font) {
+        this.font = font;
+    }
+
+    public String getFontColor() {
+        return fontColor;
+    }
+
+    public void setFontColor(String fontColor) {
+        this.fontColor = fontColor;
     }
 
     @Override

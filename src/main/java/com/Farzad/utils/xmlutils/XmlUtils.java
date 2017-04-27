@@ -154,6 +154,7 @@ public class XmlUtils {
                     System.out.println("LineColor : " + dia.getLineColor());
                     System.out.println("LineWidth : " + dia.getLineWidth());
                     System.out.println("Type : " + dia.getType());
+                    System.out.println("Type : " + dia.getType());
                     System.out.println("DefaultTextAlignment : " + dia.getDefaultTextAlignment());
                     System.out.println("TextAlignment : " + dia.getTextAlignment());
                     System.out.println("Source Connections : ");

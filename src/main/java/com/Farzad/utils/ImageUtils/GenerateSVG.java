@@ -3,6 +3,7 @@ package com.Farzad.utils.ImageUtils;
 
 import POJOs.SVGSingleShape;
 import com.Farzad.Enums.ConnectionsEnum;
+import com.Farzad.Enums.IconsEnum;
 import com.archimatetool.editor.model.compatibility.ModelCompatibility;
 import com.archimatetool.model.*;
 import com.archimatetool.model.util.ArchimateResourceFactory;
@@ -22,7 +23,7 @@ public class GenerateSVG {
     private static Map<String, SVGSingleShape> All_MAIN_SVG_SHAPES_AND_CONNECTORS = new TreeMap<>();
     private static Map<String, SVGSingleShape> All_CHILDREN_SVG_SHAPES_AND_CONNECTORS = new TreeMap<>();
 
-    public static String getSVGShape(SVGSingleShape svgShape) {
+    private static String getSVGShape(SVGSingleShape svgShape) {
         String result = ""
                 +
                 "<svg>" +
@@ -38,7 +39,7 @@ public class GenerateSVG {
 //                    "<defs><style>.cls-1{fill:#faab19;}</style></defs><title>Colour</title><path class=\"cls-1\" " +
 //                    "d=\"M12.5,13.37a5.51,5.51,0,0,1,5.5,5.5v1H7v-1a5.51,5.51,0,0,1,5.5-5.5m0-2.5a8,8,0,0,0-8,8v3.52h16V18.87a8,8,0,0,0-8-8Zm-8,11.52v0Z\"/>" +
 //                    "<path class=\"cls-1\" d=\"M12.5,5a2.6,2.6,0,1,1-2.6,2.6A2.6,2.6,0,0,1,12.5,5m0-2.5a5.1,5.1,0,1,0,5.1,5.1,5.1,5.1,0,0,0-5.1-5.1Z\"/> ";
-            result += "<image x=\"" + (svgShape.getX() + svgShape.getWidth() - 30) + "\" y=\"" + (svgShape.getY() + 5) + "\" width=\"30\" height=\"30\" xlink:href=\"Actor_Business.svg\" />";
+            result += getSVGIcons(svgShape);
         }
         result += "</g>" +
                 "</svg>"
@@ -46,12 +47,23 @@ public class GenerateSVG {
         return result;
 
     }
+ private static String getSVGIcons(SVGSingleShape svgShape) {
+     if (svgShape.getName() != null && svgShape.getName().equals("Actors1")) {
+//            System.out.println(source.getConnectionsType()+"--**--"+source.getName()+" target id : "+target.getId()+" target name : "+target.getName());
+         if(IconsEnum.COLLABORATION_APPLICATION.equalsName("collaboration_application")){
+             return IconsEnum.COLLABORATION_APPLICATION.iconSVGCode(svgShape);
+         }else
+             return null;
+
+     } else
+         return null;
+
+    }
 
     private static String getSVGline(SVGSingleShape source, SVGSingleShape target) {
-        ConnectionsEnum type;
-        System.out.println(source !=null?source.getName() +" target id : "+target.getId()+" target name : "+target.getName():"nuuul");
+//        System.out.println(source !=null?source.getName() +" target id : "+target.getId()+" target name : "+target.getName():"nuuul");
         if (source != null && source.getConnectionsType() != null) {
-            System.out.println(source.getConnectionsType()+"--**--"+source.getName()+" target id : "+target.getId()+" target name : "+target.getName());
+//            System.out.println(source.getConnectionsType()+"--**--"+source.getName()+" target id : "+target.getId()+" target name : "+target.getName());
             if(ConnectionsEnum.ACCESSES.equalsName(source.getConnectionsType().toLowerCase())) {
                 return ConnectionsEnum.ACCESSES.lineSVGCode(source, target);
             }else if(ConnectionsEnum.ASSIGNED.equalsName(source.getConnectionsType().toLowerCase())){

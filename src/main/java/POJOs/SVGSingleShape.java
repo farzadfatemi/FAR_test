@@ -1,6 +1,7 @@
 package POJOs;
 
-import java.util.List;
+
+import java.util.Map;
 
 /**
  * Created by VOLCANO on 4/26/2017.
@@ -16,11 +17,12 @@ public class SVGSingleShape {
     private String strokeColor;
     private int strokeWidth;
     private String type;
+    private String connectionsType;
     private String documentation;
     private String targetId;
     private String font;
     private String fontColor;
-    private List<String> connections;
+    private Map<String,String> connections;
 
     public int getX() {
         return x;
@@ -94,6 +96,14 @@ public class SVGSingleShape {
         this.type = type;
     }
 
+    public String getConnectionsType() {
+        return connectionsType;
+    }
+
+    public void setConnectionsType(String connectionsType) {
+        this.connectionsType = connectionsType;
+    }
+
     public String getDocumentation() {
         return documentation;
     }
@@ -110,11 +120,11 @@ public class SVGSingleShape {
         this.targetId = targetId;
     }
 
-    public List<String> getConnections() {
+    public Map<String,String> getConnections() {
         return connections;
     }
 
-    public void setConnections(List<String> connections) {
+    public void setConnections(Map<String,String> connections) {
         this.connections = connections;
     }
 
@@ -153,9 +163,13 @@ public class SVGSingleShape {
                 ", name='" + name + '\'' +
                 ", fillColor='" + fillColor + '\'' +
                 ", strokeColor='" + strokeColor + '\'' +
+                ", strokeWidth=" + strokeWidth +
                 ", type='" + type + '\'' +
+                ", connectionsType=" + connectionsType +
                 ", documentation='" + documentation + '\'' +
                 ", targetId='" + targetId + '\'' +
+                ", font='" + font + '\'' +
+                ", fontColor='" + fontColor + '\'' +
                 ", connections=" + connections +
                 '}';
     }

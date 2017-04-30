@@ -2,6 +2,7 @@ package com.Farzad.utils.ImageUtils;
 
 
 import POJOs.SVGSingleShape;
+import com.Farzad.Enums.ConnectionsEnum;
 import com.archimatetool.editor.model.compatibility.ModelCompatibility;
 import com.archimatetool.model.*;
 import com.archimatetool.model.util.ArchimateResourceFactory;
@@ -18,8 +19,8 @@ import java.util.*;
  * Created by VOLCANO on 4/21/2017.
  */
 public class GenerateSVG {
-    private static Map<String, SVGSingleShape> All_MAIN_SVG_SHAPES_AND_CONNECTORS = new TreeMap<String, SVGSingleShape>();
-    private static Map<String, SVGSingleShape> All_CHILDREN_SVG_SHAPES_AND_CONNECTORS = new TreeMap<String, SVGSingleShape>();
+    private static Map<String, SVGSingleShape> All_MAIN_SVG_SHAPES_AND_CONNECTORS = new TreeMap<>();
+    private static Map<String, SVGSingleShape> All_CHILDREN_SVG_SHAPES_AND_CONNECTORS = new TreeMap<>();
 
     public static String getSVGShape(SVGSingleShape svgShape) {
         String result = ""
@@ -47,22 +48,44 @@ public class GenerateSVG {
     }
 
     private static String getSVGline(SVGSingleShape source, SVGSingleShape target) {
-        if (source != null) {
-            int x1 = source.getX() + source.getWidth();
-            int x2 = target.getX();
-            int y1 = source.getY();
-            int y2 = target.getY();
-            return ""
-                    +
-                    "<svg>" +
-                    " <circle cx=\"" + x1 + "\" cy=\"" + y1 + "\" r=\"3\" fill=\"#000000\" />" +
-                    "      <line fill=\"black\" x1=\"" + x1 + "\" x2=\"" + x2 + "\" y1=\"" + y1 + "\" y2=\"" + y2 + "\" " +
-                    "stroke=\"#000000\" stroke-width=\"" + source.getStrokeWidth() + "\"/>\n" +
-                    "<circle cx=\"" + x2 + "\" cy=\"" + y2 + "\" r=\"3\" fill=\"#000000\" />" +
-                    "</svg>"
-                    ;
+        ConnectionsEnum type;
+        System.out.println(source !=null?source.getName() +" target id : "+target.getId()+" target name : "+target.getName():"nuuul");
+        if (source != null && source.getConnectionsType() != null) {
+            System.out.println(source.getConnectionsType()+"--**--"+source.getName()+" target id : "+target.getId()+" target name : "+target.getName());
+            if(ConnectionsEnum.ACCESSES.equalsName(source.getConnectionsType().toLowerCase())) {
+                return ConnectionsEnum.ACCESSES.lineSVGCode(source, target);
+            }else if(ConnectionsEnum.ASSIGNED.equalsName(source.getConnectionsType().toLowerCase())){
+                    return ConnectionsEnum.ASSIGNED.lineSVGCode(source, target);
+            }else if(ConnectionsEnum.AGGREGATION.equalsName(source.getConnectionsType().toLowerCase())){
+                return ConnectionsEnum.AGGREGATION.lineSVGCode(source, target);
+            }else if(ConnectionsEnum.ASSOCIATION.equalsName(source.getConnectionsType().toLowerCase())){
+                    return ConnectionsEnum.ASSOCIATION.lineSVGCode(source, target);
+            }else if(ConnectionsEnum.USES.equalsName(source.getConnectionsType().toLowerCase())){
+                    return ConnectionsEnum.USES.lineSVGCode(source, target);
+            }else if(ConnectionsEnum.USED_BY.equalsName(source.getConnectionsType().toLowerCase())){
+                    return ConnectionsEnum.USED_BY.lineSVGCode(source, target);
+            }else if(ConnectionsEnum.REALISES.equalsName(source.getConnectionsType().toLowerCase())){
+                    return ConnectionsEnum.REALISES.lineSVGCode(source, target);
+            }else if(ConnectionsEnum.READ_AND_WRITE.equalsName(source.getConnectionsType().toLowerCase())){
+                    return ConnectionsEnum.READ_AND_WRITE.lineSVGCode(source, target);
+            }else
+                return null;
+//            int x1 = source.getX() + source.getWidth();
+//            int x2 = target.getX();
+//            int y1 = source.getY();
+//            int y2 = target.getY();
+//            return ""
+//                    +
+//                    "<svg>" +
+//                    " <circle cx=\"" + x1 + "\" cy=\"" + y1 + "\" r=\"3\" fill=\"#000000\" />" +
+//                    "      <line fill=\"black\" x1=\"" + x1 + "\" x2=\"" + x2 + "\" y1=\"" + y1 + "\" y2=\"" + y2 + "\" " +
+//                    "stroke=\"#000000\" stroke-width=\"" + source.getStrokeWidth() + "\"/>\n" +
+//                    "<circle cx=\"" + x2 + "\" cy=\"" + y2 + "\" r=\"3\" fill=\"#000000\" />" +
+//                    "</svg>"
+//                    ;
+
         } else
-            return null;
+            return source !=null?source.getName():null;
 
     }
 
@@ -102,11 +125,14 @@ public class GenerateSVG {
 //                    System.out.println(obj.getValue() !=null && obj.getValue().getName()!=null&& obj.getValue().getName().equals("Locations1")?"lllLoc":"");
 //                    System.out.println(obj.getValue() !=null && obj.getValue().getConnections()!=null? "--**"+obj.getValue().getConnections():"");
 //                    System.out.println(obj.getValue() !=null && obj.getValue().getConnections()!=null? "--sss*** "+obj.getValue().getConnections().size():"");
-//                    for (Map.Entry<String, String> conns : obj.getValue().getConnections().entrySet()) {
-                    for (String con : obj.getValue().getConnections()) {
+                    for (Map.Entry<String, String> con : obj.getValue().getConnections().entrySet()) {
+//                    for (String con : obj.getValue().getConnections()) {
 //                        System.out.println("conns : "+conns.getKey()+" : "+conns.getValue());
-                        if (All_MAIN_SVG_SHAPES_AND_CONNECTORS.containsKey(con)) {
-                            svgSingleShape = All_MAIN_SVG_SHAPES_AND_CONNECTORS.get(con);
+                        if (All_MAIN_SVG_SHAPES_AND_CONNECTORS.containsKey(con.getKey())) {
+                            svgSingleShape = All_MAIN_SVG_SHAPES_AND_CONNECTORS.get(con.getKey());
+
+                            System.out.println("con.getValue()********************"+con.getValue());
+                            obj.getValue().setConnectionsType(con.getValue());
 //                            System.out.println("svgSingleShape : "+svgSingleShape.getId()+" : "+svgSingleShape.getName());
 //                            System.out.println("obj.getValue() : "+obj.getValue().getId()+" : "+obj.getValue().getName());
                             sb.append(getSVGline(obj.getValue(), svgSingleShape));
@@ -114,35 +140,36 @@ public class GenerateSVG {
                     }
                 }
             }
-            for (Map.Entry<String, SVGSingleShape> obj : All_MAIN_SVG_SHAPES_AND_CONNECTORS.entrySet()) {
-                if (obj.getValue() != null) {
-                    sb.append(getSVGShape(obj.getValue()));
-                    sb.append("\n");
-                }
-            }
+            All_MAIN_SVG_SHAPES_AND_CONNECTORS.entrySet().stream().filter(obj -> obj.getValue() != null).forEachOrdered(obj -> {
+                sb.append(getSVGShape(obj.getValue()));
+                sb.append("\n");
+            });
             for (Map.Entry<String, SVGSingleShape> obj : All_CHILDREN_SVG_SHAPES_AND_CONNECTORS.entrySet()) {
                 if (obj.getValue() != null && obj.getValue().getConnections() != null) {
-                    for (String con : obj.getValue().getConnections()) {
-                        if (All_CHILDREN_SVG_SHAPES_AND_CONNECTORS.containsKey(con)) {
-                            svgChildSingleShape = All_CHILDREN_SVG_SHAPES_AND_CONNECTORS.get(con);
-                            sb.append(getSVGline(obj.getValue(), svgChildSingleShape));
+                    for (Map.Entry<String, String> con : obj.getValue().getConnections().entrySet()) {
+//                        for (String con : obj.getValue().getConnections()) {
+                            if (All_CHILDREN_SVG_SHAPES_AND_CONNECTORS.containsKey(con.getKey())) {
+                                svgChildSingleShape = All_CHILDREN_SVG_SHAPES_AND_CONNECTORS.get(con.getKey());
+                                obj.getValue().setConnectionsType(con.getValue());
+                                sb.append(getSVGline(obj.getValue(), svgChildSingleShape));
+                            }
                         }
                     }
-                    for (String con : obj.getValue().getConnections()) {
-                        if (All_MAIN_SVG_SHAPES_AND_CONNECTORS.containsKey(con)) {
-                            svgChildSingleShape = All_MAIN_SVG_SHAPES_AND_CONNECTORS.get(con);
+                for (Map.Entry<String, String> con : obj.getValue().getConnections().entrySet()) {
+//                    for (String con : obj.getValue().getConnections()) {
+                        if (All_MAIN_SVG_SHAPES_AND_CONNECTORS.containsKey(con.getKey())) {
+                            svgChildSingleShape = All_MAIN_SVG_SHAPES_AND_CONNECTORS.get(con.getKey());
+                            obj.getValue().setConnectionsType(con.getValue());
                             sb.append(getSVGline(obj.getValue(), svgChildSingleShape));
                         }
-                    }
+                     
                 }
             }
 
-            for (Map.Entry<String, SVGSingleShape> obj : All_CHILDREN_SVG_SHAPES_AND_CONNECTORS.entrySet()) {
-                if (obj.getValue() != null) {
-                    sb.append(getSVGShape(obj.getValue()));
-                    sb.append("\n");
-                }
-            }
+            All_CHILDREN_SVG_SHAPES_AND_CONNECTORS.entrySet().stream().filter(obj -> obj.getValue() != null).forEachOrdered(obj -> {
+                sb.append(getSVGShape(obj.getValue()));
+                sb.append("\n");
+            });
             sb.append("</svg>");
         } catch (Exception e) {
             e.printStackTrace();
@@ -152,9 +179,10 @@ public class GenerateSVG {
     }
 
     public static void getAllModelSVGs() {
-//        Map<String, String> sourceAndTarget = null;
-        List<String> sourceAndTarget = null;
-        List<String> childSourceAndTargets = null;
+        Map<String, String> sourceAndTarget = null;
+//        List<String> sourceAndTarget = null;
+        Map<String, String> childSourceAndTargets = null;
+//        List<String> childSourceAndTargets = null;
         try {
             File modelFile = new File("D:\\FAR_Documents\\__Startamap\\Original.archimate");
             IArchimateModel model = loadModel(modelFile);
@@ -167,16 +195,18 @@ public class GenerateSVG {
 //            for (IDiagramModel diagramModel : iDModels) {
             IDiagramModel diagramModel = iDModels.get(0);
             for (EObject obj : diagramModel.eContents()) {
-//                    sourceAndTarget = new TreeMap<String, String>();
-                sourceAndTarget = new ArrayList<String>();
+                    sourceAndTarget = new TreeMap<String, String>();
+//                sourceAndTarget = new ArrayList<String>();
                 if (obj instanceof IDiagramModelArchimateObject) {
                     IDiagramModelArchimateObject dia = (IDiagramModelArchimateObject) obj;
                     SourceConList = dia.getSourceConnections();
                     for (Object iDiModelConnObj : SourceConList) {
                         if (((IDiagramModelConnection) iDiModelConnObj).getTarget() != null) {
-                            sourceAndTarget.add(((IDiagramModelConnection) iDiModelConnObj).getTarget().getId());
-
+                            sourceAndTarget.put(((IDiagramModelConnection) iDiModelConnObj).getTarget().getId(),((IDiagramModelConnection) iDiModelConnObj).getName());
+//                            sourceAndTarget.add(((IDiagramModelConnection) iDiModelConnObj).getTarget().getId());
+                            System.out.println(((IDiagramModelConnection) iDiModelConnObj).getTarget().getId()+"-- --4---4---"+((IDiagramModelConnection) iDiModelConnObj).getTarget().getName()+"-- --4---4---"+((IDiagramModelConnection) iDiModelConnObj).getName());
                         }
+//                        ((IDiagramModelConnection) dia).getName();
                     }
 
                     try {
@@ -201,12 +231,13 @@ public class GenerateSVG {
 
                                 for (Object childObj : childrenList) {
                                     if (childObj instanceof IDiagramModelObject) {
-                                        childSourceAndTargets = new ArrayList<String>();
+                                        childSourceAndTargets = new TreeMap<>();
+//                                        childSourceAndTargets = new ArrayList<String>();
                                         IDiagramModelObject childDia = (IDiagramModelObject) childObj;
                                         childSourceConList = childDia.getSourceConnections();
                                         for (Object iDiModelConnObj : childSourceConList) {
                                             if (((IDiagramModelConnection) iDiModelConnObj).getTarget() != null) {
-                                                childSourceAndTargets.add(((IDiagramModelConnection) iDiModelConnObj).getTarget().getId());
+                                                childSourceAndTargets.put(((IDiagramModelConnection) iDiModelConnObj).getTarget().getId(),((IDiagramModelConnection) iDiModelConnObj).getName());
 
                                             }
                                         }
@@ -225,6 +256,7 @@ public class GenerateSVG {
                                         svgChildSingleShape.setFontColor(childDia.getFillColor());
                                         svgChildSingleShape.setStrokeWidth(childDia.getLineWidth());
                                         svgChildSingleShape.setConnections(childSourceAndTargets);
+
 //                                System.out.println(svgChildSingleShape.toString());
                                         All_CHILDREN_SVG_SHAPES_AND_CONNECTORS.put(childDia.getId(), svgChildSingleShape);
                                     }

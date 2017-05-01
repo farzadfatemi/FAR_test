@@ -14,6 +14,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
 import java.util.List;
 
+import static com.Farzad.utils.ImageUtils.ModelTools.loadModel;
+
 public class XmlUtils {
 
     public static void ReadXMLFile()
@@ -135,7 +137,7 @@ public class XmlUtils {
             File modelFile = new File("D:\\FAR_Documents\\__Startamap\\Original.archimate");
 
 
-            IArchimateModel model = GenerateSVG.loadModel(modelFile);
+            IArchimateModel model = loadModel(modelFile);
             List<IDiagramModel> iDModels = model.getDiagramModels();
             List SourceConList = null;
             List childSourceConList = null;

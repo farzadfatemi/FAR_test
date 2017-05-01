@@ -39,6 +39,9 @@ public class GenerateSVG {
 //                    "<defs><style>.cls-1{fill:#faab19;}</style></defs><title>Colour</title><path class=\"cls-1\" " +
 //                    "d=\"M12.5,13.37a5.51,5.51,0,0,1,5.5,5.5v1H7v-1a5.51,5.51,0,0,1,5.5-5.5m0-2.5a8,8,0,0,0-8,8v3.52h16V18.87a8,8,0,0,0-8-8Zm-8,11.52v0Z\"/>" +
 //                    "<path class=\"cls-1\" d=\"M12.5,5a2.6,2.6,0,1,1-2.6,2.6A2.6,2.6,0,0,1,12.5,5m0-2.5a5.1,5.1,0,1,0,5.1,5.1,5.1,5.1,0,0,0-5.1-5.1Z\"/> ";
+//            result += "<image x=\"" + (svgShape.getX() + svgShape.getWidth() - 30) + "\" y=\"" + svgShape.getY() + 5 + "\" width=\"30\" height=\"30\" xlink:href=\"src/main/resources/images/Collaboration_Application.svg\"";
+//            result += "<image x=\"" + (svgShape.getX() + svgShape.getWidth() - 30) + "\" y=\"" + svgShape.getY() + 5 + "\" width=\"30\" height=\"30\" xlink:href=\"Actor_Business.svg\"";
+//            result += "<svg x=\"" + (svgShape.getX() + svgShape.getWidth() - 30) + "\" y=\"" + svgShape.getY() + 5 + "\" width=\"30\" height=\"30\" id=\"Layer_1\" data-name=\"Layer 1\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 25 25\"><defs><style>.cls-1{fill:#faab19;}</style></defs><title>Colour</title><path class=\"cls-1\" d=\"M12.5,13.37a5.51,5.51,0,0,1,5.5,5.5v1H7v-1a5.51,5.51,0,0,1,5.5-5.5m0-2.5a8,8,0,0,0-8,8v3.52h16V18.87a8,8,0,0,0-8-8Zm-8,11.52v0Z\"/><path class=\"cls-1\" d=\"M12.5,5a2.6,2.6,0,1,1-2.6,2.6A2.6,2.6,0,0,1,12.5,5m0-2.5a5.1,5.1,0,1,0,5.1,5.1,5.1,5.1,0,0,0-5.1-5.1Z\"/></svg>";
             result += getSVGIcons(svgShape);
         }
         result += "</g>" +

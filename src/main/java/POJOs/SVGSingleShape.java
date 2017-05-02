@@ -17,12 +17,13 @@ public class SVGSingleShape {
     private String strokeColor;
     private int strokeWidth;
     private String type;
+    private String elementType;
     private String connectionsType;
     private String documentation;
     private String targetId;
     private String font;
     private String fontColor;
-    private Map<String,String> connections;
+    private Map<String, String> connections;
 
     public int getX() {
         return x;
@@ -96,6 +97,14 @@ public class SVGSingleShape {
         this.type = type;
     }
 
+    public String getElementType() {
+        return elementType;
+    }
+
+    public void setElementType(String elementType) {
+        this.elementType = elementType;
+    }
+
     public String getConnectionsType() {
         return connectionsType;
     }
@@ -120,11 +129,11 @@ public class SVGSingleShape {
         this.targetId = targetId;
     }
 
-    public Map<String,String> getConnections() {
+    public Map<String, String> getConnections() {
         return connections;
     }
 
-    public void setConnections(Map<String,String> connections) {
+    public void setConnections(Map<String, String> connections) {
         this.connections = connections;
     }
 
@@ -165,7 +174,8 @@ public class SVGSingleShape {
                 ", strokeColor='" + strokeColor + '\'' +
                 ", strokeWidth=" + strokeWidth +
                 ", type='" + type + '\'' +
-                ", connectionsType=" + connectionsType +
+                ", elementType='" + elementType + '\'' +
+                ", connectionsType='" + connectionsType + '\'' +
                 ", documentation='" + documentation + '\'' +
                 ", targetId='" + targetId + '\'' +
                 ", font='" + font + '\'' +
@@ -173,4 +183,5 @@ public class SVGSingleShape {
                 ", connections=" + connections +
                 '}';
     }
+
 }

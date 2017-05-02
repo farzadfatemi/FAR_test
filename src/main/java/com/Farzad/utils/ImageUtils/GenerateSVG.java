@@ -141,6 +141,8 @@ public class GenerateSVG {
                             svgSingleShape.setFont(dia.getFont());
                             svgSingleShape.setFontColor(dia.getFontColor());
                             svgSingleShape.setConnections(sourceAndTarget);
+                            svgSingleShape.setElementType(dia.getArchimateElement()!=null&& dia.getArchimateElement().getClass() !=null ?
+                                    dia.getArchimateElement().getClass().getSimpleName():"");
 //                                System.out.println(svgSingleShape.toString());
 
                             if (dia.getChildren() != null) {

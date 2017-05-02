@@ -1,259 +1,22 @@
-package com.Farzad.Enums;
+package com.Farzad.utils.ImageUtils;
 
 import POJOs.SVGSingleShape;
+import com.Farzad.Enums.ArchiEnum;
 
+import static com.Farzad.Enums.ArchiEnum.*;
 import static com.Farzad.utils.ImageUtils.StyleTools.*;
 
 /**
  * Created by VOLCANO on 4/30/2017.
  */
-public enum IconsEnum {
-    //    COLLABORATION ("collaboration"),
-//    COMPONANT ("componant"),
-//    FUNCTION ("function"),
-//    INTERACTION ("interaction"),
-//    INTERFACE ("interface"),
-//    OBJECT ("object"),
-//    SERVICE ("service"),
-//    ACTOR("actor"),
-//    COLLABORATION("collaboration"),
-//    EVENT("event"),
-//    FUNCTION("function"),
-//    INTERACTION("interaction"),
-//    INTERFACE("interface"),
-//    LOCATION("location"),
-//    MEANING("meaning"),
-//    OBJECT("object"),
-//    PROCESS("process"),
-//    PRODUCT("product"),
-//    REPRESENTATION("representation"),
-//    SERVICE("service"),
-//    STAKEHOLDER("stakeholder"),
-//    VALUE("value"),
-//    GOALS_ASSESSMENT("assessment"),
-//    GOALS_CONSTRAINT("constraint"),
-//    GOALS_DRIVER("driver"),
-//    GOALS_GAP("gap"),
-//    GOALS_GOAL("goal"),
-//    GOALS_PLATEAU("plateau"),
-//    GOALS_PRINCIPAL("principal"),
-//    GOALS_REPRESENTATION("representation"),
-//    GOALS_REQUIREMENT("requirement"),
-//    GOALS_ROLE("role"),
-//    GOALS_UNAMED("unamed"),
-//    MAPS("maps"),
-//    MAP_BLUE_STRATAMAP("map_blue"),
-//    MAP_GREEN_STRATAMAP("map_green"),
-//    MAP_OUTLINE_STRATAMAP("map_outline"),
-//    STRATAMAP_BLUE_STRATAMAP("stratamap_blue"),
-//    STRATAMAP_GREEN_STRATAMAP("stratamap_green"),
-//    STRATAMAP_OUTLINE_STRATAMAP("stratamap_outline"),
-//    TECHNOLOGY_ARTIFACT("artifact"),
-//    TECHNOLOGY_COMMUNICATION_PATH("communication path"),
-//    TECHNOLOGY_DATABASE("database"),
-//    TECHNOLOGY_DEVICE("device"),
-//    TECHNOLOGY_FUNCTION("function"),
-//    TECHNOLOGY_INTERFACE("interface"),
-//    TECHNOLOGY_NETWORK("network"),
-//    TECHNOLOGY_NODE("node"),
-//    TECHNOLOGY_SERVICE("service"),
-//    TECHNOLOGY_SYSTEM_SOFTWARE("system_software");
-    APPLICATION_COLLABORATION(Category.APPLICATION),
-    APPLICATION_COMPONENT(Category.APPLICATION),
-    APPLICATION_FUNCTION(Category.APPLICATION),
-    APPLICATION_INTERACTION(Category.APPLICATION),
-    APPLICATION_INTERFACE(Category.APPLICATION),
-    APPLICATION_OBJECT(Category.APPLICATION),
-    APPLICATION_SERVICE(Category.APPLICATION),
-    BUSINESS_ACTOR(Category.BUSINESS),
-    BUSINESS_COLLABORATION(Category.BUSINESS),
-    BUSINESS_EVENT(Category.BUSINESS),
-    BUSINESS_FUNCTION(Category.BUSINESS),
-    BUSINESS_INTERACTION(Category.BUSINESS),
-    BUSINESS_INTERFACE(Category.BUSINESS),
-    BUSINESS_LOCATION(Category.BUSINESS),
-    BUSINESS_MEANING(Category.BUSINESS),
-    BUSINESS_OBJECT(Category.BUSINESS),
-    BUSINESS_PROCESS(Category.BUSINESS),
-    BUSINESS_PRODUCT(Category.BUSINESS),
-    BUSINESS_REPRESENTATION(Category.BUSINESS),
-    BUSINESS_SERVICE(Category.BUSINESS),
-    BUSINESS_STAKEHOLDER(Category.BUSINESS),
-    BUSINESS_VALUE(Category.BUSINESS),
-    GOALS_ASSESSMENT(Category.GOALS),
-    GOALS_CONSTRAINT(Category.GOALS),
-    GOALS_DRIVER(Category.GOALS),
-    GOALS_GAP(Category.GOALS),
-    GOALS_GOAL(Category.GOALS),
-    GOALS_PLATEAU(Category.GOALS),
-    GOALS_PRINCIPAL(Category.GOALS),
-    GOALS_REPRESENTATION(Category.GOALS),
-    GOALS_REQUIREMENT(Category.GOALS),
-    GOALS_ROLE(Category.GOALS),
-    GOALS_UNAMED(Category.GOALS),
-    MAPS(Category.MAPS),
-    MAP_BLUE_STRATAMAP(Category.STRATAMAP_MAPS),
-    MAP_GREEN_STRATAMAP(Category.STRATAMAP_MAPS),
-    MAP_OUTLINE_STRATAMAP(Category.STRATAMAP_MAPS),
-    STRATAMAP_BLUE_STRATAMAP(Category.STRATAMAP_MAPS),
-    STRATAMAP_GREEN_STRATAMAP(Category.STRATAMAP_MAPS),
-    STRATAMAP_OUTLINE_STRATAMAP(Category.STRATAMAP_MAPS),
-    TECHNOLOGY_ARTIFACT(Category.TECHNOLOGY),
-    TECHNOLOGY_COMMUNICATION_PATH(Category.TECHNOLOGY),
-    TECHNOLOGY_DATABASE(Category.TECHNOLOGY),
-    TECHNOLOGY_DEVICE(Category.TECHNOLOGY),
-    TECHNOLOGY_FUNCTION(Category.TECHNOLOGY),
-    TECHNOLOGY_INTERFACE(Category.TECHNOLOGY),
-    TECHNOLOGY_NETWORK(Category.TECHNOLOGY),
-    TECHNOLOGY_NODE(Category.TECHNOLOGY),
-    TECHNOLOGY_SERVICE(Category.TECHNOLOGY),
-    TECHNOLOGY_SYSTEM_SOFTWARE(Category.TECHNOLOGY);
-    //    private final String name;
-    private Category category;
-
-    IconsEnum(Category category) {
-        this.category = category;
-    }
-
-    public enum Category {
-        APPLICATION,
-        BUSINESS,
-        GOALS,
-        MAPS,
-        STRATAMAP_MAPS,
-        TECHNOLOGY;
-    }
-    public String getStringValue(){
-        switch (this) {
-            case APPLICATION_COLLABORATION:
-                return "ApplicationCollaboration";
-            case APPLICATION_COMPONENT:
-                return "ApplicationComponant";
-            case APPLICATION_FUNCTION:
-                return "ApplicationFunction";
-            case APPLICATION_INTERACTION:
-                return "ApplicationInteraction";
-            case APPLICATION_INTERFACE:
-                return "ApplicationInterface";
-            case APPLICATION_OBJECT:
-                return "ApplicationObject";
-            case APPLICATION_SERVICE:
-                return "ApplicationService";
-            case BUSINESS_ACTOR:
-                return "BusinessActor";
-            case BUSINESS_COLLABORATION:
-                return "BusinessCollaboration";
-            case BUSINESS_EVENT:
-                return "BusinessEvent";
-            case BUSINESS_FUNCTION:
-                return "BusinessFunction";
-            case BUSINESS_INTERACTION:
-                return "BusinessInteraction";
-            case BUSINESS_INTERFACE:
-                return "BusinessInterface";
-            case BUSINESS_LOCATION:
-                return "BusinessLocation";
-            case BUSINESS_MEANING:
-                return "BusinessMeaning";
-            case BUSINESS_OBJECT:
-                return "BusinessObject";
-            case BUSINESS_PROCESS:
-                return "BusinessProcess";
-            case BUSINESS_PRODUCT:
-                return "BusinessProduct";
-            case BUSINESS_REPRESENTATION:
-                return "BusinessRepresentation";
-            case BUSINESS_SERVICE:
-                return "BusinessService";
-            case BUSINESS_STAKEHOLDER:
-                return "BusinessStakeholder";
-            case BUSINESS_VALUE:
-                return "BusinessValue";
-            case GOALS_ASSESSMENT:
-                return "GoalsAssessment";
-            case GOALS_CONSTRAINT:
-                return "GoalsConstraint";
-            case GOALS_DRIVER:
-                return "GoalsDriver";
-            case GOALS_GAP:
-                return "GoalsGap";
-            case GOALS_GOAL:
-                return "GoalsGoal";
-            case GOALS_PLATEAU:
-                return "GoalsPlateau";
-            case GOALS_PRINCIPAL:
-                return "GoalsPrincipal";
-            case GOALS_REPRESENTATION:
-                return "GoalsRepresentation";
-            case GOALS_REQUIREMENT:
-                return "GoalsRequirement";
-            case GOALS_ROLE:
-                return "GoalsRole";
-            case GOALS_UNAMED:
-                return "GoalsUnamed";
-            case MAPS:
-                return "Maps";
-            case MAP_BLUE_STRATAMAP:
-                return "StratamapMapBlue";
-            case MAP_GREEN_STRATAMAP:
-                return "StratamapMapGreen";
-            case MAP_OUTLINE_STRATAMAP:
-                return "StratamapMapOutline";
-            case STRATAMAP_BLUE_STRATAMAP:
-                return "StratamapStratamapBblue";
-            case STRATAMAP_GREEN_STRATAMAP:
-                return "StratamapStratamapGreen";
-            case STRATAMAP_OUTLINE_STRATAMAP:
-                return "StratamapStratamapOutline";
-            case TECHNOLOGY_ARTIFACT:
-                return "TechnologyArtifact";
-            case TECHNOLOGY_COMMUNICATION_PATH:
-                return "TechnologyCommunicationPath";
-            case TECHNOLOGY_DATABASE:
-                return "TechnologyDatabase";
-            case TECHNOLOGY_DEVICE:
-                return "TechnologyDevice";
-            case TECHNOLOGY_FUNCTION:
-                return "TechnologyFunction";
-            case TECHNOLOGY_INTERFACE:
-                return "TechnologyInterface";
-            case TECHNOLOGY_NETWORK:
-                return "TechnologyNetwork";
-            case TECHNOLOGY_NODE:
-                return "TechnologyNode";
-            case TECHNOLOGY_SERVICE:
-                return "TechnologyService";
-            case TECHNOLOGY_SYSTEM_SOFTWARE:
-                return "TechnologySystemSoftware";
-            default:
-                return null;
-        }
-    }
-    public boolean equalsName(String otherName) {
-        // (otherName == null) check is not needed because name.equals(null) returns false
-        System.out.println("%%%%%%%%%%%%  Other name : "+otherName +" getStringValue() : " + (getStringValue() !=null?getStringValue().toLowerCase():"")
-        + " -- " + (otherName != null && getStringValue()!=null && getStringValue().toLowerCase().equals(otherName.toLowerCase())));
-        return otherName != null && getStringValue()!=null && getStringValue().toLowerCase().equals(otherName.toLowerCase());
-    }
-//    public boolean nameStartWith(String otherName) {
-//        return otherName != null && getStringValue()!=null && getStringValue().toLowerCase().startsWith(otherName.substring(0, otherName.length() - 2).toLowerCase());
-//    }
-
-//    public String toString() {
-//        return this.name;
-//    }
-//
-//    private IconsEnum(String s) {
-//        name = s;
-//    }
-
-    public String iconSVGCode(SVGSingleShape svgShape) {
+public class IconsTools {
+    public static String getIconSVGCode(ArchiEnum archiEnum, SVGSingleShape svgShape) {
         int x = svgShape.getX() + svgShape.getWidth() - 30;
         int y = svgShape.getY() + 5;
         int width = 30;
         int height = 30;
         
-        switch (this) {
+        switch (archiEnum) {
             case APPLICATION_COLLABORATION:
                 return "<svg x=\"" + x + "\" y=\"" + y + "\" width=\"" + width + "\" height=\"" + height + "\" "+ getIconStyles(Category.APPLICATION)+" id=\"Layer_1\" data-name=\"Layer 1\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 25 25\"><defs></defs><title>Colour</title><path class=\"cls-1\" d=\"M12.5,13.37a5.51,5.51,0,0,1,5.5,5.5v1H7v-1a5.51,5.51,0,0,1,5.5-5.5m0-2.5a8,8,0,0,0-8,8v3.52h16V18.87a8,8,0,0,0-8-8Zm-8,11.52v0Z\"/><path class=\"cls-1\" d=\"M12.5,5a2.6,2.6,0,1,1-2.6,2.6A2.6,2.6,0,0,1,12.5,5m0-2.5a5.1,5.1,0,1,0,5.1,5.1,5.1,5.1,0,0,0-5.1-5.1Z\"/></svg>";
             case APPLICATION_COMPONENT:
@@ -292,6 +55,8 @@ public enum IconsEnum {
                 return "<svg x=\"" + x + "\" y=\"" + y + "\" width=\"" + width + "\" height=\"" + height + "\" "+ getIconStyles(Category.BUSINESS)+" id=\"Layer_1\" data-name=\"Layer 1\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 25 25\"><defs></defs><title>Colour</title><path class=\"cls-1\" d=\"M22.5,2.5v20H2.5V2.5h20M25,0H0V25H25V0Z\"/><path class=\"cls-1\" d=\"M9.58,2.5V5.83H2.5V2.5H9.58M12.08,0H0V8.33H12.08V0Z\"/></svg>";
             case BUSINESS_REPRESENTATION:
                 return "<svg x=\"" + x + "\" y=\"" + y + "\" width=\"" + width + "\" height=\"" + height + "\" "+ getIconStyles(Category.BUSINESS)+" id=\"Layer_1\" data-name=\"Layer 1\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 25 25\"><defs></defs><title>Colour</title><path class=\"cls-1\" d=\"M22.5,2.5v20H2.5V2.5h20M25,0H0V25H25V0Z\"/><path class=\"cls-1\" d=\"M9.58,2.5V5.83H2.5V2.5H9.58M12.08,0H0V8.33H12.08V0Z\"/></svg>";
+//            case BUSINESS_ROLE:
+//                return "<svg x=\"" + x + "\" y=\"" + y + "\" width=\"" + width + "\" height=\"" + height + "\" "+ getIconStyles(Category.BUSINESS)+" id=\"Layer_1\" data-name=\"Layer 1\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 25 25\"><defs></defs><title>Colour</title><path class=\"cls-1\" d=\"M22.5,2.5v20H2.5V2.5h20M25,0H0V25H25V0Z\"/><path class=\"cls-1\" d=\"M9.58,2.5V5.83H2.5V2.5H9.58M12.08,0H0V8.33H12.08V0Z\"/></svg>";
             case BUSINESS_SERVICE:
                 return "<svg x=\"" + x + "\" y=\"" + y + "\" width=\"" + width + "\" height=\"" + height + "\" "+ getIconStyles(Category.BUSINESS)+" id=\"Layer_1\" data-name=\"Layer 1\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 25 25\"><defs></defs><title>Colour</title><path class=\"cls-1\" d=\"M17.15,7.15a5.35,5.35,0,1,1,0,10.7H7.8a5.35,5.35,0,1,1,0-10.7h9.35m0-2.5H7.8a7.85,7.85,0,1,0,0,15.7h9.35a7.85,7.85,0,1,0,0-15.7Z\"/></svg>";
             case BUSINESS_STAKEHOLDER:
@@ -358,5 +123,109 @@ public enum IconsEnum {
                 return "";
         }
     }
-
+//    public static String getSVGIcons(ArchiEnum archiEnum,SVGSingleShape svgShape) {
+//        if (archiEnum.APPLICATION_COLLABORATION.equalsName(svgShape.getElementType())) {
+//            return archiEnum.APPLICATION_COLLABORATION.iconSVGCode(svgShape);
+//        } else if (archiEnum.APPLICATION_COMPONENT.equalsName(svgShape.getElementType())) {
+//            return archiEnum.APPLICATION_COMPONENT.iconSVGCode(svgShape);
+//        } else if (archiEnum.APPLICATION_FUNCTION.equalsName(svgShape.getElementType())) {
+//            return archiEnum.APPLICATION_FUNCTION.iconSVGCode(svgShape);
+//        } else if (archiEnum.APPLICATION_INTERACTION.equalsName(svgShape.getElementType())) {
+//            return archiEnum.APPLICATION_INTERACTION.iconSVGCode(svgShape);
+//        } else if (archiEnum.APPLICATION_INTERFACE.equalsName(svgShape.getElementType())) {
+//            return archiEnum.APPLICATION_INTERFACE.iconSVGCode(svgShape);
+//        } else if (archiEnum.APPLICATION_OBJECT.equalsName(svgShape.getElementType())) {
+//            return archiEnum.APPLICATION_OBJECT.iconSVGCode(svgShape);
+//        } else if (archiEnum.APPLICATION_SERVICE.equalsName(svgShape.getElementType())) {
+//            return archiEnum.APPLICATION_SERVICE.iconSVGCode(svgShape);
+//        } else if (archiEnum.BUSINESS_ACTOR.equalsName(svgShape.getElementType())) {
+//            return archiEnum.BUSINESS_ACTOR.iconSVGCode(svgShape);
+//        } else if (archiEnum.BUSINESS_COLLABORATION.equalsName(svgShape.getElementType())) {
+//            return archiEnum.BUSINESS_COLLABORATION.iconSVGCode(svgShape);
+//        } else if (archiEnum.BUSINESS_EVENT.equalsName(svgShape.getElementType())) {
+//            return archiEnum.BUSINESS_EVENT.iconSVGCode(svgShape);
+//        } else if (archiEnum.BUSINESS_FUNCTION.equalsName(svgShape.getElementType())) {
+//            return archiEnum.BUSINESS_FUNCTION.iconSVGCode(svgShape);
+//        } else if (archiEnum.BUSINESS_INTERACTION.equalsName(svgShape.getElementType())) {
+//            return archiEnum.BUSINESS_INTERACTION.iconSVGCode(svgShape);
+//        } else if (archiEnum.BUSINESS_INTERFACE.equalsName(svgShape.getElementType())) {
+//            return archiEnum.BUSINESS_INTERFACE.iconSVGCode(svgShape);
+//        } else if (archiEnum.BUSINESS_LOCATION.equalsName(svgShape.getElementType())) {
+//            return archiEnum.BUSINESS_LOCATION.iconSVGCode(svgShape);
+//        } else if (archiEnum.BUSINESS_MEANING.equalsName(svgShape.getElementType())) {
+//            return archiEnum.BUSINESS_MEANING.iconSVGCode(svgShape);
+//        } else if (archiEnum.BUSINESS_OBJECT.equalsName(svgShape.getElementType())) {
+//            return archiEnum.BUSINESS_OBJECT.iconSVGCode(svgShape);
+//        } else if (archiEnum.BUSINESS_PROCESS.equalsName(svgShape.getElementType())) {
+//            return archiEnum.BUSINESS_PROCESS.iconSVGCode(svgShape);
+//        } else if (archiEnum.BUSINESS_PRODUCT.equalsName(svgShape.getElementType())) {
+//            return archiEnum.BUSINESS_PRODUCT.iconSVGCode(svgShape);
+//        } else if (archiEnum.BUSINESS_REPRESENTATION.equalsName(svgShape.getElementType())) {
+//            return archiEnum.BUSINESS_REPRESENTATION.iconSVGCode(svgShape);
+//        } else if (archiEnum.BUSINESS_SERVICE.equalsName(svgShape.getElementType())) {
+//            return archiEnum.BUSINESS_SERVICE.iconSVGCode(svgShape);
+//        } else if (archiEnum.BUSINESS_STAKEHOLDER.equalsName(svgShape.getElementType())) {
+//            return archiEnum.BUSINESS_STAKEHOLDER.iconSVGCode(svgShape);
+//        } else if (archiEnum.BUSINESS_VALUE.equalsName(svgShape.getElementType())) {
+//            return archiEnum.BUSINESS_VALUE.iconSVGCode(svgShape);
+//        } else if (archiEnum.GOALS_ASSESSMENT.equalsName(svgShape.getElementType())) {
+//            return archiEnum.GOALS_ASSESSMENT.iconSVGCode(svgShape);
+//        } else if (archiEnum.GOALS_CONSTRAINT.equalsName(svgShape.getElementType())) {
+//            return archiEnum.GOALS_CONSTRAINT.iconSVGCode(svgShape);
+//        } else if (archiEnum.GOALS_DRIVER.equalsName(svgShape.getElementType())) {
+//            return archiEnum.GOALS_DRIVER.iconSVGCode(svgShape);
+//        } else if (archiEnum.GOALS_GAP.equalsName(svgShape.getElementType())) {
+//            return archiEnum.GOALS_GAP.iconSVGCode(svgShape);
+//        } else if (archiEnum.GOALS_GOAL.equalsName(svgShape.getElementType())) {
+//            return archiEnum.GOALS_GOAL.iconSVGCode(svgShape);
+//        } else if (archiEnum.GOALS_PLATEAU.equalsName(svgShape.getElementType())) {
+//            return archiEnum.GOALS_PLATEAU.iconSVGCode(svgShape);
+//        } else if (archiEnum.GOALS_PRINCIPAL.equalsName(svgShape.getElementType())) {
+//            return archiEnum.GOALS_PRINCIPAL.iconSVGCode(svgShape);
+//        } else if (archiEnum.GOALS_REPRESENTATION.equalsName(svgShape.getElementType())) {
+//            return archiEnum.GOALS_REPRESENTATION.iconSVGCode(svgShape);
+//        } else if (archiEnum.GOALS_REQUIREMENT.equalsName(svgShape.getElementType())) {
+//            return archiEnum.GOALS_REQUIREMENT.iconSVGCode(svgShape);
+//        } else if (archiEnum.GOALS_ROLE.equalsName(svgShape.getElementType())) {
+//            return archiEnum.GOALS_ROLE.iconSVGCode(svgShape);
+//        } else if (archiEnum.GOALS_UNAMED.equalsName(svgShape.getElementType())) {
+//            return archiEnum.GOALS_UNAMED.iconSVGCode(svgShape);
+//        } else if (archiEnum.MAPS.equalsName(svgShape.getElementType())) {
+//            return archiEnum.MAPS.iconSVGCode(svgShape);
+//        } else if (archiEnum.MAP_BLUE_STRATAMAP.equalsName(svgShape.getElementType())) {
+//            return archiEnum.MAP_BLUE_STRATAMAP.iconSVGCode(svgShape);
+//        } else if (archiEnum.MAP_GREEN_STRATAMAP.equalsName(svgShape.getElementType())) {
+//            return archiEnum.MAP_GREEN_STRATAMAP.iconSVGCode(svgShape);
+//        } else if (archiEnum.MAP_OUTLINE_STRATAMAP.equalsName(svgShape.getElementType())) {
+//            return archiEnum.MAP_OUTLINE_STRATAMAP.iconSVGCode(svgShape);
+//        } else if (archiEnum.STRATAMAP_BLUE_STRATAMAP.equalsName(svgShape.getElementType())) {
+//            return archiEnum.STRATAMAP_BLUE_STRATAMAP.iconSVGCode(svgShape);
+//        } else if (archiEnum.STRATAMAP_GREEN_STRATAMAP.equalsName(svgShape.getElementType())) {
+//            return archiEnum.STRATAMAP_GREEN_STRATAMAP.iconSVGCode(svgShape);
+//        } else if (archiEnum.STRATAMAP_OUTLINE_STRATAMAP.equalsName(svgShape.getElementType())) {
+//            return archiEnum.STRATAMAP_OUTLINE_STRATAMAP.iconSVGCode(svgShape);
+//        } else if (archiEnum.TECHNOLOGY_ARTIFACT.equalsName(svgShape.getElementType())) {
+//            return archiEnum.TECHNOLOGY_ARTIFACT.iconSVGCode(svgShape);
+//        } else if (archiEnum.TECHNOLOGY_COMMUNICATION_PATH.equalsName(svgShape.getElementType())) {
+//            return archiEnum.TECHNOLOGY_COMMUNICATION_PATH.iconSVGCode(svgShape);
+//        } else if (archiEnum.TECHNOLOGY_DATABASE.equalsName(svgShape.getElementType())) {
+//            return archiEnum.TECHNOLOGY_DATABASE.iconSVGCode(svgShape);
+//        } else if (archiEnum.TECHNOLOGY_DEVICE.equalsName(svgShape.getElementType())) {
+//            return archiEnum.TECHNOLOGY_DEVICE.iconSVGCode(svgShape);
+//        } else if (archiEnum.TECHNOLOGY_FUNCTION.equalsName(svgShape.getElementType())) {
+//            return archiEnum.TECHNOLOGY_FUNCTION.iconSVGCode(svgShape);
+//        } else if (archiEnum.TECHNOLOGY_INTERFACE.equalsName(svgShape.getElementType())) {
+//            return archiEnum.TECHNOLOGY_INTERFACE.iconSVGCode(svgShape);
+//        } else if (archiEnum.TECHNOLOGY_NETWORK.equalsName(svgShape.getElementType())) {
+//            return archiEnum.TECHNOLOGY_NETWORK.iconSVGCode(svgShape);
+//        } else if (archiEnum.TECHNOLOGY_NODE.equalsName(svgShape.getElementType())) {
+//            return archiEnum.TECHNOLOGY_NODE.iconSVGCode(svgShape);
+//        } else if (archiEnum.TECHNOLOGY_SERVICE.equalsName(svgShape.getElementType())) {
+//            return archiEnum.TECHNOLOGY_SERVICE.iconSVGCode(svgShape);
+//        } else if (archiEnum.TECHNOLOGY_SYSTEM_SOFTWARE.equalsName(svgShape.getElementType())) {
+//            return archiEnum.TECHNOLOGY_SYSTEM_SOFTWARE.iconSVGCode(svgShape);
+//        } else
+//            return " ";
+//
+//    }
 }

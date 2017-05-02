@@ -1,12 +1,12 @@
 package com.Farzad.utils.ImageUtils;
 
-import com.Farzad.Enums.IconsEnum;
+import com.Farzad.Enums.ArchiEnum;
 
 /**
  * Created by VOLCANO on 5/2/2017.
  */
 public class StyleTools {
-    public static String getIconStyles(IconsEnum.Category type){
+    public static String getIconStyles(ArchiEnum.Category type){
         switch (type){
             case APPLICATION:
                 return "fill=\"#3b6cb3\"";

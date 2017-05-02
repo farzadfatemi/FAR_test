@@ -3,7 +3,6 @@ package com.Farzad.utils.ImageUtils;
 
 import POJOs.SVGSingleShape;
 import com.Farzad.Enums.ConnectionsEnum;
-import com.Farzad.Enums.IconsEnum;
 import com.archimatetool.editor.model.compatibility.ModelCompatibility;
 import com.archimatetool.model.*;
 import com.archimatetool.model.util.ArchimateResourceFactory;

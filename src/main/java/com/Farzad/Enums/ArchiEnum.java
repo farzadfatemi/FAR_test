@@ -55,12 +55,13 @@ public enum ArchiEnum {
     TECHNOLOGY_NODE(Category.TECHNOLOGY),
     TECHNOLOGY_SERVICE(Category.TECHNOLOGY),
     TECHNOLOGY_SYSTEM_SOFTWARE(Category.TECHNOLOGY),
-    DATA_OBJECT(Category.APPLICATION),
-    ARTIFACT(Category.DEFAULT),
-    NETWORK(Category.DEFAULT),
-    DEVICE(Category.DEFAULT),
-    INFRASTRUCTURE_INTERFACE(Category.DEFAULT),
-    SYSTEM_SOFTWARE(Category.DEFAULT),
+    LOCATION(Category.INDIVIDUAL),
+    DATA_OBJECT(Category.INDIVIDUAL),
+    ARTIFACT(Category.INDIVIDUAL),
+    NETWORK(Category.INDIVIDUAL),
+    DEVICE(Category.INDIVIDUAL),
+    INFRASTRUCTURE_INTERFACE(Category.INDIVIDUAL),
+    SYSTEM_SOFTWARE(Category.INDIVIDUAL),
     DEFAULT(Category.DEFAULT);
     //    private final String name;
     private Category category;
@@ -76,6 +77,7 @@ public enum ArchiEnum {
         MAPS,
         STRATAMAP_MAPS,
         TECHNOLOGY,
+        INDIVIDUAL,
         DEFAULT;
     }
     public String getStringValue(){
@@ -182,6 +184,8 @@ public enum ArchiEnum {
                 return "TechnologyService";
             case TECHNOLOGY_SYSTEM_SOFTWARE:
                 return "TechnologySystemSoftware";
+            case LOCATION:
+                return "Location";
             case DATA_OBJECT:
                 return "DataObject";
              case ARTIFACT:

@@ -154,7 +154,7 @@ public class XmlUtils {
                     System.out.println("FontColor : " + dia.getFontColor());
                     System.out.println("Id : " + dia.getId());
                     System.out.println("Name : " + dia.getName());
-                    System.out.println("Name : " + dia.getArchimateElement().getClass().getSimpleName());
+                    System.out.println("Element Type : " + dia.getArchimateElement().getClass().getSimpleName());
                     System.out.println("LineColor : " + dia.getLineColor());
                     System.out.println("LineWidth : " + dia.getLineWidth());
                     System.out.println("Type : " + dia.getType());
@@ -188,7 +188,7 @@ public class XmlUtils {
                         System.out.println(" --* Type : " + ((IDiagramModelArchimateObject) child).getType());
                         System.out.println(" --* LineWidth : " + ((IDiagramModelArchimateObject) child).getLineWidth());
                         System.out.println(" --* LineColor : " + ((IDiagramModelArchimateObject) child).getLineColor());
-//                            System.out.println( " --* Documentation : "+((IDiagramModelArchimateObject)child).getDocumentation());
+                        System.out.println(" --* getClass().getSimpleName() : " + ((IDiagramModelArchimateObject) child).getArchimateElement().getClass().getSimpleName());
                         System.out.println(" --* Name : " + ((IDiagramModelArchimateObject) child).getName());
                         childSourceConList = ((IDiagramModelArchimateObject) child).getSourceConnections();
                         for (Object iDiModelConnobj : childSourceConList) {

@@ -8,9 +8,7 @@ import com.Farzad.utils.xmlutils.XmlUtils;
 public class mainCls {
     public static void main(String[] args) {
         try {
-            String str = GenerateSVG.getModelSVGs();
-            System.out.println (str);
-            FileUtils.WriteToHTML (str);
+            String str = GenerateSVG.getModelSVGs();            System.out.println (str);            FileUtils.WriteToHTML (str);
 //            System.out.println(GenerateSVG2.getModelSVGs());
 //            System.out.println(CryptoUtils.getSaltedPassword("FARmelody2".getBytes()));
 //            XmlUtils.ReadXMLFile2();

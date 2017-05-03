@@ -11,8 +11,8 @@ import static com.Farzad.utils.ImageUtils.StyleTools.*;
  */
 public class IconsTools {
     public static String getIconSVGCode(ArchiEnum archiEnum, SVGSingleShape svgShape) {
-        int x = svgShape.getX() + svgShape.getWidth() - 30;
-        int y = svgShape.getY() + 5;
+        int x = svgShape.getX() + svgShape.getWidth() - 40;
+        int y = svgShape.getY() + 15;
         int width = 30;
         int height = 30;
         
@@ -118,6 +118,18 @@ public class IconsTools {
             case TECHNOLOGY_SERVICE:
                 return "<svg x=\"" + x + "\" y=\"" + y + "\" width=\"" + width + "\" height=\"" + height + "\" "+ getIconStyles(Category.TECHNOLOGY)+" id=\"Layer_1\" data-name=\"Layer 1\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 25 25\"><defs></defs><title>Colour</title><path class=\"cls-1\" d=\"M17.15,7.15a5.35,5.35,0,1,1,0,10.7H7.8a5.35,5.35,0,1,1,0-10.7h9.35m0-2.5H7.8a7.85,7.85,0,1,0,0,15.7h9.35a7.85,7.85,0,1,0,0-15.7Z\"/></svg>";
             case TECHNOLOGY_SYSTEM_SOFTWARE:
+                return "<svg x=\"" + x + "\" y=\"" + y + "\" width=\"" + width + "\" height=\"" + height + "\" "+ getIconStyles(Category.TECHNOLOGY)+" id=\"Layer_1\" data-name=\"Layer 1\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 25 25\"><defs></defs><title>Colour</title><path class=\"cls-1\" d=\"M22.05,2.95a10,10,0,0,0-14.14,0l-5,5c.23-.23.48-.45.73-.66-.25.21-.49.42-.73.66A10,10,0,1,0,18.65,20h0a42.14,42.14,0,0,0,3.39-2.93A10,10,0,0,0,22.05,2.95ZM4.44,6.68,4,7ZM7.71,5.26l-.14,0Zm-.84.24-.21.07ZM6,5.81l-.29.13Zm-.81.39-.36.21ZM15.32,20.28a7.5,7.5,0,1,1,0-10.61A7.45,7.45,0,0,1,15.32,20.28Zm5-5L20,15.6A10,10,0,0,0,10,5c-.21,0-.43,0-.64,0h0l.29-.29A7.5,7.5,0,1,1,20.28,15.32ZM8.48,5.11h0Z\"/></svg>";
+            case DATA_OBJECT:
+                return "<svg x=\"" + x + "\" y=\"" + y + "\" width=\"" + width + "\" height=\"" + height + "\" "+ getIconStyles(Category.APPLICATION)+" id=\"Layer_1\" data-name=\"Layer 1\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 25 25\"><defs></defs><title>Colour</title><path class=\"cls-1\" d=\"M22.5,2.5v20H2.5V2.5h20M25,0H0V25H25V0Z\"/><path class=\"cls-1\" d=\"M22.5,2.5V5.83H2.5V2.5h20M25,0H0V8.33H25V0Z\"/></svg>";
+            case ARTIFACT:
+                return "<svg x=\"" + x + "\" y=\"" + y + "\" width=\"" + width + "\" height=\"" + height + "\" "+ getIconStyles(Category.TECHNOLOGY)+" id=\"Layer_1\" data-name=\"Layer 1\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 25 25\"><defs></defs><title>Colour</title><path class=\"cls-1\" d=\"M13.23,2.45l6.43,6.43V22.55H5.35V2.45h7.88m1-2.5H2.85V25.05h19.3V7.84L14.26-.05Z\"/><polygon class=\"cls-1\" points=\"22.15 10.66 11.51 10.66 11.51 -0.05 14.01 -0.05 14.01 8.16 22.15 8.16 22.15 10.66\"/></svg>";
+            case NETWORK:
+                return "<svg x=\"" + x + "\" y=\"" + y + "\" width=\"" + width + "\" height=\"" + height + "\" "+ getIconStyles(Category.TECHNOLOGY)+" id=\"Layer_1\" data-name=\"Layer 1\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 25 25\"><defs></defs><title>Colour</title><path class=\"cls-1\" d=\"M17.79,16.34a2.6,2.6,0,1,1-2.6,2.6,2.6,2.6,0,0,1,2.6-2.6m0-2.5a5.1,5.1,0,1,0,5.1,5.1,5.1,5.1,0,0,0-5.1-5.1Z\"/><path class=\"cls-1\" d=\"M5.1,16.34a2.6,2.6,0,1,1-2.6,2.6,2.6,2.6,0,0,1,2.6-2.6m0-2.5a5.1,5.1,0,1,0,5.1,5.1,5.1,5.1,0,0,0-5.1-5.1Z\"/><rect class=\"cls-1\" x=\"8.95\" y=\"17.69\" width=\"5.94\" height=\"2.5\"/><path class=\"cls-1\" d=\"M19.9,3.46a2.6,2.6,0,1,1-2.6,2.6,2.6,2.6,0,0,1,2.6-2.6m0-2.5A5.1,5.1,0,1,0,25,6.06,5.1,5.1,0,0,0,19.9,1Z\"/><path class=\"cls-1\" d=\"M7.21,3.46a2.6,2.6,0,1,1-2.6,2.6,2.6,2.6,0,0,1,2.6-2.6m0-2.5a5.1,5.1,0,1,0,5.1,5.1A5.1,5.1,0,0,0,7.21,1Z\"/><rect class=\"cls-1\" x=\"11.06\" y=\"4.81\" width=\"5.94\" height=\"2.5\"/><rect class=\"cls-1\" x=\"3.2\" y=\"11.16\" width=\"5.83\" height=\"2.5\" transform=\"translate(-7.15 16.33) rotate(-80.24)\"/><rect class=\"cls-1\" x=\"15.8\" y=\"11.27\" width=\"6\" height=\"2.5\" transform=\"translate(3.27 28.92) rotate(-80.24)\"/></svg>";
+            case DEVICE:
+                return "<svg x=\"" + x + "\" y=\"" + y + "\" width=\"" + width + "\" height=\"" + height + "\" "+ getIconStyles(Category.TECHNOLOGY)+" id=\"Layer_1\" data-name=\"Layer 1\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 25 25\"><defs></defs><title>Colour</title><path class=\"cls-1\" d=\"M22.5,2.42V14h-20V2.42h20M25-.08H0V16.53H25V-.08Z\"/><path class=\"cls-1\" d=\"M19.4,20.44l1.14,2H4.27l1.14-2h14m1.47-2.5H3.94L0,25H24.8l-3.93-7Z\"/></svg>";
+            case INFRASTRUCTURE_INTERFACE:
+                return "<svg x=\"" + x + "\" y=\"" + y + "\" width=\"" + width + "\" height=\"" + height + "\" "+ getIconStyles(Category.TECHNOLOGY)+" id=\"Layer_1\" data-name=\"Layer 1\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 25 25\"><defs></defs><title>Colour</title><path class=\"cls-1\" d=\"M17.15,7.15A5.35,5.35,0,1,1,11.8,12.5a5.35,5.35,0,0,1,5.35-5.35m0-2.5A7.85,7.85,0,1,0,25,12.5a7.85,7.85,0,0,0-7.85-7.85Z\"/><rect class=\"cls-1\" y=\"11.25\" width=\"10.5\" height=\"2.5\"/></svg>";
+            case SYSTEM_SOFTWARE:
                 return "<svg x=\"" + x + "\" y=\"" + y + "\" width=\"" + width + "\" height=\"" + height + "\" "+ getIconStyles(Category.TECHNOLOGY)+" id=\"Layer_1\" data-name=\"Layer 1\" xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 25 25\"><defs></defs><title>Colour</title><path class=\"cls-1\" d=\"M22.05,2.95a10,10,0,0,0-14.14,0l-5,5c.23-.23.48-.45.73-.66-.25.21-.49.42-.73.66A10,10,0,1,0,18.65,20h0a42.14,42.14,0,0,0,3.39-2.93A10,10,0,0,0,22.05,2.95ZM4.44,6.68,4,7ZM7.71,5.26l-.14,0Zm-.84.24-.21.07ZM6,5.81l-.29.13Zm-.81.39-.36.21ZM15.32,20.28a7.5,7.5,0,1,1,0-10.61A7.45,7.45,0,0,1,15.32,20.28Zm5-5L20,15.6A10,10,0,0,0,10,5c-.21,0-.43,0-.64,0h0l.29-.29A7.5,7.5,0,1,1,20.28,15.32ZM8.48,5.11h0Z\"/></svg>";
             default:
                 return "";

@@ -55,6 +55,12 @@ public enum ArchiEnum {
     TECHNOLOGY_NODE(Category.TECHNOLOGY),
     TECHNOLOGY_SERVICE(Category.TECHNOLOGY),
     TECHNOLOGY_SYSTEM_SOFTWARE(Category.TECHNOLOGY),
+    DATA_OBJECT(Category.APPLICATION),
+    ARTIFACT(Category.DEFAULT),
+    NETWORK(Category.DEFAULT),
+    DEVICE(Category.DEFAULT),
+    INFRASTRUCTURE_INTERFACE(Category.DEFAULT),
+    SYSTEM_SOFTWARE(Category.DEFAULT),
     DEFAULT(Category.DEFAULT);
     //    private final String name;
     private Category category;
@@ -77,7 +83,7 @@ public enum ArchiEnum {
             case APPLICATION_COLLABORATION:
                 return "ApplicationCollaboration";
             case APPLICATION_COMPONENT:
-                return "ApplicationComponant";
+                return "ApplicationComponent";
             case APPLICATION_FUNCTION:
                 return "ApplicationFunction";
             case APPLICATION_INTERACTION:
@@ -176,6 +182,18 @@ public enum ArchiEnum {
                 return "TechnologyService";
             case TECHNOLOGY_SYSTEM_SOFTWARE:
                 return "TechnologySystemSoftware";
+            case DATA_OBJECT:
+                return "DataObject";
+             case ARTIFACT:
+                return "Artifact";
+             case NETWORK:
+                return "Network";
+             case DEVICE:
+                return "Device";
+             case INFRASTRUCTURE_INTERFACE:
+                return "InfrastructureInterface";
+             case SYSTEM_SOFTWARE:
+                return "SystemSoftware";
             default:
                 return null;
         }

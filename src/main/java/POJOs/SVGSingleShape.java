@@ -1,6 +1,7 @@
 package POJOs;
 
 
+import java.util.Arrays;
 import java.util.Map;
 
 /**
@@ -11,6 +12,9 @@ public class SVGSingleShape {
     private int y;
     private int width;
     private int height;
+    private int rx;
+    private int ry;
+    private int[][] polyDem;
     private String id;
     private String name;
     private String fillColor;
@@ -55,6 +59,30 @@ public class SVGSingleShape {
 
     public void setHeight(int height) {
         this.height = height;
+    }
+
+    public int getRx() {
+        return rx;
+    }
+
+    public void setRx(int rx) {
+        this.rx = rx;
+    }
+
+    public int getRy() {
+        return ry;
+    }
+
+    public void setRy(int ry) {
+        this.ry = ry;
+    }
+
+    public int[][] getPolyDem() {
+        return polyDem;
+    }
+
+    public void setPolyDem(int[][] polyDem) {
+        this.polyDem = polyDem;
     }
 
     public String getId() {
@@ -168,6 +196,9 @@ public class SVGSingleShape {
                 ", y=" + y +
                 ", width=" + width +
                 ", height=" + height +
+                ", rx=" + rx +
+                ", ry=" + ry +
+                ", polyDem=" + Arrays.toString(polyDem) +
                 ", id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", fillColor='" + fillColor + '\'' +

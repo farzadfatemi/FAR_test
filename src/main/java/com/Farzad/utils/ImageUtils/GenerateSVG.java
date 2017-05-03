@@ -148,6 +148,7 @@ public class GenerateSVG {
                                 childrenList = dia.getChildren();
 
                                 for (Object childObj : childrenList) {
+
                                     if (childObj instanceof IDiagramModelObject) {
                                         childSourceAndTargets = new TreeMap<>();
 //                                        childSourceAndTargets = new ArrayList<String>();
@@ -173,6 +174,36 @@ public class GenerateSVG {
                                         svgChildSingleShape.setFont(childDia.getFont());
                                         svgChildSingleShape.setFontColor(childDia.getFillColor());
                                         svgChildSingleShape.setStrokeWidth(childDia.getLineWidth());
+                                        svgChildSingleShape.setConnections(childSourceAndTargets);
+
+//                                System.out.println(svgChildSingleShape.toString());
+                                        All_CHILDREN_SVG_SHAPES_AND_CONNECTORS.put(childDia.getId(), svgChildSingleShape);
+                                    }
+                                    if (childObj instanceof IDiagramModelArchimateObject) {
+//                                        childSourceAndTargets = new ArrayList<String>();
+                                        IDiagramModelArchimateObject childDia = (IDiagramModelArchimateObject) childObj;
+                                        childSourceConList = childDia.getSourceConnections();
+                                        for (Object iDiModelConnObj : childSourceConList) {
+                                            if (((IDiagramModelConnection) iDiModelConnObj).getTarget() != null) {
+                                                childSourceAndTargets.put(((IDiagramModelConnection) iDiModelConnObj).getTarget().getId(),((IDiagramModelConnection) iDiModelConnObj).getName());
+
+                                            }
+                                        }
+
+
+                                        svgChildSingleShape = new SVGSingleShape();
+                                        svgChildSingleShape.setId(childDia.getId());
+                                        svgChildSingleShape.setX(dia.getBounds().getX() + childDia.getBounds().getX());
+                                        svgChildSingleShape.setY(dia.getBounds().getY() + childDia.getBounds().getY());
+                                        svgChildSingleShape.setWidth(childDia.getBounds().getWidth());
+                                        svgChildSingleShape.setHeight(childDia.getBounds().getHeight());
+                                        svgChildSingleShape.setName(childDia.getName());
+                                        svgChildSingleShape.setStrokeColor(childDia.getLineColor());
+                                        svgChildSingleShape.setFillColor(childDia.getFillColor());
+                                        svgChildSingleShape.setFont(childDia.getFont());
+                                        svgChildSingleShape.setFontColor(childDia.getFillColor());
+                                        svgChildSingleShape.setStrokeWidth(childDia.getLineWidth());
+                                        svgChildSingleShape.setElementType(childDia.getArchimateElement().getClass().getSimpleName());
                                         svgChildSingleShape.setConnections(childSourceAndTargets);
 
 //                                System.out.println(svgChildSingleShape.toString());

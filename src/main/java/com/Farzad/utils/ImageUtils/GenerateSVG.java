@@ -44,10 +44,14 @@ public class GenerateSVG {
 //                    System.out.println(obj.getValue() !=null && obj.getValue().getConnections()!=null? "--sss*** "+obj.getValue().getConnections().size():"");
                     for (Map.Entry<String, String> con : obj.getValue().getConnections().entrySet()) {
 //                    for (String con : obj.getValue().getConnections()) {
-//                        System.out.println("conns : "+conns.getKey()+" : "+conns.getValue());
+                        System.out.println("conns : "+con.getKey()+" : "+con.getValue());
                         if (All_MAIN_SVG_SHAPES_AND_CONNECTORS.containsKey(con.getKey())) {
+                            System.out.println("All_MAIN_SVG_SHAPES_AND_CONNECTORS.containsKey : " + con.getValue());
                             svgSingleShape = All_MAIN_SVG_SHAPES_AND_CONNECTORS.get(con.getKey());
-
+                        }else if (All_CHILDREN_SVG_SHAPES_AND_CONNECTORS.containsKey(con.getKey())) {
+                            System.out.println("All_CHILDREN_SVG_SHAPES_AND_CONNECTORS.containsKey : " + con.getValue());
+                            svgSingleShape = All_CHILDREN_SVG_SHAPES_AND_CONNECTORS.get(con.getKey());
+                        } if (svgSingleShape !=null){
                             System.out.println("con.getValue()********************"+con.getValue());
                             obj.getValue().setConnectionsType(con.getValue());
 //                            System.out.println("svgSingleShape : "+svgSingleShape.getId()+" : "+svgSingleShape.getName());
@@ -100,7 +104,7 @@ public class GenerateSVG {
         Map<String, String> childSourceAndTargets = null;
 //        List<String> childSourceAndTargets = null;
         try {
-            File modelFile = new File("D:\\FAR_Documents\\__Startamap\\Original.archimate");
+            File modelFile = new File("D:\\FAR_Documents\\__Startamap\\Original2.archimate");
             IArchimateModel model = loadModel(modelFile);
             List<IDiagramModel> iDModels = model.getDiagramModels();
             List SourceConList = null;

@@ -44,12 +44,12 @@ public class GenerateSVG {
 //                    System.out.println(obj.getValue() !=null && obj.getValue().getConnections()!=null? "--sss*** "+obj.getValue().getConnections().size():"");
                     for (Map.Entry<String, String> con : obj.getValue().getConnections().entrySet()) {
 //                    for (String con : obj.getValue().getConnections()) {
-                        System.out.println("conns : "+con.getKey()+" : "+con.getValue());
+//                        System.out.println("conns : "+con.getKey()+" : "+con.getValue());
                         if (All_MAIN_SVG_SHAPES_AND_CONNECTORS.containsKey(con.getKey())) {
-                            System.out.println("All_MAIN_SVG_SHAPES_AND_CONNECTORS.containsKey : " + con.getValue());
+//                            System.out.println("All_MAIN_SVG_SHAPES_AND_CONNECTORS.containsKey : " + con.getValue());
                             svgSingleShape = All_MAIN_SVG_SHAPES_AND_CONNECTORS.get(con.getKey());
                         }else if (All_CHILDREN_SVG_SHAPES_AND_CONNECTORS.containsKey(con.getKey())) {
-                            System.out.println("All_CHILDREN_SVG_SHAPES_AND_CONNECTORS.containsKey : " + con.getValue());
+//                            System.out.println("All_CHILDREN_SVG_SHAPES_AND_CONNECTORS.containsKey : " + con.getValue());
                             svgSingleShape = All_CHILDREN_SVG_SHAPES_AND_CONNECTORS.get(con.getKey());
                         } if (svgSingleShape !=null){
                             System.out.println("con.getValue()********************"+con.getValue());
@@ -71,20 +71,14 @@ public class GenerateSVG {
 //                        for (String con : obj.getValue().getConnections()) {
                             if (All_CHILDREN_SVG_SHAPES_AND_CONNECTORS.containsKey(con.getKey())) {
                                 svgChildSingleShape = All_CHILDREN_SVG_SHAPES_AND_CONNECTORS.get(con.getKey());
+                            }else if (All_MAIN_SVG_SHAPES_AND_CONNECTORS.containsKey(con.getKey())) {
+                                svgChildSingleShape = All_MAIN_SVG_SHAPES_AND_CONNECTORS.get(con.getKey());
+                            } if (svgChildSingleShape !=null){
                                 obj.getValue().setConnectionsType(con.getValue());
                                 sb.append(getSVGline(obj.getValue(), svgChildSingleShape));
                             }
                         }
                     }
-                for (Map.Entry<String, String> con : obj.getValue().getConnections().entrySet()) {
-//                    for (String con : obj.getValue().getConnections()) {
-                        if (All_MAIN_SVG_SHAPES_AND_CONNECTORS.containsKey(con.getKey())) {
-                            svgChildSingleShape = All_MAIN_SVG_SHAPES_AND_CONNECTORS.get(con.getKey());
-                            obj.getValue().setConnectionsType(con.getValue());
-                            sb.append(getSVGline(obj.getValue(), svgChildSingleShape));
-                        }
-                     
-                }
             }
 
             All_CHILDREN_SVG_SHAPES_AND_CONNECTORS.entrySet().stream().filter(obj -> obj.getValue() != null).forEachOrdered(obj -> {

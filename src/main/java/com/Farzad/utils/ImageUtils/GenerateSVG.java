@@ -36,6 +36,10 @@ public class GenerateSVG {
         StringBuilder sb = new StringBuilder();
         try {
             sb.append("<svg width=\"100%\" height=\"1700\" >");
+            All_MAIN_SVG_SHAPES_AND_CONNECTORS.entrySet().stream().filter(obj -> obj.getValue() != null).forEachOrdered(obj -> {
+                sb.append(getSVGShape(obj.getValue()));
+                sb.append("\n");
+            });
             for (Map.Entry<String, SVGSingleShape> obj : All_MAIN_SVG_SHAPES_AND_CONNECTORS.entrySet()) {
 //                System.out.println(obj.getValue() != null && obj.getValue().getName() != null && obj.getValue().getName().equals("Locations1") ? "Loc" : "");
                 if (obj.getValue() != null && obj.getValue().getConnections() != null) {
@@ -61,7 +65,8 @@ public class GenerateSVG {
                     }
                 }
             }
-            All_MAIN_SVG_SHAPES_AND_CONNECTORS.entrySet().stream().filter(obj -> obj.getValue() != null).forEachOrdered(obj -> {
+
+            All_CHILDREN_SVG_SHAPES_AND_CONNECTORS.entrySet().stream().filter(obj -> obj.getValue() != null).forEachOrdered(obj -> {
                 sb.append(getSVGShape(obj.getValue()));
                 sb.append("\n");
             });
@@ -81,10 +86,7 @@ public class GenerateSVG {
                     }
             }
 
-            All_CHILDREN_SVG_SHAPES_AND_CONNECTORS.entrySet().stream().filter(obj -> obj.getValue() != null).forEachOrdered(obj -> {
-                sb.append(getSVGShape(obj.getValue()));
-                sb.append("\n");
-            });
+
             sb.append("</svg>");
         } catch (Exception e) {
             e.printStackTrace();
@@ -92,6 +94,72 @@ public class GenerateSVG {
 
         return sb.toString();
     }
+    public static int[] firstAndLastXY() {
+        int[] firstLastXY = new int[]{0,0,0,0};
+        int firstX = 100000;
+        int lastX = 0;
+        int firstY = 100000;
+        int lastY = 0;
+        SVGSingleShape svgSingleShape = null;
+        SVGSingleShape svgChildSingleShape = null;
+//        getAllModelSVGs();
+        try {
+             for (Map.Entry<String, SVGSingleShape> obj : All_MAIN_SVG_SHAPES_AND_CONNECTORS.entrySet()) {
+                if (obj.getValue() != null && obj.getValue().getConnections() != null) {
+                    for (Map.Entry<String, String> con : obj.getValue().getConnections().entrySet()) {
+                        if (All_MAIN_SVG_SHAPES_AND_CONNECTORS.containsKey(con.getKey())) {
+                            svgSingleShape = All_MAIN_SVG_SHAPES_AND_CONNECTORS.get(con.getKey());
+                        }else if (All_CHILDREN_SVG_SHAPES_AND_CONNECTORS.containsKey(con.getKey())) {
+                            svgSingleShape = All_CHILDREN_SVG_SHAPES_AND_CONNECTORS.get(con.getKey());
+                        } if (svgSingleShape !=null){
+                            System.out.println("con.getValue()********************"+con.getValue());
+                            obj.getValue().setConnectionsType(con.getValue());
+                            if(obj.getValue() !=null ) {
+                                if (obj.getValue().getX() < firstX) {
+                                    firstX = obj.getValue().getX();
+                                }
+                                if (obj.getValue().getX()+obj.getValue().getWidth() > lastX){
+                                    lastX = obj.getValue().getX();
+                                }
+                            if (obj.getValue().getY() < firstY) {
+                                firstY = obj.getValue().getY();
+                                }
+                                if (obj.getValue().getY()+obj.getValue().getHeight() > lastY){
+                                    lastY = obj.getValue().getY();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+//            for (Map.Entry<String, SVGSingleShape> obj : All_CHILDREN_SVG_SHAPES_AND_CONNECTORS.entrySet()) {
+//                if (obj.getValue() != null && obj.getValue().getConnections() != null) {
+//                    for (Map.Entry<String, String> con : obj.getValue().getConnections().entrySet()) {
+//                            if (All_CHILDREN_SVG_SHAPES_AND_CONNECTORS.containsKey(con.getKey())) {
+//                                svgChildSingleShape = All_CHILDREN_SVG_SHAPES_AND_CONNECTORS.get(con.getKey());
+//                            }else if (All_MAIN_SVG_SHAPES_AND_CONNECTORS.containsKey(con.getKey())) {
+//                                svgChildSingleShape = All_MAIN_SVG_SHAPES_AND_CONNECTORS.get(con.getKey());
+//                            } if (svgChildSingleShape !=null){
+//                                obj.getValue().setConnectionsType(con.getValue());
+//                                sb.append(getSVGline(obj.getValue(), svgChildSingleShape));
+//                            }
+//                        }
+//                    }
+//            }
+//
+//            All_CHILDREN_SVG_SHAPES_AND_CONNECTORS.entrySet().stream().filter(obj -> obj.getValue() != null).forEachOrdered(obj -> {
+//                sb.append(getSVGShape(obj.getValue()));
+//                sb.append("\n");
+//            });
+//            sb.append("</svg>");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return firstLastXY;
+    }
+
     private static void getAllModelSVGs() {
         Map<String, String> sourceAndTarget = null;
 //        List<String> sourceAndTarget = null;

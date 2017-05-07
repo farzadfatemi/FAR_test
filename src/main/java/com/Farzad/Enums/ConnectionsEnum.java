@@ -13,19 +13,20 @@ public enum ConnectionsEnum {
     AGGREGATION("aggregation"),
     ASSOCIATION("association"),
     REALISES("realises"),
-    READ_AND_WRITE("read/write");
-    private final java.lang.String name;
+    READ_AND_WRITE("read/write"),
+    COMPOSITION("composition");
+    private final  String name;
 
-    public boolean equalsName(java.lang.String otherName) {
+    public boolean equalsName(String otherName) {
         // (otherName == null) check is not needed because name.equals(null) returns false
         return name.equals(otherName);
     }
 
-    public java.lang.String toString() {
+    public  String toString() {
         return this.name;
     }
 
-    private ConnectionsEnum(java.lang.String s) {
+    private ConnectionsEnum( String s) {
         name = s;
     }
 

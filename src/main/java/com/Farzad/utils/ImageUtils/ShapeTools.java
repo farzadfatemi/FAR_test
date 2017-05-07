@@ -137,13 +137,13 @@ class ShapeTools {
         int lineWidth = 4;
         String fillColor = svgShape.getFillColor();
         String mainRect = "<svg>" +
-                " <g>" + IconsTools.getIconSVGCode(archiEnum, svgShape) +
+                " <g>" +
                 " <a xlink:href=\"https://google.com\">\n" +
                 "      <rect fill=\"" + svgShape.getFillColor() + "\"  x=\"" + svgShape.getX() + "\" y=\"" + svgShape.getY() + "\" width=\"" + svgShape.getWidth()
                 + "\" height=\"" + svgShape.getHeight() + "\" stroke=\"" + svgShape.getStrokeColor() + "\" stroke-width=\"" + lineWidth + "\" />\n" +
                 "      <text x=\"" + (svgShape.getX() + 10) + "\" xml:space=\"preserve\" y=\"" + (svgShape.getY() + 35) + "\" clip-path=\"url(#clipPath20)\" stroke=\"none\"\n" +
                 "      font-family=\"" + svgShape.getFont() + "\" fill=\"#FFFFFF\"  >" + svgShape.getName() + "</text>\n" +
-                "    </a>\n" +
+                "    </a>\n" +IconsTools.getIconSVGCode(archiEnum, svgShape) +
                 "</g>" +
                 "</svg>";
 
@@ -160,13 +160,13 @@ class ShapeTools {
                 "</g>" +
                 "</svg>";
         String businessFunctionShape = "<svg>" +
-                " <g>" +IconsTools.getIconSVGCode(archiEnum, svgShape) +
+                " <g>" +
                 " <a xlink:href=\"https://google.com\">\n" +
                 "      <rect fill=\"" + svgShape.getFillColor() + "\" rx=\"" + rx + "\" ry=\"" + ry + "\"   x=\"" + svgShape.getX() + "\" y=\"" + svgShape.getY() + "\" width=\"" + svgShape.getWidth()
                 + "\" height=\"" + svgShape.getHeight() + "\" stroke=\"" + svgShape.getStrokeColor() + "\" stroke-width=\"" + lineWidth + "\" />\n" +
                 "      <text x=\"" + (svgShape.getX() + 10) + "\" xml:space=\"preserve\" y=\"" + (svgShape.getY() + 35) + "\" clip-path=\"url(#clipPath20)\" stroke=\"none\"\n" +
                 "      font-family=\"" + svgShape.getFont() + "\" fill=\"#FFFFFF\"  >" + svgShape.getName() + "</text>\n" +
-                "    </a>\n" +
+                "    </a>\n" +IconsTools.getIconSVGCode(archiEnum, svgShape) +
                 "</g>" +
                 "</svg>";
         switch (archiEnum) {
@@ -288,18 +288,18 @@ class ShapeTools {
         int lineWidth = 4;
         String fillColor = svgShape.getFillColor();
         String mainRect = "<svg>" +
-                " <g>" +IconsTools.getIconSVGCode(archiEnum, svgShape) +
+                " <g>" +
                 " <a xlink:href=\"https://google.com\">\n" +
                 "      <rect fill-opacity=\""+opacity+"\" fill=\"" + svgShape.getFillColor() + "\"  x=\"" + svgShape.getX() + "\" y=\"" + svgShape.getY() + "\" width=\"" + svgShape.getWidth()
                 + "\" height=\"" + svgShape.getHeight() + "\" stroke=\"" + svgShape.getStrokeColor() + "\" stroke-width=\"" + lineWidth + "\" />\n" +
                 "      <text x=\"" + (svgShape.getX() + 10) + "\" xml:space=\"preserve\" y=\"" + (svgShape.getY() + 35) + "\" clip-path=\"url(#clipPath20)\" stroke=\"none\"\n" +
                 "      font-family=\"" + svgShape.getFont() + "\" fill=\"#FFFFFF\"  >" + svgShape.getName() + "</text>\n" +
-                "    </a>\n" +
+                "    </a>\n" + IconsTools.getIconSVGCode(archiEnum, svgShape) +
                 "</g>" +
                 "</svg>";
 
         String businessObjectShape = "<svg>" +
-                " <g>" +IconsTools.getIconSVGCode(archiEnum, svgShape) +
+                " <g>" +
                 " <a xlink:href=\"https://google.com\">\n" +
                 "      <rect fill=\"#e0b416\"  x=\"" + svgShape.getX() + "\" y=\"" + svgShape.getY() + "\" width=\"" + svgShape.getWidth()
                 + "\" height=\"" + svgShape.getHeight() + "\" stroke=\"" + svgShape.getStrokeColor() + "\" stroke-width=\"" + lineWidth + "\" />\n" +
@@ -307,17 +307,17 @@ class ShapeTools {
                 + "\" height=\"" + (svgShape.getHeight() - 13) + "\" stroke=\"" + svgShape.getStrokeColor() + "\" />\n" +
                 "      <text x=\"" + (svgShape.getX() + 10) + "\" xml:space=\"preserve\" y=\"" + (svgShape.getY() + 15 + (svgShape.getHeight() - 13) / 2) + "\" clip-path=\"url(#clipPath20)\" stroke=\"none\"\n" +
                 "      font-family=\"" + svgShape.getFont() + "\" fill=\"#FFFFFF\"  >" + svgShape.getName() + "</text>\n" +
-                "    </a>\n" +
+                "    </a>\n" +IconsTools.getIconSVGCode(archiEnum, svgShape) +
                 "</g>" +
                 "</svg>";
         String businessFunctionShape = "<svg>" +
-                " <g>" +IconsTools.getIconSVGCode(archiEnum, svgShape) +
+                " <g>" +
                 " <a xlink:href=\"https://google.com\">\n" +
                 "      <rect fill=\"" + svgShape.getFillColor() + "\" rx=\"" + rx + "\" ry=\"" + ry + "\"   x=\"" + svgShape.getX() + "\" y=\"" + svgShape.getY() + "\" width=\"" + svgShape.getWidth()
                 + "\" height=\"" + svgShape.getHeight() + "\" stroke=\"" + svgShape.getStrokeColor() + "\" stroke-width=\"" + lineWidth + "\" />\n" +
                 "      <text x=\"" + (svgShape.getX() + 10) + "\" xml:space=\"preserve\" y=\"" + (svgShape.getY() + 35) + "\" clip-path=\"url(#clipPath20)\" stroke=\"none\"\n" +
                 "      font-family=\"" + svgShape.getFont() + "\" fill=\"#FFFFFF\"  >" + svgShape.getName() + "</text>\n" +
-                "    </a>\n" +
+                "    </a>\n" + IconsTools.getIconSVGCode(archiEnum, svgShape) +
                 "</g>" +
                 "</svg>";
         switch (archiEnum) {
@@ -387,6 +387,8 @@ class ShapeTools {
                 result.append(putIcon(archiEnum, svgShape));
                 result.append(putIntoLink(result.toString(), "www.google.com"));
                 result.append(putGroupAndSVGTag(result.toString()));
+                svgShape.setY(svgShape.getY() - 13);
+                svgShape.setHeight(svgShape.getHeight() + 13);
                 return result.toString();
             case BUSINESS_PROCESS:
                 return mainRect;
@@ -497,6 +499,8 @@ class ShapeTools {
                 result.append(putIcon(archiEnum, svgShape));
                 result.append(putIntoLink(result.toString(), "www.google.com"));
                 result.append(putGroupAndSVGTag(result.toString()));
+                svgShape.setY(svgShape.getY() - 13);
+                svgShape.setHeight(svgShape.getHeight() + 13);
                 return result.toString();
             case ARTIFACT:
                 result = new StringBuilder();

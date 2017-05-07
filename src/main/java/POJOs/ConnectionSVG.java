@@ -1,5 +1,7 @@
 package POJOs;
 
+import java.util.Arrays;
+
 /**
  * Created by FARzad - VOLCANO on 5/3/2017.
  */
@@ -10,6 +12,7 @@ public class ConnectionSVG {
     private int y2;
     private int width;
     private int[] dashArray;
+    private String id;
     private String color;
     private String type;
     private String name;
@@ -62,6 +65,14 @@ public class ConnectionSVG {
         this.dashArray = dashArray;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getColor() {
         return color;
     }
@@ -94,6 +105,8 @@ public class ConnectionSVG {
                 ", y1=" + y1 +
                 ", y2=" + y2 +
                 ", width=" + width +
+                ", dashArray=" + Arrays.toString(dashArray) +
+                ", id='" + id + '\'' +
                 ", color='" + color + '\'' +
                 ", type='" + type + '\'' +
                 ", name='" + name + '\'' +

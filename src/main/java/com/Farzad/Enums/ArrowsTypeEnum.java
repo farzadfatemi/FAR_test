@@ -8,7 +8,8 @@ public enum ArrowsTypeEnum {
     TRIANGLE_BLACK("triangle_black"),
     DIAMOND_BLACK("diamond_black"),
     DIAMOND_WHITE ("diamond_white"),
-    V_TYPE("v_type");
+    V_TYPE("v_type"),
+    DOUBLE_V_TYPE("double_v_type");
 
     private final  String name;
 

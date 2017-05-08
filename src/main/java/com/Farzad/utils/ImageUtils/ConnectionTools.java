@@ -65,64 +65,65 @@ class ConnectionTools {
 //        conSVG.setWidth(source.getStrokeWidth());
         conSVG.setColor("black");
 //        int lineWidth = source.getStrokeWidth();
+        source.setFontSize(11);
         switch (connectionEnum) {
             case ACCESSES:
-                return (makeLine(conSVG) + putText(conSVG, target));
+                return (makeLine(conSVG) + putText(conSVG, source));
 //              return  " <circle cx=\"" + x1 + "\" cy=\"" + y1 + "\" r=\"3\" fill=\"#000000\" />" +
 //                        "      <line stroke-dasharray=\"2, 2\" fill=\"black\" x1=\"" + x1 + "\" x2=\"" + x2 + "\" y1=\"" + y1 + "\" y2=\"" + y2 + "\" " +
 //                        "stroke=\"#000000\" stroke-width=\"" + lineWidth + "\"/>\n" +
 //                        "<circle cx=\"" + x2 + "\" cy=\"" + y2 + "\" r=\"3\" fill=\"#000000\" />";
             case USED_BY:
-                return (makeArrows(conSVG,ArrowsTypeEnum.V_TYPE) + putText(conSVG, target));
+                return (makeArrows(conSVG, ArrowsTypeEnum.V_TYPE) + putText(conSVG, source));
 //              " <polygon points=\"" + x1 + "," + y1 + " " + (x1+20) + "," + (y1-10) + " " + (x1+40) + "," + y1 + " " + (x1+50) + "," + (y1+10) + "\"/>" +
 //                        "      <line fill=\"black\" x1=\"" + x1 + "\" x2=\"" + x2 + "\" y1=\"" + y1 + "\" y2=\"" + y2 + "\" " +
 //                                "stroke=\"#000000\" stroke-width=\"" + lineWidth + "\"/>\n" +
 //                                "<circle cx=\"" + x2 + "\" cy=\"" + y2 + "\" r=\"3\" fill=\"#000000\" />"+
 //                                "      <text x=\"" + (x1+x2)/2 + "\" xml:space=\"preserve\" y=\"" + (y1+y2)/2 + "\" clip-path=\"url(#clipPath20)\" stroke=\"none\"\n" +
-//                                "      font-family=\"" + source.getFont() + "\" fill=\"#000000\"  >" + target.getConnectionsType() + "</text>\n"
+//                                "      font-family=\"" + source.getFont() + "\" fill=\"#000000\"  >" + source.getConnectionsType() + "</text>\n"
 //                        ;
             case ASSIGNED:
-                return (makeLineWithDoubleOrb(makeLine(conSVG), conSVG) + putText(conSVG, target));
+                return (makeLineWithDoubleOrb(makeLine(conSVG), conSVG) + putText(conSVG, source));
 //                return  " <circle cx=\"" + x1 + "\" cy=\"" + y1 + "\" r=\"3\" fill=\"#000000\" />" +
 //                        "      <line fill=\"black\" x1=\"" + x1 + "\" x2=\"" + x2 + "\" y1=\"" + y1 + "\" y2=\"" + y2 + "\" " +
 //                        "stroke=\"#000000\" stroke-width=\"" + lineWidth + "\"/>\n" +
 //                        "<circle cx=\"" + x2 + "\" cy=\"" + y2 + "\" r=\"3\" fill=\"#000000\" />";
             case REALISES:
                 conSVG.setDashArray(new int[]{5, 5});
-                return (makeArrows(conSVG,ArrowsTypeEnum.TRIANGLE_WHITE) + putText(conSVG, target));
+                return (makeArrows(conSVG, ArrowsTypeEnum.TRIANGLE_WHITE) + putText(conSVG, source));
 //                return  " <circle cx=\"" + x1 + "\" cy=\"" + y1 + "\" r=\"3\" fill=\"#000000\" />" +
 //                        "      <line stroke-dasharray=\"5, 5\" fill=\"black\" x1=\"" + x1 + "\" x2=\"" + x2 + "\" y1=\"" + y1 + "\" y2=\"" + y2 + "\" " +
 //                        "stroke=\"#000000\" stroke-width=\"" + lineWidth + "\"/>\n" +
 //                        "<circle cx=\"" + x2 + "\" cy=\"" + y2 + "\" r=\"3\" fill=\"#000000\" />";
             case USES:
-                return (makeLine(conSVG) + putText(conSVG, target));
+                return (makeArrows(conSVG, ArrowsTypeEnum.V_TYPE) + putText(conSVG, source));
 //                return  " <circle cx=\"" + x1 + "\" cy=\"" + y1 + "\" r=\"3\" fill=\"#000000\" />" +
 //                        "      <line fill=\"black\" x1=\"" + x1 + "\" x2=\"" + x2 + "\" y1=\"" + y1 + "\" y2=\"" + y2 + "\" " +
 //                        "stroke=\"#000000\" stroke-width=\"" + lineWidth + "\"/>\n" +
 //                        "<circle cx=\"" + x2 + "\" cy=\"" + y2 + "\" r=\"3\" fill=\"#000000\" />";
             case AGGREGATION:
-                return (makeArrows(conSVG,ArrowsTypeEnum.DIAMOND_BLACK) + putText(conSVG, target));
+                return (makeArrows(conSVG, ArrowsTypeEnum.DIAMOND_WHITE) + putText(conSVG, source));
 //                return  " <circle cx=\"" + x1 + "\" cy=\"" + y1 + "\" r=\"3\" fill=\"#000000\" />" +
 //                        "      <line fill=\"black\" x1=\"" + x1 + "\" x2=\"" + x2 + "\" y1=\"" + y1 + "\" y2=\"" + y2 + "\" " +
 //                        "stroke=\"#000000\" stroke-width=\"" + lineWidth + "\"/>\n" +
 //                        "<circle cx=\"" + x2 + "\" cy=\"" + y2 + "\" r=\"3\" fill=\"#000000\" />";
             case ASSOCIATION:
-                return (makeLine(conSVG) + putText(conSVG, target));
+                return (makeLine(conSVG) + putText(conSVG, source));
 //                return  " <circle cx=\"" + x1 + "\" cy=\"" + y1 + "\" r=\"3\" fill=\"#000000\" />" +
 //                        "      <line fill=\"black\" x1=\"" + x1 + "\" x2=\"" + x2 + "\" y1=\"" + y1 + "\" y2=\"" + y2 + "\" " +
 //                        "stroke=\"#000000\" stroke-width=\"" + lineWidth + "\"/>\n" +
 //                        "<circle cx=\"" + x2 + "\" cy=\"" + y2 + "\" r=\"3\" fill=\"#000000\" />";
             case READ_AND_WRITE:
-                return (makeLine(conSVG) + putText(conSVG, target));
+                return (makeArrows(conSVG, ArrowsTypeEnum.DOUBLE_V_TYPE) + putText(conSVG, source));
 
             case COMPOSITION:
-                return (makeArrows(conSVG,ArrowsTypeEnum.DIAMOND_WHITE) + putText(conSVG, target));
+                return (makeArrows(conSVG, ArrowsTypeEnum.DIAMOND_BLACK) + putText(conSVG, source));
 //                return  " <circle cx=\"" + x1 + "\" cy=\"" + y1 + "\" r=\"3\" fill=\"#000000\" />" +
 //                        "      <line fill=\"black\" x1=\"" + x1 + "\" x2=\"" + x2 + "\" y1=\"" + y1 + "\" y2=\"" + y2 + "\" " +
 //                        "stroke=\"#000000\" stroke-width=\"" + lineWidth + "\"/>\n" +
 //                        "<circle cx=\"" + x2 + "\" cy=\"" + y2 + "\" r=\"3\" fill=\"#000000\" />";
             default:
-                return (makeLine(conSVG) + putText(conSVG, target));
+                return (makeLine(conSVG) + putText(conSVG, source));
 //                return  " <circle cx=\"" + x1 + "\" cy=\"" + y1 + "\" r=\"3\" fill=\"#000000\" />" +
 //                        "      <line fill=\"black\" x1=\"" + x1 + "\" x2=\"" + x2 + "\" y1=\"" + y1 + "\" y2=\"" + y2 + "\" " +
 //                        "stroke=\"#000000\" stroke-width=\"" + lineWidth + "\"/>\n" +
@@ -155,16 +156,33 @@ class ConnectionTools {
 
     }
 
-    private static String putText(ConnectionSVG svg, SVGSingleShape target) {
-
-        return (target.getConnectionsType() != null ? "<text x=\"" + (svg.getX1() + svg.getX2()) / 2 + "\" xml:space=\"preserve\" y=\"" + (svg.getY1() + svg.getY2()) / 2 + "\" clip-path=\"url(#clipPath20)\" stroke=\"none\"\n" +
-                "      font-family=\"" + target.getFont() + "\" fill=\"#000000\"  >" + target.getConnectionsType() + "</text>\n" : "");
+    private static String putText(ConnectionSVG svg, SVGSingleShape source) {
+//        double radian = 90;
+//        if ((svg.getX2() - svg.getX1())!= 0) {
+//            System.out.println("Y2 : "+svg.getY2()+" Y1 = "+svg.getY1() +" X2 "+svg.getX2()+" X1 "+svg.getX1());
+//            System.out.println("TTTTTT Tan : "+(double)(svg.getY2() - svg.getY1())/(double)(svg.getX2() - svg.getX1())+" Arc Tan = "+  Math.toRadians(Math.atan((double)(svg.getY2() - svg.getY1())/(double)(svg.getX2() - svg.getX1()))));
+//            radian = Math.toRadians(Math.atan(((double)(svg.getY2() - svg.getY1())/(double)(svg.getX2() - svg.getX1()))));
+//            radian =  (((double)(svg.getY2() - svg.getY1())/(double)(svg.getX2() - svg.getX1())) );
+//        }
+String path = "<defs>\n" +
+        "    <path id=\"Txt-"+svg.getId()+"\"\n" +
+        "          d=\"M " + ((svg.getX2()+svg.getX1()+2)/2) + " " + ((svg.getY2()+svg.getY1()+2)/2) + " \n" +
+        "             L " + svg.getX2() + " " + svg.getY2() +"\"/>\n"  +
+        "  </defs>\n";
+        return (source.getConnectionsType() != null ? path+"<text font-size=\""+source.getFontSize()+"\" font-family=\" " + source.getFont() +  "\" fill=\"#000000\" stroke=\"none\">\n" +
+                "<textPath xlink:href=\"#Txt-"+svg.getId()+"\"> " +
+                 source.getConnectionsType() +
+                "    </textPath>" +
+                " </text>\n" : "");
+//                " transform=\"rotate("+radian+"," + (svg.getX1() + svg.getX2()) / 2 + "," + (svg.getY1() + svg.getY2()) / 2 + ")\"     font-family=\"" + source.getFont() + "\" fill=\"#000000\"  >" + source.getConnectionsType() + "</text>\n" : "");
+//                " transform=\"skewX(25) font-family=\"" + source.getFont() + "\" fill=\"#000000\"  >" + source.getConnectionsType() + "</text>\n" : "");
 //        return "      <text x=\"" + x + "\" xml:space=\"preserve\" y=\"" + y + "\" clip-path=\"url(#clipPath20)\" stroke=\"none\"\n" +
 //                "      font-family=\"" + svgShape.getFont() + "\" fill=\"#FFFFFF\"  >" + svgShape.getName() + "</text>\n";
     }
 
     private static String makeArrows(ConnectionSVG conSvg, ArrowsTypeEnum arrowsType) {
         ArrowSVG arrowSVG = new ArrowSVG();
+        ArrowSVG arrowSVG2 = null;
         int dashWidth = 0, dashGap = 0;
         if (conSvg.getDashArray() != null && conSvg.getDashArray().length > 1) {
             dashWidth = conSvg.getDashArray()[0];
@@ -195,7 +213,22 @@ class ConnectionTools {
                 arrowSVG.setRefX(8);
                 arrowSVG.setRefY(7);
                 arrowSVG.setColor("#000000");
-                 break;
+                break;
+            case DOUBLE_V_TYPE:
+                arrowSVG.setDim("M2,2 L8,7 L2,13 L8,7 L2,2");
+                arrowSVG.setMarkerWidth(13);
+                arrowSVG.setMarkerHeight(13);
+                arrowSVG.setRefX(8);
+                arrowSVG.setRefY(7);
+                arrowSVG.setColor("#000000");
+                arrowSVG2 = new ArrowSVG();
+                arrowSVG2.setDim("M8,8 L2,13 L8,18 L2,13 L8,8");
+                arrowSVG2.setMarkerWidth(16);
+                arrowSVG2.setMarkerHeight(18);
+                arrowSVG2.setRefX(5);
+                arrowSVG2.setRefY(13);
+                arrowSVG2.setColor("#000000");
+                break;
             case DIAMOND_WHITE:
                 arrowSVG.setDim("M8,8 L14,11 L8,14 L2,11 L8,8");
                 arrowSVG.setMarkerWidth(16);
@@ -213,22 +246,28 @@ class ConnectionTools {
                 arrowSVG.setColor("#000000");
                 break;
         }
-                return "<defs> " +
-                        "   <marker id=\"" + arrowSVG.getId() + "\" markerWidth=\""+arrowSVG.getMarkerWidth()+"\" markerHeight=\""+arrowSVG.getMarkerHeight()+"\" refX=\""+arrowSVG.getRefX()+"\" refY=\""+arrowSVG.getRefY()+"\" orient=\"auto\" >\n" +
-                        "        <path d=\""+arrowSVG.getDim()+"\"  stroke=\"black\"  style=\"fill:"+arrowSVG.getColor()+"\";\" />" +
-                        "  </marker>" +
-                        "  </defs>" +
-                        "  <path d=\"M" + conSvg.getX1() + "," + conSvg.getY1() + " L" + (conSvg.getX2() - 5) + "," + (conSvg.getY2() - 5) + "\" stroke-dasharray=\"" + dashWidth + "," + dashGap + " \" stroke=\"" + conSvg.getColor() + "\" stroke-width=\"" + conSvg.getWidth() + "\" \n" +
-                        "      style=\" marker-end: url(#" + conSvg.getId() + ");\"/>"
-                        ;
+        String result = "<defs> " +
+                "   <marker id=\"" + arrowSVG.getId() + "\" markerWidth=\"" + arrowSVG.getMarkerWidth() + "\" markerHeight=\"" + arrowSVG.getMarkerHeight() + "\" refX=\"" + arrowSVG.getRefX() + "\" refY=\"" + arrowSVG.getRefY() + "\" orient=\"auto\" >\n" +
+                "        <path d=\"" + arrowSVG.getDim() + "\"  stroke=\"black\"  style=\"fill:" + arrowSVG.getColor() + "\";\" />" +
+                "  </marker>";
+        if (arrowsType.equals(ArrowsTypeEnum.DOUBLE_V_TYPE) && arrowSVG2 != null) {
+            result += "   <marker id=\"" + (arrowSVG.getId() + "2") + "\" markerWidth=\"" + arrowSVG2.getMarkerWidth() + "\" markerHeight=\"" + arrowSVG2.getMarkerHeight() + "\" refX=\"" + arrowSVG2.getRefX() + "\" refY=\"" + arrowSVG2.getRefY() + "\" orient=\"auto\" >\n" +
+                    "        <path d=\"" + arrowSVG2.getDim() + "\"  stroke=\"black\"  style=\"fill:" + arrowSVG2.getColor() + "\";\" />" +
+                    "  </marker>";
+        }
+        result += "</defs>;\n <path d=\"M" + conSvg.getX1() + "," + conSvg.getY1() + " L" + (conSvg.getX2() - 5) + "," + (conSvg.getY2() - 5) + "\" stroke-dasharray=\"" + dashWidth + "," + dashGap + " \" stroke=\"" + conSvg.getColor() + "\" stroke-width=\"" + conSvg.getWidth() + "\" \n" +
+                "style=\"" + (arrowsType.equals(ArrowsTypeEnum.DOUBLE_V_TYPE) ? " marker-start: url(#" + (arrowSVG.getId() + "2") + ");" : "") + " marker-end: url(#" + conSvg.getId() + ");\"/>"
+        ;
 
+        return result;
 
 
     }
+
     private static ConnectionSVG positionCondition(SVGSingleShape source, SVGSingleShape target) {
 
 
-       if (source ==null || target ==null) return null;
+        if (source == null || target == null) return null;
         int x1 = source.getX();
         int x11 = source.getWidth();
         int y1 = source.getY();
@@ -240,7 +279,7 @@ class ConnectionTools {
         if (x1 + x11 > maxX) maxX = x1 + x11;
         if (x2 + x22 > maxX) maxX = x2 + x22;
         ConnectionSVG conSVG = new ConnectionSVG();
-        conSVG.setId(source.getId()+"-"+target.getId());
+        conSVG.setId(source.getId() + "-" + target.getId());
         conSVG.setWidth(1);
         System.out.println("--00---------> Source name : " + source.getName() + " source.getX() = " + source.getX() + " - source.Width() = " + source.getWidth() + " - source.getX()+Width() = " + (source.getX() + source.getWidth()));
         System.out.println("--00---------> source.getY() = " + source.getY() + " source.getHeight() = " + source.getHeight() + " - source.getY()+Height = " + (source.getY() + source.getHeight()));
@@ -254,31 +293,31 @@ class ConnectionTools {
                     System.out.println("-----> y1>y2)");
                     if (y1 > (y2 + y22)) {
                         System.out.println("------> y1>(y2+y22)");
-                        conSVG.setX1(target.getX() + target.getWidth());
-                        conSVG.setX2(source.getX());
-                        conSVG.setY1(target.getY() + target.getHeight());
-                        conSVG.setY2(source.getY());
+                        conSVG.setX1(source.getX());
+                        conSVG.setX2(target.getX() + target.getWidth());
+                        conSVG.setY1(source.getY());
+                        conSVG.setY2(target.getY() + target.getHeight());
                     } else {
                         System.out.println("------> y1<=(y2+y22)");
-                        conSVG.setX1(target.getX() + target.getWidth());
-                        conSVG.setX2(source.getX());
-                        conSVG.setY1(target.getY() + target.getHeight() / 2);
-                        conSVG.setY2(source.getY() + source.getHeight() / 2);
+                        conSVG.setX1(source.getX());
+                        conSVG.setX2(target.getX() + target.getWidth());
+                        conSVG.setY1(source.getY() + source.getHeight() / 2);
+                        conSVG.setY2(target.getY() + target.getHeight() / 2);
                     }
                 } else {
                     System.out.println("-----> y1<y2)");
                     if (y2 > (y1 + y11)) {
                         System.out.println("----> y2>(y1+y11)");
-                        conSVG.setX1(target.getX() + target.getWidth());
-                        conSVG.setX2(source.getX());
-                        conSVG.setY1(target.getY());
-                        conSVG.setY2(source.getY() + source.getHeight());
+                        conSVG.setX1(source.getX());
+                        conSVG.setX2(target.getX() + target.getWidth());
+                        conSVG.setY1(source.getY() + source.getHeight());
+                        conSVG.setY2(target.getY());
                     } else {
                         System.out.println("----> y2<=(y1+y11)");
-                        conSVG.setX1(target.getX() + target.getWidth());
-                        conSVG.setX2(source.getX());
-                        conSVG.setY1(target.getY() + target.getHeight() / 2);
-                        conSVG.setY2(source.getY() + source.getHeight() / 2);
+                        conSVG.setX1(source.getX());
+                        conSVG.setX2(target.getX() + target.getWidth());
+                        conSVG.setY1(source.getY() + source.getHeight() / 2);
+                        conSVG.setY2(target.getY() + target.getHeight() / 2);
                     }
                 }
 
@@ -288,30 +327,30 @@ class ConnectionTools {
                     System.out.println("-----> y1>y2");
                     if (y1 > (y2 + y22)) {
                         System.out.println("------> y1>(y2+y22)");
-                        conSVG.setX1(target.getX() + target.getWidth() / 2);
-                        conSVG.setX2(source.getX() + source.getWidth() / 2);
-                        conSVG.setY1(target.getY() + target.getHeight());
-                        conSVG.setY2(source.getY());
+                        conSVG.setX1(source.getX() + source.getWidth() / 2);
+                        conSVG.setX2(target.getX() + target.getWidth() / 2);
+                        conSVG.setY1(source.getY());
+                        conSVG.setY2(target.getY() + target.getHeight());
                     } else {
                         System.out.println("------> y1<=(y2+y22)");
-                        conSVG.setX1(target.getX() + target.getWidth());
-                        conSVG.setX2(source.getX());
-                        conSVG.setY1(target.getY() + target.getHeight() / 2);
-                        conSVG.setY2(source.getY() + source.getHeight() / 2);
+                        conSVG.setX1(source.getX());
+                        conSVG.setX2(target.getX() + target.getWidth());
+                        conSVG.setY1(source.getY() + source.getHeight() / 2);
+                        conSVG.setY2(target.getY() + target.getHeight() / 2);
                     }
                 } else {
                     if (y2 > (y1 + y11)) {
                         System.out.println("----> y2>(y1+y11)");
-                        conSVG.setX1(target.getX() + target.getWidth() / 2);
-                        conSVG.setX2(source.getX() + source.getWidth() / 2);
-                        conSVG.setY1(target.getY());
-                        conSVG.setY2(source.getY() + source.getHeight());
+                        conSVG.setX1(source.getX() + source.getWidth() / 2);
+                        conSVG.setX2(target.getX() + target.getWidth() / 2);
+                        conSVG.setY1(source.getY() + source.getHeight());
+                        conSVG.setY2(target.getY());
                     } else {
                         System.out.println("----> y2<=(y1+y11)");
-                        conSVG.setX1(target.getX() + target.getWidth() / 2);
-                        conSVG.setX2(source.getX());
-                        conSVG.setY1(target.getY() + target.getHeight());
-                        conSVG.setY2(source.getY() + source.getHeight() / 2);
+                        conSVG.setX1(source.getX());
+                        conSVG.setX2(target.getX() + target.getWidth() / 2);
+                        conSVG.setY1(source.getY() + source.getHeight() / 2);
+                        conSVG.setY2(target.getY() + target.getHeight());
                     }
                 }
             }

@@ -26,6 +26,7 @@ public class SVGSingleShape {
     private String documentation;
     private String targetId;
     private String font;
+    private int fontSize;
     private String fontColor;
     private Map<String, String> connections;
 
@@ -179,6 +180,14 @@ public class SVGSingleShape {
 
     public void setFont(String font) {
         this.font = font;
+    }
+
+    public int getFontSize() {
+        return fontSize;
+    }
+
+    public void setFontSize(int fontSize) {
+        this.fontSize = fontSize;
     }
 
     public String getFontColor() {

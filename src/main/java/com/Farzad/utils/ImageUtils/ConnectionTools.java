@@ -114,6 +114,7 @@ class ConnectionTools {
 //                        "stroke=\"#000000\" stroke-width=\"" + lineWidth + "\"/>\n" +
 //                        "<circle cx=\"" + x2 + "\" cy=\"" + y2 + "\" r=\"3\" fill=\"#000000\" />";
             case READ_AND_WRITE:
+                conSVG.setDashArray(new int[]{2, 2});
                 return (makeArrows(conSVG, ArrowsTypeEnum.DOUBLE_V_TYPE) + putText(conSVG, source));
 
             case COMPOSITION:
@@ -157,27 +158,49 @@ class ConnectionTools {
     }
 
     private static String putText(ConnectionSVG svg, SVGSingleShape source) {
-//        double radian = 90;
-//        if ((svg.getX2() - svg.getX1())!= 0) {
-//            System.out.println("Y2 : "+svg.getY2()+" Y1 = "+svg.getY1() +" X2 "+svg.getX2()+" X1 "+svg.getX1());
-//            System.out.println("TTTTTT Tan : "+(double)(svg.getY2() - svg.getY1())/(double)(svg.getX2() - svg.getX1())+" Arc Tan = "+  Math.toRadians(Math.atan((double)(svg.getY2() - svg.getY1())/(double)(svg.getX2() - svg.getX1()))));
-//            radian = Math.toRadians(Math.atan(((double)(svg.getY2() - svg.getY1())/(double)(svg.getX2() - svg.getX1()))));
-//            radian =  (((double)(svg.getY2() - svg.getY1())/(double)(svg.getX2() - svg.getX1())) );
-//        }
-String path = "<defs>\n" +
-        "    <path id=\"Txt-"+svg.getId()+"\"\n" +
-        "          d=\"M " + ((svg.getX2()+svg.getX1()+2)/2) + " " + ((svg.getY2()+svg.getY1()+2)/2) + " \n" +
-        "             L " + svg.getX2() + " " + svg.getY2() +"\"/>\n"  +
-        "  </defs>\n";
-        return (source.getConnectionsType() != null ? path+"<text font-size=\""+source.getFontSize()+"\" font-family=\" " + source.getFont() +  "\" fill=\"#000000\" stroke=\"none\">\n" +
-                "<textPath xlink:href=\"#Txt-"+svg.getId()+"\"> " +
-                 source.getConnectionsType() +
+        int[] xy = getTextDirection(svg);
+        String path = "<defs>\n" +
+                "    <path id=\"Txt-" + svg.getId() + "\"\n" +
+//                "          d=\"M " + (xy[0]-(source.getConnectionsType() !=null?source.getConnectionsType().length()/2:0)) + " " + (xy[1]-(source.getConnectionsType() !=null?source.getConnectionsType().length()/2:0)) + " \n" +
+                "          d=\"M " + xy[0] + " " + xy[1] + " \n" +
+                "             L " + xy[2] + " " + xy[3] + "\"/>\n" +
+                "  </defs>\n";
+        return (source.getConnectionsType() != null ? path + "<text font-size=\"" + source.getFontSize() + "\" font-family=\" " + source.getFont() + "\" fill=\"#000000\" stroke=\"none\">\n" +
+                "<textPath   x=\""+(xy[0]+xy[2]/2)+"\" y=\""+(xy[1]+xy[3]/2)+"\" xlink:href=\"#Txt-" + svg.getId() + "\"> " +
+                source.getConnectionsType() +
                 "    </textPath>" +
                 " </text>\n" : "");
-//                " transform=\"rotate("+radian+"," + (svg.getX1() + svg.getX2()) / 2 + "," + (svg.getY1() + svg.getY2()) / 2 + ")\"     font-family=\"" + source.getFont() + "\" fill=\"#000000\"  >" + source.getConnectionsType() + "</text>\n" : "");
-//                " transform=\"skewX(25) font-family=\"" + source.getFont() + "\" fill=\"#000000\"  >" + source.getConnectionsType() + "</text>\n" : "");
-//        return "      <text x=\"" + x + "\" xml:space=\"preserve\" y=\"" + y + "\" clip-path=\"url(#clipPath20)\" stroke=\"none\"\n" +
-//                "      font-family=\"" + svgShape.getFont() + "\" fill=\"#FFFFFF\"  >" + svgShape.getName() + "</text>\n";
+    }
+private static int[] getTextDirection(ConnectionSVG svg) {
+    System.out.println("xxxxxx x1 : "+svg.getX1()+" x2 : "+svg.getX2()+" y1 : "+svg.getY1()+" y2 :  "+svg.getY2());
+//    int x1 = ((svg.getX2() + svg.getX1() + 2) / 2);
+    int x1 = ((svg.getX2() + svg.getX1() + 2) / 2);
+    int x2  ;
+//    int y1 = ((svg.getY2() + svg.getY1() + 2) / 2);
+    int y1 = ((svg.getY2() + svg.getY1() + 2) / 2);
+    int y2 ;
+        if(svg.getX2()>svg.getX1()){
+            if(svg.getY2()>svg.getY1()){
+                x2 = svg.getX2();
+                y2 = svg.getY1();
+            }else{
+                x2 = svg.getX2();
+                y2 = svg.getY2();
+            }
+        }else {
+            if(svg.getY2()>svg.getY1()){
+                x2 = svg.getX1();
+                y2 = svg.getY1();
+            }else{
+                x2 = svg.getX1();
+                y2 = svg.getY1();
+            }
+        }
+
+
+    System.out.println("xxxxxx x1 : "+x1+" x2 : "+x2+" y1 : "+y1+" y2 :  "+y2);
+
+    return new int[]{x1,y1,x2,y2};
     }
 
     private static String makeArrows(ConnectionSVG conSvg, ArrowsTypeEnum arrowsType) {
@@ -281,10 +304,10 @@ String path = "<defs>\n" +
         ConnectionSVG conSVG = new ConnectionSVG();
         conSVG.setId(source.getId() + "-" + target.getId());
         conSVG.setWidth(1);
-        System.out.println("--00---------> Source name : " + source.getName() + " source.getX() = " + source.getX() + " - source.Width() = " + source.getWidth() + " - source.getX()+Width() = " + (source.getX() + source.getWidth()));
-        System.out.println("--00---------> source.getY() = " + source.getY() + " source.getHeight() = " + source.getHeight() + " - source.getY()+Height = " + (source.getY() + source.getHeight()));
-        System.out.println("--00---------> Target name : " + target.getName() + " target.getX() = " + target.getX() + " - target.Width() = " + target.getWidth() + " - target.getX()+Width() = " + (target.getX() + target.getWidth()));
-        System.out.println("--00---------> target.getY() = " + target.getY() + " - target.getHeight() = " + target.getHeight() + " - target.getY()+Height = " + (target.getY() + target.getHeight()));
+//        System.out.println("--00---------> Source name : " + source.getName() + " source.getX() = " + source.getX() + " - source.Width() = " + source.getWidth() + " - source.getX()+Width() = " + (source.getX() + source.getWidth()));
+//        System.out.println("--00---------> source.getY() = " + source.getY() + " source.getHeight() = " + source.getHeight() + " - source.getY()+Height = " + (source.getY() + source.getHeight()));
+//        System.out.println("--00---------> Target name : " + target.getName() + " target.getX() = " + target.getX() + " - target.Width() = " + target.getWidth() + " - target.getX()+Width() = " + (target.getX() + target.getWidth()));
+//        System.out.println("--00---------> target.getY() = " + target.getY() + " - target.getHeight() = " + target.getHeight() + " - target.getY()+Height = " + (target.getY() + target.getHeight()));
         if (x1 > x2) {
             System.out.println("---> x1>x2");
             if (x1 > (x2 + x22)) {

@@ -64,6 +64,7 @@ class ConnectionTools {
 //        conSVG.setY2(target.getY());
 //        conSVG.setWidth(source.getStrokeWidth());
         conSVG.setColor("black");
+        conSVG.setType(connectionEnum.toString());
 //        int lineWidth = source.getStrokeWidth();
         source.setFontSize(13);
         switch (connectionEnum) {
@@ -165,14 +166,16 @@ class ConnectionTools {
                      " </text>\n" : "");
         }else {
             int[] xy = getTextDirection(svg);
+            String id = "Txt-" + svg.getId() + "-" + svg.getType() ;
+            System.out.println("idddddddd"+id);
             String path = "<defs>\n" +
-                    "    <path id=\"Txt-" + svg.getId() + "\"\n" +
+                    "    <path id=\"" +id + "\"" +
 //                "          d=\"M " + (xy[0]-(source.getConnectionsType() !=null?source.getConnectionsType().length()/2:0)) + " " + (xy[1]-(source.getConnectionsType() !=null?source.getConnectionsType().length()/2:0)) + " \n" +
                     "          d=\"M " + xy[0] + " " + xy[1] + " \n" +
                     "             L " + xy[2] + " " + xy[3] + "\"/>\n" +
                     "  </defs>\n";
             return (source.getConnectionsType() != null ? path + "<text font-size=\"" + source.getFontSize() + "\" font-family=\" " + source.getFont() + "\" fill=\"#000000\" stroke=\"none\">\n" +
-                    "<textPath x=\"" + (xy[0] + xy[2] / 2) + "\" y=\"" + (xy[1] + xy[3] / 2) + "\" xlink:href=\"#Txt-" + svg.getId() + "\"> " +
+                    "<textPath x=\"" + (xy[0] + xy[2] / 2) + "\" y=\"" + (xy[1] + xy[3] / 2) + "\" xlink:href=\"#" + id + "\"> " +
                     source.getConnectionsType() +
                     "    </textPath>" +
                     " </text>\n" : "");
@@ -269,7 +272,6 @@ private static int[] getTextDirection(ConnectionSVG svg) {
                 arrowSVG.setColor("#ffffff");
                 break;
             case DIAMOND_BLACK:
-                System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaahhhhhhhhhooooooooooooooooooo");
                 arrowSVG.setDim("M8,8 L14,11 L8,14 L2,11 L8,8");
                 arrowSVG.setMarkerWidth(16);
                 arrowSVG.setMarkerHeight(16);
@@ -288,7 +290,8 @@ private static int[] getTextDirection(ConnectionSVG svg) {
                     "  </marker>";
         }
         result += "</defs>;\n <path d=\"M" + conSvg.getX1() + "," + conSvg.getY1() + " L" + (conSvg.getX2() - 5) + "," + (conSvg.getY2() - 5) + "\" stroke-dasharray=\"" + dashWidth + "," + dashGap + " \" stroke=\"" + conSvg.getColor() + "\" stroke-width=\"" + conSvg.getWidth() + "\" \n" +
-                "style=\"" + (arrowsType.equals(ArrowsTypeEnum.DOUBLE_V_TYPE) ? " marker-start: url(#" + (arrowSVG.getId() + "2") + ");" : "") + " marker-end: url(#" + conSvg.getId() + ");\"/>"
+                "style=\"" + (arrowsType.equals(ArrowsTypeEnum.DOUBLE_V_TYPE) ? " marker-start: url(#" + (arrowSVG.getId() + "2") + ");" : "")
+                +  (arrowsType.equals(ArrowsTypeEnum.DIAMOND_BLACK) || arrowsType.equals(ArrowsTypeEnum.DIAMOND_WHITE) ? " marker-start: url(#" + arrowSVG.getId() + ")\";" :  " marker-end: url(#" + arrowSVG.getId() + ");\"")+"/>"
         ;
         System.out.println(result);
         return result;

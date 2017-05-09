@@ -7,7 +7,7 @@ import com.Farzad.Enums.ArchiEnum;
  * Created by FARzad - VOLCANO on 5/2/2017.
  */
 class ShapeTools {
-    private final static int opacity = 1;
+    private final static double opacity = 0.1;
 
     static String getSVGShape(SVGSingleShape svgShape) {
         if (ArchiEnum.APPLICATION_COLLABORATION.equalsName(svgShape.getElementType())) {
@@ -279,7 +279,6 @@ class ShapeTools {
 
     private static String SVGShapeCode(ArchiEnum archiEnum, SVGSingleShape svgShape) {
         StringBuilder result = null;
-        int opacity = 1;
         int x = svgShape.getX();
         int y = svgShape.getY();
         String color = null;

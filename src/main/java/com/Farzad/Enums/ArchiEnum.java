@@ -204,8 +204,8 @@ public enum ArchiEnum {
     }
     public boolean equalsName(String otherName) {
         // (otherName == null) check is not needed because name.equals(null) returns false
-        System.out.println("%%%%%%%%%%%%  Other name : "+otherName +" getStringValue() : " + (getStringValue() !=null?getStringValue().toLowerCase():"")
-                + " -- " + (otherName != null && getStringValue()!=null && getStringValue().toLowerCase().equals(otherName.toLowerCase())));
+//        System.out.println("%%%%%%%%%%%%  Other name : "+otherName +" getStringValue() : " + (getStringValue() !=null?getStringValue().toLowerCase():"")
+//                + " -- " + (otherName != null && getStringValue()!=null && getStringValue().toLowerCase().equals(otherName.toLowerCase())));
         return otherName != null && getStringValue()!=null && getStringValue().toLowerCase().equals(otherName.toLowerCase());
     }
 }

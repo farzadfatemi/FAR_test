@@ -42,7 +42,7 @@ public class GenerateSVG {
                     for (Map.Entry<String, String> con : obj.getValue().getConnections().entrySet()) {
 //                    for (String con : obj.getValue().getConnections()) {
 //                        System.out.println("conns : "+con.getKey()+" : "+con.getValue());
-                        String key = con.getKey().split("-").length>1?con.getKey().split("-")[1]:null;
+                        String key = con.getKey().split("-").length > 1 ? con.getKey().split("-")[1] : null;
                         if (All_MAIN_SVG_SHAPES_AND_CONNECTORS.containsKey(key)) {
 //                            System.out.println("All_MAIN_SVG_SHAPES_AND_CONNECTORS.containsKey : " + con.getValue());
                             svgSingleShape = All_MAIN_SVG_SHAPES_AND_CONNECTORS.get(key);
@@ -72,7 +72,7 @@ public class GenerateSVG {
                     for (Map.Entry<String, String> con : obj.getValue().getConnections().entrySet()) {
 //                        for (String con : obj.getValue().getConnections()) {
 //                        System.out.println("con.getKey()" + con.getKey());
-                        String key = con.getKey().split("-").length>1?con.getKey().split("-")[1]:null;
+                        String key = con.getKey().split("-").length > 1 ? con.getKey().split("-")[1] : null;
                         if (All_CHILDREN_SVG_SHAPES_AND_CONNECTORS.containsKey(key)) {
                             svgChildSingleShape = All_CHILDREN_SVG_SHAPES_AND_CONNECTORS.get(key);
 //                            System.out.println("-- con.getKey() -- " + con.getKey() + " -- " + All_CHILDREN_SVG_SHAPES_AND_CONNECTORS.get(key).getId());
@@ -191,15 +191,16 @@ public class GenerateSVG {
                     for (Object iDiModelConnObj : SourceConList) {
                         makeUniqueID++;
                         if (((IDiagramModelConnection) iDiModelConnObj).getTarget() != null) {
-                            sourceAndTarget.put(makeUniqueID+"-"+((IDiagramModelConnection) iDiModelConnObj).getTarget().getId(), ((IDiagramModelConnection) iDiModelConnObj).getName());
+                            sourceAndTarget.put(makeUniqueID + "-" + ((IDiagramModelConnection) iDiModelConnObj).getTarget().getId(), ((IDiagramModelConnection) iDiModelConnObj).getName());
 //                            sourceAndTarget.add(((IDiagramModelConnection) iDiModelConnObj).getTarget().getId());
+
                             System.out.println(((IDiagramModelConnection) iDiModelConnObj).getTarget().getId() + "-- --4---4---" + ((IDiagramModelConnection) iDiModelConnObj).getTarget().getName() + "-- --4---4---" + ((IDiagramModelConnection) iDiModelConnObj).getName());
                         }
 
 
-                            for (Map.Entry<String, String> a : sourceAndTarget.entrySet()) {
-                                System.out.println("-------------------*  sourceAndTarget " + a.getValue());
-                            }
+                        for (Map.Entry<String, String> a : sourceAndTarget.entrySet()) {
+                            System.out.println("-------------------*  sourceAndTarget " + a.getValue());
+                        }
                     }
 
                     try {
@@ -234,7 +235,7 @@ public class GenerateSVG {
                                         for (Object iDiModelConnObj : childSourceConList) {
                                             makeUniqueIDChild++;
                                             if (((IDiagramModelConnection) iDiModelConnObj).getTarget() != null) {
-                                                childSourceAndTargets.put(makeUniqueIDChild+"-"+((IDiagramModelConnection) iDiModelConnObj).getTarget().getId(), ((IDiagramModelConnection) iDiModelConnObj).getName());
+                                                childSourceAndTargets.put(makeUniqueIDChild + "-" + ((IDiagramModelConnection) iDiModelConnObj).getTarget().getId(), ((IDiagramModelConnection) iDiModelConnObj).getName());
 
                                             }
                                         }

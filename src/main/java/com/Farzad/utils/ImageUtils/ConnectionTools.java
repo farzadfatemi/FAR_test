@@ -15,7 +15,7 @@ class ConnectionTools {
     static String getSVGline(SVGSingleShape source, SVGSingleShape target) {
 //        System.out.println(source !=null?source.getName() +" target id : "+target.getId()+" target name : "+target.getName():"nuuul");
         if (source != null && source.getConnectionsType() != null) {
-            System.out.println(source.getConnectionsType()+"--**--"+source.getName()+" target id : "+target.getId()+" target name : "+target.getName());
+            System.out.println(source.getConnectionsType() + "--**--" + source.getName() + " target id : " + target.getId() + " target name : " + target.getName());
             if (ConnectionsEnum.ACCESSES.equalsName(source.getConnectionsType().toLowerCase())) {
                 return lineSVGCode(source, target, ConnectionsEnum.ACCESSES);
             } else if (ConnectionsEnum.ASSIGNED.equalsName(source.getConnectionsType().toLowerCase())) {
@@ -63,7 +63,7 @@ class ConnectionTools {
 //        conSVG.setY1(source.getY());
 //        conSVG.setY2(target.getY());
 //        conSVG.setWidth(source.getStrokeWidth());
-        conSVG.setColor("black");
+        conSVG.setColor("#c1bdbd");
         conSVG.setType(connectionEnum.toString());
 //        int lineWidth = source.getStrokeWidth();
         source.setFontSize(13);
@@ -159,17 +159,25 @@ class ConnectionTools {
     }
 
     private static String putText(ConnectionSVG svg, SVGSingleShape source) {
-        if(Math.abs(svg.getX2() - svg.getX1())<60 && Math.abs(svg.getY2() - svg.getY1()) <60){
-            return (source.getConnectionsType() != null ?"<text font-size=\"" + source.getFontSize() + "\" font-family=\" " + source.getFont() +
-                    "\" x=\""+((svg.getX2() + svg.getX1() ) / 2)+"\" y=\""+((svg.getY2() + svg.getY1() ) / 2)+"\" fill=\"#000000\" stroke=\"none\">\n" +
-                     source.getConnectionsType() +
-                     " </text>\n" : "");
-        }else {
+        return (source.getConnectionsType() != null ? "<text font-size=\"" + source.getFontSize() + "\" font-family=\" " + source.getFont() +
+                "\" x=\"" + ((svg.getX2() + svg.getX1()) / 2) + "\" y=\"" + ((svg.getY2() + svg.getY1()) / 2) + "\" fill=\"#000000\" stroke=\"none\">\n" +
+                source.getConnectionsType() +
+                " </text>\n" : "");
+
+    }
+
+    private static String putTextWithDirection(ConnectionSVG svg, SVGSingleShape source) {
+        if (Math.abs(svg.getX2() - svg.getX1()) < 60 && Math.abs(svg.getY2() - svg.getY1()) < 60) {
+            return (source.getConnectionsType() != null ? "<text font-size=\"" + source.getFontSize() + "\" font-family=\" " + source.getFont() +
+                    "\" x=\"" + ((svg.getX2() + svg.getX1()) / 2) + "\" y=\"" + ((svg.getY2() + svg.getY1()) / 2) + "\" fill=\"#000000\" stroke=\"none\">\n" +
+                    source.getConnectionsType() +
+                    " </text>\n" : "");
+        } else {
             int[] xy = getTextDirection(svg);
-            String id = "Txt-" + svg.getId() + "-" + svg.getType() ;
-            System.out.println("idddddddd"+id);
+            String id = "Txt-" + svg.getId() + "-" + svg.getType();
+            System.out.println("idddddddd" + id);
             String path = "<defs>\n" +
-                    "    <path id=\"" +id + "\"" +
+                    "    <path id=\"" + id + "\"" +
 //                "          d=\"M " + (xy[0]-(source.getConnectionsType() !=null?source.getConnectionsType().length()/2:0)) + " " + (xy[1]-(source.getConnectionsType() !=null?source.getConnectionsType().length()/2:0)) + " \n" +
                     "          d=\"M " + xy[0] + " " + xy[1] + " \n" +
                     "             L " + xy[2] + " " + xy[3] + "\"/>\n" +
@@ -181,37 +189,38 @@ class ConnectionTools {
                     " </text>\n" : "");
         }
     }
-private static int[] getTextDirection(ConnectionSVG svg) {
-    System.out.println("xxxxxx x1 : "+svg.getX1()+" x2 : "+svg.getX2()+" y1 : "+svg.getY1()+" y2 :  "+svg.getY2());
-    int x1 = ((svg.getX2() + svg.getX1() + 2) / 2);
-//    int x1 = ((svg.getX2() + svg.getX1() ) / 2);
-    int x2  ;
-//    int y1 = ((svg.getY2() + svg.getY1() + 2) / 2);
-    int y1 = ((svg.getY2() + svg.getY1() ) / 2);
-    int y2 ;
 
-        if(svg.getX2()>svg.getX1()){
-            if(svg.getY2()>svg.getY1()){
+    private static int[] getTextDirection(ConnectionSVG svg) {
+        System.out.println("xxxxxx x1 : " + svg.getX1() + " x2 : " + svg.getX2() + " y1 : " + svg.getY1() + " y2 :  " + svg.getY2());
+        int x1 = ((svg.getX2() + svg.getX1() + 2) / 2);
+//    int x1 = ((svg.getX2() + svg.getX1() ) / 2);
+        int x2;
+//    int y1 = ((svg.getY2() + svg.getY1() + 2) / 2);
+        int y1 = ((svg.getY2() + svg.getY1()) / 2);
+        int y2;
+
+        if (svg.getX2() > svg.getX1()) {
+            if (svg.getY2() > svg.getY1()) {
                 x2 = svg.getX2();
                 y2 = svg.getY1();
-            }else{
+            } else {
                 x2 = svg.getX2();
                 y2 = svg.getY2();
             }
-        }else {
-            if(svg.getY2()>svg.getY1()){
+        } else {
+            if (svg.getY2() > svg.getY1()) {
                 x2 = svg.getX1();
                 y2 = svg.getY1();
-            }else{
+            } else {
                 x2 = svg.getX1();
                 y2 = svg.getY1();
             }
         }
 
 
-    System.out.println("xxxxxx x1 : "+x1+" x2 : "+x2+" y1 : "+y1+" y2 :  "+y2);
+        System.out.println("xxxxxx x1 : " + x1 + " x2 : " + x2 + " y1 : " + y1 + " y2 :  " + y2);
 
-    return new int[]{x1,y1,x2,y2};
+        return new int[]{x1, y1, x2, y2};
     }
 
     private static String makeArrows(ConnectionSVG conSvg, ArrowsTypeEnum arrowsType) {
@@ -289,9 +298,10 @@ private static int[] getTextDirection(ConnectionSVG svg) {
                     "        <path d=\"" + arrowSVG2.getDim() + "\"  stroke=\"black\"  style=\"fill:" + arrowSVG2.getColor() + "\";\" />" +
                     "  </marker>";
         }
-        result += "</defs>;\n <path d=\"M" + conSvg.getX1() + "," + conSvg.getY1() + " L" + (conSvg.getX2() - 5) + "," + (conSvg.getY2() - 5) + "\" stroke-dasharray=\"" + dashWidth + "," + dashGap + " \" stroke=\"" + conSvg.getColor() + "\" stroke-width=\"" + conSvg.getWidth() + "\" \n" +
+        result += "</defs>;\n " +
+                "<path d=\"M" + conSvg.getX1() + "," + conSvg.getY1() + " L" + (conSvg.getX2() ) + "," + (conSvg.getY2()) + "\" stroke-dasharray=\"" + dashWidth + "," + dashGap + " \" stroke=\"" + conSvg.getColor() + "\" stroke-width=\"" + conSvg.getWidth() + "\" \n" +
                 "style=\"" + (arrowsType.equals(ArrowsTypeEnum.DOUBLE_V_TYPE) ? " marker-start: url(#" + (arrowSVG.getId() + "2") + ");" : "")
-                +  (arrowsType.equals(ArrowsTypeEnum.DIAMOND_BLACK) || arrowsType.equals(ArrowsTypeEnum.DIAMOND_WHITE) ? " marker-start: url(#" + arrowSVG.getId() + ")\";" :  " marker-end: url(#" + arrowSVG.getId() + ");\"")+"/>"
+                + (arrowsType.equals(ArrowsTypeEnum.DIAMOND_BLACK) || arrowsType.equals(ArrowsTypeEnum.DIAMOND_WHITE) ? " marker-start: url(#" + arrowSVG.getId() + ")\";" : " marker-end: url(#" + arrowSVG.getId() + ");\"") + "/>"
         ;
         System.out.println(result);
         return result;
@@ -311,6 +321,7 @@ private static int[] getTextDirection(ConnectionSVG svg) {
         int x22 = target.getWidth();
         int y2 = target.getY();
         int y22 = target.getHeight();
+        int tempY = 0;
         if (x1 + x11 > maxX) maxX = x1 + x11;
         if (x2 + x22 > maxX) maxX = x2 + x22;
         ConnectionSVG conSVG = new ConnectionSVG();
@@ -337,7 +348,13 @@ private static int[] getTextDirection(ConnectionSVG svg) {
                         conSVG.setX1(source.getX());
                         conSVG.setX2(target.getX() + target.getWidth());
                         conSVG.setY1(source.getY() + source.getHeight() / 2);
-                        conSVG.setY2(target.getY() + target.getHeight() / 2);
+                        conSVG.setY2(source.getY() + source.getHeight() / 2);
+//                        conSVG.setY1(source.getY() + 2);
+//                        conSVG.setY2((source.getY() + 2) > target.getY() && (source.getY() + 2) < target.getY() + target.getHeight() ? (source.getY() + 2) : target.getY() + target.getHeight() - 2);
+//                     conSVG.setX1(source.getX());
+//                        conSVG.setX2(target.getX() + target.getWidth());
+//                        conSVG.setY1(source.getY() + source.getHeight() / 2);
+//                        conSVG.setY2(target.getY() + target.getHeight() / 2);
                     }
                 } else {
                     System.out.println("-----> y1<y2)");
@@ -351,8 +368,12 @@ private static int[] getTextDirection(ConnectionSVG svg) {
                         System.out.println("----> y2<=(y1+y11)");
                         conSVG.setX1(source.getX());
                         conSVG.setX2(target.getX() + target.getWidth());
-                        conSVG.setY1(source.getY() + source.getHeight() / 2);
+                        conSVG.setY1(target.getY() + target.getHeight() / 2);
+//                        conSVG.setY1(source.getY()+ 2);
+//                        conSVG.setY1(source.getY() + source.getHeight() / 2);
                         conSVG.setY2(target.getY() + target.getHeight() / 2);
+//                        conSVG.setY2((source.getY() +2)> target.getY()&& (source.getY() +2)< target.getY() + target.getHeight()? (source.getY() +2):target.getY() + target.getHeight() - 2);
+//                        conSVG.setY2(target.getY() + target.getHeight() / 2);
                     }
                 }
 
@@ -363,7 +384,8 @@ private static int[] getTextDirection(ConnectionSVG svg) {
                     if (y1 > (y2 + y22)) {
                         System.out.println("------> y1>(y2+y22)");
                         conSVG.setX1(source.getX() + source.getWidth() / 2);
-                        conSVG.setX2(target.getX() + target.getWidth() / 2);
+                        conSVG.setX2(source.getX() + source.getWidth() / 2);
+//                        conSVG.setX2(target.getX() + target.getWidth() / 2);
                         conSVG.setY1(source.getY());
                         conSVG.setY2(target.getY() + target.getHeight());
                     } else {
@@ -377,7 +399,8 @@ private static int[] getTextDirection(ConnectionSVG svg) {
                     if (y2 > (y1 + y11)) {
                         System.out.println("----> y2>(y1+y11)");
                         conSVG.setX1(source.getX() + source.getWidth() / 2);
-                        conSVG.setX2(target.getX() + target.getWidth() / 2);
+                        conSVG.setX2(source.getX() + source.getWidth() / 2);
+//                        conSVG.setX2(target.getX() + target.getWidth() / 2);
                         conSVG.setY1(source.getY() + source.getHeight());
                         conSVG.setY2(target.getY());
                     } else {
@@ -406,7 +429,8 @@ private static int[] getTextDirection(ConnectionSVG svg) {
                         conSVG.setX1(source.getX() + source.getWidth());
                         conSVG.setX2(target.getX());
                         conSVG.setY1(source.getY() + source.getHeight() / 2);
-                        conSVG.setY2(target.getY() + target.getHeight() / 2);
+                        conSVG.setY2((source.getY() + source.getHeight() / 2)<(target.getY() + target.getHeight())?(source.getY() + source.getHeight() / 2):target.getY() + target.getHeight() / 2);
+//                        conSVG.setY2(target.getY() + target.getHeight() / 2);
                     }
                 } else {
                     if (y2 > (y1 + y11)) {
@@ -419,8 +443,12 @@ private static int[] getTextDirection(ConnectionSVG svg) {
                         System.out.println("------> y2<=(y1+y11)");
                         conSVG.setX1(source.getX() + source.getWidth());
                         conSVG.setX2(target.getX());
-                        conSVG.setY1(source.getY() + source.getHeight() / 2);
+                        conSVG.setY1(target.getY() + target.getHeight() / 2);
                         conSVG.setY2(target.getY() + target.getHeight() / 2);
+//                        conSVG.setY1(source.getY() + source.getHeight() / 2);
+//                        conSVG.setY2(target.getY() + target.getHeight() / 2);
+//
+
                     }
                 }
             } else {
@@ -430,7 +458,8 @@ private static int[] getTextDirection(ConnectionSVG svg) {
                     if (y1 > (y2 + y22)) {
                         System.out.println("------> y1>(y2+y22)");
                         conSVG.setX1(source.getX() + source.getWidth() / 2);
-                        conSVG.setX2(target.getX() + target.getWidth() / 2);
+                        conSVG.setX2(source.getX() + source.getWidth() / 2);
+//                        conSVG.setX2(target.getX() + target.getWidth() / 2);
                         conSVG.setY1(source.getY());
                         conSVG.setY2(target.getY() + target.getHeight());
                     } else {

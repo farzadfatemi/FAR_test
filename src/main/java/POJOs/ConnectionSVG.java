@@ -1,6 +1,7 @@
 package POJOs;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by FARzad - VOLCANO on 5/3/2017.
@@ -16,6 +17,7 @@ public class ConnectionSVG {
     private String color;
     private String type;
     private String name;
+    private List<BendPoints> bindPoints;
 
     public int getX1() {
         return x1;
@@ -97,6 +99,14 @@ public class ConnectionSVG {
         this.name = name;
     }
 
+    public List<BendPoints> getBindPoints() {
+        return bindPoints;
+    }
+
+    public void setBindPoints(List<BendPoints> bindPoints) {
+        this.bindPoints = bindPoints;
+    }
+
     @Override
     public String toString() {
         return "ConnectionSVG{" +
@@ -111,5 +121,43 @@ public class ConnectionSVG {
                 ", type='" + type + '\'' +
                 ", name='" + name + '\'' +
                 '}';
+    }
+    private class BendPoints{
+        private String startX;
+        private String startY;
+        private String endX;
+        private String endY;
+
+        public String getStartX() {
+            return startX;
+        }
+
+        public void setStartX(String startX) {
+            this.startX = startX;
+        }
+
+        public String getStartY() {
+            return startY;
+        }
+
+        public void setStartY(String startY) {
+            this.startY = startY;
+        }
+
+        public String getEndX() {
+            return endX;
+        }
+
+        public void setEndX(String endX) {
+            this.endX = endX;
+        }
+
+        public String getEndY() {
+            return endY;
+        }
+
+        public void setEndY(String endY) {
+            this.endY = endY;
+        }
     }
 }

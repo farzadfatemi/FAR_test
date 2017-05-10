@@ -53,7 +53,7 @@ public class GenerateSVG {
                             System.out.println("** con.getKey() -- " + svgSingleShape.getName() + " -- " + obj.getValue().getName());
                         }
                         System.out.println("con.getValue()********************" + con.getValue());
-                        if (svgSingleShape != null) {
+                         if (svgSingleShape != null) {
                             obj.getValue().setConnectionsType(con.getValue());
 //                            System.out.println("svgSingleShape : "+svgSingleShape.getId()+" : "+svgSingleShape.getName());
 //                            System.out.println("obj.getValue() : "+obj.getValue().getId()+" : "+obj.getValue().getName());

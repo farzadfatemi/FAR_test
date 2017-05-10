@@ -159,7 +159,15 @@ class ConnectionTools {
     }
 
     private static String putText(ConnectionSVG svg, SVGSingleShape source) {
-        return (source.getConnectionsType() != null ? "<text font-size=\"" + source.getFontSize() + "\" font-family=\" " + source.getFont() +
+        String textAnchor = "start";
+        if(svg.getY2() - svg.getY1()==0){
+            textAnchor = "middle";
+            svg.setY1(svg.getY1()-8);
+        }else{
+            svg.setX1(svg.getX1()+8);
+        }
+
+        return (source.getConnectionsType() != null ? "<text text-anchor=\""+textAnchor+"\" font-size=\"" + source.getFontSize() + "\" font-family=\" " + source.getFont() +
                 "\" x=\"" + ((svg.getX2() + svg.getX1()) / 2) + "\" y=\"" + ((svg.getY2() + svg.getY1()) / 2) + "\" fill=\"#000000\" stroke=\"none\">\n" +
                 source.getConnectionsType() +
                 " </text>\n" : "");
@@ -310,7 +318,8 @@ class ConnectionTools {
     }
 
     private static ConnectionSVG positionCondition(SVGSingleShape source, SVGSingleShape target) {
-
+        // the border should avoid from startpoint/endpoint connection
+        int shapeBorderWidth = 4;
 
         if (source == null || target == null) return null;
         int x1 = source.getX();
@@ -321,7 +330,6 @@ class ConnectionTools {
         int x22 = target.getWidth();
         int y2 = target.getY();
         int y22 = target.getHeight();
-        int tempY = 0;
         if (x1 + x11 > maxX) maxX = x1 + x11;
         if (x2 + x22 > maxX) maxX = x2 + x22;
         ConnectionSVG conSVG = new ConnectionSVG();
@@ -369,14 +377,17 @@ class ConnectionTools {
                         conSVG.setX1(source.getX());
                         conSVG.setX2(target.getX() + target.getWidth());
                         conSVG.setY1(target.getY() + target.getHeight() / 2);
+                        conSVG.setY2(target.getY() + target.getHeight() / 2);
 //                        conSVG.setY1(source.getY()+ 2);
 //                        conSVG.setY1(source.getY() + source.getHeight() / 2);
-                        conSVG.setY2(target.getY() + target.getHeight() / 2);
 //                        conSVG.setY2((source.getY() +2)> target.getY()&& (source.getY() +2)< target.getY() + target.getHeight()? (source.getY() +2):target.getY() + target.getHeight() - 2);
 //                        conSVG.setY2(target.getY() + target.getHeight() / 2);
                     }
                 }
-
+            conSVG.setX1(conSVG.getX1()-4);
+            conSVG.setX2(conSVG.getX2()+4);
+//            conSVG.setY1(conSVG.getY1()-4);
+//            conSVG.setY2(conSVG.getY2()+4);
             } else {
                 System.out.println("----> x1<=(x2+x22)");
                 if (y1 > y2) {

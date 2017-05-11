@@ -69,6 +69,7 @@ class ConnectionTools {
         source.setFontSize(13);
         switch (connectionEnum) {
             case ACCESSES:
+                conSVG.setX1(conSVG.getX1() + 4);
                 return (makeLine(conSVG) + putText(conSVG, source));
 //              return  " <circle cx=\"" + x1 + "\" cy=\"" + y1 + "\" r=\"3\" fill=\"#000000\" />" +
 //                        "      <line stroke-dasharray=\"2, 2\" fill=\"black\" x1=\"" + x1 + "\" x2=\"" + x2 + "\" y1=\"" + y1 + "\" y2=\"" + y2 + "\" " +
@@ -160,14 +161,14 @@ class ConnectionTools {
 
     private static String putText(ConnectionSVG svg, SVGSingleShape source) {
         String textAnchor = "start";
-        if(svg.getY2() - svg.getY1()==0){
+        if (svg.getY2() - svg.getY1() == 0) {
             textAnchor = "middle";
-            svg.setY1(svg.getY1()-8);
-        }else{
-            svg.setX1(svg.getX1()+8);
+            svg.setY1(svg.getY1() - 8);
+        } else {
+            svg.setX1(svg.getX1() + 8);
         }
 
-        return (source.getConnectionsType() != null ? "<text text-anchor=\""+textAnchor+"\" font-size=\"" + source.getFontSize() + "\" font-family=\" " + source.getFont() +
+        return (source.getConnectionsType() != null ? "<text text-anchor=\"" + textAnchor + "\" font-size=\"" + source.getFontSize() + "\" font-family=\" " + source.getFont() +
                 "\" x=\"" + ((svg.getX2() + svg.getX1()) / 2) + "\" y=\"" + ((svg.getY2() + svg.getY1()) / 2) + "\" fill=\"#000000\" stroke=\"none\">\n" +
                 source.getConnectionsType() +
                 " </text>\n" : "");
@@ -245,7 +246,7 @@ class ConnectionTools {
                 arrowSVG.setDim("M2,2 L2,13 L8,7 L2,2");
                 arrowSVG.setMarkerWidth(13);
                 arrowSVG.setMarkerHeight(13);
-                arrowSVG.setRefX(8);
+                arrowSVG.setRefX(7);
                 arrowSVG.setRefY(7);
                 arrowSVG.setColor("#000000");
                 break;
@@ -253,7 +254,7 @@ class ConnectionTools {
                 arrowSVG.setDim("M2,2 L2,13 L8,7 L2,2");
                 arrowSVG.setMarkerWidth(13);
                 arrowSVG.setMarkerHeight(13);
-                arrowSVG.setRefX(8);
+                arrowSVG.setRefX(7);
                 arrowSVG.setRefY(7);
                 arrowSVG.setColor("#ffffff");
                 break;
@@ -261,7 +262,7 @@ class ConnectionTools {
                 arrowSVG.setDim("M2,2 L8,7 L2,13 L8,7 L2,2");
                 arrowSVG.setMarkerWidth(13);
                 arrowSVG.setMarkerHeight(13);
-                arrowSVG.setRefX(8);
+                arrowSVG.setRefX(7);
                 arrowSVG.setRefY(7);
                 arrowSVG.setColor("#000000");
                 break;
@@ -269,14 +270,14 @@ class ConnectionTools {
                 arrowSVG.setDim("M2,2 L8,7 L2,13 L8,7 L2,2");
                 arrowSVG.setMarkerWidth(13);
                 arrowSVG.setMarkerHeight(13);
-                arrowSVG.setRefX(8);
+                arrowSVG.setRefX(7);
                 arrowSVG.setRefY(7);
                 arrowSVG.setColor("#000000");
                 arrowSVG2 = new ArrowSVG();
                 arrowSVG2.setDim("M8,8 L2,13 L8,18 L2,13 L8,8");
                 arrowSVG2.setMarkerWidth(16);
                 arrowSVG2.setMarkerHeight(18);
-                arrowSVG2.setRefX(5);
+                arrowSVG2.setRefX(4);
                 arrowSVG2.setRefY(13);
                 arrowSVG2.setColor("#000000");
                 break;
@@ -284,7 +285,7 @@ class ConnectionTools {
                 arrowSVG.setDim("M8,8 L14,11 L8,14 L2,11 L8,8");
                 arrowSVG.setMarkerWidth(16);
                 arrowSVG.setMarkerHeight(16);
-                arrowSVG.setRefX(8);
+                arrowSVG.setRefX(1);
                 arrowSVG.setRefY(11);
                 arrowSVG.setColor("#ffffff");
                 break;
@@ -292,7 +293,7 @@ class ConnectionTools {
                 arrowSVG.setDim("M8,8 L14,11 L8,14 L2,11 L8,8");
                 arrowSVG.setMarkerWidth(16);
                 arrowSVG.setMarkerHeight(16);
-                arrowSVG.setRefX(8);
+                arrowSVG.setRefX(1);
                 arrowSVG.setRefY(11);
                 arrowSVG.setColor("#000000");
                 break;
@@ -307,7 +308,7 @@ class ConnectionTools {
                     "  </marker>";
         }
         result += "</defs>;\n " +
-                "<path d=\"M" + conSvg.getX1() + "," + conSvg.getY1() + " L" + (conSvg.getX2() ) + "," + (conSvg.getY2()) + "\" stroke-dasharray=\"" + dashWidth + "," + dashGap + " \" stroke=\"" + conSvg.getColor() + "\" stroke-width=\"" + conSvg.getWidth() + "\" \n" +
+                "<path d=\"M" + conSvg.getX1() + "," + conSvg.getY1() + " L" + (conSvg.getX2()) + "," + (conSvg.getY2()) + "\" stroke-dasharray=\"" + dashWidth + "," + dashGap + " \" stroke=\"" + conSvg.getColor() + "\" stroke-width=\"" + conSvg.getWidth() + "\" \n" +
                 "style=\"" + (arrowsType.equals(ArrowsTypeEnum.DOUBLE_V_TYPE) ? " marker-start: url(#" + (arrowSVG.getId() + "2") + ");" : "")
                 + (arrowsType.equals(ArrowsTypeEnum.DIAMOND_BLACK) || arrowsType.equals(ArrowsTypeEnum.DIAMOND_WHITE) ? " marker-start: url(#" + arrowSVG.getId() + ")\";" : " marker-end: url(#" + arrowSVG.getId() + ");\"") + "/>"
         ;
@@ -347,14 +348,14 @@ class ConnectionTools {
                     System.out.println("-----> y1>y2)");
                     if (y1 > (y2 + y22)) {
                         System.out.println("------> y1>(y2+y22)");
-                        conSVG.setX1(source.getX());
-                        conSVG.setX2(target.getX() + target.getWidth());
-                        conSVG.setY1(source.getY());
-                        conSVG.setY2(target.getY() + target.getHeight());
+                        conSVG.setX1(source.getX() - shapeBorderWidth);
+                        conSVG.setX2(target.getX() + target.getWidth() + shapeBorderWidth);
+                        conSVG.setY1(source.getY() - shapeBorderWidth);
+                        conSVG.setY2(target.getY() + target.getHeight() + shapeBorderWidth);
                     } else {
                         System.out.println("------> y1<=(y2+y22)");
-                        conSVG.setX1(source.getX());
-                        conSVG.setX2(target.getX() + target.getWidth());
+                        conSVG.setX1(source.getX() - shapeBorderWidth);
+                        conSVG.setX2(target.getX() + target.getWidth() + shapeBorderWidth);
                         conSVG.setY1(source.getY() + source.getHeight() / 2);
                         conSVG.setY2(source.getY() + source.getHeight() / 2);
 //                        conSVG.setY1(source.getY() + 2);
@@ -365,17 +366,17 @@ class ConnectionTools {
 //                        conSVG.setY2(target.getY() + target.getHeight() / 2);
                     }
                 } else {
-                    System.out.println("-----> y1<y2)");
+                    System.out.println("-----> y2>y1)");
                     if (y2 > (y1 + y11)) {
                         System.out.println("----> y2>(y1+y11)");
-                        conSVG.setX1(source.getX());
-                        conSVG.setX2(target.getX() + target.getWidth());
-                        conSVG.setY1(source.getY() + source.getHeight());
-                        conSVG.setY2(target.getY());
+                        conSVG.setX1(source.getX() - shapeBorderWidth);
+                        conSVG.setX2(target.getX() + target.getWidth() + shapeBorderWidth);
+                        conSVG.setY1(source.getY() + source.getHeight() + shapeBorderWidth);
+                        conSVG.setY2(target.getY() - shapeBorderWidth);
                     } else {
                         System.out.println("----> y2<=(y1+y11)");
-                        conSVG.setX1(source.getX());
-                        conSVG.setX2(target.getX() + target.getWidth());
+                        conSVG.setX1(source.getX() - shapeBorderWidth);
+                        conSVG.setX2(target.getX() + target.getWidth() + shapeBorderWidth);
                         conSVG.setY1(target.getY() + target.getHeight() / 2);
                         conSVG.setY2(target.getY() + target.getHeight() / 2);
 //                        conSVG.setY1(source.getY()+ 2);
@@ -384,10 +385,7 @@ class ConnectionTools {
 //                        conSVG.setY2(target.getY() + target.getHeight() / 2);
                     }
                 }
-            conSVG.setX1(conSVG.getX1()-4);
-            conSVG.setX2(conSVG.getX2()+4);
-//            conSVG.setY1(conSVG.getY1()-4);
-//            conSVG.setY2(conSVG.getY2()+4);
+
             } else {
                 System.out.println("----> x1<=(x2+x22)");
                 if (y1 > y2) {
@@ -397,29 +395,30 @@ class ConnectionTools {
                         conSVG.setX1(source.getX() + source.getWidth() / 2);
                         conSVG.setX2(source.getX() + source.getWidth() / 2);
 //                        conSVG.setX2(target.getX() + target.getWidth() / 2);
-                        conSVG.setY1(source.getY());
-                        conSVG.setY2(target.getY() + target.getHeight());
+                        conSVG.setY1(source.getY() - shapeBorderWidth);
+                        conSVG.setY2(target.getY() + target.getHeight() + shapeBorderWidth);
                     } else {
                         System.out.println("------> y1<=(y2+y22)");
-                        conSVG.setX1(source.getX());
-                        conSVG.setX2(target.getX() + target.getWidth());
-                        conSVG.setY1(source.getY() + source.getHeight() / 2);
-                        conSVG.setY2(target.getY() + target.getHeight() / 2);
+                        conSVG.setX1(source.getX() - shapeBorderWidth);
+                        conSVG.setX2(target.getX() + target.getWidth() / 2 + shapeBorderWidth);
+                        conSVG.setY1(source.getY() + source.getHeight() / 2 - shapeBorderWidth);
+                        conSVG.setY2(target.getY() + target.getHeight() + shapeBorderWidth);
                     }
                 } else {
+                    System.out.println("-----> y2>y1");
                     if (y2 > (y1 + y11)) {
                         System.out.println("----> y2>(y1+y11)");
                         conSVG.setX1(source.getX() + source.getWidth() / 2);
-                        conSVG.setX2(source.getX() + source.getWidth() / 2);
+                        conSVG.setX2(source.getX() + source.getWidth() / 2 > x2 && source.getX() + source.getWidth() / 2 < x2 + x22 ? source.getX() + source.getWidth() / 2 : target.getX() + target.getWidth());
 //                        conSVG.setX2(target.getX() + target.getWidth() / 2);
-                        conSVG.setY1(source.getY() + source.getHeight());
-                        conSVG.setY2(target.getY());
+                        conSVG.setY1(source.getY() + source.getHeight()+ shapeBorderWidth);
+                        conSVG.setY2(target.getY()- shapeBorderWidth);
                     } else {
                         System.out.println("----> y2<=(y1+y11)");
-                        conSVG.setX1(source.getX());
+                        conSVG.setX1(source.getX() - shapeBorderWidth);
                         conSVG.setX2(target.getX() + target.getWidth() / 2);
                         conSVG.setY1(source.getY() + source.getHeight() / 2);
-                        conSVG.setY2(target.getY() + target.getHeight());
+                        conSVG.setY2(target.getY() + target.getHeight() + shapeBorderWidth);
                     }
                 }
             }
@@ -431,31 +430,33 @@ class ConnectionTools {
                     System.out.println("-----> y1>y2)");
                     if (y1 > (y2 + y22)) {
                         System.out.println("------> y1>(y2+y22)");
-                        conSVG.setX1(source.getX() + source.getWidth());
-                        conSVG.setX2(target.getX());
-                        conSVG.setY1(source.getY());
-                        conSVG.setY2(target.getY() + target.getHeight());
+                        conSVG.setX1(source.getX() + source.getWidth() + shapeBorderWidth);
+                        conSVG.setX2(target.getX() - shapeBorderWidth);
+                        conSVG.setY1(source.getY() - shapeBorderWidth);
+                        conSVG.setY2(target.getY() + target.getHeight() + shapeBorderWidth);
                     } else {
                         System.out.println("------> y1<=(y2+y22)");
-                        conSVG.setX1(source.getX() + source.getWidth());
-                        conSVG.setX2(target.getX());
+                        conSVG.setX1(source.getX() + source.getWidth() + shapeBorderWidth);
+                        conSVG.setX2(target.getX() - shapeBorderWidth);
                         conSVG.setY1(source.getY() + source.getHeight() / 2);
-                        conSVG.setY2((source.getY() + source.getHeight() / 2)<(target.getY() + target.getHeight())?(source.getY() + source.getHeight() / 2):target.getY() + target.getHeight() / 2);
+                        conSVG.setY2((source.getY() + source.getHeight() / 2) < (target.getY() + target.getHeight()) ? (source.getY() + source.getHeight() / 2) : target.getY() + target.getHeight() / 2);
 //                        conSVG.setY2(target.getY() + target.getHeight() / 2);
                     }
                 } else {
+                    System.out.println("-----> y1<y2)");
                     if (y2 > (y1 + y11)) {
                         System.out.println("----> y2>(y1+y11)");
-                        conSVG.setX1(source.getX() + source.getWidth());
-                        conSVG.setX2(target.getX());
-                        conSVG.setY1(source.getY() + source.getHeight());
-                        conSVG.setY2(target.getY());
+                        conSVG.setX1(source.getX() + source.getWidth() + shapeBorderWidth);
+                        conSVG.setX2(target.getX() - shapeBorderWidth);
+                        conSVG.setY1(source.getY() + source.getHeight() + shapeBorderWidth);
+                        conSVG.setY2(target.getY() - shapeBorderWidth);
                     } else {
                         System.out.println("------> y2<=(y1+y11)");
                         conSVG.setX1(source.getX() + source.getWidth());
-                        conSVG.setX2(target.getX());
+                        conSVG.setX2(target.getX() - shapeBorderWidth);
                         conSVG.setY1(target.getY() + target.getHeight() / 2);
-                        conSVG.setY2(target.getY() + target.getHeight() / 2);
+                        conSVG.setY2((target.getY() + target.getHeight() / 2) < (source.getY() + source.getHeight()) ? (target.getY() + target.getHeight() / 2) : source.getY() + source.getHeight() / 2);
+//                        conSVG.setY2(target.getY() + target.getHeight() / 2);
 //                        conSVG.setY1(source.getY() + source.getHeight() / 2);
 //                        conSVG.setY2(target.getY() + target.getHeight() / 2);
 //
@@ -469,29 +470,30 @@ class ConnectionTools {
                     if (y1 > (y2 + y22)) {
                         System.out.println("------> y1>(y2+y22)");
                         conSVG.setX1(source.getX() + source.getWidth() / 2);
-                        conSVG.setX2(source.getX() + source.getWidth() / 2);
+                        conSVG.setX2(source.getX() + source.getWidth() / 2<target.getX()+target.getWidth() && source.getX() + source.getWidth() / 2>target.getX()?source.getX() + source.getWidth() / 2:target.getX()-shapeBorderWidth);
 //                        conSVG.setX2(target.getX() + target.getWidth() / 2);
-                        conSVG.setY1(source.getY());
-                        conSVG.setY2(target.getY() + target.getHeight());
+                        conSVG.setY1(source.getY()-shapeBorderWidth);
+                        conSVG.setY2(target.getY() + target.getHeight()+shapeBorderWidth);
                     } else {
                         System.out.println("------> y1<=(y2+y22)");
                         conSVG.setX1(source.getX() + source.getWidth() / 2);
-                        conSVG.setX2(target.getX() + target.getWidth() / 2);
-                        conSVG.setY1(source.getY() + source.getHeight());
+                        conSVG.setX2(target.getX()-shapeBorderWidth);
+                        conSVG.setY1(source.getY()-shapeBorderWidth);
                         conSVG.setY2(target.getY());
                     }
                 } else {
                     if (y2 > (y1 + y11)) {
                         System.out.println("----> y2>(y1+y11)");
                         conSVG.setX1(source.getX() + source.getWidth() / 2);
-                        conSVG.setX2(target.getX() + target.getWidth() / 2);
-                        conSVG.setY1(source.getY() + source.getHeight());
-                        conSVG.setY2(target.getY());
+                        conSVG.setX2(source.getX() + source.getWidth() / 2<target.getX()+target.getWidth() && source.getX() + source.getWidth() / 2>target.getX()?source.getX() + source.getWidth() / 2:target.getX()-shapeBorderWidth);
+//                        conSVG.setX2(target.getX() + target.getWidth() / 2);
+                        conSVG.setY1(source.getY() + source.getHeight()+shapeBorderWidth);
+                        conSVG.setY2(target.getY()-shapeBorderWidth);
                     } else {
                         System.out.println("------> y2<=(y1+y11)");
                         conSVG.setX1(source.getX() + source.getWidth() / 2);
-                        conSVG.setX2(target.getX() + target.getWidth() / 2);
-                        conSVG.setY1(source.getY() + source.getHeight());
+                        conSVG.setX2(target.getX()-shapeBorderWidth);
+                        conSVG.setY1(source.getY() + source.getHeight()+shapeBorderWidth);
                         conSVG.setY2(target.getY());
                     }
                 }

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/FAR_test.iml" filepath="$PROJECT_DIR$/FAR_test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/FAR_Model2SVG_Convertor.iml" filepath="$PROJECT_DIR$/FAR_Model2SVG_Convertor.iml" />
     </modules>
   </component>
 </project>

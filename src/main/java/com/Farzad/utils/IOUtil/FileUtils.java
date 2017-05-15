@@ -4,11 +4,9 @@ package com.Farzad.utils.IOUtil;
  * Created by VOLCANO on 4/28/2017.
  */
 
-import java.awt.*;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URI;
 
 public class FileUtils {
     private static final String FILENAME = "D:\\FAR_Documents\\__Startamap\\archiModelToSVG.html";
@@ -20,6 +18,12 @@ public class FileUtils {
             String content = "<html>\n" +
                     "  <head>\n" +
                     "    <title>SVG ARCHI MODEL</title>\n" +
+                    "<link rel='stylesheet' type='text/css' href='style.css'/>" +
+//                    "<style>" +
+//                    ".mainRect{\n" +
+//                    "\tfill:#ffffff\n" +
+//                    "}" +
+//                    "</style>" +
                     "  </head>\n" +
                     "  <body> ";
             content += body;

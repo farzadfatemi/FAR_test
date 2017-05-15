@@ -22,10 +22,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
+        <module name="FAR_Model2SVG_Convertor" />
         <module name="FAR_test" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="1.8">
+      <module name="FAR_Model2SVG_Convertor" target="1.8" />
       <module name="FAR_test" target="1.8" />
     </bytecodeTargetLevel>
   </component>

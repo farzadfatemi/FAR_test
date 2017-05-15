@@ -286,7 +286,18 @@ class ShapeTools {
         int ry = 8;
         int lineWidth = 4;
         String fillColor = svgShape.getFillColor();
-        String mainRect = "<svg>" +
+        String mainRectWithCSS = "<svg>" +
+                " <g>" +
+                " <a xlink:href=\"https://google.com\">\n" +
+                "      <rect fill-opacity=\""+opacity+"\" class=\"mainRect\" fill=\"" + svgShape.getFillColor() + "\"  x=\"" + svgShape.getX() + "\" y=\"" + svgShape.getY() + "\" width=\"" + svgShape.getWidth()
+                + "\" height=\"" + svgShape.getHeight() + "\" stroke=\"" + svgShape.getStrokeColor() + "\" stroke-width=\"" + lineWidth + "\" />\n" +
+                "      <text x=\"" + (svgShape.getX() + 10) + "\" xml:space=\"preserve\" y=\"" + (svgShape.getY() + 35) + "\" clip-path=\"url(#clipPath20)\" stroke=\"none\"\n" +
+                "      font-family=\"" + svgShape.getFont() + "\" fill=\"#FFFFFF\"  >" + svgShape.getName() + "</text>\n" +
+                "    </a>\n" + IconsTools.getIconSVGCode(archiEnum, svgShape) +
+                "</g>" +
+                "</svg>";
+
+         String mainRect = "<svg>" +
                 " <g>" +
                 " <a xlink:href=\"https://google.com\">\n" +
                 "      <rect fill-opacity=\""+opacity+"\" fill=\"" + svgShape.getFillColor() + "\"  x=\"" + svgShape.getX() + "\" y=\"" + svgShape.getY() + "\" width=\"" + svgShape.getWidth()
@@ -327,7 +338,7 @@ class ShapeTools {
                 result.append(getComponentShape(svgShape));
                 svgShape.setX(svgShape.getX()+10);
                 result.append(putText(svgShape));
-                result.append(putIcon(archiEnum, svgShape));
+//                result.append(putIcon(archiEnum, svgShape));
                 result.append(putIntoLink(result.toString(), "www.google.com"));
                 svgShape.setX(svgShape.getX()-10);
                 return result.toString();

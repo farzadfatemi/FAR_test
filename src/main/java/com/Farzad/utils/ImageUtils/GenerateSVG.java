@@ -53,7 +53,7 @@ public class GenerateSVG {
                             System.out.println("** con.getKey() -- " + svgSingleShape.getName() + " -- " + obj.getValue().getName());
                         }
                         System.out.println("con.getValue()********************" + con.getValue());
-                         if (svgSingleShape != null) {
+                        if (svgSingleShape != null) {
                             obj.getValue().setConnectionsType(con.getValue());
 //                            System.out.println("svgSingleShape : "+svgSingleShape.getId()+" : "+svgSingleShape.getName());
 //                            System.out.println("obj.getValue() : "+obj.getValue().getId()+" : "+obj.getValue().getName());
@@ -218,16 +218,17 @@ public class GenerateSVG {
                             svgSingleShape.setFont(dia.getFont());
                             svgSingleShape.setFontColor(dia.getFontColor());
                             svgSingleShape.setConnections(sourceAndTarget);
+                            svgSingleShape.setHasChild(false);
                             svgSingleShape.setElementType(dia.getArchimateElement() != null && dia.getArchimateElement().getClass() != null ?
                                     dia.getArchimateElement().getClass().getSimpleName() : "");
 //                                System.out.println(svgSingleShape.toString());
 
                             if (dia.getChildren() != null) {
                                 childrenList = dia.getChildren();
-
                                 for (Object childObj : childrenList) {
-
                                     if (childObj instanceof IDiagramModelObject) {
+                                        svgSingleShape.setHasChild(true);
+                                        System.out.println(dia.getName()+ "   ------------ has child -----------------------------------");
                                         childSourceAndTargets = new TreeMap<>();
 //                                        childSourceAndTargets = new ArrayList<String>();
                                         IDiagramModelObject childDia = (IDiagramModelObject) childObj;

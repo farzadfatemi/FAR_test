@@ -28,7 +28,9 @@ public class SVGSingleShape {
     private String font;
     private int fontSize;
     private String fontColor;
+    private String URL;
     private Map<String, String> connections;
+    private boolean hasChild;
 
     public int getX() {
         return x;
@@ -198,6 +200,22 @@ public class SVGSingleShape {
         this.fontColor = fontColor;
     }
 
+    public String getURL() {
+        return URL;
+    }
+
+    public void setURL(String URL) {
+        this.URL = URL;
+    }
+
+    public boolean hasAnyChild() {
+        return hasChild;
+    }
+
+    public void setHasChild(boolean hasChild) {
+        this.hasChild = hasChild;
+    }
+
     @Override
     public String toString() {
         return "SVGSingleShape{" +
@@ -219,8 +237,11 @@ public class SVGSingleShape {
                 ", documentation='" + documentation + '\'' +
                 ", targetId='" + targetId + '\'' +
                 ", font='" + font + '\'' +
+                ", fontSize=" + fontSize +
                 ", fontColor='" + fontColor + '\'' +
+                ", URL='" + URL + '\'' +
                 ", connections=" + connections +
+                ", hasChild=" + hasChild +
                 '}';
     }
 

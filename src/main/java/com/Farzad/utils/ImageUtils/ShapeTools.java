@@ -46,6 +46,8 @@ class ShapeTools {
             return SVGShapeCode(ArchiEnum.BUSINESS_PROCESS, svgShape);
         } else if (ArchiEnum.BUSINESS_PRODUCT.equalsName(svgShape.getElementType())) {
             return SVGShapeCode(ArchiEnum.BUSINESS_PRODUCT, svgShape);
+        } else if (ArchiEnum.BUSINESS_ROLE.equalsName(svgShape.getElementType())) {
+            return SVGShapeCode(ArchiEnum.BUSINESS_ROLE, svgShape);
         } else if (ArchiEnum.BUSINESS_REPRESENTATION.equalsName(svgShape.getElementType())) {
             return SVGShapeCode(ArchiEnum.BUSINESS_REPRESENTATION, svgShape);
         } else if (ArchiEnum.BUSINESS_SERVICE.equalsName(svgShape.getElementType())) {
@@ -286,12 +288,13 @@ class ShapeTools {
         int ry = 8;
         int lineWidth = 4;
         String fillColor = svgShape.getFillColor();
+        svgShape.setURL("www.stratamap.co.nz");
         String mainRect = "<svg>" +
                 " <g>" +
                 " <a xlink:href=\"https://google.com\">\n" +
                 "      <rect fill-opacity=\""+opacity+"\" class=\"main_style "+archiEnum.categoryToString()+"\"  x=\"" + svgShape.getX() + "\" y=\"" + svgShape.getY() + "\" width=\"" + svgShape.getWidth()
                 + "\" height=\"" + svgShape.getHeight() + "\" />\n" +
-                "      <text class=\"txtStyle\" x=\"" + (svgShape.getX() + 10) + "\" xml:space=\"preserve\" y=\"" + (svgShape.getY() + 35) + "\"  >" + svgShape.getName() + "</text>\n" +
+                "      <text text-anchor=\"middle\" alignment-baseline=\"middle\" class=\"txtStyle\" x=\"" + (svgShape.getX() + svgShape.getWidth()/2) + "\" xml:space=\"preserve\" y=\"" + (svgShape.getY() + svgShape.getHeight()/2) + "\"  >" + svgShape.getName() + "</text>\n" +
                 "    </a>\n" + IconsTools.getIconSVGCode(archiEnum, svgShape) +
                 "</g>" +
                 "</svg>";
@@ -315,7 +318,7 @@ class ShapeTools {
                 + "\" height=\"" + svgShape.getHeight() + "\" stroke=\"" + svgShape.getStrokeColor() + "\" stroke-width=\"" + lineWidth + "\" />\n" +
                 "      <rect fill=\"" + svgShape.getFillColor() + "\"  x=\"" + svgShape.getX() + "\" y=\"" + (svgShape.getY() + 13) + "\" width=\"" + svgShape.getWidth()
                 + "\" height=\"" + (svgShape.getHeight() - 13) + "\" stroke=\"" + svgShape.getStrokeColor() + "\" />\n" +
-                "      <text x=\"" + (svgShape.getX() + 10) + "\" xml:space=\"preserve\" y=\"" + (svgShape.getY() + 15 + (svgShape.getHeight() - 13) / 2) + "\" clip-path=\"url(#clipPath20)\" stroke=\"none\"\n" +
+                "      <text text-anchor=\"middle\" alignment-baseline=\"middle\" class=\"txtStyle\" x=\"" + (svgShape.getX() + svgShape.getWidth()/2) + "\" xml:space=\"preserve\" y=\"" + (svgShape.getY() + svgShape.getHeight()/2) + "\"  clip-path=\"url(#clipPath20)\" stroke=\"none\"\n" +
                 "       fill=\"#FFFFFF\"  >" + svgShape.getName() + "</text>\n" +
                 "    </a>\n" +IconsTools.getIconSVGCode(archiEnum, svgShape) +
                 "</g>" +
@@ -325,7 +328,7 @@ class ShapeTools {
                 " <a xlink:href=\"https://google.com\">\n" +
                 "      <rect fill=\"" + svgShape.getFillColor() + "\" rx=\"" + rx + "\" ry=\"" + ry + "\"   x=\"" + svgShape.getX() + "\" y=\"" + svgShape.getY() + "\" width=\"" + svgShape.getWidth()
                 + "\" height=\"" + svgShape.getHeight() + "\" stroke=\"" + svgShape.getStrokeColor() + "\" stroke-width=\"" + lineWidth + "\" />\n" +
-                "      <text x=\"" + (svgShape.getX() + 10) + "\" xml:space=\"preserve\" y=\"" + (svgShape.getY() + 35) + "\" clip-path=\"url(#clipPath20)\" stroke=\"none\"\n" +
+                "      <text text-anchor=\"middle\" alignment-baseline=\"middle\" class=\"txtStyle\" x=\"" + (svgShape.getX() + svgShape.getWidth()/2) + "\" xml:space=\"preserve\" y=\"" + (svgShape.getY() + svgShape.getHeight()/2) + "\" \n" +
                 "       fill=\"#FFFFFF\"  >" + svgShape.getName() + "</text>\n" +
                 "    </a>\n" + IconsTools.getIconSVGCode(archiEnum, svgShape) +
                 "</g>" +
@@ -337,9 +340,9 @@ class ShapeTools {
                 result = new StringBuilder();
                 result.append(getComponentShape(svgShape));
                 svgShape.setX(svgShape.getX()+10);
-                result.append(putText(svgShape));
+                result.append(putText(svgShape,-1,-1));
 //                result.append(putIcon(archiEnum, svgShape));
-                result.append(putIntoLink(result.toString(), "www.google.com"));
+                result.append(putIntoLink(result.toString(), svgShape.getURL()));
                 svgShape.setX(svgShape.getX()-10);
                 return result.toString();
             case APPLICATION_FUNCTION:
@@ -356,9 +359,9 @@ class ShapeTools {
                 svgShape.setRy(25);
                 result.append(getSimpleRect(archiEnum, svgShape));
                 svgShape.setY(svgShape.getY() - 10);
-                result.append(putText(svgShape));
+                result.append(putText(svgShape,-1,-1));
                 result.append(putIcon(archiEnum, svgShape));
-                result.append(putIntoLink(result.toString(), "www.google.com"));
+                result.append(putIntoLink(result.toString(), svgShape.getURL()));
                 result.append(putGroupAndSVGTag(result.toString()));
                 return result.toString();
             case BUSINESS_ACTOR:
@@ -372,9 +375,9 @@ class ShapeTools {
                 svgShape.setRx(8);
                 svgShape.setRy(8);
                 result.append(getSimpleRect(archiEnum, svgShape));
-                result.append(putText(svgShape));
+                result.append(putText(svgShape,-1,-1));
                 result.append(putIcon(archiEnum, svgShape));
-                result.append(putIntoLink(result.toString(), "www.google.com"));
+                result.append(putIntoLink(result.toString(), svgShape.getURL()));
                 result.append(putGroupAndSVGTag(result.toString()));
                 return result.toString();
             case BUSINESS_INTERACTION:
@@ -394,9 +397,9 @@ class ShapeTools {
                 svgShape.setY(svgShape.getY() + 13);
                 svgShape.setHeight(svgShape.getHeight() - 13);
                 result.append(getSimpleRect(archiEnum, svgShape));
-                result.append(putText(svgShape));
+                result.append(putText(svgShape,-1,-1));
 //                result.append(putIcon(archiEnum, svgShape));
-                result.append(putIntoLink(result.toString(), "www.google.com"));
+                result.append(putIntoLink(result.toString(), svgShape.getURL()));
                 result.append(putGroupAndSVGTag(result.toString()));
                 svgShape.setY(svgShape.getY() - 13);
                 svgShape.setHeight(svgShape.getHeight() + 13);
@@ -414,9 +417,9 @@ class ShapeTools {
                 svgShape.setRx(35);
                 svgShape.setRy(35);
                 result.append(getSimpleRect(archiEnum, svgShape));
-                result.append(putText(svgShape));
+                result.append(putText(svgShape,-1,-1));
                 result.append(putIcon(archiEnum, svgShape));
-                result.append(putIntoLink(result.toString(), "www.google.com"));
+                result.append(putIntoLink(result.toString(), svgShape.getURL()));
                 result.append(putGroupAndSVGTag(result.toString()));
                 return result.toString();
             case BUSINESS_STAKEHOLDER:
@@ -470,9 +473,9 @@ class ShapeTools {
                 svgShape.setRx(35);
                 svgShape.setRy(35);
                 result.append(getSimpleRect(archiEnum, svgShape));
-                result.append(putText(svgShape));
+                result.append(putText(svgShape,-1,-1));
 //                result.append(putIcon(archiEnum, svgShape));
-                result.append(putIntoLink(result.toString(), "www.google.com"));
+                result.append(putIntoLink(result.toString(), svgShape.getURL()));
                 svgShape.setPolyDem(new int[][]{
                         {svgShape.getX() + 10, svgShape.getY() + svgShape.getHeight() + 20},
                         {svgShape.getX() + 30, svgShape.getY() + svgShape.getHeight()},
@@ -506,9 +509,9 @@ class ShapeTools {
                 svgShape.setY(svgShape.getY() + 13);
                 svgShape.setHeight(svgShape.getHeight() - 13);
                 result.append(getSimpleRect(archiEnum, svgShape));
-                result.append(putText(svgShape));
+                result.append(putText(svgShape,-1,-1));
 //                result.append(putIcon(archiEnum, svgShape));
-                result.append(putIntoLink(result.toString(), "www.google.com"));
+                result.append(putIntoLink(result.toString(), svgShape.getURL()));
                 result.append(putGroupAndSVGTag(result.toString()));
                 svgShape.setY(svgShape.getY() - 13);
                 svgShape.setHeight(svgShape.getHeight() + 13);
@@ -531,18 +534,18 @@ class ShapeTools {
 
                 });
                 result.append(getArtifactShape(svgShape));
-                result.append(putText(svgShape));
+                result.append(putText(svgShape,-1,-1));
 //                result.append(putIcon(archiEnum, svgShape));
-                result.append(putIntoLink(result.toString(), "www.google.com"));
+                result.append(putIntoLink(result.toString(), svgShape.getURL()));
                 result.append(putGroupAndSVGTag(result.toString()));
                 return result.toString();
             case NETWORK:
                 result = new StringBuilder();
                 result.append(getSimpleRect(archiEnum, svgShape));
-                svgShape.setY(svgShape.getY() - 13);
-                result.append(putText(svgShape));
+//                svgShape.setY(svgShape.getY() - 13);
+                result.append(putText(svgShape,-1,-1));
                 result.append(putIcon(archiEnum, svgShape));
-                result.append(putIntoLink(result.toString(), "www.google.com"));
+                result.append(putIntoLink(result.toString(), svgShape.getURL()));
                 svgShape.setPolyDem(new int[][]{
                         {svgShape.getX() + 10, svgShape.getY() + svgShape.getHeight() + 20},
                         {svgShape.getX() + 30, svgShape.getY() + svgShape.getHeight()},
@@ -557,9 +560,9 @@ class ShapeTools {
                 svgShape.setRx(35);
                 svgShape.setRy(35);
                 result.append(getSimpleRect(archiEnum, svgShape));
-                result.append(putText(svgShape));
+                result.append(putText(svgShape,-1,-1));
 //                result.append(putIcon(archiEnum, svgShape));
-                result.append(putIntoLink(result.toString(), "www.google.com"));
+                result.append(putIntoLink(result.toString(), svgShape.getURL()));
                 svgShape.setPolyDem(new int[][]{
                         {svgShape.getX() + 10, svgShape.getY() + svgShape.getHeight() + 20},
                         {svgShape.getX() + 30, svgShape.getY() + svgShape.getHeight()},
@@ -582,10 +585,17 @@ class ShapeTools {
     private static String getSimpleRect(ArchiEnum archiEnum, SVGSingleShape svgShape) {
         svgShape.setStrokeWidth(4);
         return
-                "      <rect fill-opacity=\""+opacity+"\" fill=\"" + svgShape.getFillColor() + "\"  x=\"" + svgShape.getX() + "\" y=\"" + svgShape.getY() + "\" width=\"" + svgShape.getWidth()
-                        + "\" height=\"" + svgShape.getHeight() + "\" rx=\"" + svgShape.getRx() + "\" ry=\"" + svgShape.getRy() + "\" stroke=\"" + svgShape.getStrokeColor() + "\" stroke-width=\"" + svgShape.getStrokeWidth() + "\" />\n"
+                "      <rect fill-opacity=\""+opacity+"\" class=\"main_style "+archiEnum.categoryToString()+"\" x=\"" + svgShape.getX() + "\" y=\"" + svgShape.getY() + "\" width=\"" + svgShape.getWidth()
+                        + "\" height=\"" + svgShape.getHeight() + "\" rx=\"" + svgShape.getRx() + "\" ry=\"" + svgShape.getRy() + "\" />\n"
                 ;
     }
+//  private static String getSimpleRect(ArchiEnum archiEnum, SVGSingleShape svgShape) {
+//        svgShape.setStrokeWidth(4);
+//        return
+//                "      <rect fill-opacity=\""+opacity+"\" fill=\"" + svgShape.getFillColor() + "\"  x=\"" + svgShape.getX() + "\" y=\"" + svgShape.getY() + "\" width=\"" + svgShape.getWidth()
+//                        + "\" height=\"" + svgShape.getHeight() + "\" rx=\"" + svgShape.getRx() + "\" ry=\"" + svgShape.getRy() + "\" stroke=\"" + svgShape.getStrokeColor() + "\" stroke-width=\"" + svgShape.getStrokeWidth() + "\" />\n"
+//                ;
+//    }
 
     private static String getComponentShape(SVGSingleShape svgShape) {
         svgShape.setStrokeWidth(4);
@@ -648,10 +658,14 @@ class ShapeTools {
         return IconsTools.getIconSVGCode(archiEnum, svgShape);
     }
 
-    private static String putText(SVGSingleShape svgShape) {
-        int x = svgShape.getX() + 10;
-        int y = svgShape.getY() + 35;
-        return "      <text x=\"" + x + "\" xml:space=\"preserve\" y=\"" + y + "\" clip-path=\"url(#clipPath20)\" stroke=\"none\"\n" +
+    private static String putText(SVGSingleShape svgShape,int customX,int customY) {
+        System.out.println("------------- hasChild : "+svgShape.hasAnyChild());
+        if(customX<0) customX = svgShape.getX() + svgShape.getWidth()/2;
+        if(customY<0 )customY = svgShape.getY() + svgShape.getHeight()/2;
+        if(svgShape.hasAnyChild()){
+            customY = svgShape.getY() +20;
+        }
+        return "      <text text-anchor=\"middle\" alignment-baseline=\"middle\" class=\"txtStyle\" x=\"" + customX + "\" xml:space=\"preserve\" y=\"" + customY + "\" \n" +
                 "       fill=\"#FFFFFF\"  >" + svgShape.getName() + "</text>\n";
     }
 

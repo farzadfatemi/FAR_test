@@ -55,13 +55,13 @@ public enum ArchiEnum {
     TECHNOLOGY_NODE(Category.TECHNOLOGY),
     TECHNOLOGY_SERVICE(Category.TECHNOLOGY),
     TECHNOLOGY_SYSTEM_SOFTWARE(Category.TECHNOLOGY),
-    LOCATION(Category.BUSINESS),
-    DATA_OBJECT(Category.INDIVIDUAL),
-    ARTIFACT(Category.INDIVIDUAL),
-    NETWORK(Category.INDIVIDUAL),
-    DEVICE(Category.INDIVIDUAL),
-    INFRASTRUCTURE_INTERFACE(Category.INDIVIDUAL),
-    SYSTEM_SOFTWARE(Category.INDIVIDUAL),
+    LOCATION(Category.LOCATION),
+    DATA_OBJECT(Category.DATA_OBJECT),
+    ARTIFACT(Category.ARTIFACT),
+    NETWORK(Category.NETWORK),
+    DEVICE(Category.DEVICE),
+    INFRASTRUCTURE_INTERFACE(Category.INFRASTRUCTURE_INTERFACE),
+    SYSTEM_SOFTWARE(Category.SYSTEM_SOFTWARE),
     DEFAULT(Category.DEFAULT);
     //    private final String name;
     private Category category;
@@ -77,6 +77,13 @@ public enum ArchiEnum {
         MAPS,
         STRATAMAP_MAPS,
         TECHNOLOGY,
+        LOCATION,
+        DATA_OBJECT,
+        ARTIFACT,
+        DEVICE,
+        NETWORK,
+        INFRASTRUCTURE_INTERFACE,
+        SYSTEM_SOFTWARE,
         INDIVIDUAL,
         DEFAULT;
     }
@@ -94,6 +101,20 @@ public enum ArchiEnum {
                 return "stratamap_maps";
             case TECHNOLOGY:
                 return "technology";
+            case LOCATION:
+                return "location";
+            case DATA_OBJECT:
+                return "dataObject";
+            case ARTIFACT:
+                return "artifact";
+            case NETWORK:
+                return "network";
+            case DEVICE:
+                return "device";
+            case INFRASTRUCTURE_INTERFACE:
+                return "infrastructure_interface";
+            case SYSTEM_SOFTWARE:
+                return "system_software";
             case INDIVIDUAL:
                 return "individual";
             case DEFAULT:

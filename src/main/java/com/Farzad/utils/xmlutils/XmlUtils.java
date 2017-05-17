@@ -4,7 +4,6 @@ package com.Farzad.utils.xmlutils;
  * Created by VOLCANO on 4/22/2017.
  */
 
-import com.Farzad.utils.ImageUtils.GenerateSVG;
 import com.archimatetool.model.*;
 import org.eclipse.emf.ecore.EObject;
 import org.w3c.dom.*;
@@ -150,6 +149,7 @@ public class XmlUtils {
                     System.out.println("------------------------- ");
                     System.out.println("Type : " + dia.getArchimateElement());
                     System.out.println("Bounds : " + dia.getBounds());
+                    System.out.println("Fill Color : " + dia.getFillColor());
                     System.out.println("Font : " + dia.getFont());
                     System.out.println("FontColor : " + dia.getFontColor());
                     System.out.println("Id : " + dia.getId());

@@ -55,7 +55,7 @@ public enum ArchiEnum {
     TECHNOLOGY_NODE(Category.TECHNOLOGY),
     TECHNOLOGY_SERVICE(Category.TECHNOLOGY),
     TECHNOLOGY_SYSTEM_SOFTWARE(Category.TECHNOLOGY),
-    LOCATION(Category.INDIVIDUAL),
+    LOCATION(Category.BUSINESS),
     DATA_OBJECT(Category.INDIVIDUAL),
     ARTIFACT(Category.INDIVIDUAL),
     NETWORK(Category.INDIVIDUAL),
@@ -80,6 +80,29 @@ public enum ArchiEnum {
         INDIVIDUAL,
         DEFAULT;
     }
+    public String categoryToString() {
+        switch (this.category) {
+            case APPLICATION:
+                return "application";
+            case BUSINESS:
+                return "business";
+            case GOALS:
+                return "goals";
+            case MAPS:
+                return "maps";
+            case STRATAMAP_MAPS:
+                return "stratamap_maps";
+            case TECHNOLOGY:
+                return "technology";
+            case INDIVIDUAL:
+                return "individual";
+            case DEFAULT:
+                return "default";
+            default:
+                return null;
+        }
+    }
+
     public String getStringValue(){
         switch (this) {
             case APPLICATION_COLLABORATION:

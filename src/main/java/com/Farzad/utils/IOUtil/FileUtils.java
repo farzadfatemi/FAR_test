@@ -19,6 +19,7 @@ public class FileUtils {
                     "  <head>\n" +
                     "    <title>SVG ARCHI MODEL</title>\n" +
                     "<link rel='stylesheet' type='text/css' href='style.css'/>" +
+//                    "<link href=\"https://fonts.googleapis.com/css?family=Montserrat\" rel=\"stylesheet\">" +
 //                    "<style>" +
 //                    ".mainRect{\n" +
 //                    "\tfill:#ffffff\n" +

@@ -194,12 +194,12 @@ public class GenerateSVG {
                             sourceAndTarget.put(makeUniqueID + "-" + ((IDiagramModelConnection) iDiModelConnObj).getTarget().getId(), ((IDiagramModelConnection) iDiModelConnObj).getName());
 //                            sourceAndTarget.add(((IDiagramModelConnection) iDiModelConnObj).getTarget().getId());
 
-                            System.out.println(((IDiagramModelConnection) iDiModelConnObj).getTarget().getId() + "-- --4---4---" + ((IDiagramModelConnection) iDiModelConnObj).getTarget().getName() + "-- --4---4---" + ((IDiagramModelConnection) iDiModelConnObj).getName());
+                            System.out.println("-- "+dia.getName()+" --4---4---" + ((IDiagramModelConnection) iDiModelConnObj).getTarget().getName() + "--  ---" + ((IDiagramModelConnection) iDiModelConnObj).getTarget().getId() + "--  ---" + ((IDiagramModelConnection) iDiModelConnObj).getName());
                         }
 
 
                         for (Map.Entry<String, String> a : sourceAndTarget.entrySet()) {
-                            System.out.println("-------------------*  sourceAndTarget " + a.getValue());
+                            System.out.println(" ---------*>>  relations: " + a.getValue());
                         }
                     }
 
@@ -228,7 +228,7 @@ public class GenerateSVG {
                                 for (Object childObj : childrenList) {
                                     if (childObj instanceof IDiagramModelObject) {
                                         svgSingleShape.setHasChild(true);
-                                        System.out.println(dia.getName()+ "   ------------ has child -----------------------------------");
+//                                        System.out.println(dia.getName()+ "   ------------ has child -----------------------------------");
                                         childSourceAndTargets = new TreeMap<>();
 //                                        childSourceAndTargets = new ArrayList<String>();
                                         IDiagramModelObject childDia = (IDiagramModelObject) childObj;

@@ -294,7 +294,7 @@ class ShapeTools {
                 " <a xlink:href=\"https://google.com\">\n" +
                 "      <rect fill-opacity=\""+opacity+"\" class=\"main_style "+archiEnum.categoryToString()+"\"  x=\"" + svgShape.getX() + "\" y=\"" + svgShape.getY() + "\" width=\"" + svgShape.getWidth()
                 + "\" height=\"" + svgShape.getHeight() + "\" />\n" +
-                "      <text text-anchor=\"middle\" alignment-baseline=\"middle\" class=\"txtStyle\" x=\"" + (svgShape.getX() + svgShape.getWidth()/2) + "\" xml:space=\"preserve\" y=\"" + (svgShape.getY() + svgShape.getHeight()/2) + "\"  >" + svgShape.getName() + "</text>\n" +
+                "      <text text-anchor=\"middle\" alignment-baseline=\"middle\" class=\"shapeLabel\" x=\"" + (svgShape.getX() + svgShape.getWidth()/2) + "\" xml:space=\"preserve\" y=\"" + (svgShape.getY() + svgShape.getHeight()/2) + "\"  >" + svgShape.getName() + "</text>\n" +
                 "    </a>\n" + IconsTools.getIconSVGCode(archiEnum, svgShape) +
                 "</g>" +
                 "</svg>";
@@ -318,7 +318,7 @@ class ShapeTools {
                 + "\" height=\"" + svgShape.getHeight() + "\" stroke=\"" + svgShape.getStrokeColor() + "\" stroke-width=\"" + lineWidth + "\" />\n" +
                 "      <rect fill=\"" + svgShape.getFillColor() + "\"  x=\"" + svgShape.getX() + "\" y=\"" + (svgShape.getY() + 13) + "\" width=\"" + svgShape.getWidth()
                 + "\" height=\"" + (svgShape.getHeight() - 13) + "\" stroke=\"" + svgShape.getStrokeColor() + "\" />\n" +
-                "      <text text-anchor=\"middle\" alignment-baseline=\"middle\" class=\"txtStyle\" x=\"" + (svgShape.getX() + svgShape.getWidth()/2) + "\" xml:space=\"preserve\" y=\"" + (svgShape.getY() + svgShape.getHeight()/2) + "\"  clip-path=\"url(#clipPath20)\" stroke=\"none\"\n" +
+                "      <text text-anchor=\"middle\" alignment-baseline=\"middle\" class=\"shapeLabel\" x=\"" + (svgShape.getX() + svgShape.getWidth()/2) + "\" xml:space=\"preserve\" y=\"" + (svgShape.getY() + svgShape.getHeight()/2) + "\"  clip-path=\"url(#clipPath20)\" stroke=\"none\"\n" +
                 "       fill=\"#FFFFFF\"  >" + svgShape.getName() + "</text>\n" +
                 "    </a>\n" +IconsTools.getIconSVGCode(archiEnum, svgShape) +
                 "</g>" +
@@ -328,7 +328,7 @@ class ShapeTools {
                 " <a xlink:href=\"https://google.com\">\n" +
                 "      <rect fill=\"" + svgShape.getFillColor() + "\" rx=\"" + rx + "\" ry=\"" + ry + "\"   x=\"" + svgShape.getX() + "\" y=\"" + svgShape.getY() + "\" width=\"" + svgShape.getWidth()
                 + "\" height=\"" + svgShape.getHeight() + "\" stroke=\"" + svgShape.getStrokeColor() + "\" stroke-width=\"" + lineWidth + "\" />\n" +
-                "      <text text-anchor=\"middle\" alignment-baseline=\"middle\" class=\"txtStyle\" x=\"" + (svgShape.getX() + svgShape.getWidth()/2) + "\" xml:space=\"preserve\" y=\"" + (svgShape.getY() + svgShape.getHeight()/2) + "\" \n" +
+                "      <text text-anchor=\"middle\" alignment-baseline=\"middle\" class=\"shapeLabel\" x=\"" + (svgShape.getX() + svgShape.getWidth()/2) + "\" xml:space=\"preserve\" y=\"" + (svgShape.getY() + svgShape.getHeight()/2) + "\" \n" +
                 "       fill=\"#FFFFFF\"  >" + svgShape.getName() + "</text>\n" +
                 "    </a>\n" + IconsTools.getIconSVGCode(archiEnum, svgShape) +
                 "</g>" +
@@ -339,11 +339,11 @@ class ShapeTools {
             case APPLICATION_COMPONENT:
                 result = new StringBuilder();
                 result.append(getComponentShape(svgShape));
-                svgShape.setX(svgShape.getX()+10);
+//                svgShape.setX(svgShape.getX()+10);
                 result.append(putText(svgShape,-1,-1));
 //                result.append(putIcon(archiEnum, svgShape));
                 result.append(putIntoLink(result.toString(), svgShape.getURL()));
-                svgShape.setX(svgShape.getX()-10);
+//                svgShape.setX(svgShape.getX()-10);
                 return result.toString();
             case APPLICATION_FUNCTION:
                 return mainRect;
@@ -358,7 +358,7 @@ class ShapeTools {
                 svgShape.setRx(25);
                 svgShape.setRy(25);
                 result.append(getSimpleRect(archiEnum, svgShape));
-                svgShape.setY(svgShape.getY() - 10);
+//                svgShape.setY(svgShape.getY() - 10);
                 result.append(putText(svgShape,-1,-1));
                 result.append(putIcon(archiEnum, svgShape));
                 result.append(putIntoLink(result.toString(), svgShape.getURL()));
@@ -659,13 +659,13 @@ class ShapeTools {
     }
 
     private static String putText(SVGSingleShape svgShape,int customX,int customY) {
-        System.out.println("------------- hasChild : "+svgShape.hasAnyChild());
+//        System.out.println("------------- hasChild : "+svgShape.hasAnyChild());
         if(customX<0) customX = svgShape.getX() + svgShape.getWidth()/2;
         if(customY<0 )customY = svgShape.getY() + svgShape.getHeight()/2;
         if(svgShape.hasAnyChild()){
             customY = svgShape.getY() +20;
         }
-        return "      <text text-anchor=\"middle\" alignment-baseline=\"middle\" class=\"txtStyle\" x=\"" + customX + "\" xml:space=\"preserve\" y=\"" + customY + "\" \n" +
+        return "      <text text-anchor=\"middle\" alignment-baseline=\"middle\" class=\"shapeLabel\" x=\"" + customX + "\" xml:space=\"preserve\" y=\"" + customY + "\" \n" +
                 "       fill=\"#FFFFFF\"  >" + svgShape.getName() + "</text>\n";
     }
 

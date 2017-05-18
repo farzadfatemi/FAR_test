@@ -145,8 +145,8 @@ class ConnectionTools {
             dashWidth = conSvg.getDashArray()[0];
             dashGap = conSvg.getDashArray()[1];
         }
-        return "<line fill=\"black\" stroke-dasharray=\"" + dashWidth + "," + dashGap + "\" x1=\"" + conSvg.getX1() + "\" x2=\"" + conSvg.getX2() + "\" y1=\"" + conSvg.getY1() + "\" y2=\"" + conSvg.getY2() + "\" " +
-                "stroke=\"" + conSvg.getColor() + "\" stroke-width=\"" + conSvg.getWidth() + "\"/>\n";
+        return "<line fill=\"black\" class=\"connection\" stroke-dasharray=\"" + dashWidth + "," + dashGap + "\" x1=\"" + conSvg.getX1() + "\" x2=\"" + conSvg.getX2() + "\" y1=\"" + conSvg.getY1() + "\" y2=\"" + conSvg.getY2() + "\" />\n";
+//                "stroke=\"" + conSvg.getColor() + "\" stroke-width=\"" + conSvg.getWidth() + "\"/>\n";
 
 
     }
@@ -167,20 +167,27 @@ class ConnectionTools {
     private static String putText(ConnectionSVG svg, SVGSingleShape source) {
         String textAnchor = "start";
         String result = null;
+       int y = svg.getY1();
         if (svg.getY2() - svg.getY1() == 0) {
             textAnchor = "middle";
-            svg.setY1(svg.getY1() - 8);
-              result =  (source.getConnectionsType() != null ? "<text text-anchor=\"" + textAnchor + "\" font-size=\"" + source.getFontSize() + "\" font-family=\" " + source.getFont() +
-                    "\" x=\"" + ((svg.getX2() + svg.getX1()) / 2) + "\" y=\"" + ((svg.getY2() + svg.getY1()) / 2) + "\" fill=\"#000000\" stroke=\"none\">\n" +
+            y -= 8;
+              result =  (source.getConnectionsType() != null ? "<text text-anchor=\"" + textAnchor + "\" class=\"connectionLabel\" x=\"" + ((svg.getX2() + svg.getX1()) / 2) + "\" y=\"" + ((svg.getY2() + y) / 2) + "\" >\n" +
                     source.getConnectionsType() +
                     " </text>\n" : "");
-            svg.setY1(svg.getY1() + 8);
+//    result =  (source.getConnectionsType() != null ? "<text text-anchor=\"" + textAnchor + "\" font-size=\"" + source.getFontSize() + "\" font-family=\" " + source.getFont() +
+//                    "\" x=\"" + ((svg.getX2() + svg.getX1()) / 2) + "\" y=\"" + ((svg.getY2() + y) / 2) + "\" fill=\"#000000\" stroke=\"none\">\n" +
+//                    source.getConnectionsType() +
+//                    " </text>\n" : "");
+
         } else {
             svg.setX1(svg.getX1() + 8);
-              result =  (source.getConnectionsType() != null ? "<text text-anchor=\"" + textAnchor + "\" font-size=\"" + source.getFontSize() + "\" font-family=\" " + source.getFont() +
-                    "\" x=\"" + ((svg.getX2() + svg.getX1()) / 2) + "\" y=\"" + ((svg.getY2() + svg.getY1()) / 2) + "\" fill=\"#000000\" stroke=\"none\">\n" +
+              result =  (source.getConnectionsType() != null ? "<text text-anchor=\"" + textAnchor + "\"  class=\"connectionLabel\"  x=\"" + ((svg.getX2() + svg.getX1()) / 2) + "\" y=\"" + ((svg.getY2() + y) / 2) + "\" fill=\"#000000\" stroke=\"none\">\n" +
                     source.getConnectionsType() +
                     " </text>\n" : "");
+//                 result =  (source.getConnectionsType() != null ? "<text text-anchor=\"" + textAnchor + "\" font-size=\"" + source.getFontSize() + "\" font-family=\" " + source.getFont() +
+//                    "\" x=\"" + ((svg.getX2() + svg.getX1()) / 2) + "\" y=\"" + ((svg.getY2() + y) / 2) + "\" fill=\"#000000\" stroke=\"none\">\n" +
+//                    source.getConnectionsType() +
+//                    " </text>\n" : "");
             svg.setX1(svg.getX1() - 8);
         }
         return result;
@@ -312,15 +319,17 @@ class ConnectionTools {
         }
         String result = "<defs> " +
                 "   <marker id=\"" + arrowSVG.getId() + "\" markerWidth=\"" + arrowSVG.getMarkerWidth() + "\" markerHeight=\"" + arrowSVG.getMarkerHeight() + "\" refX=\"" + arrowSVG.getRefX() + "\" refY=\"" + arrowSVG.getRefY() + "\" orient=\"auto\" >\n" +
-                "        <path d=\"" + arrowSVG.getDim() + "\"  stroke=\"black\"  style=\"fill:" + arrowSVG.getColor() + "\" />" +
+                "        <path class=\"arrows\" d=\"" + arrowSVG.getDim() + "\"   style=\"fill:" + arrowSVG.getColor() + "\" />" +
+//                "        <path class=\"arrows\" d=\"" + arrowSVG.getDim() + "\"  stroke=\"black\"  style=\"fill:" + arrowSVG.getColor() + "\" />" +
                 "  </marker>";
         if (arrowsType.equals(ArrowsTypeEnum.DOUBLE_V_TYPE) && arrowSVG2 != null) {
             result += "   <marker id=\"" + (arrowSVG.getId() + "2") + "\" markerWidth=\"" + arrowSVG2.getMarkerWidth() + "\" markerHeight=\"" + arrowSVG2.getMarkerHeight() + "\" refX=\"" + arrowSVG2.getRefX() + "\" refY=\"" + arrowSVG2.getRefY() + "\" orient=\"auto\" >\n" +
-                    "        <path d=\"" + arrowSVG2.getDim() + "\"  stroke=\"black\"  style=\"fill:" + arrowSVG2.getColor() + "\" />" +
+                    "        <path class=\"arrows\" d=\"" + arrowSVG2.getDim() + "\" style=\"fill:" + arrowSVG2.getColor() + "\" />" +
                     "  </marker>";
         }
         result += "</defs>\n " +
-                "<path d=\"M" + conSvg.getX1() + "," + conSvg.getY1() + " L" + (conSvg.getX2()) + "," + (conSvg.getY2()) + "\" stroke-dasharray=\"" + dashWidth + "," + dashGap + " \" stroke=\"" + conSvg.getColor() + "\" stroke-width=\"" + conSvg.getWidth() + "\" \n" +
+//                "<path d=\"M" + conSvg.getX1() + "," + conSvg.getY1() + " L" + (conSvg.getX2()) + "," + (conSvg.getY2()) + "\" stroke-dasharray=\"" + dashWidth + "," + dashGap + " \" stroke=\"" + conSvg.getColor() + "\" stroke-width=\"" + conSvg.getWidth() + "\" \n" +
+                "<path class=\"connection\" d=\"M" + conSvg.getX1() + "," + conSvg.getY1() + " L" + (conSvg.getX2()) + "," + (conSvg.getY2()) + "\" stroke-dasharray=\"" + dashWidth + "," + dashGap + " \" \n" +
                 "style=\"" + (arrowsType.equals(ArrowsTypeEnum.DOUBLE_V_TYPE) ? " marker-start: url(#" + (arrowSVG.getId() + "2") + ")" : "")
                 + (arrowsType.equals(ArrowsTypeEnum.DIAMOND_BLACK) || arrowsType.equals(ArrowsTypeEnum.DIAMOND_WHITE) ? " marker-start: url(#" + arrowSVG.getId() + ")\";" : " marker-end: url(#" + arrowSVG.getId() + ");\"") + "/>"
         ;
@@ -346,7 +355,7 @@ class ConnectionTools {
         if (x1 + x11 > maxX) maxX = x1 + x11;
         if (x2 + x22 > maxX) maxX = x2 + x22;
         ConnectionSVG conSVG = new ConnectionSVG();
-        conSVG.setId(source.getId() + "-" + target.getId());
+        conSVG.setId(source.getId() + "-" + System.currentTimeMillis());
         conSVG.setWidth(1);
 //        System.out.println("--00---------> Source name : " + source.getName() + " source.getX() = " + source.getX() + " - source.Width() = " + source.getWidth() + " - source.getX()+Width() = " + (source.getX() + source.getWidth()));
 //        System.out.println("--00---------> source.getY() = " + source.getY() + " source.getHeight() = " + source.getHeight() + " - source.getY()+Height = " + (source.getY() + source.getHeight()));

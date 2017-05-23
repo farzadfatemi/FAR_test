@@ -8,6 +8,7 @@ public class mainCls {
     public static void main(String[] args) {
         try {
             String str = GenerateSVG.getModelSVGs();            System.out.println (str);            FileUtils.WriteToHTML (str);
+//            XmlUtils.ReadArchiModel2();
 //            XmlUtils.ReadArchiModel();
 //            System.out.println(GenerateSVG2.getModelSVGs());
 //            System.out.println(CryptoUtils.getSaltedPassword("FARmelody2".getBytes()));

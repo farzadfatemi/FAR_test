@@ -17,7 +17,7 @@ class ConnectionTools {
     private static final List<ConnectionSVG> connectionCoordinates = new ArrayList<>();
 
     static String getSVGline(SVGSingleShape source, SVGSingleShape target) {
-//        System.out.println(source !=null?source.getName() +" target id : "+target.getId()+" target name : "+target.getName():"nuuul");
+        System.out.println(source !=null?"source.getConnectionsType() : "+source.getConnectionsType()+"  Source Name : "+ source.getName() +" target id : "+target.getId()+" target name : "+target.getName():"nuuul");
 
         if (source != null && source.getConnectionsType() != null) {
             System.out.println(source.getConnectionsType() + "--**--" + source.getName() + " target id : " + target.getId() + " target name : " + target.getName());
@@ -40,7 +40,11 @@ class ConnectionTools {
             } else if (ConnectionsEnum.COMPOSITION.equalsName(source.getConnectionsType().toLowerCase())) {
                 return lineSVGCode(source, target, ConnectionsEnum.COMPOSITION);
             } else
-                return null;
+                return lineSVGCode(source, target, ConnectionsEnum.ACCESSES);
+//            return null;
+
+
+
 //            int x1 = source.getX() + source.getWidth();
 //            int x2 = target.getX();
 //            int y1 = source.getY();
@@ -56,7 +60,8 @@ class ConnectionTools {
 //                    ;
 
         } else
-            return source != null ? source.getName() : null;
+//            return source != null ? source.getName() : null;
+        return lineSVGCode(source, target, ConnectionsEnum.ACCESSES);
 
     }
 
@@ -130,6 +135,8 @@ class ConnectionTools {
 //                        "      <line fill=\"black\" x1=\"" + x1 + "\" x2=\"" + x2 + "\" y1=\"" + y1 + "\" y2=\"" + y2 + "\" " +
 //                        "stroke=\"#000000\" stroke-width=\"" + lineWidth + "\"/>\n" +
 //                        "<circle cx=\"" + x2 + "\" cy=\"" + y2 + "\" r=\"3\" fill=\"#000000\" />";
+            case SPECIALIZATION:
+                return (makeArrows(conSVG, ArrowsTypeEnum.TRIANGLE_WHITE) + putText(conSVG, source));
             default:
                 return (makeLine(conSVG) + putText(conSVG, source));
 //                return  " <circle cx=\"" + x1 + "\" cy=\"" + y1 + "\" r=\"3\" fill=\"#000000\" />" +

@@ -1,7 +1,5 @@
 package com.Farzad.Enums;
 
-import POJOs.SVGSingleShape;
-
 /**
  * Created by VOLCANO on 4/28/2017.
  */
@@ -14,6 +12,7 @@ public enum ConnectionsEnum {
     ASSOCIATION("association"),
     REALISES("realises"),
     READ_AND_WRITE("read/write"),
+    SPECIALIZATION("specialization"),
     COMPOSITION("composition");
     private final  String name;
 

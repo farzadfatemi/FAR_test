@@ -282,19 +282,23 @@ class ShapeTools {
     private static String SVGShapeCode(ArchiEnum archiEnum, SVGSingleShape svgShape) {
         StringBuilder result = null;
         int x = svgShape.getX();
-        int y = svgShape.getY();
+        int y = (svgShape.getY() + svgShape.getHeight()/2);
+        if(svgShape.hasAnyChild()){
+            y = svgShape.getY() +20;
+        }
         String color = null;
         int rx = 8;
         int ry = 8;
         int lineWidth = 4;
         String fillColor = svgShape.getFillColor();
         svgShape.setURL("www.stratamap.co.nz");
+        System.out.println("==== >>>"+svgShape.getName()+" ------------- hasChild : "+svgShape.hasAnyChild());
         String mainRect = "<svg>" +
                 " <g>" +
                 " <a xlink:href=\"https://google.com\">\n" +
                 "      <rect fill-opacity=\""+opacity+"\" class=\"main_style "+archiEnum.categoryToString()+"\"  x=\"" + svgShape.getX() + "\" y=\"" + svgShape.getY() + "\" width=\"" + svgShape.getWidth()
                 + "\" height=\"" + svgShape.getHeight() + "\" />\n" +
-                "      <text text-anchor=\"middle\" alignment-baseline=\"middle\" class=\"shapeLabel\" x=\"" + (svgShape.getX() + svgShape.getWidth()/2) + "\" xml:space=\"preserve\" y=\"" + (svgShape.getY() + svgShape.getHeight()/2) + "\"  >" + svgShape.getName() + "</text>\n" +
+                "      <text text-anchor=\"middle\" alignment-baseline=\"middle\" class=\"shapeLabel\" x=\"" + (svgShape.getX() + svgShape.getWidth()/2) + "\" xml:space=\"preserve\" y=\"" + y + "\"  >" + svgShape.getName() + "</text>\n" +
                 "    </a>\n" + IconsTools.getIconSVGCode(archiEnum, svgShape) +
                 "</g>" +
                 "</svg>";
@@ -659,7 +663,7 @@ class ShapeTools {
     }
 
     private static String putText(SVGSingleShape svgShape,int customX,int customY) {
-//        System.out.println("------------- hasChild : "+svgShape.hasAnyChild());
+        System.out.println("==== >>>"+svgShape.getName()+" ------------- hasChild : "+svgShape.hasAnyChild());
         if(customX<0) customX = svgShape.getX() + svgShape.getWidth()/2;
         if(customY<0 )customY = svgShape.getY() + svgShape.getHeight()/2;
         if(svgShape.hasAnyChild()){

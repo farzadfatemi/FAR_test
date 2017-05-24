@@ -55,6 +55,7 @@ public enum ArchiEnum {
     TECHNOLOGY_NODE(Category.TECHNOLOGY),
     TECHNOLOGY_SERVICE(Category.TECHNOLOGY),
     TECHNOLOGY_SYSTEM_SOFTWARE(Category.TECHNOLOGY),
+    CONTRACT(Category.BUSINESS),
     LOCATION(Category.LOCATION),
     DATA_OBJECT(Category.DATA_OBJECT),
     ARTIFACT(Category.ARTIFACT),
@@ -62,6 +63,7 @@ public enum ArchiEnum {
     DEVICE(Category.DEVICE),
     INFRASTRUCTURE_INTERFACE(Category.INFRASTRUCTURE_INTERFACE),
     SYSTEM_SOFTWARE(Category.SYSTEM_SOFTWARE),
+    GROUP(Category.GROUP),
     DEFAULT(Category.DEFAULT);
     //    private final String name;
     private Category category;
@@ -85,6 +87,7 @@ public enum ArchiEnum {
         INFRASTRUCTURE_INTERFACE,
         SYSTEM_SOFTWARE,
         INDIVIDUAL,
+        GROUP,
         DEFAULT;
     }
     public String categoryToString() {
@@ -117,6 +120,8 @@ public enum ArchiEnum {
                 return "system_software";
             case INDIVIDUAL:
                 return "individual";
+            case GROUP:
+                return "group";
             case DEFAULT:
                 return "default";
             default:
@@ -230,6 +235,8 @@ public enum ArchiEnum {
                 return "TechnologySystemSoftware";
             case LOCATION:
                 return "Location";
+             case CONTRACT:
+                return "Contract";
             case DATA_OBJECT:
                 return "DataObject";
              case ARTIFACT:
@@ -240,6 +247,8 @@ public enum ArchiEnum {
                 return "Device";
              case INFRASTRUCTURE_INTERFACE:
                 return "InfrastructureInterface";
+             case GROUP:
+                return "DiagramModelGroup";
              case SYSTEM_SOFTWARE:
                 return "SystemSoftware";
             default:

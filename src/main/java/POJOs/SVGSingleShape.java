@@ -1,7 +1,10 @@
 package POJOs;
 
 
+import com.Farzad.utils.ImageUtils.BendPoints;
+
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,12 +25,15 @@ public class SVGSingleShape {
     private int strokeWidth;
     private String type;
     private String elementType;
+    private String connectionsName;
     private String connectionsType;
+    private List<BendPoints> connectionBendPointsList;
     private String documentation;
     private String targetId;
     private String font;
     private int fontSize;
     private String fontColor;
+    private String textAlignment;
     private String URL;
     private Map<String, String> connections;
     private boolean hasChild;
@@ -144,6 +150,22 @@ public class SVGSingleShape {
         this.connectionsType = connectionsType;
     }
 
+    public String getConnectionsName() {
+        return connectionsName;
+    }
+
+    public void setConnectionsName(String connectionsName) {
+        this.connectionsName = connectionsName;
+    }
+
+    public List<BendPoints> getConnectionBendPointsList() {
+        return connectionBendPointsList;
+    }
+
+    public void setConnectionBendPointsList(List<BendPoints> connectionBendPointsList) {
+        this.connectionBendPointsList = connectionBendPointsList;
+    }
+
     public String getDocumentation() {
         return documentation;
     }
@@ -200,6 +222,14 @@ public class SVGSingleShape {
         this.fontColor = fontColor;
     }
 
+    public String getTextAlignment() {
+        return textAlignment;
+    }
+
+    public void setTextAlignment(String textAlignment) {
+        this.textAlignment = textAlignment;
+    }
+
     public String getURL() {
         return URL;
     }
@@ -233,12 +263,15 @@ public class SVGSingleShape {
                 ", strokeWidth=" + strokeWidth +
                 ", type='" + type + '\'' +
                 ", elementType='" + elementType + '\'' +
+                ", connectionsName='" + connectionsName + '\'' +
                 ", connectionsType='" + connectionsType + '\'' +
+                ", connectionBendPointsList=" + connectionBendPointsList +
                 ", documentation='" + documentation + '\'' +
                 ", targetId='" + targetId + '\'' +
                 ", font='" + font + '\'' +
                 ", fontSize=" + fontSize +
                 ", fontColor='" + fontColor + '\'' +
+                ", textAlignment='" + textAlignment + '\'' +
                 ", URL='" + URL + '\'' +
                 ", connections=" + connections +
                 ", hasChild=" + hasChild +

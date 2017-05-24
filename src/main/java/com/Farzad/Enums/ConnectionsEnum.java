@@ -4,21 +4,21 @@ package com.Farzad.Enums;
  * Created by VOLCANO on 4/28/2017.
  */
 public enum ConnectionsEnum {
-    ACCESSES ("accesses"),
-    USED_BY("used by"),
-    ASSIGNED("assigned"),
-    USES("uses"),
-    AGGREGATION("aggregation"),
-    ASSOCIATION("association"),
-    REALISES("realises"),
-    READ_AND_WRITE("read/write"),
-    SPECIALIZATION("specialization"),
-    COMPOSITION("composition");
+    ACCESSES ("AccessRelationship"),
+    USED_BY("UsedByRelationship"),
+    ASSIGNED("AssignmentRelationship"),
+    USES("UsesRelationship"),
+    AGGREGATION("AggregationRelationship"),
+    ASSOCIATION("AssociationRelationship"),
+    REALISES("RealisationRelationship"),
+//    READ_AND_WRITE("read/write"),
+    SPECIALIZATION("SpecialisationRelationship"),
+    COMPOSITION("CompositionRelationship");
     private final  String name;
 
     public boolean equalsName(String otherName) {
         // (otherName == null) check is not needed because name.equals(null) returns false
-        return name.equals(otherName);
+        return name.toLowerCase().equals(otherName);
     }
 
     public  String toString() {

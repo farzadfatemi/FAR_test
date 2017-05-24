@@ -1,5 +1,7 @@
 package POJOs;
 
+import com.Farzad.utils.ImageUtils.BendPoints;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -17,7 +19,8 @@ public class ConnectionSVG {
     private String color;
     private String type;
     private String name;
-    private List<BendPoints> bindPoints;
+    private boolean ownConnection;
+    private List<BendPoints> bendPointses;
 
     public int getX1() {
         return x1;
@@ -99,12 +102,20 @@ public class ConnectionSVG {
         this.name = name;
     }
 
-    public List<BendPoints> getBindPoints() {
-        return bindPoints;
+    public boolean isOwnConnection() {
+        return ownConnection;
     }
 
-    public void setBindPoints(List<BendPoints> bindPoints) {
-        this.bindPoints = bindPoints;
+    public void setOwnConnection(boolean ownConnection) {
+        this.ownConnection = ownConnection;
+    }
+
+    public List<BendPoints> getBendPointses() {
+        return bendPointses;
+    }
+
+    public void setBendPointses(List<BendPoints> bendPointses) {
+        this.bendPointses = bendPointses;
     }
 
     @Override
@@ -120,44 +131,10 @@ public class ConnectionSVG {
                 ", color='" + color + '\'' +
                 ", type='" + type + '\'' +
                 ", name='" + name + '\'' +
+                ", ownConnection=" + ownConnection +
+                ", bendPointses=" + bendPointses +
                 '}';
     }
-    private class BendPoints{
-        private String startX;
-        private String startY;
-        private String endX;
-        private String endY;
 
-        public String getStartX() {
-            return startX;
-        }
 
-        public void setStartX(String startX) {
-            this.startX = startX;
-        }
-
-        public String getStartY() {
-            return startY;
-        }
-
-        public void setStartY(String startY) {
-            this.startY = startY;
-        }
-
-        public String getEndX() {
-            return endX;
-        }
-
-        public void setEndX(String endX) {
-            this.endX = endX;
-        }
-
-        public String getEndY() {
-            return endY;
-        }
-
-        public void setEndY(String endY) {
-            this.endY = endY;
-        }
-    }
 }

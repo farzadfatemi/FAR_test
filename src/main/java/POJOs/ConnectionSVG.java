@@ -16,6 +16,10 @@ public class ConnectionSVG {
     private int width;
     private int[] dashArray;
     private String id;
+    private String sourceId;
+    private String targetId;
+    private String sourceName;
+    private String targetName;
     private String color;
     private String type;
     private String name;
@@ -78,6 +82,38 @@ public class ConnectionSVG {
         this.id = id;
     }
 
+    public String getSourceId() {
+        return sourceId;
+    }
+
+    public void setSourceId(String sourceId) {
+        this.sourceId = sourceId;
+    }
+
+    public String getTargetId() {
+        return targetId;
+    }
+
+    public void setTargetId(String targetId) {
+        this.targetId = targetId;
+    }
+
+    public String getSourceName() {
+        return sourceName;
+    }
+
+    public void setSourceName(String sourceName) {
+        this.sourceName = sourceName;
+    }
+
+    public String getTargetName() {
+        return targetName;
+    }
+
+    public void setTargetName(String targetName) {
+        this.targetName = targetName;
+    }
+
     public String getColor() {
         return color;
     }
@@ -128,6 +164,10 @@ public class ConnectionSVG {
                 ", width=" + width +
                 ", dashArray=" + Arrays.toString(dashArray) +
                 ", id='" + id + '\'' +
+                ", sourceId='" + sourceId + '\'' +
+                ", targetId='" + targetId + '\'' +
+                ", sourceName='" + sourceName + '\'' +
+                ", targetName='" + targetName + '\'' +
                 ", color='" + color + '\'' +
                 ", type='" + type + '\'' +
                 ", name='" + name + '\'' +

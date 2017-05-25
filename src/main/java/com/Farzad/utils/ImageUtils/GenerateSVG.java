@@ -32,7 +32,7 @@ public class GenerateSVG {
         StringBuilder sb = new StringBuilder();
         try {
             System.out.println("======---00000000----   " + FIRST_X + " " + FIRST_Y + " " + LAST_X + " " + LAST_Y);
-            sb.append("<svg width=\"100%\" height=\"auto\"  viewBox=\"" + (FIRST_X - 10) + " " + (FIRST_Y - 10) + " " + (Math.abs(FIRST_X )+LAST_X + 30) + " " + (Math.abs(FIRST_Y )+LAST_Y+ 30) + " \">");
+            sb.append("<svg width=\"100%\" height=\"auto\"  viewBox=\"" + (FIRST_X - 10) + " " + (FIRST_Y - 10) + " " + (Math.abs(FIRST_X) + LAST_X + 30) + " " + (Math.abs(FIRST_Y) + LAST_Y + 30) + " \">");
 //            sb.append("<svg width=\"auto\" height=\"auto\">");
             All_GROUP_SVG_SHAPES_AND_CONNECTORS.entrySet().stream().filter(obj -> obj.getValue() != null).forEachOrdered(obj -> {
                 sb.append(getSVGShape(obj.getValue()));
@@ -472,6 +472,7 @@ public class GenerateSVG {
 
         } else if (diagramCpt instanceof IDiagramModelArchimateObject) {
             IDiagramModelArchimateObject modelObj = (IDiagramModelArchimateObject) diagramCpt;
+
 //            SourceConList = modelObj.getSourceConnections();
 //            for (Object iDiModelConnObj : SourceConList) {
 //                makeUniqueID++;
@@ -585,8 +586,9 @@ public class GenerateSVG {
             try {
                 if (modelConn.getSource() != null && modelConn.getTarget() != null) {
 
-                    System.out.println("Model Conn - Source ID : ----------- > " + modelConn.getSource().getId());
-                    System.out.println("Model Conn - Target ID : ----------- > " + modelConn.getTarget().getId());
+                    System.out.println("Model Conn - Source Name & ID : ----------- > " + modelConn.getSource().getName()+" | " + modelConn.getSource().getId());
+                    System.out.println("Model Conn - Target Name & ID : ----------- > " + modelConn.getTarget().getName()+" | " + modelConn.getTarget().getId());
+
                     SVGSingleShape svgSourceShape = new SVGSingleShape();
                     SVGSingleShape svgTargetShape = new SVGSingleShape();
                     svgSourceShape.setId(modelConn.getSource().getId());
@@ -606,17 +608,24 @@ public class GenerateSVG {
 
 
                     bindPointsList = new ArrayList<>();
-                    for (IDiagramModelBendpoint e : modelConn.getBendpoints()){
-                       BendPoints bendPoints = new BendPoints();
-                       bendPoints.setStartX(e.getStartX());
-                       bendPoints.setStartX(e.getStartX());
-                       bendPoints.setStartX(e.getStartX());
-                       bendPoints.setStartX(e.getStartX());
-                       bendPoints.setStartX(e.getStartX());
+                    System.out.println("Model Conn - Connection Coord : ----------- > Source X " + modelConn.getSource().getBounds().getX()
+                            +" | Source Y " + modelConn.getSource().getBounds().getY()
+                    );
+                    for (IDiagramModelBendpoint e : modelConn.getBendpoints()) {
+                        System.out.println(" | Bend Points e.getStartX() " + e.getStartX() + " | StartY() "+e.getStartY()+ " | getEndX() "+e.getEndX()+ " | getEndY() "+e.getEndY());
+                        BendPoints bendPoints = new BendPoints();
+                        bendPoints.setStartX(e.getStartX());
+                        bendPoints.setStartY(e.getStartY());
+//                        bendPoints.setStartX(e.getStartX()+ modelConn.getSource().getBounds().getX());
+//                        bendPoints.setStartY(e.getStartY()+ modelConn.getSource().getBounds().getY());
+                        bendPoints.setEndX(e.getEndX());
+                        bendPoints.setEndY(e.getEndY());
                         bindPointsList.add(bendPoints);
-                   }
+                    }
                     svgSourceShape.setConnectionBendPointsList(bindPointsList);
-
+                    System.out.println("Model Conn - Connection Coord : ----------- > Target X " + modelConn.getTarget().getBounds().getX()
+                            +" | Target Y " + modelConn.getTarget().getBounds().getY()
+                    );
 
                     System.out.println("Model Conn - ConnectionsType : ----------- > " + svgSourceShape.getConnectionsType());
                     System.out.println("Model Conn -   Name : ----------- > " + modelConn.getName());
@@ -667,7 +676,7 @@ public class GenerateSVG {
 //            File modelFile = new File("D:\\FAR_Documents\\__Startamap\\Original2.archimate");
             IArchimateModel model = loadModel(modelFile);
             List<IDiagramModel> iDModels = model.getDiagramModels();
-            IDiagramModel diagramModel = iDModels.get(5);
+            IDiagramModel diagramModel = iDModels.get(1);
 //            for (EObject obj : diagramModel.eContents()) {
 //
 //                getSingleModelSVGs((IDiagramModelObject) obj,0,0,false);

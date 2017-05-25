@@ -17,7 +17,7 @@ class ConnectionTools {
     private static final List<ConnectionSVG> connectionCoordinates = new ArrayList<>();
 
     static String getSVGline(SVGSingleShape source, SVGSingleShape target) {
-        System.out.println(source !=null?"source.getConnectionsType() : "+source.getConnectionsType()+"  Source ID : "+ source.getId()+"  Source Name : "+ source.getName() +" target id : "+target.getId()+" target name : "+target.getName():"nuuul");
+        System.out.println(source !=null?"source.getConnectionsType() : "+source.getConnectionsType()+"  Source ID|Name : "+ source.getId()+"-"+ source.getName() +" Target ID|Name"+target.getId()+"-"+target.getName():"nuuul");
 
         if (source != null && source.getConnectionsType() != null) {
             System.out.println(source.getConnectionsType() + "--**--" + source.getName() + " target id : " + target.getId() + " target name : " + target.getName());
@@ -77,6 +77,11 @@ class ConnectionTools {
 //        conSVG.setWidth(source.getStrokeWidth());
         conSVG.setColor("#c1bdbd");
         conSVG.setType(connectionEnum.toString());
+        conSVG.setBendPointses(source.getConnectionBendPointsList());
+        conSVG.setSourceId(source.getId());
+        conSVG.setSourceName(source.getName());
+        conSVG.setTargetId(target.getId());
+        conSVG.setTargetName(target.getName());
 //        int lineWidth = source.getStrokeWidth();
         source.setFontSize(13);
         switch (connectionEnum) {
@@ -97,7 +102,10 @@ class ConnectionTools {
 //                                "      font-family=\"" + source.getFont() + "\" fill=\"#000000\"  >" + source.getConnectionsType() + "</text>\n"
 //                        ;
             case ASSIGNED:
-                return (makeLineWithDoubleOrb(makeLine(conSVG), conSVG) + putText(conSVG, source));
+                return (makeArrows(conSVG, ArrowsTypeEnum.DOUBLE_ORBIT) + putText(conSVG, source));
+//                return (makeLineWithDoubleOrb(makeLine(conSVG), conSVG) + putText(conSVG, source));
+
+
 //                return  " <circle cx=\"" + x1 + "\" cy=\"" + y1 + "\" r=\"3\" fill=\"#000000\" />" +
 //                        "      <line fill=\"black\" x1=\"" + x1 + "\" x2=\"" + x2 + "\" y1=\"" + y1 + "\" y2=\"" + y2 + "\" " +
 //                        "stroke=\"#000000\" stroke-width=\"" + lineWidth + "\"/>\n" +
@@ -154,8 +162,25 @@ class ConnectionTools {
             dashWidth = conSvg.getDashArray()[0];
             dashGap = conSvg.getDashArray()[1];
         }
-        return "<line fill=\"black\" class=\"connection\" stroke-dasharray=\"" + dashWidth + "," + dashGap + "\" x1=\"" + conSvg.getX1() + "\" x2=\"" + conSvg.getX2() + "\" y1=\"" + conSvg.getY1() + "\" y2=\"" + conSvg.getY2() + "\" />\n";
+        if(conSvg.getBendPointses()!=null && conSvg.getBendPointses().size()>0){
+            return "<path class=\"connection\" stroke-dasharray=\"" + dashWidth + "," + dashGap + "\" d=\""+makeDimWithBendPoints(conSvg)+"\"/>";
+
+        }else {
+            return "<line fill=\"black\" class=\"connection\" stroke-dasharray=\"" + dashWidth + "," + dashGap + "\" x1=\"" + conSvg.getX1() + "\" x2=\"" + conSvg.getX2() + "\" y1=\"" + conSvg.getY1() + "\" y2=\"" + conSvg.getY2() + "\" />\n";
 //                "stroke=\"" + conSvg.getColor() + "\" stroke-width=\"" + conSvg.getWidth() + "\"/>\n";
+        }
+
+    }
+    private static String makeDimWithBendPoints(ConnectionSVG conSvg) {
+        String dim = "M"+conSvg.getX1()+","+conSvg.getY1();
+        for (BendPoints b : conSvg.getBendPointses()){
+            dim += " L"+b.getStartX()+","+b.getStartY()
+//                    +" L"+b.getEndX()+","+b.getEndY()
+            ;
+        }
+        dim+=" L"+conSvg.getX2()+","+conSvg.getY2();
+
+        return dim;
 
 
     }
@@ -325,6 +350,11 @@ class ConnectionTools {
                 arrowSVG.setRefY(11);
                 arrowSVG.setColor("#000000");
                 break;
+            case DOUBLE_ORBIT:
+               return makeLineWithDoubleOrb(makeLine(conSvg),conSvg);
+            case NORMAL:
+                return makeLine(conSvg);
+
         }
         String result = "<defs> " +
                 "   <marker id=\"" + arrowSVG.getId() + "\" markerWidth=\"" + arrowSVG.getMarkerWidth() + "\" markerHeight=\"" + arrowSVG.getMarkerHeight() + "\" refX=\"" + arrowSVG.getRefX() + "\" refY=\"" + arrowSVG.getRefY() + "\" orient=\"auto\" >\n" +
@@ -340,8 +370,11 @@ class ConnectionTools {
         if(conSvg.isOwnConnection()){
             result += "<path class=\"connection\" d=\"M" + conSvg.getX1() + "," + conSvg.getY1() + " L" + (conSvg.getX1()) + "," + (conSvg.getY1()+20)+ " L" + (conSvg.getX1()+40) + "," + (conSvg.getY1()+20)+ " L" + (conSvg.getX1()+40) + "," + (conSvg.getY2())+ " L" + (conSvg.getX2()) + "," + (conSvg.getY2()) + "\" ";
 
-        }else {
-            result += "<path class=\"connection\" d=\"M" + conSvg.getX1() + "," + conSvg.getY1() + " L" + (conSvg.getX2()) + "," + (conSvg.getY2()) ;
+        }else if(conSvg.getBendPointses()!=null&& conSvg.getBendPointses().size()>0) {
+            result += "<path class=\"connection\" d=\""+ makeDimWithBendPoints(conSvg)+"\"" ;
+            System.out.println("intoooo BBBBBBBBBBBeeeeeeeeeeend points "+"<path class=\"connection\" d=\""+ makeDimWithBendPoints(conSvg)+"\"");
+        } else {
+            result += "<path class=\"connection\" d=\"M" + conSvg.getX1() + "," + conSvg.getY1() + " L" + (conSvg.getX2()) + "," + (conSvg.getY2() + "\"");
         }
         result +=
 //                "<path d=\"M" + conSvg.getX1() + "," + conSvg.getY1() + " L" + (conSvg.getX2()) + "," + (conSvg.getY2()) + "\" stroke-dasharray=\"" + dashWidth + "," + dashGap + " \" stroke=\"" + conSvg.getColor() + "\" stroke-width=\"" + conSvg.getWidth() + "\" \n" +
@@ -349,7 +382,7 @@ class ConnectionTools {
                 "style=\"" + (arrowsType.equals(ArrowsTypeEnum.DOUBLE_V_TYPE) ? " marker-start: url(#" + (arrowSVG.getId() + "2") + ");" : "")
                 + (arrowsType.equals(ArrowsTypeEnum.DIAMOND_BLACK) || arrowsType.equals(ArrowsTypeEnum.DIAMOND_WHITE) ? " marker-start: url(#" + arrowSVG.getId() + ")\";" : " marker-end: url(#" + arrowSVG.getId() + ");\"") + "/>"
         ;
-        System.out.println(result);
+        System.out.println("---- cccc ---> Connection : Source : "+conSvg.getSourceName() +" to : Target : "+conSvg.getTargetName() + " SVG Code : \n"+ result);
         return result;
 
 

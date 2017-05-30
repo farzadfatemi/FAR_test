@@ -47,20 +47,20 @@ public class Utils {
         }
     }
 
-    private static int getFontSize(String text, boolean getWidth) {
+    public static int getFontSize(String text, boolean getWidth) {
 
-        Font defaultFont = new Font("Montserrat", Font.PLAIN, 13);
+        Font defaultFont = new Font("Montserrat", Font.PLAIN, 14);
 
         AffineTransform affinetransform = new AffineTransform();
         FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
-        int textWidth = (int) (defaultFont.getStringBounds(text, frc).getWidth());
+        int textWidth = (int) (defaultFont.getStringBounds(text, frc).getWidth())+10;
         int textHeight = (int) (defaultFont.getStringBounds(text, frc).getHeight());
 //        System.out.println(textwidth);
         return getWidth ? textWidth : textHeight;
     }
 
-    public static int getTextVerticallyPosition(SVGSingleShape svgShape, Label label) {
-        int customY;
+    public static double getTextVerticallyPosition(SVGSingleShape svgShape, Label label) {
+        double customY;
         System.out.println("label.getFontHeight() : "+label.getFontHeight()+" label.getLabelHeight() : "+label.getLabelHeight()+" label.getLabelWidth() : "+label.getLabelWidth());
         if (svgShape.hasAnyChild()) {
             customY = svgShape.getY() + 20;
@@ -77,10 +77,11 @@ public class Utils {
     public static Label getFitLabel(SVGSingleShape svgShape) {
         if (svgShape == null) return null;
         Label label = new Label();
+        System.out.println("---> getFitLabel | Text name :  "+ svgShape.getName());
         label.setLabelText(svgShape.getName());
         label.setLabelWidth(getFontSize(svgShape.getName(), true));
         label.setFontHeight(getFontSize(svgShape.getName(), false));
-//        System.out.println(textwidth);
+        System.out.println("svgShape.getWidth() : "+svgShape.getWidth()+" label.getLabelWidth() : "+label.getLabelWidth()+" svgShape.getName() length : "+svgShape.getName().length());
         String result = "";
         int lineCount = 0;
         String tempSentence = "";
@@ -93,7 +94,7 @@ public class Utils {
                         tempSentence += word + " ";
                     } else {
                         lineCount++;
-                        result += "<tspan x=\"" + (svgShape.getX() + svgShape.getWidth() / 2) + "\" dy=\"1em\">" + tempSentence + "</tspan>\n";
+                        result += "<tspan x=\"" + (svgShape.getX() + svgShape.getWidth() / 2) + "\" dy=\"1.2em\">" + tempSentence + "</tspan>\n";
                         tempSentence = word + " ";
                         System.out.println("next line : " + word);
                         System.out.println("new line : " + result);
@@ -102,13 +103,12 @@ public class Utils {
             }
             if (tempSentence.length() > 1) {
                 lineCount++;
-                result += "<tspan x=\"" + (svgShape.getX() + svgShape.getWidth() / 2) + "\" dy=\"1em\">" + tempSentence + "</tspan>\n";
+                result += "<tspan x=\"" + (svgShape.getX() + svgShape.getWidth() / 2) + "\" dy=\"1.2em\">" + tempSentence + "</tspan>\n";
             }
             System.out.println("lineCount : "+lineCount + " label.getFontHeight() : "+ label.getFontHeight()+ " Label Height : "+ label.getLabelHeight());
-            label.setLabelHeight(lineCount * label.getFontHeight() + lineCount);
+            label.setLabelHeight(lineCount * label.getFontHeight() + (lineCount*1.2));
             label.setLabelText(result);
 
-//            result = result.substring(0, result.length() - 1);
 
         } else {
             label.setLabelHeight(label.getFontHeight());

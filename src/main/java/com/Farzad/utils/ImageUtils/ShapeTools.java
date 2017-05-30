@@ -4,8 +4,7 @@ import POJOs.Label;
 import POJOs.SVGSingleShape;
 import com.Farzad.Enums.ArchiEnum;
 
-import static com.Farzad.utils.Utils.getFitLabel;
-import static com.Farzad.utils.Utils.getTextVerticallyPosition;
+import static com.Farzad.utils.Utils.*;
 
 /**
  * Created by FARzad - VOLCANO on 5/2/2017.
@@ -143,159 +142,12 @@ class ShapeTools {
 
     }
 
-//    private static String SVGShapeCode2(ArchiEnum archiEnum, SVGSingleShape svgShape) {
-//        int x = svgShape.getX();
-//        int y = svgShape.getY();
-//        int rx = 8;
-//        int ry = 8;
-//        int lineWidth = 4;
-//        String fillColor = svgShape.getFillColor();
-//        String mainRect = "<svg>" +
-//                " <g>" +
-//                " <a xlink:href=\"https://google.com\">\n" +
-//                "      <rect fill=\"" + svgShape.getFillColor() + "\"  x=\"" + svgShape.getX() + "\" y=\"" + svgShape.getY() + "\" width=\"" + svgShape.getWidth()
-//                + "\" height=\"" + svgShape.getHeight() + "\" stroke=\"" + svgShape.getStrokeColor() + "\" stroke-width=\"" + lineWidth + "\" />\n" +
-//                "      <text x=\"" + (svgShape.getX() + 10) + "\" xml:space=\"preserve\" y=\"" + (svgShape.getY() + 35) + "\" clip-path=\"url(#clipPath20)\" stroke=\"none\"\n" +
-//                "       fill=\"#FFFFFF\"  >" + svgShape.getName() + "</text>\n" +
-//                "    </a>\n" +IconsTools.getIconSVGCode(archiEnum, svgShape) +
-//                "</g>" +
-//                "</svg>";
-//
-//        String businessObjectShape = "<svg>" +
-//                " <g>" +
-//                " <a xlink:href=\"https://google.com\">\n" +
-//                "      <rect fill=\"#e0b416\"  x=\"" + svgShape.getX() + "\" y=\"" + svgShape.getY() + "\" width=\"" + svgShape.getWidth()
-//                + "\" height=\"" + svgShape.getHeight() + "\" stroke=\"" + svgShape.getStrokeColor() + "\" stroke-width=\"" + lineWidth + "\" />\n" +
-//                "      <rect fill=\"" + svgShape.getFillColor() + "\"  x=\"" + svgShape.getX() + "\" y=\"" + (svgShape.getY() + 13) + "\" width=\"" + svgShape.getWidth()
-//                + "\" height=\"" + (svgShape.getHeight() - 13) + "\" stroke=\"" + svgShape.getStrokeColor() + "\" />\n" +
-//                "      <text x=\"" + (svgShape.getX() + 10) + "\" xml:space=\"preserve\" y=\"" + (svgShape.getY() + 15 + (svgShape.getHeight() - 13) / 2) + "\" clip-path=\"url(#clipPath20)\" stroke=\"none\"\n" +
-//                "       fill=\"#FFFFFF\"  >" + svgShape.getName() + "</text>\n" +
-//                "    </a>\n" + IconsTools.getIconSVGCode(archiEnum, svgShape) +
-//                "</g>" +
-//                "</svg>";
-//        String businessFunctionShape = "<svg>" +
-//                " <g>" +
-//                " <a xlink:href=\"https://google.com\">\n" +
-//                "      <rect fill=\"" + svgShape.getFillColor() + "\" rx=\"" + rx + "\" ry=\"" + ry + "\"   x=\"" + svgShape.getX() + "\" y=\"" + svgShape.getY() + "\" width=\"" + svgShape.getWidth()
-//                + "\" height=\"" + svgShape.getHeight() + "\" stroke=\"" + svgShape.getStrokeColor() + "\" stroke-width=\"" + lineWidth + "\" />\n" +
-//                "      <text x=\"" + (svgShape.getX() + 10) + "\" xml:space=\"preserve\" y=\"" + (svgShape.getY() + 35) + "\" clip-path=\"url(#clipPath20)\" stroke=\"none\"\n" +
-//                "       fill=\"#FFFFFF\"  >" + svgShape.getName() + "</text>\n" +
-//                "    </a>\n" +IconsTools.getIconSVGCode(archiEnum, svgShape) +
-//                "</g>" +
-//                "</svg>";
-//        switch (archiEnum) {
-//            case APPLICATION_COLLABORATION:
-//                return mainRect;
-//            case APPLICATION_COMPONENT:
-//                return mainRect;
-//            case APPLICATION_FUNCTION:
-//                return mainRect;
-//            case APPLICATION_INTERACTION:
-//                return mainRect;
-//            case APPLICATION_INTERFACE:
-//                return mainRect;
-//            case APPLICATION_OBJECT:
-//                return mainRect;
-//            case APPLICATION_SERVICE:
-//                return mainRect;
-//            case BUSINESS_ACTOR:
-//                return mainRect;
-//            case BUSINESS_COLLABORATION:
-//                return mainRect;
-//            case BUSINESS_EVENT:
-//                return mainRect;
-//            case BUSINESS_FUNCTION:
-//                return businessFunctionShape;
-//            case BUSINESS_INTERACTION:
-//                return mainRect;
-//            case BUSINESS_INTERFACE:
-//                return mainRect;
-//            case BUSINESS_LOCATION:
-//                return mainRect;
-//            case BUSINESS_MEANING:
-//                return mainRect;
-//            case BUSINESS_OBJECT:
-//                return businessObjectShape;
-//            case BUSINESS_PROCESS:
-//                return mainRect;
-//            case BUSINESS_PRODUCT:
-//                return mainRect;
-//            case BUSINESS_REPRESENTATION:
-//                return mainRect;
-//            case BUSINESS_ROLE:
-//                return mainRect;
-//            case BUSINESS_SERVICE:
-//                return mainRect;
-//            case BUSINESS_STAKEHOLDER:
-//                return mainRect;
-//            case BUSINESS_VALUE:
-//                return mainRect;
-//            case GOALS_ASSESSMENT:
-//                return mainRect;
-//            case GOALS_CONSTRAINT:
-//                return mainRect;
-//            case GOALS_DRIVER:
-//                return mainRect;
-//            case GOALS_GAP:
-//                return mainRect;
-//            case GOALS_GOAL:
-//                return mainRect;
-//            case GOALS_PLATEAU:
-//                return mainRect;
-//            case GOALS_PRINCIPAL:
-//                return mainRect;
-//            case GOALS_REPRESENTATION:
-//                return mainRect;
-//            case GOALS_REQUIREMENT:
-//                return mainRect;
-//            case GOALS_ROLE:
-//                return mainRect;
-//            case GOALS_UNAMED:
-//                return mainRect;
-//            case MAPS:
-//                return mainRect;
-//            case MAP_BLUE_STRATAMAP:
-//                return mainRect;
-//            case MAP_GREEN_STRATAMAP:
-//                return mainRect;
-//            case MAP_OUTLINE_STRATAMAP:
-//                return mainRect;
-//            case STRATAMAP_BLUE_STRATAMAP:
-//                return mainRect;
-//            case STRATAMAP_GREEN_STRATAMAP:
-//                return mainRect;
-//            case STRATAMAP_OUTLINE_STRATAMAP:
-//                return mainRect;
-//            case TECHNOLOGY_ARTIFACT:
-//                return mainRect;
-//            case TECHNOLOGY_COMMUNICATION_PATH:
-//                return mainRect;
-//            case TECHNOLOGY_DATABASE:
-//                return mainRect;
-//            case TECHNOLOGY_DEVICE:
-//                return mainRect;
-//            case TECHNOLOGY_FUNCTION:
-//                return mainRect;
-//            case TECHNOLOGY_INTERFACE:
-//                return mainRect;
-//            case TECHNOLOGY_NETWORK:
-//                return mainRect;
-//            case TECHNOLOGY_NODE:
-//                return mainRect;
-//            case TECHNOLOGY_SERVICE:
-//                return mainRect;
-//            case TECHNOLOGY_SYSTEM_SOFTWARE:
-//                return mainRect;
-//            default:
-//                return mainRect;
-//        }
-//    }
 
     private static String SVGShapeCode(ArchiEnum archiEnum, SVGSingleShape svgShape) {
         Label label = getFitLabel(svgShape);
         StringBuilder result = null;
         int x = svgShape.getX();
-        int y = getTextVerticallyPosition(svgShape,label);
+        double y = getTextVerticallyPosition(svgShape,label);
 
         String color = null;
         int rx = 8;
@@ -313,18 +165,6 @@ class ShapeTools {
                 "    </a>\n" + IconsTools.getIconSVGCode(archiEnum, svgShape) +
                 "</g>" +
                 "</svg>";
-
-//         String mainRectWithoutCSS = "<svg>" +
-//                " <g>" +
-//                " <a xlink:href=\"https://google.com\">\n" +
-//                "      <rect fill-opacity=\""+opacity+"\" class=\"mainRect\" fill=\"" + svgShape.getFillColor() + "\"  x=\"" + svgShape.getX() + "\" y=\"" + svgShape.getY() + "\" width=\"" + svgShape.getWidth()
-//                + "\" height=\"" + svgShape.getHeight() + "\" stroke=\"" + svgShape.getStrokeColor() + "\" stroke-width=\"" + lineWidth + "\" />\n" +
-//                "      <text x=\"" + (svgShape.getX() + 10) + "\" xml:space=\"preserve\" y=\"" + (svgShape.getY() + 35) + "\" clip-path=\"url(#clipPath20)\" stroke=\"none\"\n" +
-//                "       fill=\"#FFFFFF\"  >" + svgShape.getName() + "</text>\n" +
-//                "    </a>\n" + IconsTools.getIconSVGCode(archiEnum, svgShape) +
-//                "</g>" +
-//                "</svg>";
-
 
         String businessObjectShape = "<svg>" +
                 " <g>" +
@@ -633,8 +473,8 @@ class ShapeTools {
                 int tempHeight = svgShape.getHeight();
                 svgShape.setFillColor("#cccccc");
 //                svgShape.setWidth(svgShape.getName()!=null?svgShape.getName().length():svgShape.getWidth()/2);
-                svgShape.setWidth(svgShape.getWidth()/2);
-                System.out.println("yesss    "+ (svgShape.getName()!=null?svgShape.getName().length():"nooooo"));
+                System.out.println("yesss    "+getFontSize(svgShape.getName(),true)+" Width    "+ svgShape.getWidth()+" normal width : "+ (svgShape.getName()!=null?svgShape.getName().length():"nooooo"));
+                svgShape.setWidth(getFontSize(svgShape.getName(),true)+40);
                 svgShape.setHeight(25);
                 svgShape.setTextAlignment("start");
                 svgShape.setType(ArchiEnum.GROUP.categoryToString());
@@ -735,7 +575,7 @@ class ShapeTools {
         return IconsTools.getIconSVGCode(archiEnum, svgShape);
     }
 
-    private static String putText(SVGSingleShape svgShape,int customX,int customY) {
+    private static String putText(SVGSingleShape svgShape,int customX,double customY) {
         Label label = getFitLabel(svgShape);
         System.out.println("==== >>>"+svgShape.getName()+" ------------- hasChild : "+svgShape.hasAnyChild());
         String textAnchor = null != svgShape.getTextAlignment() && svgShape.getTextAlignment().length()>0?svgShape.getTextAlignment():"middle";

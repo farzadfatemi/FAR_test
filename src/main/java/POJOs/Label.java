@@ -7,8 +7,8 @@ public class Label {
     private String labelText;
     private int FontLength ;
     private int FontHeight ;
-    private int labelWidth ;
-    private int labelHeight ;
+    private double labelWidth ;
+    private double labelHeight ;
 
     public String getLabelText() {
         return labelText;
@@ -34,19 +34,19 @@ public class Label {
         FontHeight = fontHeight;
     }
 
-    public int getLabelWidth() {
+    public double getLabelWidth() {
         return labelWidth;
     }
 
-    public void setLabelWidth(int labelWidth) {
+    public void setLabelWidth(double labelWidth) {
         this.labelWidth = labelWidth;
     }
 
-    public int getLabelHeight() {
+    public double getLabelHeight() {
         return labelHeight;
     }
 
-    public void setLabelHeight(int labelHeight) {
+    public void setLabelHeight(double labelHeight) {
         this.labelHeight = labelHeight;
     }
 

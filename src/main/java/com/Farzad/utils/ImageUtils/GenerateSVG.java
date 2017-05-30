@@ -397,7 +397,10 @@ public class GenerateSVG {
         if (diagramCpt instanceof IDiagramModelGroup) {
             // Add any child elements to this root
             IDiagramModelGroup modelGrp = (IDiagramModelGroup) diagramCpt;
-
+            System.out.println("-4---4- " + modelGrp.getName());
+            if (modelGrp.getBounds() !=null ) {
+                System.out.println(" X : " +  modelGrp.getBounds().getX()  + " | Y " +  modelGrp.getBounds().getY() + " Width : " +  modelGrp.getBounds().getWidth()  + " | Height " +  modelGrp.getBounds().getHeight() + "--  ---");
+            }
 //            SourceConList = modelGrp.getSourceConnections();
 //            for (Object iDiModelConnObj : SourceConList) {
 //                makeUniqueID++;
@@ -473,7 +476,10 @@ public class GenerateSVG {
 
         } else if (diagramCpt instanceof IDiagramModelArchimateObject) {
             IDiagramModelArchimateObject modelObj = (IDiagramModelArchimateObject) diagramCpt;
-
+            System.out.println("-1---1- " + modelObj.getName());
+            if (modelObj.getBounds() !=null ) {
+                System.out.println(" X : " +  modelObj.getBounds().getX()  + " | Y " +  modelObj.getBounds().getY() + " Width : " +  modelObj.getBounds().getWidth()  + " | Height " +  modelObj.getBounds().getHeight() + "--  ---");
+            }
 //            SourceConList = modelObj.getSourceConnections();
 //            for (Object iDiModelConnObj : SourceConList) {
 //                makeUniqueID++;

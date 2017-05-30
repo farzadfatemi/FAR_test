@@ -15,7 +15,8 @@ public class FileUtils {
 
         try (BufferedWriter bw = new BufferedWriter (new FileWriter (FILENAME))) {
 
-            String content = "<html>\n" +
+            String content = "<html style=\"width:100%;height:100%;\">\n" +
+                    "\n" +
                     "  <head>\n" +
                     "    <title>SVG ARCHI MODEL</title>\n" +
                     "<link rel='stylesheet' type='text/css' href='style.css'/>" +
@@ -26,7 +27,7 @@ public class FileUtils {
 //                    "}" +
 //                    "</style>" +
                     "  </head>\n" +
-                    "  <body> ";
+                    "  <body style=\"width:100%;height:100%;margin:10;\"> ";
             content += body;
             content += "  </body>\n" +
                     "</html>";

@@ -14,6 +14,7 @@ public class mainCls {
 //            System.out.println(GenerateSVG2.getModelSVGs());
 //            System.out.println(CryptoUtils.getSaltedPassword("FARmelody2".getBytes()));
 //            XmlUtils.ReadXMLFile2();
+//            Utils.getFitLabel("hi how are you!!",2);
         }catch (Exception ex){
             ex.printStackTrace();
         }

@@ -61,8 +61,10 @@ public enum ArchiEnum {
     ARTIFACT(Category.ARTIFACT),
     NETWORK(Category.NETWORK),
     DEVICE(Category.DEVICE),
-    INFRASTRUCTURE_INTERFACE(Category.INFRASTRUCTURE_INTERFACE),
+    INFRASTRUCTURE_INTERFACE(Category.INFRASTRUCTURE),
+    INFRASTRUCTURE_SERVICE(Category.INFRASTRUCTURE),
     SYSTEM_SOFTWARE(Category.SYSTEM_SOFTWARE),
+    NODE(Category.INFRASTRUCTURE),
     GROUP(Category.GROUP),
     DEFAULT(Category.DEFAULT);
     //    private final String name;
@@ -84,12 +86,13 @@ public enum ArchiEnum {
         ARTIFACT,
         DEVICE,
         NETWORK,
-        INFRASTRUCTURE_INTERFACE,
+        INFRASTRUCTURE,
         SYSTEM_SOFTWARE,
         INDIVIDUAL,
         GROUP,
         DEFAULT;
     }
+
     public String categoryToString() {
         switch (this.category) {
             case APPLICATION:
@@ -114,8 +117,8 @@ public enum ArchiEnum {
                 return "network";
             case DEVICE:
                 return "device";
-            case INFRASTRUCTURE_INTERFACE:
-                return "infrastructure_interface";
+            case INFRASTRUCTURE:
+                return "infrastructure";
             case SYSTEM_SOFTWARE:
                 return "system_software";
             case INDIVIDUAL:
@@ -129,7 +132,7 @@ public enum ArchiEnum {
         }
     }
 
-    public String getStringValue(){
+    public String getStringValue() {
         switch (this) {
             case APPLICATION_COLLABORATION:
                 return "ApplicationCollaboration";
@@ -235,30 +238,35 @@ public enum ArchiEnum {
                 return "TechnologySystemSoftware";
             case LOCATION:
                 return "Location";
-             case CONTRACT:
+            case CONTRACT:
                 return "Contract";
             case DATA_OBJECT:
                 return "DataObject";
-             case ARTIFACT:
+            case ARTIFACT:
                 return "Artifact";
-             case NETWORK:
+            case NETWORK:
                 return "Network";
-             case DEVICE:
+            case DEVICE:
                 return "Device";
-             case INFRASTRUCTURE_INTERFACE:
+            case INFRASTRUCTURE_INTERFACE:
                 return "InfrastructureInterface";
-             case GROUP:
+            case INFRASTRUCTURE_SERVICE:
+                return "InfrastructureService";
+            case NODE:
+                return "node";
+            case GROUP:
                 return "DiagramModelGroup";
-             case SYSTEM_SOFTWARE:
+            case SYSTEM_SOFTWARE:
                 return "SystemSoftware";
             default:
                 return null;
         }
     }
+
     public boolean equalsName(String otherName) {
         // (otherName == null) check is not needed because name.equals(null) returns false
 //        System.out.println("%%%%%%%%%%%%  Other name : "+otherName +" getStringValue() : " + (getStringValue() !=null?getStringValue().toLowerCase():"")
 //                + " -- " + (otherName != null && getStringValue()!=null && getStringValue().toLowerCase().equals(otherName.toLowerCase())));
-        return otherName != null && getStringValue()!=null && getStringValue().toLowerCase().equals(otherName.toLowerCase());
+        return otherName != null && getStringValue() != null && getStringValue().toLowerCase().equals(otherName.toLowerCase());
     }
 }

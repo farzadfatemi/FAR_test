@@ -17,7 +17,7 @@ import static com.Farzad.utils.ImageUtils.ShapeTools.getSVGShape;
  */
 public class GenerateSVG {
     private static Map<String, SVGSingleShape> All_MAIN_SVG_SHAPES_AND_CONNECTORS = new TreeMap<>();
-    private static Map<String, SVGSingleShape> All_GROUP_SVG_SHAPES_AND_CONNECTORS = new TreeMap<>();
+    private static Map<String, SVGSingleShape> All_GROUP_SVG_SHAPES_AND_CONNECTORS = new HashMap<>();
     private static Map<SVGSingleShape, SVGSingleShape> All_CONNECTIONS = new HashMap<>();
     private static int FIRST_X = 0;
     private static int FIRST_Y = 0;
@@ -32,8 +32,9 @@ public class GenerateSVG {
         StringBuilder sb = new StringBuilder();
         try {
             System.out.println("======---00000000----   " + FIRST_X + " " + FIRST_Y + " " + LAST_X + " " + LAST_Y);
-            sb.append("<svg width=\"100%\" height=\"auto\"  viewBox=\"" + (FIRST_X - 10) + " " + (FIRST_Y - 10) + " " + (Math.abs(FIRST_X) + LAST_X + 30) + " " + (Math.abs(FIRST_Y) + LAST_Y + 30) + " \">");
-//            sb.append("<svg width=\"auto\" height=\"auto\">");
+//            sb.append("<svg width=\"100%\" height=\"auto\"  viewBox=\"" + (FIRST_X - 10) + " " + (FIRST_Y - 10) + " " + (Math.abs(FIRST_X) + LAST_X + 30) + " " + (Math.abs(FIRST_Y) + LAST_Y + 30) + " \">");
+            sb.append("<svg width=\"100%\" height=\"100%\">");
+            sb.append("<g transform=\"translate("+Math.abs(FIRST_X)+","+Math.abs(FIRST_Y)+") \"> ");
             All_GROUP_SVG_SHAPES_AND_CONNECTORS.entrySet().stream().filter(obj -> obj.getValue() != null).forEachOrdered(obj -> {
                 sb.append(getSVGShape(obj.getValue()));
                 sb.append("\n");
@@ -105,7 +106,7 @@ public class GenerateSVG {
                 sb.append(getSVGline(obj.getKey(), obj.getValue()));
             }
 
-
+            sb.append(" </g>");
             sb.append("</svg>");
         } catch (Exception e) {
             e.printStackTrace();
@@ -526,7 +527,6 @@ public class GenerateSVG {
                 if (modelObj.getBounds() != null) {
                     svgSingleShape = new SVGSingleShape();
                     svgSingleShape.setId(modelObj.getId());
-
                     svgSingleShape.setX(finalX);
                     svgSingleShape.setY(finalY);
                     svgSingleShape.setWidth(modelObj.getBounds().getWidth());
@@ -676,7 +676,7 @@ public class GenerateSVG {
 //            File modelFile = new File("D:\\FAR_Documents\\__Startamap\\Original2.archimate");
             IArchimateModel model = loadModel(modelFile);
             List<IDiagramModel> iDModels = model.getDiagramModels();
-            IDiagramModel diagramModel = iDModels.get(1);
+            IDiagramModel diagramModel = iDModels.get(0);
 //            for (EObject obj : diagramModel.eContents()) {
 //
 //                getSingleModelSVGs((IDiagramModelObject) obj,0,0,false);

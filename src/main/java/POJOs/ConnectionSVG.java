@@ -24,6 +24,9 @@ public class ConnectionSVG {
     private String type;
     private String name;
     private boolean ownConnection;
+    private SVGSingleShape source;
+    private SVGSingleShape target;
+
     private List<BendPoints> bendPointses;
 
     public int getX1() {
@@ -146,6 +149,22 @@ public class ConnectionSVG {
         this.ownConnection = ownConnection;
     }
 
+    public SVGSingleShape getSource() {
+        return source;
+    }
+
+    public void setSource(SVGSingleShape source) {
+        this.source = source;
+    }
+
+    public SVGSingleShape getTarget() {
+        return target;
+    }
+
+    public void setTarget(SVGSingleShape target) {
+        this.target = target;
+    }
+
     public List<BendPoints> getBendPointses() {
         return bendPointses;
     }
@@ -172,6 +191,8 @@ public class ConnectionSVG {
                 ", type='" + type + '\'' +
                 ", name='" + name + '\'' +
                 ", ownConnection=" + ownConnection +
+                ", source=" + source +
+                ", target=" + target +
                 ", bendPointses=" + bendPointses +
                 '}';
     }

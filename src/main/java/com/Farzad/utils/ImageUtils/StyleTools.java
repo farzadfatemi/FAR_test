@@ -20,6 +20,8 @@ public class StyleTools {
                 return "fill=\"#23254e\"";
             case TECHNOLOGY:
                 return "fill=\"#19b47b\"";
+            case INFRASTRUCTURE:
+                return "fill=\"#19b47b\"";
             default:
                 return "fill=\"#000000\"";
         }

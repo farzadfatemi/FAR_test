@@ -5,6 +5,7 @@ import POJOs.ConnectionSVG;
 import POJOs.SVGSingleShape;
 import com.Farzad.Enums.ArrowsTypeEnum;
 import com.Farzad.Enums.ConnectionsEnum;
+import com.Farzad.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,10 +15,11 @@ import java.util.List;
  */
 class ConnectionTools {
     private static int maxX = 0;
+    private static final int shapeBorderWidth = 4;
     private static final List<ConnectionSVG> connectionCoordinates = new ArrayList<>();
 
     static String getSVGline(SVGSingleShape source, SVGSingleShape target) {
-        System.out.println(source !=null?"source.getConnectionsType() : "+source.getConnectionsType()+"  Source ID|Name : "+ source.getId()+"-"+ source.getName() +" Target ID|Name"+target.getId()+"-"+target.getName():"nuuul");
+        System.out.println(source != null ? "source.getConnectionsType() : " + source.getConnectionsType() + "  Source ID|Name : " + source.getId() + "-" + source.getName() + " Target ID|Name" + target.getId() + "-" + target.getName() : "nuuul");
 
         if (source != null && source.getConnectionsType() != null) {
             System.out.println(source.getConnectionsType() + "--**--" + source.getName() + " target id : " + target.getId() + " target name : " + target.getName());
@@ -39,12 +41,11 @@ class ConnectionTools {
 //                return lineSVGCode(source, target, ConnectionsEnum.READ_AND_WRITE);
             } else if (ConnectionsEnum.COMPOSITION.equalsName(source.getConnectionsType().toLowerCase())) {
                 return lineSVGCode(source, target, ConnectionsEnum.COMPOSITION);
-             } else if (ConnectionsEnum.SPECIALIZATION.equalsName(source.getConnectionsType().toLowerCase())) {
+            } else if (ConnectionsEnum.SPECIALIZATION.equalsName(source.getConnectionsType().toLowerCase())) {
                 return lineSVGCode(source, target, ConnectionsEnum.SPECIALIZATION);
             } else
                 return lineSVGCode(source, target, ConnectionsEnum.ACCESSES);
 //            return null;
-
 
 
 //            int x1 = source.getX() + source.getWidth();
@@ -63,12 +64,12 @@ class ConnectionTools {
 
         } else
 //            return source != null ? source.getName() : null;
-        return lineSVGCode(source, target, ConnectionsEnum.ACCESSES);
+            return lineSVGCode(source, target, ConnectionsEnum.ACCESSES);
 
     }
 
     private static String lineSVGCode(SVGSingleShape source, SVGSingleShape target, ConnectionsEnum connectionEnum) {
-        ConnectionSVG conSVG = positionCondition(source, target);
+        ConnectionSVG conSVG = source.getConnectionBendPointsList() != null && source.getConnectionBendPointsList().size() > 0 ? positionWithBendPoints(source, target) : positionCondition(source, target);
 //        ConnectionSVG conSVG = new ConnectionSVG();
 //        conSVG.setX1(source.getX() + source.getWidth() / 2);
 //        conSVG.setX2(target.getX() + target.getWidth() / 2);
@@ -82,6 +83,8 @@ class ConnectionTools {
         conSVG.setSourceName(source.getName());
         conSVG.setTargetId(target.getId());
         conSVG.setTargetName(target.getName());
+        conSVG.setSource(source);
+        conSVG.setTarget(target);
 //        int lineWidth = source.getStrokeWidth();
         source.setFontSize(13);
         switch (connectionEnum) {
@@ -162,23 +165,42 @@ class ConnectionTools {
             dashWidth = conSvg.getDashArray()[0];
             dashGap = conSvg.getDashArray()[1];
         }
-        if(conSvg.getBendPointses()!=null && conSvg.getBendPointses().size()>0){
-            return "<path class=\"connection\" stroke-dasharray=\"" + dashWidth + "," + dashGap + "\" d=\""+makeDimWithBendPoints(conSvg)+"\"/>";
+        if (conSvg.getBendPointses() != null && conSvg.getBendPointses().size() > 0) {
+            return "<path class=\"connection\" stroke-dasharray=\"" + dashWidth + "," + dashGap + "\" d=\"" + makeDimWithBendPoints(conSvg) + "\"/>";
 
-        }else {
+        } else {
             return "<line fill=\"black\" class=\"connection\" stroke-dasharray=\"" + dashWidth + "," + dashGap + "\" x1=\"" + conSvg.getX1() + "\" x2=\"" + conSvg.getX2() + "\" y1=\"" + conSvg.getY1() + "\" y2=\"" + conSvg.getY2() + "\" />\n";
 //                "stroke=\"" + conSvg.getColor() + "\" stroke-width=\"" + conSvg.getWidth() + "\"/>\n";
         }
 
     }
+
     private static String makeDimWithBendPoints(ConnectionSVG conSvg) {
-        String dim = "M"+conSvg.getX1()+","+conSvg.getY1();
-        for (BendPoints b : conSvg.getBendPointses()){
-            dim += " L"+b.getStartX()+","+b.getStartY()
-//                    +" L"+b.getEndX()+","+b.getEndY()
+        int sMX = conSvg.getSource().getX() + conSvg.getSource().getWidth() / 2;
+        int sMY = conSvg.getSource().getY() + conSvg.getSource().getHeight() / 2;
+        int tMX = conSvg.getTarget().getX() + conSvg.getTarget().getWidth() / 2;
+        int tMY = conSvg.getTarget().getY() + conSvg.getTarget().getHeight() / 2;
+
+        String dim = "M" + conSvg.getX1() + "," + conSvg.getY1();
+//        dim += " q" ;
+//        for (BendPoints b : conSvg.getBendPointses()) {
+//            dim += b.getStartX() + " " + b.getStartY() + " "
+//                    +b.getEndX()+" "+b.getEndY()+"  "
+//            ;
+//        }
+//        dim += " L" + conSvg.getX2() + "," + conSvg.getY2();
+
+
+        for (BendPoints b : conSvg.getBendPointses()) {
+            System.out.println("intoooo BBBBBBBBBBBeeeeeeeeeeend points StartX : " + b.getStartX() + " | StartY :" + b.getEndX() + " | EndX :" + b.getEndX() + " | EndY :" + b.getEndY());
+            dim += " L" + (b.getStartX() + sMX) + "," + (b.getStartY() + sMY);
+//           dim += " L"+(b.getEndX()+conSvg.getX1())+","+(b.getEndY()+conSvg.getY1());
+//            dim += " L"+b.getStartX() + " " + b.getStartY() + " "
+//            dim += " L"+b.getEndX()+","+b.getEndY();
             ;
         }
-        dim+=" L"+conSvg.getX2()+","+conSvg.getY2();
+        dim += " L" + conSvg.getX2() + "," + conSvg.getY2();
+//        dim += " L" + tMX + "," + tMY;
 
         return dim;
 
@@ -201,11 +223,11 @@ class ConnectionTools {
     private static String putText(ConnectionSVG svg, SVGSingleShape source) {
         String textAnchor = "start";
         String result = null;
-       int y = svg.getY1();
+        int y = svg.getY1();
         if (svg.getY2() - svg.getY1() == 0) {
             textAnchor = "middle";
             y -= 8;
-              result =  (source.getConnectionsType() != null ? "<text text-anchor=\"" + textAnchor + "\" class=\"connectionLabel\" x=\"" + ((svg.getX2() + svg.getX1()) / 2) + "\" y=\"" + ((svg.getY2() + y) / 2) + "\" >\n" +
+            result = (source.getConnectionsType() != null ? "<text text-anchor=\"" + textAnchor + "\" class=\"connectionLabel\" x=\"" + ((svg.getX2() + svg.getX1()) / 2) + "\" y=\"" + ((svg.getY2() + y) / 2) + "\" >\n" +
                     source.getConnectionsName() +
                     " </text>\n" : "");
 //    result =  (source.getConnectionsType() != null ? "<text text-anchor=\"" + textAnchor + "\" font-size=\"" + source.getFontSize() + "\" font-family=\" " + source.getFont() +
@@ -215,7 +237,7 @@ class ConnectionTools {
 
         } else {
             svg.setX1(svg.getX1() + 8);
-              result =  (source.getConnectionsType() != null ? "<text text-anchor=\"" + textAnchor + "\"  class=\"connectionLabel\"  x=\"" + ((svg.getX2() + svg.getX1()) / 2) + "\" y=\"" + ((svg.getY2() + y) / 2) + "\" fill=\"#000000\" stroke=\"none\">\n" +
+            result = (source.getConnectionsType() != null ? "<text text-anchor=\"" + textAnchor + "\"  class=\"connectionLabel\"  x=\"" + ((svg.getX2() + svg.getX1()) / 2) + "\" y=\"" + ((svg.getY2() + y) / 2) + "\" fill=\"#000000\" stroke=\"none\">\n" +
                     source.getConnectionsName() +
                     " </text>\n" : "");
 //                 result =  (source.getConnectionsType() != null ? "<text text-anchor=\"" + textAnchor + "\" font-size=\"" + source.getFontSize() + "\" font-family=\" " + source.getFont() +
@@ -288,11 +310,13 @@ class ConnectionTools {
     private static String makeArrows(ConnectionSVG conSvg, ArrowsTypeEnum arrowsType) {
         ArrowSVG arrowSVG = new ArrowSVG();
         ArrowSVG arrowSVG2 = null;
+        String result = "";
         int dashWidth = 0, dashGap = 0;
         if (conSvg.getDashArray() != null && conSvg.getDashArray().length > 1) {
             dashWidth = conSvg.getDashArray()[0];
             dashGap = conSvg.getDashArray()[1];
         }
+        List<String> extraValue = new ArrayList<>();
         arrowSVG.setId(conSvg.getId());
         switch (arrowsType) {
             case TRIANGLE_BLACK:
@@ -350,39 +374,105 @@ class ConnectionTools {
                 arrowSVG.setRefY(11);
                 arrowSVG.setColor("#000000");
                 break;
-            case DOUBLE_ORBIT:
-               return makeLineWithDoubleOrb(makeLine(conSvg),conSvg);
-            case NORMAL:
-                return makeLine(conSvg);
-
         }
-        String result = "<defs> " +
-                "   <marker id=\"" + arrowSVG.getId() + "\" markerWidth=\"" + arrowSVG.getMarkerWidth() + "\" markerHeight=\"" + arrowSVG.getMarkerHeight() + "\" refX=\"" + arrowSVG.getRefX() + "\" refY=\"" + arrowSVG.getRefY() + "\" orient=\"auto\" >\n" +
-                "        <path class=\"arrows\" d=\"" + arrowSVG.getDim() + "\"   style=\"fill:" + arrowSVG.getColor() + "\" />" +
-//                "        <path class=\"arrows\" d=\"" + arrowSVG.getDim() + "\"  stroke=\"black\"  style=\"fill:" + arrowSVG.getColor() + "\" />" +
-                "  </marker>";
-        if (arrowsType.equals(ArrowsTypeEnum.DOUBLE_V_TYPE) && arrowSVG2 != null) {
-            result += "   <marker id=\"" + (arrowSVG.getId() + "2") + "\" markerWidth=\"" + arrowSVG2.getMarkerWidth() + "\" markerHeight=\"" + arrowSVG2.getMarkerHeight() + "\" refX=\"" + arrowSVG2.getRefX() + "\" refY=\"" + arrowSVG2.getRefY() + "\" orient=\"auto\" >\n" +
-                    "        <path class=\"arrows\" d=\"" + arrowSVG2.getDim() + "\" style=\"fill:" + arrowSVG2.getColor() + "\" />" +
+        if (!arrowsType.equals(ArrowsTypeEnum.DOUBLE_ORBIT) && !arrowsType.equals(ArrowsTypeEnum.NORMAL)) {
+            result = "<defs> " +
+                    "   <marker id=\"" + arrowSVG.getId() + "\" markerWidth=\"" + arrowSVG.getMarkerWidth() + "\" markerHeight=\"" + arrowSVG.getMarkerHeight() + "\" refX=\"" + arrowSVG.getRefX() + "\" refY=\"" + arrowSVG.getRefY() + "\" orient=\"auto\" >\n" +
+                    "        <path class=\"arrows\" d=\"" + arrowSVG.getDim() + "\"   style=\"fill:" + arrowSVG.getColor() + "\" />" +
                     "  </marker>";
-        }
-        result += "</defs>\n ";
-        if(conSvg.isOwnConnection()){
-            result += "<path class=\"connection\" d=\"M" + conSvg.getX1() + "," + conSvg.getY1() + " L" + (conSvg.getX1()) + "," + (conSvg.getY1()+20)+ " L" + (conSvg.getX1()+40) + "," + (conSvg.getY1()+20)+ " L" + (conSvg.getX1()+40) + "," + (conSvg.getY2())+ " L" + (conSvg.getX2()) + "," + (conSvg.getY2()) + "\" ";
+            if (arrowsType.equals(ArrowsTypeEnum.DOUBLE_V_TYPE) && arrowSVG2 != null) {
+                result += "   <marker id=\"" + (arrowSVG.getId() + "2") + "\" markerWidth=\"" + arrowSVG2.getMarkerWidth() + "\" markerHeight=\"" + arrowSVG2.getMarkerHeight() + "\" refX=\"" + arrowSVG2.getRefX() + "\" refY=\"" + arrowSVG2.getRefY() + "\" orient=\"auto\" >\n" +
+                        "        <path class=\"arrows\" d=\"" + arrowSVG2.getDim() + "\" style=\"fill:" + arrowSVG2.getColor() + "\" />" +
+                        "  </marker>";
+            }
+            result += "</defs>\n ";
 
-        }else if(conSvg.getBendPointses()!=null&& conSvg.getBendPointses().size()>0) {
-            result += "<path class=\"connection\" d=\""+ makeDimWithBendPoints(conSvg)+"\"" ;
-            System.out.println("intoooo BBBBBBBBBBBeeeeeeeeeeend points "+"<path class=\"connection\" d=\""+ makeDimWithBendPoints(conSvg)+"\"");
-        } else {
-            result += "<path class=\"connection\" d=\"M" + conSvg.getX1() + "," + conSvg.getY1() + " L" + (conSvg.getX2()) + "," + (conSvg.getY2() + "\"");
         }
-        result +=
-//                "<path d=\"M" + conSvg.getX1() + "," + conSvg.getY1() + " L" + (conSvg.getX2()) + "," + (conSvg.getY2()) + "\" stroke-dasharray=\"" + dashWidth + "," + dashGap + " \" stroke=\"" + conSvg.getColor() + "\" stroke-width=\"" + conSvg.getWidth() + "\" \n" +
-                " stroke-dasharray=\"" + dashWidth + "," + dashGap + "\" \n" +
-                "style=\"" + (arrowsType.equals(ArrowsTypeEnum.DOUBLE_V_TYPE) ? " marker-start: url(#" + (arrowSVG.getId() + "2") + ");" : "")
-                + (arrowsType.equals(ArrowsTypeEnum.DIAMOND_BLACK) || arrowsType.equals(ArrowsTypeEnum.DIAMOND_WHITE) ? " marker-start: url(#" + arrowSVG.getId() + ")\";" : " marker-end: url(#" + arrowSVG.getId() + ");\"") + "/>"
-        ;
-        System.out.println("---- cccc ---> Connection : Source : "+conSvg.getSourceName() +" to : Target : "+conSvg.getTargetName() + " SVG Code : \n"+ result);
+        if (arrowsType.equals(ArrowsTypeEnum.DOUBLE_ORBIT)) {
+            result += "<circle cx=\"" + conSvg.getX1() + "\" cy=\"" + conSvg.getY1() + "\" r=\"3\" fill=\"" + conSvg.getColor() + "\" />";
+        }
+
+        if (conSvg.isOwnConnection()) {
+//            result += "<path class=\"connection\" stroke-linejoin=\"round\" d=\"M" + conSvg.getX1() + "," + conSvg.getY1() + " L" + (conSvg.getX1()) + "," + (conSvg.getY1() + 20) + " L" + (conSvg.getX1() + 40) + "," + (conSvg.getY1() + 20) + " L" + (conSvg.getX1() + 40) + "," + (conSvg.getY2()) + " L" + (conSvg.getX2()) + "," + (conSvg.getY2()) + "\" ";
+            System.out.println("owwwwwwwwwwwwwwwwwwwwwwwwwwwwwn");
+            result += "<path class=\"connection\"  d=\"M" + conSvg.getX1() + "," + conSvg.getY1() + " L" + (conSvg.getX1()) + "," + (conSvg.getY1() + 10) + "";
+            if (!arrowsType.equals(ArrowsTypeEnum.DOUBLE_ORBIT) && !arrowsType.equals(ArrowsTypeEnum.NORMAL)) {
+                result +=
+                        " stroke-dasharray=\"" + dashWidth + "," + dashGap + "\" \n" +
+                                "" + (arrowsType.equals(ArrowsTypeEnum.DOUBLE_V_TYPE) ? "style=\" marker-start: url(#" + (arrowSVG.getId() + "2") + ");" :
+                                (arrowsType.equals(ArrowsTypeEnum.DIAMOND_BLACK) || arrowsType.equals(ArrowsTypeEnum.DIAMOND_WHITE) ? "style=\" marker-start: url(#" + arrowSVG.getId() + ");\"" : "\""))
+                                + "/>"
+                ;
+            } else {
+                result += " stroke-dasharray=\"" + dashWidth + "," + dashGap + "\"/>";
+            }
+
+
+            result += "<path class=\"connection\"   stroke-dasharray=\"" + dashWidth + "," + dashGap + "\" d=\"M" + (conSvg.getX1()) + "," + (conSvg.getY1() + 10) + " C" + (conSvg.getX1()) + "," + (conSvg.getY1() + 15) +
+                    "  " + (conSvg.getX1()) + "," + (conSvg.getY1() + 20) +
+                    "  " + (conSvg.getX1() + 10) + "," + (conSvg.getY1() + 20) + "\"/>";
+
+            result += "<path class=\"connection\"    stroke-dasharray=\"" + dashWidth + "," + dashGap + "\" d=\"M" + (conSvg.getX1() + 10) + "," + (conSvg.getY1() + 20) + " L" + (conSvg.getX1() + 20) + "," + (conSvg.getY1() + 20) + " \"/>";
+            result += "<path class=\"connection\"   stroke-dasharray=\"" + dashWidth + "," + dashGap + "\" d=\"M" + (conSvg.getX1() + 20) + "," + (conSvg.getY1() + 20) + " C" + (conSvg.getX1() + 30) + "," + (conSvg.getY1() + 20) +
+                    "  " + (conSvg.getX1() + 30) + "," + (conSvg.getY1() + 15) +
+                    "  " + (conSvg.getX1() + 30) + "," + (conSvg.getY1() + 10) + "\"/>";
+
+
+            result += "<path class=\"connection\"   stroke-dasharray=\"" + dashWidth + "," + dashGap + "\" d=\"M" + (conSvg.getX1() + 30) + "," + (conSvg.getY1() + 10) + " L" + (conSvg.getX1() + 30) + "," + (conSvg.getY2() + 5) + " \"/>";
+            result += "<path class=\"connection\"  stroke-dasharray=\"" + dashWidth + "," + dashGap + "\" d=\"M" + (conSvg.getX1() + 30) + "," + (conSvg.getY2() + 5) + " C" + (conSvg.getX1() + 30) + "," + (conSvg.getY2()) +
+                    "  " + (conSvg.getX1() + 25) + "," + (conSvg.getY2()) +
+                    "  " + (conSvg.getX1() + 20) + "," + (conSvg.getY2()) + "\"/>";
+
+            result += "<path class=\"connection\"  d=\"M" + (conSvg.getX2()) + "," + (conSvg.getY2()) + " L" + (conSvg.getX1() + 20) + "," + (conSvg.getY2()) + "\"";
+
+            if (!arrowsType.equals(ArrowsTypeEnum.DOUBLE_ORBIT) && !arrowsType.equals(ArrowsTypeEnum.NORMAL)) {
+                result +=
+                        " stroke-dasharray=\"" + dashWidth + "," + dashGap + "\" \n" +
+                                "" + (arrowsType.equals(ArrowsTypeEnum.DIAMOND_BLACK) || arrowsType.equals(ArrowsTypeEnum.DIAMOND_WHITE) ? "" : "style=\"marker-end: url(#" + arrowSVG.getId() + ");\"") + "/>"
+                ;
+            } else {
+                result += " stroke-dasharray=\"" + dashWidth + "," + dashGap + "\"/>";
+            }
+            ;
+
+            System.out.println("wwwww result -- " + result);
+//            AddArrowToConnection(arrowsType,result,dashWidth,dashGap,arrowSVG);
+
+//            <path d="M185,365 L185,375" stroke-width="3" stroke="purple" fill="transparent"/>
+//
+//            <path d="M185 375 C 185 380, 185 385, 195 385" stroke="purple"           stroke-width="3" fill="transparent"/>
+//
+//            <path d="M195,385 L215,385" stroke-width="3" stroke="purple" fill="transparent"/>
+
+//            <path d="M215 385 C 225 385, 225 380, 225 375" stroke="purple"             stroke-width="3" fill="transparent"/>
+
+//            <path d="M225,375 L225,360" stroke-width="3" stroke="purple" fill="transparent"/>
+//            <path d="M225 360 C 225 355, 220 350, 215 350" stroke="purple" 		        stroke-width="3" fill="transparent"/>
+
+//            <path d="M215,350 L200,350" stroke-width="3" stroke="purple" fill="transparent"/>
+
+
+        } else {
+            if (conSvg.getBendPointses() != null && conSvg.getBendPointses().size() > 0) {
+                result += "<path class=\"connection\" d=\"" + makeDimWithBendPoints(conSvg) + "\"";
+            } else {
+                result += "<path class=\"connection\" d=\"M" + conSvg.getX1() + "," + conSvg.getY1() + " L" + (conSvg.getX2()) + "," + (conSvg.getY2() + "\"");
+            }
+
+            if (!arrowsType.equals(ArrowsTypeEnum.DOUBLE_ORBIT) && !arrowsType.equals(ArrowsTypeEnum.NORMAL)) {
+                result +=
+                        " stroke-dasharray=\"" + dashWidth + "," + dashGap + "\" \n" +
+                                "style=\"" + (arrowsType.equals(ArrowsTypeEnum.DOUBLE_V_TYPE) ? " marker-start: url(#" + (arrowSVG.getId() + "2") + ");" : "")
+                                + (arrowsType.equals(ArrowsTypeEnum.DIAMOND_BLACK) || arrowsType.equals(ArrowsTypeEnum.DIAMOND_WHITE) ? " marker-start: url(#" + arrowSVG.getId() + ")\";" : " marker-end: url(#" + arrowSVG.getId() + ");\"") + "/>"
+                ;
+            } else {
+                result += " stroke-dasharray=\"" + dashWidth + "," + dashGap + "\"/>";
+            }
+        }
+        if (arrowsType.equals(ArrowsTypeEnum.DOUBLE_ORBIT)) {
+            result += "<circle cx=\"" + conSvg.getX2() + "\" cy=\"" + conSvg.getY2() + "\" r=\"3\" fill=\"" + conSvg.getColor() + "\" />";
+        }
+        System.out.println("---- cccc ---> Connection : Source : " + conSvg.getSourceName() + " to : Target : " + conSvg.getTargetName() + " SVG Code : \n" + result);
         return result;
 
 
@@ -390,147 +480,228 @@ class ConnectionTools {
 
     private static ConnectionSVG positionCondition(SVGSingleShape source, SVGSingleShape target) {
         // the border should avoid from startpoint/endpoint connection
-        int shapeBorderWidth = 4;
         boolean ownConnection = false;
         ConnectionSVG conSVG = null;
-
         if (source == null || target == null) return null;
-        if (source.getId() !=null && source.getId().equals(target.getId())) {
-            conSVG = new ConnectionSVG();
-            conSVG.setX1(source.getX() + source.getWidth() -20);
-            conSVG.setX2(target.getX() + source.getWidth()+ shapeBorderWidth);
-            conSVG.setY1(source.getY() + source.getHeight() + shapeBorderWidth);
-            conSVG.setY2(target.getY() + source.getHeight() - 20 );
-            conSVG.setOwnConnection(true);
-            conSVG.setId(source.getId() + "-" + System.currentTimeMillis());
-            conSVG.setWidth(1);
-        }else {
+        boolean hasBendPoint = (source.getConnectionBendPointsList() != null && source.getConnectionBendPointsList().size() > 0);
+        if (source.getId() != null && source.getId().equals(target.getId())) {
+            return selfPointing(source, target);
+        } else {
             conSVG = new ConnectionSVG();
             int x1 = source.getX();
-            int x11 = source.getWidth();
+            int w1 = source.getWidth();
             int y1 = source.getY();
-            int y11 = source.getHeight();
+            int h1 = source.getHeight();
             int x2 = target.getX();
-            int x22 = target.getWidth();
+            int w2 = target.getWidth();
             int y2 = target.getY();
-            int y22 = target.getHeight();
-            if (x1 + x11 > maxX) maxX = x1 + x11;
-            if (x2 + x22 > maxX) maxX = x2 + x22;
+            int h2 = target.getHeight();
+            if (x1 + w1 > maxX) maxX = x1 + w1;
+            if (x2 + w2 > maxX) maxX = x2 + w2;
             conSVG.setId(source.getId() + "-" + System.currentTimeMillis());
             conSVG.setWidth(1);
-//        System.out.println("--00---------> Source name : " + source.getName() + " source.getX() = " + source.getX() + " - source.Width() = " + source.getWidth() + " - source.getX()+Width() = " + (source.getX() + source.getWidth()));
-//        System.out.println("--00---------> source.getY() = " + source.getY() + " source.getHeight() = " + source.getHeight() + " - source.getY()+Height = " + (source.getY() + source.getHeight()));
-//        System.out.println("--00---------> Target name : " + target.getName() + " target.getX() = " + target.getX() + " - target.Width() = " + target.getWidth() + " - target.getX()+Width() = " + (target.getX() + target.getWidth()));
-//        System.out.println("--00---------> target.getY() = " + target.getY() + " - target.getHeight() = " + target.getHeight() + " - target.getY()+Height = " + (target.getY() + target.getHeight()));
+//        System.out.println("--00---------> Source name : " + source.getName() + " x1 = " + x1 + " - source.Width() = " + w1 + " - x1+Width() = " + (x1 + w1));
+//        System.out.println("--00---------> y1 = " + y1 + " h1 = " + h1 + " - y1+Height = " + (y1 + h1));
+//        System.out.println("--00---------> Target name : " + target.getName() + " x2 = " + x2 + " - target.Width() = " + w2 + " - x2+Width() = " + (x2 + w2));
+//        System.out.println("--00---------> y2 = " + y2 + " - target.getHeight() = " + target.getHeight() + " - y2+Height = " + (y2 + target.getHeight()));
             if (x1 > x2) {
                 System.out.println("---> x1>x2");
-                if (x1 > (x2 + x22)) {
-                    System.out.println("----> x1>(x2+x22)");
+                if (x1 > (x2 + w2)) {
+                    System.out.println("----> x1>(x2+w2)");
                     if (y1 > y2) {
                         System.out.println("-----> y1>y2)");
-                        if (y1 > (y2 + y22)) {
-                            System.out.println("------> y1>(y2+y22)");
-                            conSVG.setX1(source.getX() - shapeBorderWidth);
-                            conSVG.setX2(target.getX() + target.getWidth() + shapeBorderWidth);
-                            conSVG.setY1(source.getY() - shapeBorderWidth);
-                            conSVG.setY2(target.getY() + target.getHeight() + shapeBorderWidth);
-                            while (checkDuplicateConnection(conSVG)) {
-                                conSVG.setX2(conSVG.getX2() - 1);
-                                conSVG.setY1(conSVG.getY1() + 1);
+                        if (y1 > (y2 + h2)) {
+                            if (hasBendPoint) {
+                                System.out.println("------> y1>(y2+h2) + bendpoints");
+                                conSVG.setX1(x1 + w1 / 2);
+                                conSVG.setX2(x2 + w2 + shapeBorderWidth);
+                                conSVG.setY1(y1 - shapeBorderWidth);
+                                conSVG.setY2(y2 + h2 / 2);
+                                while (checkDuplicateConnection(conSVG)) {
+                                    conSVG.setX2(conSVG.getX2() - 1);
+                                    conSVG.setY1(conSVG.getY1() + 1);
+                                }
+                            } else {
+                                System.out.println("------> y1>(y2+h2)");
+                                conSVG.setX1(x1 - shapeBorderWidth);
+                                conSVG.setX2(x2 + w2 + shapeBorderWidth);
+                                conSVG.setY1(y1 - shapeBorderWidth);
+                                conSVG.setY2(y2 + h2 + shapeBorderWidth);
+                                while (checkDuplicateConnection(conSVG)) {
+                                    conSVG.setX2(conSVG.getX2() - 1);
+                                    conSVG.setY1(conSVG.getY1() + 1);
+                                }
                             }
                         } else {
-                            System.out.println("------> y1<=(y2+y22)");
-                            conSVG.setX1(source.getX() - shapeBorderWidth);
-                            conSVG.setX2(target.getX() + target.getWidth() + shapeBorderWidth);
-                            conSVG.setY1(source.getY() + source.getHeight() / 2);
-                            conSVG.setY2(source.getY() + source.getHeight() / 2 > target.getY() && source.getY() + source.getHeight() / 2 < target.getY() + target.getHeight() ? source.getY() + source.getHeight() / 2 : target.getY() + target.getHeight() / 2);
-                            while (checkDuplicateConnection(conSVG)) {
-                                conSVG.setY2(conSVG.getY2() - 1);
-                                conSVG.setY1(conSVG.getY1() - 1);
+                            if (hasBendPoint) {
+                                if (y1 > y2 + h2 / 2) {
+                                    System.out.println("------> y1<=(y2+h2) && y1>y2+h2/2 +bindPoint");
+                                    conSVG.setX1(x1 + w1 / 2);
+                                    conSVG.setX2(x2 + w2 + shapeBorderWidth);
+                                    conSVG.setY1(y1);
+                                    conSVG.setY2(y2 + h2 / 2);
+                                    while (checkDuplicateConnection(conSVG)) {
+                                        conSVG.setY2(conSVG.getY2() - 1);
+                                        conSVG.setY1(conSVG.getY1() - 1);
+                                    }
+                                } else {
+                                    System.out.println("------> y1<=(y2+h2)&& y1<y2+h2/2 +bindPoint");
+                                    conSVG.setX1(x1 - shapeBorderWidth);
+                                    conSVG.setX2(x2 + w2 + shapeBorderWidth);
+                                    conSVG.setY1(y1 + h1 / 2);
+                                    conSVG.setY2(y1 + h1 / 2);
+                                    while (checkDuplicateConnection(conSVG)) {
+                                        conSVG.setY2(conSVG.getY2() - 1);
+                                        conSVG.setY1(conSVG.getY1() - 1);
+                                    }
+                                }
+                            } else {
+                                System.out.println("------> y1<=(y2+h2)");
+                                conSVG.setX1(x1 - shapeBorderWidth);
+                                conSVG.setX2(x2 + w2 + shapeBorderWidth);
+                                conSVG.setY1(y1 + h1 / 2);
+                                conSVG.setY2(y1 + h1 / 2 > y2 && y1 + h1 / 2 < y2 + h2 ? y1 + h1 / 2 : y2 + h2 / 2);
+                                while (checkDuplicateConnection(conSVG)) {
+                                    conSVG.setY2(conSVG.getY2() - 1);
+                                    conSVG.setY1(conSVG.getY1() - 1);
+                                }
                             }
-//                        conSVG.setY1(source.getY() + 2);
-//                        conSVG.setY2((source.getY() + 2) > target.getY() && (source.getY() + 2) < target.getY() + target.getHeight() ? (source.getY() + 2) : target.getY() + target.getHeight() - 2);
-//                     conSVG.setX1(source.getX());
-//                        conSVG.setX2(target.getX() + target.getWidth());
-//                        conSVG.setY1(source.getY() + source.getHeight() / 2);
-//                        conSVG.setY2(target.getY() + target.getHeight() / 2);
+//                        conSVG.setY1(y1 + 2);
+//                        conSVG.setY2((y1 + 2) > y2 && (y1 + 2) < y2 + h2 ? (y1 + 2) : y2 + h2 - 2);
+//                     conSVG.setX1(x1);
+//                        conSVG.setX2(x2 + w2);
+//                        conSVG.setY1(y1 + h1 / 2);
+//                        conSVG.setY2(y2 + h2 / 2);
                         }
                     } else {
                         System.out.println("-----> y2>y1)");
-                        if (y2 > (y1 + y11)) {
-                            System.out.println("----> y2>(y1+y11)");
-                            conSVG.setX1(source.getX() - shapeBorderWidth);
-                            conSVG.setX2(target.getX() + target.getWidth() + shapeBorderWidth);
-                            conSVG.setY1(source.getY() + source.getHeight() + shapeBorderWidth);
-                            conSVG.setY2(target.getY() - shapeBorderWidth);
+                        if (y2 > (y1 + h1)) {
+                            if (hasBendPoint) {
+                                System.out.println("----> y2>(y1+h1)+bind points");
+                                conSVG.setX1(x1 - shapeBorderWidth);
+                                conSVG.setX2(x2 + w2 / 2);
+                                conSVG.setY1(y1 + h1 / 2);
+                                conSVG.setY2(y2 - shapeBorderWidth);
+                            } else {
+                                System.out.println("----> y2>(y1+h1)");
+                                conSVG.setX1(x1 - shapeBorderWidth);
+                                conSVG.setX2(x2 + w2 + shapeBorderWidth);
+                                conSVG.setY1(y1 + h1 + shapeBorderWidth);
+                                conSVG.setY2(y2 - shapeBorderWidth);
+                            }
                         } else {
-                            System.out.println("----> y2<=(y1+y11)");
-                            conSVG.setX1(source.getX() - shapeBorderWidth);
-                            conSVG.setX2(target.getX() + target.getWidth() + shapeBorderWidth);
-                            conSVG.setY1(target.getY() + target.getHeight() / 2);
-                            conSVG.setY2(target.getY() + target.getHeight() / 2);
-//                        conSVG.setY1(source.getY()+ 2);
-//                        conSVG.setY1(source.getY() + source.getHeight() / 2);
-//                        conSVG.setY2((source.getY() +2)> target.getY()&& (source.getY() +2)< target.getY() + target.getHeight()? (source.getY() +2):target.getY() + target.getHeight() - 2);
-//                        conSVG.setY2(target.getY() + target.getHeight() / 2);
+                            if (hasBendPoint) {
+                                System.out.println("----> y2<(y1+h1)+bind points");
+                                if (y1 + h1 / 2 > y2) {
+                                    conSVG.setX1(x1 - shapeBorderWidth);
+                                    conSVG.setX2(x2 + w2 + shapeBorderWidth);
+                                    conSVG.setY1(y1 + h1 / 2);
+                                    conSVG.setY2(y1 + h1 / 2);
+                                } else {
+                                    conSVG.setX1(x1 - shapeBorderWidth);
+                                    conSVG.setX2(x2 + w2 / 2);
+                                    conSVG.setY1(y1 + h1 / 2);
+                                    conSVG.setY2(y2);
+                                }
+                            } else {
+                                System.out.println("----> y2<>>(y1+h1)");
+                                conSVG.setX1(x1 - shapeBorderWidth);
+                                conSVG.setX2(x2 + w2 / 2);
+                                conSVG.setY1(y1 + h1 / 2);
+                                conSVG.setY2(y2 - shapeBorderWidth);
+                            }
+//                        conSVG.setY1(y1+ 2);
+//                        conSVG.setY1(y1 + h1 / 2);
+//                        conSVG.setY2((y1 +2)> y2&& (y1 +2)< y2 + h2? (y1 +2):y2 + h2 - 2);
+//                        conSVG.setY2(y2 + h2 / 2);
                         }
                     }
 
                 } else {
-                    System.out.println("----> x1<=(x2+x22)");
+                    System.out.println("----> x1<=(x2+w2)");
                     if (y1 > y2) {
                         System.out.println("-----> y1>y2");
-                        if (y1 > (y2 + y22)) {
-                            System.out.println("------> y1>(y2+y22)");
-                            conSVG.setX1(source.getX() + source.getWidth() / 2);
-                            conSVG.setX2(source.getX() + source.getWidth() / 2);
-//                        conSVG.setX2(target.getX() + target.getWidth() / 2);
-                            conSVG.setY1(source.getY() - shapeBorderWidth);
-                            conSVG.setY2(target.getY() + target.getHeight() + shapeBorderWidth);
+                        if (y1 > (y2 + h2)) {
+                            System.out.println("------> y1>(y2+h2)");
+//                            if (hasBendPoint) {
+                            if (x1 + w1 / 2 > x2 + w2) {
+                                conSVG.setX1(x1 - shapeBorderWidth);
+                                conSVG.setX2(x2 + w2 / 2);
+                                conSVG.setY1(y1 + h1 / 2);
+                                conSVG.setY2(y2 + h2 + shapeBorderWidth);
+                            } else {
+                                conSVG.setX1(x1 + w1 / 2);
+                                conSVG.setX2(x1 + w1 / 2);
+                                conSVG.setY1(y1 - shapeBorderWidth);
+                                conSVG.setY2(y2 + h2 + shapeBorderWidth);
+                            }
+//                            }else{
+//                                if (x1 + w1 / 2 > x2 + w2) {
+//                                    conSVG.setX1(x1 -shapeBorderWidth);
+//                                    conSVG.setX2(x2 + w2 / 2);
+//                                    conSVG.setY1(y1 + h1/2);
+//                                    conSVG.setY2(y2 + h2 + shapeBorderWidth);
+//                                } else {
+//                                    conSVG.setX1(x1 + w1 / 2);
+//                                    conSVG.setX2(x1 + w1 / 2);
+//                                    conSVG.setY1(y1 - shapeBorderWidth);
+//                                    conSVG.setY2(y2 + h2 + shapeBorderWidth);
+//                                }
+//                            }
                         } else {
-                            System.out.println("------> y1<=(y2+y22)");
-                            conSVG.setX1(source.getX() - shapeBorderWidth);
-                            conSVG.setX2(target.getX() + target.getWidth() / 2 + shapeBorderWidth);
-                            conSVG.setY1(source.getY() + source.getHeight() / 2 - shapeBorderWidth);
-                            conSVG.setY2(target.getY() + target.getHeight() + shapeBorderWidth);
+                            System.out.println("------> y1<=(y2+h2)");
+                            conSVG.setX1(x1 - shapeBorderWidth);
+                            conSVG.setX2(x2 + w2 / 2 + shapeBorderWidth);
+                            conSVG.setY1(y1 + h1 / 2 - shapeBorderWidth);
+                            conSVG.setY2(y2 + h2 + shapeBorderWidth);
                         }
                     } else {
                         System.out.println("-----> y2>y1");
-                        if (y2 > (y1 + y11)) {
-                            System.out.println("----> y2>(y1+y11)");
-                            conSVG.setX1(source.getX() + source.getWidth() / 2);
-                            conSVG.setX2(source.getX() + source.getWidth() / 2 > x2 && source.getX() + source.getWidth() / 2 < x2 + x22 ? source.getX() + source.getWidth() / 2 : target.getX() + target.getWidth());
-//                        conSVG.setX2(target.getX() + target.getWidth() / 2);
-                            conSVG.setY1(source.getY() + source.getHeight() + shapeBorderWidth);
-                            conSVG.setY2(target.getY() - shapeBorderWidth);
+                        if (y2 > (y1 + h1)) {
+                            System.out.println("----> y2>(y1+h1)");
+                            conSVG = Utils.getBestPoint(source, target);
+//                            if (x1 + w1 / 2 > x2 + w2) {
+//                                conSVG.setX1(x1 - shapeBorderWidth);
+//                                conSVG.setX2(x2 + w2 / 2);
+//                                conSVG.setY1(y1 + h1 / 2);
+//                                conSVG.setY2(y2 - shapeBorderWidth);
+//                            } else {
+//                                conSVG.setX1(x1 + w1 / 2);
+//                                conSVG.setX2(x1 + w1 / 2);
+////                                conSVG.setX2(x1 + w1 / 2 > x2 && x1 + w1 / 2 < x2 + w2 ? x1 + w1 / 2 : x2 + w2);
+////                        conSVG.setX2(x2 + w2 / 2);
+//                                conSVG.setY1(y1 + h1 + shapeBorderWidth);
+//                                conSVG.setY2(y2 - shapeBorderWidth);
+//                            }
+
                         } else {
-                            System.out.println("----> y2<=(y1+y11)");
-                            conSVG.setX1(source.getX() - shapeBorderWidth);
-                            conSVG.setX2(target.getX() + target.getWidth() / 2);
-                            conSVG.setY1(source.getY() + source.getHeight() / 2);
-                            conSVG.setY2(target.getY() + target.getHeight() + shapeBorderWidth);
+                            System.out.println("----> y2<=(y1+h1)");
+                            conSVG.setX1(x1 - shapeBorderWidth);
+                            conSVG.setX2(x2 + w2 / 2);
+                            conSVG.setY1(y1 + h1 / 2);
+                            conSVG.setY2(y2 + h2 + shapeBorderWidth);
                         }
                     }
                 }
             } else {
                 System.out.println("---> x2>x1");
-                if (x2 > (x1 + x11)) {
-                    System.out.println("----> x2>(x1+x11)");
+                if (x2 > (x1 + w1)) {
+                    System.out.println("----> x2>(x1+w1)");
                     if (y1 > y2) {
                         System.out.println("-----> y1>y2)");
-                        if (y1 > (y2 + y22)) {
-                            System.out.println("------> y1>(y2+y22)");
-                            conSVG.setX1(source.getX() + source.getWidth() + shapeBorderWidth);
-                            conSVG.setX2(target.getX() - shapeBorderWidth);
-                            conSVG.setY1(source.getY() - shapeBorderWidth);
-                            conSVG.setY2(target.getY() + target.getHeight() + shapeBorderWidth);
+                        if (y1 > (y2 + h2)) {
+                            System.out.println("------> y1>(y2+h2)");
+                            conSVG.setX1(x1 + w1 + shapeBorderWidth);
+                            conSVG.setX2(x2 - shapeBorderWidth);
+                            conSVG.setY1(y1 - shapeBorderWidth);
+                            conSVG.setY2(y2 + h2 + shapeBorderWidth);
                         } else {
-                            System.out.println("------> y1<=(y2+y22)");
-                            conSVG.setX1(source.getX() + source.getWidth() + shapeBorderWidth);
-                            conSVG.setX2(target.getX() - shapeBorderWidth);
-                            conSVG.setY1(source.getY() + source.getHeight() / 2);
-                            conSVG.setY2((source.getY() + source.getHeight() / 2) < (target.getY() + target.getHeight()) ? (source.getY() + source.getHeight() / 2) : target.getY() + target.getHeight() / 2);
-//                        conSVG.setY2(target.getY() + target.getHeight() / 2);
+                            System.out.println("------> y1<=(y2+h2)");
+                            conSVG.setX1(x1 + w1 + shapeBorderWidth);
+                            conSVG.setX2(x2 - shapeBorderWidth);
+                            conSVG.setY1(y1 + h1 / 2);
+                            conSVG.setY2((y1 + h1 / 2) < (y2 + h2) ? (y1 + h1 / 2) : y2 + h2 / 2);
+//                        conSVG.setY2(y2 + h2 / 2);
                             while (checkDuplicateConnection(conSVG)) {
                                 System.out.println("heree1");
                                 conSVG.setY2(conSVG.getY2() - 20);
@@ -539,18 +710,18 @@ class ConnectionTools {
                         }
                     } else {
                         System.out.println("-----> y1<y2)");
-                        if (y2 > (y1 + y11)) {
-                            System.out.println("----> y2>(y1+y11)");
-                            conSVG.setX1(source.getX() + source.getWidth() + shapeBorderWidth);
-                            conSVG.setX2(target.getX() - shapeBorderWidth);
-                            conSVG.setY1(source.getY() + source.getHeight() + shapeBorderWidth);
-                            conSVG.setY2(target.getY() - shapeBorderWidth);
+                        if (y2 > (y1 + h1)) {
+                            System.out.println("----> y2>(y1+h1)");
+                            conSVG.setX1(x1 + w1 + shapeBorderWidth);
+                            conSVG.setX2(x2 - shapeBorderWidth);
+                            conSVG.setY1(y1 + h1 + shapeBorderWidth);
+                            conSVG.setY2(y2 - shapeBorderWidth);
                         } else {
-                            System.out.println("------> y2<=(y1+y11)");
-                            conSVG.setX1(source.getX() + source.getWidth());
-                            conSVG.setX2(target.getX() - shapeBorderWidth);
-                            conSVG.setY1(target.getY() + target.getHeight() / 2);
-                            conSVG.setY2((target.getY() + target.getHeight() / 2) < (source.getY() + source.getHeight()) ? (target.getY() + target.getHeight() / 2) : source.getY() + source.getHeight() / 2);
+                            System.out.println("------> y2<=(y1+h1)");
+                            conSVG.setX1(x1 + w1);
+                            conSVG.setX2(x2 - shapeBorderWidth);
+                            conSVG.setY1(y2 + h2 / 2);
+                            conSVG.setY2((y2 + h2 / 2) < (y1 + h1) ? (y2 + h2 / 2) : y1 + h1 / 2);
 //                        System.out.println(source.getName()+"_+_+_+_+_"+target.getName()+"_+_+_+_+_"+source.getConnectionsType());
 //                        System.out.println("conSVG.getX1()_ "+conSVG.getX1()+" conSVG.getY1()_"+conSVG.getY1()+" conSVG.getX2()_"+conSVG.getX2()+" conSVG.getY2()_"+conSVG.getY2());
                             while (checkDuplicateConnection(conSVG)) {
@@ -558,45 +729,55 @@ class ConnectionTools {
                                 conSVG.setY2(conSVG.getY2() - 20);
                                 conSVG.setY1(conSVG.getY1() - 20);
                             }
-//                        conSVG.setY2(target.getY() + target.getHeight() / 2);
-//                        conSVG.setY1(source.getY() + source.getHeight() / 2);
-//                        conSVG.setY2(target.getY() + target.getHeight() / 2);
+//                        conSVG.setY2(y2 + h2 / 2);
+//                        conSVG.setY1(y1 + h1 / 2);
+//                        conSVG.setY2(y2 + h2 / 2);
 //
 
                         }
                     }
                 } else {
-                    System.out.println("----> x2<=(x1+x11)");
+                    System.out.println("----> x2<=(x1+w1)");
                     if (y1 > y2) {
                         System.out.println("-----> y1>y2)");
-                        if (y1 > (y2 + y22)) {
-                            System.out.println("------> y1>(y2+y22)");
-                            conSVG.setX1(source.getX() + source.getWidth() / 2);
-                            conSVG.setX2(source.getX() + source.getWidth() / 2 < target.getX() + target.getWidth() && source.getX() + source.getWidth() / 2 > target.getX() ? source.getX() + source.getWidth() / 2 : target.getX() - shapeBorderWidth);
-//                        conSVG.setX2(target.getX() + target.getWidth() / 2);
-                            conSVG.setY1(source.getY() - shapeBorderWidth);
-                            conSVG.setY2(target.getY() + target.getHeight() + shapeBorderWidth);
+                        if (y1 > (y2 + h2)) {
+                            System.out.println("------> y1>(y2+h2)");
+                            conSVG.setX1(x1 + w1 / 2);
+                            conSVG.setX2(x1 + w1 / 2 < x2 + w2 && x1 + w1 / 2 > x2 ? x1 + w1 / 2 : x2 - shapeBorderWidth);
+//                        conSVG.setX2(x2 + w2 / 2);
+                            conSVG.setY1(y1 - shapeBorderWidth);
+                            conSVG.setY2(y2 + h2 + shapeBorderWidth);
                         } else {
-                            System.out.println("------> y1<=(y2+y22)");
-                            conSVG.setX1(source.getX() + source.getWidth() / 2);
-                            conSVG.setX2(target.getX() - shapeBorderWidth);
-                            conSVG.setY1(source.getY() - shapeBorderWidth);
-                            conSVG.setY2(target.getY());
+                            System.out.println("------> y1<=(y2+h2)");
+                            conSVG.setX1(x1 + w1 / 2);
+                            conSVG.setX2(x2 - shapeBorderWidth);
+                            conSVG.setY1(y1 - shapeBorderWidth);
+                            conSVG.setY2(y2);
                         }
                     } else {
-                        if (y2 > (y1 + y11)) {
-                            System.out.println("----> y2>(y1+y11)");
-                            conSVG.setX1(source.getX() + source.getWidth() / 2);
-                            conSVG.setX2(source.getX() + source.getWidth() / 2 < target.getX() + target.getWidth() && source.getX() + source.getWidth() / 2 > target.getX() ? source.getX() + source.getWidth() / 2 : target.getX() - shapeBorderWidth);
-//                        conSVG.setX2(target.getX() + target.getWidth() / 2);
-                            conSVG.setY1(source.getY() + source.getHeight() + shapeBorderWidth);
-                            conSVG.setY2(target.getY() - shapeBorderWidth);
+                        if (y2 > (y1 + h1)) {
+                            int n = 2;
+                            System.out.println("----> y2>(y1+h1)");
+                            while (true) {
+                                if (x2 + w2 / n < x1 + w1) {
+                                    System.out.println("------> x2 + w2 / "+n+" < x1 + w1");
+                                    conSVG.setX1(x2 + w2 / n);
+                                    conSVG.setX2(x2 + w2 / n);
+                                    conSVG.setY1(y1 + h1 + shapeBorderWidth);
+                                    conSVG.setY2(y2 - shapeBorderWidth);
+                                    break;
+
+                                } else {
+                                    n++;
+                                }
+                            }
+
                         } else {
-                            System.out.println("------> y2<=(y1+y11)");
-                            conSVG.setX1(source.getX() + source.getWidth() / 2);
-                            conSVG.setX2(target.getX() - shapeBorderWidth);
-                            conSVG.setY1(source.getY() + source.getHeight() + shapeBorderWidth);
-                            conSVG.setY2(target.getY());
+                            System.out.println("------> y2<=(y1+h1)");
+                            conSVG.setX1(x1 + w1 / 2);
+                            conSVG.setX2(x2 - shapeBorderWidth);
+                            conSVG.setY1(y1 + h1 + shapeBorderWidth);
+                            conSVG.setY2(y2);
                         }
                     }
                 }
@@ -612,12 +793,188 @@ class ConnectionTools {
         return conSVG;
     }
 
+    private static ConnectionSVG selfPointing(SVGSingleShape source, SVGSingleShape target) {
+        // the border should avoid from startpoint/endpoint connection
+
+        ConnectionSVG conSVG = null;
+        if (source == null || target == null) return null;
+        boolean hasBendPoint = (source.getConnectionBendPointsList() != null && source.getConnectionBendPointsList().size() > 0);
+        conSVG = new ConnectionSVG();
+        conSVG.setX1(source.getX() + source.getWidth() - 20);
+        conSVG.setX2(target.getX() + source.getWidth() + shapeBorderWidth);
+        conSVG.setY1(source.getY() + source.getHeight() + shapeBorderWidth);
+        conSVG.setY2(target.getY() + source.getHeight() - 20);
+        conSVG.setOwnConnection(true);
+        conSVG.setId(source.getId() + "-" + System.currentTimeMillis());
+        conSVG.setWidth(1);
+
+
+        return conSVG;
+    }
+
+    private static ConnectionSVG positionWithBendPoints(SVGSingleShape source, SVGSingleShape target) {
+        // the border should avoid from startpoint/endpoint connection
+        boolean ownConnection = false;
+        ConnectionSVG conSVG = null;
+        if (source == null || target == null) return null;
+        conSVG = new ConnectionSVG();
+        int x1 = source.getX();
+        int w1 = source.getWidth();
+        int y1 = source.getY();
+        int h1 = source.getHeight();
+        int x2 = target.getX();
+        int w2 = target.getWidth();
+        int y2 = target.getY();
+        int h2 = target.getHeight();
+        BendPoints firstBendpoint = null;
+        BendPoints lastBendPoint = null;
+        if (source.getId() != null && source.getId().equals(target.getId())) {
+            return selfPointing(source, target);
+        }
+        if (source.getConnectionBendPointsList() != null && source.getConnectionBendPointsList().size() > 0) {
+            firstBendpoint = source.getConnectionBendPointsList().get(0);
+            lastBendPoint = source.getConnectionBendPointsList().get(source.getConnectionBendPointsList().size() - 1);
+
+            if (x1 + w1 > maxX) maxX = x1 + w1;
+            if (x2 + w2 > maxX) maxX = x2 + w2;
+            conSVG.setId(source.getId() + "-" + System.currentTimeMillis());
+            conSVG.setWidth(1);
+            System.out.println("--B  00---------> Source name : " + source.getName() + " x1 = " + x1 + " - w1 = " + w1 + " - x1+w1 = " + (x1 + w1));
+            System.out.println("--B  00---------> y1 = " + y1 + " h1 = " + h1 + " - y1+h1 = " + (y1 + h1));
+            System.out.println("--B  00---------> firstBendpoint.getStartX = " + firstBendpoint.getStartX() + " firstBendpoint.getStartY = " + firstBendpoint.getStartY());
+            System.out.println("--B  00---------> Target name : " + target.getName() + " | x2 = " + x2 + " - w2 = " + w2 + " - x2+w2 = " + (x2 + w2));
+            System.out.println("--B  00---------> y2 = " + y2 + " - h2 = " + target.getHeight() + " - y2+h2 = " + (y2 + target.getHeight()));
+            System.out.println("--B  00---------> lastBendpoint.getEndX = " + lastBendPoint.getEndX() + " lastBendpoint.getEndY = " + lastBendPoint.getEndY());
+
+            // Start Position
+            if (x1 < x1 + w1 / 2 + firstBendpoint.getStartX()) {
+                System.out.println("x1 < x1+w1/2+firstBendpoint.getStartX()");
+                if (x1 + w1 < x1 + w1 / 2 + firstBendpoint.getStartX()) {
+                    System.out.println("x1 + w1 < x1 + w1 / 2 + firstBendpoint.getStartX()");
+                    if ((h1 / 2) >= Math.abs(firstBendpoint.getStartY())) {
+                        System.out.println("------> (h1/2) >= Math.abs(firstBendpoint.getStartY()");
+                        conSVG.setX1(x1 + w1 + shapeBorderWidth);
+                        conSVG.setY1(y1 + h1 / 2 + firstBendpoint.getStartY());
+                        System.out.println("X1 = " + conSVG.getX1() + " | Y1 : " + conSVG.getY1());
+                    } else if (0 < firstBendpoint.getStartY()) {
+                        System.out.println("0 < firstBendpoint.getStartY()");
+                        conSVG.setX1(x1 + w1 + shapeBorderWidth);
+                        conSVG.setY1(y1 + h1 + shapeBorderWidth);
+                        System.out.println("X1 = " + conSVG.getX1() + " | Y1 : " + conSVG.getY1());
+                    } else {
+                        System.out.println("0 > firstBendpoint.getStartY()");
+                        conSVG.setX1(x1 + w1 + shapeBorderWidth);
+                        conSVG.setY1(y1 + shapeBorderWidth);
+                        System.out.println("X1 = " + conSVG.getX1() + " | Y1 : " + conSVG.getY1());
+                    }
+
+                } else {
+                    System.out.println("x1 + w1 > x1 + w1 / 2 + firstBendpoint.getStartX()");
+                    if (0 > firstBendpoint.getStartY()) {
+                        System.out.println("0 > firstBendpoint.getStartY()");
+                        conSVG.setX1(x1 + w1 / 2 + firstBendpoint.getStartX());
+                        conSVG.setY1(y1 - shapeBorderWidth);
+                        System.out.println("X1 = " + conSVG.getX1() + " | Y1 : " + conSVG.getY1());
+                    } else {
+                        System.out.println("0 < firstBendpoint.getStartY()");
+                        conSVG.setX1(x1 + w1 / 2 + firstBendpoint.getStartX());
+                        conSVG.setY1(y1 + h1 + shapeBorderWidth);
+                        System.out.println("X1 = " + conSVG.getX1() + " | Y1 : " + conSVG.getY1());
+                    }
+
+                }
+            } else {
+                System.out.println("x1 >=  x1+w1/2+firstBendpoint.getStartX()");
+                if ((h1 / 2) >= Math.abs(firstBendpoint.getStartY())) {
+                    System.out.println("left side ------> (h1/2) >= Math.abs(firstBendpoint.getStartY()");
+                    conSVG.setX1(x1 - shapeBorderWidth);
+                    conSVG.setY1(y1 + h1 / 2 + firstBendpoint.getStartY());
+                    System.out.println("X1 = " + conSVG.getX1() + " | Y1 : " + conSVG.getY1());
+                } else if (0 < firstBendpoint.getStartY()) {
+                    System.out.println("0 < firstBendpoint.getStartY()");
+                    conSVG.setX1(x1 - shapeBorderWidth);
+                    conSVG.setY1(y1 + h1 + shapeBorderWidth);
+                    System.out.println("X1 = " + conSVG.getX1() + " | Y1 : " + conSVG.getY1());
+                } else {
+                    System.out.println("0 > firstBendpoint.getStartY()");
+                    conSVG.setX1(x1 - shapeBorderWidth);
+                    conSVG.setY1(y1 + shapeBorderWidth);
+                    System.out.println("X1 = " + conSVG.getX1() + " | Y1 : " + conSVG.getY1());
+                }
+            }
+
+            // End point position
+            if (x2 < x2 + w2 / 2 + lastBendPoint.getEndX()) {
+                System.out.println("x2 <  x2 + w2 / 2 + lastBendPoint.getEndX()");
+                if (x2 + w2 < x2 + w2 / 2 + lastBendPoint.getEndX()) {
+                    System.out.println("x2 + w2 <  x2 + w2 / 2 + lastBendPoint.getEndX()");
+                    if ((h2 / 2) >= Math.abs(lastBendPoint.getEndY())) {
+                        System.out.println("------> (h2/2) >= Math.abs(lastBendPoint.getEndY()");
+                        conSVG.setX2(x2 + w2 + shapeBorderWidth);
+                        conSVG.setY2(y2 + h2 / 2 + lastBendPoint.getEndY());
+                        System.out.println("X2 = " + conSVG.getX2() + " | Y2 : " + conSVG.getY2());
+                    } else if (0 < lastBendPoint.getEndY()) {
+                        System.out.println("0 < lastBendPoint.getEndY()");
+                        conSVG.setX2(x2 + w2 + shapeBorderWidth);
+                        conSVG.setY2(y2 + h2 + shapeBorderWidth);
+                        System.out.println("X2 = " + conSVG.getX2() + " | Y2 : " + conSVG.getY2());
+                    } else {
+                        System.out.println("0 > lastBendPoint.getEndY()");
+                        conSVG.setX2(x2 + w2 + shapeBorderWidth);
+                        conSVG.setY2(y2 + shapeBorderWidth);
+                        System.out.println("X2 = " + conSVG.getX2() + " | Y2 : " + conSVG.getY2());
+                    }
+
+                } else {
+                    System.out.println("x2 + w2 >  x2 + w2 / 2 + lastBendPoint.getEndX()");
+                    if (0 > lastBendPoint.getEndY()) {
+                        System.out.println("0 > lastBendPoint.getEndY()");
+                        conSVG.setX2(x2 + w2 / 2 + lastBendPoint.getEndX());
+                        conSVG.setY2(y2 - shapeBorderWidth);
+                        System.out.println("X2 = " + conSVG.getX2() + " | Y2 : " + conSVG.getY2());
+                    } else {
+                        System.out.println("0 < lastBendPoint.getEndY()");
+                        conSVG.setX2(x2 + w2 / 2 + lastBendPoint.getEndX());
+                        conSVG.setY2(y2 + h2 + shapeBorderWidth);
+                        System.out.println("X2 = " + conSVG.getX2() + " | Y2 : " + conSVG.getY2());
+                    }
+
+                }
+            } else {
+                System.out.println("x2 >=  x2 + w2 / 2 + lastBendPoint.getEndX()");
+                if ((h2 / 2) >= Math.abs(lastBendPoint.getEndY())) {
+                    System.out.println("left side ------> (h2/2) >= Math.abs(lastBendPoint.getEndY()");
+                    conSVG.setX2(x2 - shapeBorderWidth);
+                    conSVG.setY2(y2 + h2 / 2 + lastBendPoint.getEndY());
+                    System.out.println("X2 = " + conSVG.getX2() + " | Y2 : " + conSVG.getY2());
+                } else if (0 < lastBendPoint.getEndY()) {
+                    System.out.println("0 < lastBendPoint.getEndY()");
+                    conSVG.setX2(x2 - shapeBorderWidth);
+                    conSVG.setY2(y2 + h2 + shapeBorderWidth);
+                    System.out.println("X2 = " + conSVG.getX2() + " | Y2 : " + conSVG.getY2());
+                } else {
+                    System.out.println("0 > lastBendPoint.getEndY()");
+                    conSVG.setX2(x2 - shapeBorderWidth);
+                    conSVG.setY2(y2 + shapeBorderWidth);
+                    System.out.println("X2 = " + conSVG.getX2() + " | Y2 : " + conSVG.getY2());
+                }
+            }
+        }
+
+        System.out.println("bb   conSVG.getX1()----->> " + conSVG.getX1() + "  csvg.getX1___> " + conSVG.getX1());
+        System.out.println("bb   conSVG.getX2()----->> " + conSVG.getX2() + "  csvg.getX2___> " + conSVG.getX2());
+        System.out.println("bb   conSVG.getY1()----->> " + conSVG.getY1() + "  csvg.getY1___> " + conSVG.getY1());
+        System.out.println("bb   conSVG.getY2()----->> " + conSVG.getY2() + "  csvg.getY2___> " + conSVG.getY2());
+
+        return conSVG;
+    }
+
     private static boolean checkDuplicateConnection(ConnectionSVG conSVG) {
         for (ConnectionSVG csvg : connectionCoordinates) {
-            System.out.println("conSVG.getX1()----->> "+ conSVG.getX1()+"  csvg.getX1___> "+csvg.getX1());
-            System.out.println("conSVG.getX2()()----->> "+ conSVG.getX2()+"  csvg.getX2___> "+csvg.getX2());
-            System.out.println("conSVG.getY1()()----->> "+ conSVG.getY1()+"  csvg.getY1___> "+csvg.getY1());
-            System.out.println("conSVG.getY2()()----->> "+ conSVG.getY2()+"  csvg.getY2___> "+csvg.getY2());
+            System.out.println("conSVG.getX1()----->> " + conSVG.getX1() + "  csvg.getX1___> " + csvg.getX1());
+            System.out.println("conSVG.getX2()()----->> " + conSVG.getX2() + "  csvg.getX2___> " + csvg.getX2());
+            System.out.println("conSVG.getY1()()----->> " + conSVG.getY1() + "  csvg.getY1___> " + csvg.getY1());
+            System.out.println("conSVG.getY2()()----->> " + conSVG.getY2() + "  csvg.getY2___> " + csvg.getY2());
             if (conSVG.getX1() == csvg.getX1()) {
                 if (conSVG.getX2() == csvg.getX2()
                         && conSVG.getY1() == csvg.getY1()

@@ -416,8 +416,8 @@ public class GenerateSVG {
 ////                            System.out.println(" ---------*>>  relations: " + a.getValue());
 ////                        }
 //            }
-            System.out.println("======---00000000----   " + FIRST_X + " " + FIRST_Y + " " + LAST_X + " " + LAST_Y);
-            System.out.println("======---33333333----   " + modelGrp.getBounds().getX() + " " + modelGrp.getBounds().getY() + " " + (modelGrp.getBounds().getX() + modelGrp.getBounds().getWidth()) + " " + (modelGrp.getBounds().getY() + modelGrp.getBounds().getHeight()));
+//            System.out.println("======---00000000----   " + FIRST_X + " " + FIRST_Y + " " + LAST_X + " " + LAST_Y);
+//            System.out.println("======---33333333----   " + modelGrp.getBounds().getX() + " " + modelGrp.getBounds().getY() + " " + (modelGrp.getBounds().getX() + modelGrp.getBounds().getWidth()) + " " + (modelGrp.getBounds().getY() + modelGrp.getBounds().getHeight()));
             if (FIRST_X > modelGrp.getBounds().getX())
                 FIRST_X = modelGrp.getBounds().getX();
             if (FIRST_Y > modelGrp.getBounds().getY())
@@ -426,7 +426,7 @@ public class GenerateSVG {
                 LAST_X = modelGrp.getBounds().getX() + modelGrp.getBounds().getWidth();
             if (LAST_Y < modelGrp.getBounds().getY() + modelGrp.getBounds().getHeight())
                 LAST_Y = modelGrp.getBounds().getY() + modelGrp.getBounds().getHeight();
-            System.out.println("======---444444444----   " + FIRST_X + " " + FIRST_Y + " " + LAST_X + " " + LAST_Y);
+//            System.out.println("======---444444444----   " + FIRST_X + " " + FIRST_Y + " " + LAST_X + " " + LAST_Y);
             EObject parentObject = modelGrp.eContainer();
             int finalX = modelGrp.getBounds().getX(), finalY = modelGrp.getBounds().getY();
             if (parentObject instanceof IDiagramModelArchimateObject) {
@@ -440,6 +440,8 @@ public class GenerateSVG {
                     finalY = ((IDiagramModelGroup) parentObject).getBounds().getY() + modelGrp.getBounds().getY();
                 }
             }
+
+            System.out.println("**##--> "+ finalX+" Final Y "+finalY+" child X : "+ modelGrp.getBounds().getX()+" child Y : "+ modelGrp.getBounds().getY());
 
 //           System.out.println("@@@@@@@@@@@@@@@@@@@ class name    : " + modelGrp.getClass().getSimpleName());
             try {
@@ -519,16 +521,20 @@ public class GenerateSVG {
                         System.out.println("===================== Parent X : " + ((IDiagramModelArchimateObject) parentObject).getBounds().getX());
                         System.out.println("===================== Parent Y : " + ((IDiagramModelArchimateObject) parentObject).getBounds().getY());
                     }
-                    System.out.println("===================== Name : " + ((IDiagramModelArchimateObject) parentObject).getName());
+                    System.out.println("===================== Parent Name : " + ((IDiagramModelArchimateObject) parentObject).getName());
+                    System.out.println("===================== Child Name : " + modelObj.getName());
+                    System.out.println("===================== Total X  : " + finalX + " Parent X  : " + ((IDiagramModelArchimateObject) parentObject).getBounds().getX() + " Child X " + modelObj.getBounds().getX());
+                    System.out.println("===================== Total Y  : " + finalY + " Parent Y  : " + ((IDiagramModelArchimateObject) parentObject).getBounds().getY()  + " Child Y " + modelObj.getBounds().getY());
                 } else if (parentObject instanceof IDiagramModelGroup) {
                     if (((IDiagramModelGroup) parentObject).getBounds() != null) {
                         finalX = ((IDiagramModelGroup) parentObject).getBounds().getX() + modelObj.getBounds().getX();
                         finalY = ((IDiagramModelGroup) parentObject).getBounds().getY() + modelObj.getBounds().getY();
                     }
                     System.out.println("===================== Name : " + ((IDiagramModelGroup) parentObject).getName());
+                    System.out.println("===================== Child Name : " + modelObj.getName());
+                    System.out.println("===================== Total X  : " + finalX + " Parent X  : " + ((IDiagramModelGroup) parentObject).getBounds().getX() + " Child X " + modelObj.getBounds().getX());
+                    System.out.println("===================== Total Y  : " + finalY + " Parent Y  : " + ((IDiagramModelGroup) parentObject).getBounds().getY()  + " Child Y " + modelObj.getBounds().getY());
                 }
-                System.out.println("===================== Total X  : " + finalX + " Child X " + modelObj.getBounds().getX());
-                System.out.println("===================== Total Y  : " + finalY + " Child Y " + modelObj.getBounds().getY());
 
                 if (modelObj.getBounds() != null) {
                     svgSingleShape = new SVGSingleShape();
@@ -579,16 +585,32 @@ public class GenerateSVG {
                     finalSourceY = ((IDiagramModelGroup) parentObject).getBounds().getY() + modelConn.getSource().getBounds().getY();
                 }
             }
+
+
+            System.out.println("=Connection=========== finalSourceX    : " + finalSourceX + " Child X " + modelConn.getSource().getBounds().getX());
+            System.out.println("=Connection========== finalSourceY   : " + finalSourceY + " Child Y " + modelConn.getSource().getBounds().getY());
+
+
             parentObject = modelConn.getTarget().eContainer();
+            System.out.println("aaaaaaaaaaaaayyyyyyyyy" +parentObject.getClass().getSimpleName());
             if (parentObject instanceof IDiagramModelArchimateObject) {
                 if (((IDiagramModelArchimateObject) parentObject).getBounds() != null) {
                     finalTargetX = ((IDiagramModelArchimateObject) parentObject).getBounds().getX() + modelConn.getTarget().getBounds().getX();
                     finalTargetY = ((IDiagramModelArchimateObject) parentObject).getBounds().getY() + modelConn.getTarget().getBounds().getY();
-                } else if (parentObject instanceof IDiagramModelGroup) {
+                    System.out.println("=Connection=========== Total X " + finalTargetX + " Parent X  : " + ((IDiagramModelArchimateObject) parentObject).getBounds().getX() + " Child X " + modelConn.getTarget().getBounds().getX());
+                    System.out.println("=Connection=========== Total Y  : " + finalTargetY + " Parent Y  : " + ((IDiagramModelArchimateObject) parentObject).getBounds().getY() + " Child Y " + modelConn.getTarget().getBounds().getY());
+                }
+            }else if (parentObject instanceof IDiagramModelGroup) {
+                if (((IDiagramModelGroup) parentObject).getBounds() != null) {
                     finalTargetX = ((IDiagramModelGroup) parentObject).getBounds().getX() + modelConn.getTarget().getBounds().getX();
                     finalTargetY = ((IDiagramModelGroup) parentObject).getBounds().getY() + modelConn.getTarget().getBounds().getY();
+                    System.out.println("=Connection===Group======== Total X " + finalTargetX + " Parent X  : " + ((IDiagramModelGroup) parentObject).getBounds().getX() + " Child X " + modelConn.getTarget().getBounds().getX());
+                    System.out.println("=Connection===Group======== Total Y  : " + finalTargetY + " Parent Y  : " + ((IDiagramModelGroup) parentObject).getBounds().getY()  + " Child Y " + modelConn.getTarget().getBounds().getY());
                 }
             }
+            System.out.println("=Connection=========== finalTargetX    : " + finalTargetX + " Child X " + modelConn.getTarget().getBounds().getX());
+            System.out.println("=Connection========== finalTargetY   : " + finalTargetY + " Child Y " + modelConn.getTarget().getBounds().getY());
+
             try {
                 if (modelConn.getSource() != null && modelConn.getTarget() != null) {
 
@@ -682,7 +704,7 @@ public class GenerateSVG {
 //            File modelFile = new File("D:\\FAR_Documents\\__Startamap\\Original2.archimate");
             IArchimateModel model = loadModel(modelFile);
             List<IDiagramModel> iDModels = model.getDiagramModels();
-            IDiagramModel diagramModel = iDModels.get(0);
+            IDiagramModel diagramModel = iDModels.get(2);
 //            for (EObject obj : diagramModel.eContents()) {
 //
 //                getSingleModelSVGs((IDiagramModelObject) obj,0,0,false);

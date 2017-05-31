@@ -10,7 +10,7 @@ import static com.Farzad.utils.Utils.*;
  * Created by FARzad - VOLCANO on 5/2/2017.
  */
 class ShapeTools {
-    private final static double opacity = 0.5;
+    private final static double opacity = 0.9;
 
     static String getSVGShape(SVGSingleShape svgShape) {
         if (ArchiEnum.APPLICATION_COLLABORATION.equalsName(svgShape.getElementType())) {

@@ -1,6 +1,7 @@
 package POJOs;
 
 
+import com.Farzad.Enums.ArchiEnum;
 import com.Farzad.utils.ImageUtils.BendPoints;
 
 import java.util.Arrays;
@@ -37,6 +38,7 @@ public class SVGSingleShape {
     private String URL;
     private Map<String, String> connections;
     private boolean hasChild;
+    private ArchiEnum shapeType;
 
     public int getX() {
         return x;
@@ -246,6 +248,14 @@ public class SVGSingleShape {
         this.hasChild = hasChild;
     }
 
+    public ArchiEnum getShapeType() {
+        return shapeType;
+    }
+
+    public void setShapeType(ArchiEnum shapeType) {
+        this.shapeType = shapeType;
+    }
+
     @Override
     public String toString() {
         return "SVGSingleShape{" +
@@ -275,6 +285,7 @@ public class SVGSingleShape {
                 ", URL='" + URL + '\'' +
                 ", connections=" + connections +
                 ", hasChild=" + hasChild +
+                ", shapeType=" + shapeType +
                 '}';
     }
 

@@ -20,6 +20,15 @@ public class FileUtils {
                     "  <head>\n" +
                     "    <title>SVG ARCHI MODEL</title>\n" +
                     "<link rel='stylesheet' type='text/css' href='style.css'/>" +
+//                    "<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js\"></script>\n" +
+//                    "<script>" +
+//                    "$(function() {\n" +
+//                    "    slided = function (level){\n" +
+//                    "        var svg=$(\"svg\");\n" +
+//                    "        svg.css(\"transform\", \"scale(\"+level+\")\");\n" +
+//                    "    }\n" +
+//                    "});" +
+//                    "</script>" +
 //                    "<link href=\"https://fonts.googleapis.com/css?family=Montserrat\" rel=\"stylesheet\">" +
 //                    "<style>" +
 //                    ".mainRect{\n" +
@@ -27,9 +36,11 @@ public class FileUtils {
 //                    "}" +
 //                    "</style>" +
                     "  </head>\n" +
-                    "  <body style=\"width:100%;height:100%;margin:10;\"> ";
+                    "  <body style=\"width:100%;height:100%;margin:10;\"> " +
+//                    "<input type=\"range\" min=\"1\" max=\"10\" value=\"1\" step=\"0.1\" oninput=\"slided(this.value);\">\n" +
+                    "<div id=\"container\">";
             content += body;
-            content += "  </body>\n" +
+            content += " </div> </body>\n" +
                     "</html>";
             bw.write (content);
 

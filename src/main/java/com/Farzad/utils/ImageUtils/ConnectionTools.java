@@ -207,17 +207,51 @@ class ConnectionTools {
         if (LAST_Y < conSvg.getY2())
             LAST_Y = conSvg.getY2();
         System.out.println("======---cccc66666----   " + FIRST_X + " " + FIRST_Y + " " + LAST_X + " " + LAST_Y);
-        System.out.println("before Bend points StartX : " +conSvg.getX1() + " | StartY :" + conSvg.getY1() + " | EndX :" + conSvg.getX2() + " | EndY :" + conSvg.getY2());
+        System.out.println("before Bend points StartX : " + conSvg.getX1() + " | StartY :" + conSvg.getY1() + " | EndX :" + conSvg.getX2() + " | EndY :" + conSvg.getY2());
+//        int[] calculateJoints = calculateJoints(conSvg.getX1(),conSvg.getY1(),(b.getStartX() + sMX),(b.getStartX() + sMX),conSvg.getX1(),conSvg.getY2());
+//
+//        result += "<path class=\"connection\"   stroke-dasharray=\"" + dashWidth + "," + dashGap + "\" d=\"M" + (conSvg.getX1()) + "," + (conSvg.getY1() + 10) + " C" + (conSvg.getX1()) + "," + (conSvg.getY1() + 15) +
+//                "  " + (conSvg.getX1()) + "," + (conSvg.getY1() + 20) +
+//                "  " + (conSvg.getX1() + 10) + "," + (conSvg.getY1() + 20) + "\"/>\n";
+//
+//        result += "<path class=\"connection\"    stroke-dasharray=\"" + dashWidth + "," + dashGap + "\" d=\"M" + (conSvg.getX1() + 10) + "," + (conSvg.getY1() + 20) + " L" + (conSvg.getX1() + 20) + "," + (conSvg.getY1() + 20) + " \"/>\n";
+//        result += "<path class=\"connection\"   stroke-dasharray=\"" + dashWidth + "," + dashGap + "\" d=\"M" + (conSvg.getX1() + 20) + "," + (conSvg.getY1() + 20) + " C" + (conSvg.getX1() + 30) + "," + (conSvg.getY1() + 20) +
+//                "  " + (conSvg.getX1() + 30) + "," + (conSvg.getY1() + 15) +
+//                "  " + (conSvg.getX1() + 30) + "," + (conSvg.getY1() + 10) + "\"/>\n";
+//
+//
+//        result += "<path class=\"connection\"   stroke-dasharray=\"" + dashWidth + "," + dashGap + "\" d=\"M" + (conSvg.getX1() + 30) + "," + (conSvg.getY1() + 10) + " L" + (conSvg.getX1() + 30) + "," + (conSvg.getY2() + 5) + " \"/>\n";
+//        result += "<path class=\"connection\"  stroke-dasharray=\"" + dashWidth + "," + dashGap + "\" d=\"M" + (conSvg.getX1() + 30) + "," + (conSvg.getY2() + 5) + " C" + (conSvg.getX1() + 30) + "," + (conSvg.getY2()) +
+//                "  " + (conSvg.getX1() + 25) + "," + (conSvg.getY2()) +
+//                "  " + (conSvg.getX1() + 20) + "," + (conSvg.getY2()) + "\"/>\n";
+//
+//        result += "<path class=\"connection\"  d=\"M" + (conSvg.getX2()) + "," + (conSvg.getY2()) + " L" + (conSvg.getX1() + 20) + "," + (conSvg.getY2()) + "\"";
+//
+//        if (!arrowsType.equals(ArrowsTypeEnum.DOUBLE_ORBIT) && !arrowsType.equals(ArrowsTypeEnum.NORMAL)) {
+//            result +=
+//                    " stroke-dasharray=\"" + dashWidth + "," + dashGap + "\"  " +
+//                            "" + (arrowsType.equals(ArrowsTypeEnum.DIAMOND_BLACK) || arrowsType.equals(ArrowsTypeEnum.DIAMOND_WHITE) ? "" : "style=\"marker-end: url(#" + arrowSVG.getId() + ");\"") + "/>\n"
+//            ;
+//        } else {
+//            result += " stroke-dasharray=\"" + dashWidth + "," + dashGap + "\"/>\n";
+//        }
+//        ;
+//
+//        System.out.println("wwwww result -- " + result);
+//
+
 
         for (BendPoints b : conSvg.getBendPointses()) {
 
             System.out.println("======---cccc77777----   " + FIRST_X + " " + FIRST_Y + " " + LAST_X + " " + LAST_Y);
             System.out.println("intoooo BBBBBBBBBBBeeeeeeeeeeend points StartX : " + b.getStartX() + " | StartY :" + b.getEndX() + " | EndX :" + b.getEndX() + " | EndY :" + b.getEndY());
             dim += " L" + (b.getStartX() + sMX) + "," + (b.getStartY() + sMY);
+
+
             if (FIRST_X > (b.getStartX() + sMX)) {
                 FIRST_X = (b.getStartX() + sMX);
             }
-            if (FIRST_Y >(b.getStartY() + sMY)) {
+            if (FIRST_Y > (b.getStartY() + sMY)) {
                 FIRST_Y = (b.getStartY() + sMY);
             }
             if (LAST_X < b.getEndX())
@@ -229,7 +263,7 @@ class ConnectionTools {
 //            dim += " L"+b.getEndX()+","+b.getEndY();
             ;
         }
-        dim += " L" + conSvg.getX2() + "," + conSvg.getY2();
+        dim += " L" + conSvg.getX2() + "," + conSvg.getY2() + "\"";
 //        dim += " L" + tMX + "," + tMY;
 
         return dim;
@@ -346,7 +380,6 @@ class ConnectionTools {
             dashWidth = conSvg.getDashArray()[0];
             dashGap = conSvg.getDashArray()[1];
         }
-        List<String> extraValue = new ArrayList<>();
         arrowSVG.setId(conSvg.getId());
         switch (arrowsType) {
             case TRIANGLE_BLACK:
@@ -1148,7 +1181,76 @@ class ConnectionTools {
         return false;
     }
 
-    public static int[] getFirstLastDim() {
+    protected static int[] getFirstLastDim() {
         return new int[]{FIRST_X, FIRST_Y, LAST_X, LAST_Y};
     }
+
+    private static String calculateJoints(int x1, int y1, int bendPointX, int bendPointY, int x2, int y2,int dashWidth,int dashGap) {
+
+        String result = "";
+        result +="<path class=\"connection\"   stroke-dasharray=\"" + dashWidth + "," + dashGap + "" ;
+        if (y1 == bendPointY) {
+            if (x1 > bendPointX) {
+                if (bendPointY < y2) {
+                    result+="d=\"M" + (bendPointX+10) + "," + bendPointY + " C" + bendPointX + "," + bendPointY + "  " + bendPointX + "," + (bendPointY +5)  + "  " + bendPointX + "," + (bendPointY +10) + "\"/>\n";
+                } else {
+                    result+="d=\"M" + (bendPointX+10) + "," + bendPointY + " C" + bendPointX + "," + bendPointY + "  " + bendPointX + "," + (bendPointY -5)  + "  " + bendPointX + "," + (bendPointY -10) + "\"/>\n";
+                }
+
+            } else {
+                if (bendPointY < y2) {
+                    result+="d=\"M" + (bendPointX-10) + "," + bendPointY + " C" +  bendPointX + "," + bendPointY + "  " + bendPointX + "," + (bendPointY +5)  + "  " + bendPointX + "," + (bendPointY +10) + "\"/>\n";
+                } else {
+                    result+="d=\"M" + (bendPointX-10) + "," + bendPointY + " C" + bendPointX + "," + bendPointY + "  " + bendPointX + "," + (bendPointY -5)  + "  " + bendPointX + "," + (bendPointY -10) + "\"/>\n";
+                }
+            }
+        }
+        if (x1 == bendPointX) {
+            if (y1 > bendPointY) {
+                if (bendPointX < x2) {
+                    result+="d=\"M" + x1 + "," + y1 + " C" + bendPointX + "," + bendPointY + "  " + bendPointX + "," + (bendPointY +5)  + "  " + bendPointX + "," + (bendPointY +10) + "\"/>\n";
+                } else {
+                    result+="d=\"M" + (bendPointX+10) + "," + bendPointY + " C" + bendPointX + "," + bendPointY + "  " + bendPointX + "," + (bendPointY -5)  + "  " + bendPointX + "," + (bendPointY -10) + "\"/>\n";
+                }
+
+            } else if (y1 < bendPointY){
+                if (bendPointX < x2) {
+                    result+="d=\"M" + (bendPointX-10) + "," + bendPointY + " C" +  bendPointX + "," + bendPointY + "  " + bendPointX + "," + (bendPointY +5)  + "  " + bendPointX + "," + (bendPointY +10) + "\"/>\n";
+                } else {
+                    result+="d=\"M" + (bendPointX-10) + "," + bendPointY + " C" + bendPointX + "," + bendPointY + "  " + bendPointX + "," + (bendPointY -5)  + "  " + bendPointX + "," + (bendPointY -10) + "\"/>\n";
+                }
+            }
+        }
+//        result += "<path class=\"connection\"   stroke-dasharray=\"" + dashWidth + "," + dashGap + "\" d=\"M" + (conSvg.getX1()) + "," + (conSvg.getY1() + 10) + " C" + (conSvg.getX1()) + "," + (conSvg.getY1() + 15) +
+//                        "  " + (conSvg.getX1()) + "," + (conSvg.getY1() + 20) +
+//                        "  " + (conSvg.getX1() + 10) + "," + (conSvg.getY1() + 20) + "\"/>\n";
+//
+//        result += "<path class=\"connection\"    stroke-dasharray=\"" + dashWidth + "," + dashGap + "\" d=\"M" + (conSvg.getX1() + 10) + "," + (conSvg.getY1() + 20) + " L" + (conSvg.getX1() + 20) + "," + (conSvg.getY1() + 20) + " \"/>\n";
+//        result += "<path class=\"connection\"   stroke-dasharray=\"" + dashWidth + "," + dashGap + "\" d=\"M" + (conSvg.getX1() + 20) + "," + (conSvg.getY1() + 20) + " C" + (conSvg.getX1() + 30) + "," + (conSvg.getY1() + 20) +
+//                "  " + (conSvg.getX1() + 30) + "," + (conSvg.getY1() + 15) +
+//                "  " + (conSvg.getX1() + 30) + "," + (conSvg.getY1() + 10) + "\"/>\n";
+//
+//
+//        result += "<path class=\"connection\"   stroke-dasharray=\"" + dashWidth + "," + dashGap + "\" d=\"M" + (conSvg.getX1() + 30) + "," + (conSvg.getY1() + 10) + " L" + (conSvg.getX1() + 30) + "," + (conSvg.getY2() + 5) + " \"/>\n";
+//        result += "<path class=\"connection\"  stroke-dasharray=\"" + dashWidth + "," + dashGap + "\" d=\"M" + (conSvg.getX1() + 30) + "," + (conSvg.getY2() + 5) + " C" + (conSvg.getX1() + 30) + "," + (conSvg.getY2()) +
+//                "  " + (conSvg.getX1() + 25) + "," + (conSvg.getY2()) +
+//                "  " + (conSvg.getX1() + 20) + "," + (conSvg.getY2()) + "\"/>\n";
+//
+//        result += "<path class=\"connection\"  d=\"M" + (conSvg.getX2()) + "," + (conSvg.getY2()) + " L" + (conSvg.getX1() + 20) + "," + (conSvg.getY2()) + "\"";
+//
+//        if (!arrowsType.equals(ArrowsTypeEnum.DOUBLE_ORBIT) && !arrowsType.equals(ArrowsTypeEnum.NORMAL)) {
+//            result +=
+//                    " stroke-dasharray=\"" + dashWidth + "," + dashGap + "\"  " +
+//                            "" + (arrowsType.equals(ArrowsTypeEnum.DIAMOND_BLACK) || arrowsType.equals(ArrowsTypeEnum.DIAMOND_WHITE) ? "" : "style=\"marker-end: url(#" + arrowSVG.getId() + ");\"") + "/>\n"
+//            ;
+//        } else {
+//            result += " stroke-dasharray=\"" + dashWidth + "," + dashGap + "\"/>\n";
+//        }
+//        ;
+
+        System.out.println("wwwww result -- " + result );
+        return result ;
+
+    }
+
 }

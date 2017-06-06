@@ -66,6 +66,8 @@ public enum ArchiEnum {
     SYSTEM_SOFTWARE(Category.SYSTEM_SOFTWARE),
     NODE(Category.INFRASTRUCTURE),
     GROUP(Category.GROUP),
+    MEANING(Category.MEANING),
+    COMMUNICATION_PATH(Category.COMMUNICATION_PATH),
     DEFAULT(Category.DEFAULT);
     //    private final String name;
     private Category category;
@@ -90,6 +92,8 @@ public enum ArchiEnum {
         SYSTEM_SOFTWARE,
         INDIVIDUAL,
         GROUP,
+        MEANING,
+        COMMUNICATION_PATH,
         DEFAULT;
     }
 
@@ -125,6 +129,10 @@ public enum ArchiEnum {
                 return "individual";
             case GROUP:
                 return "group";
+            case MEANING:
+                return "meaning";
+            case COMMUNICATION_PATH:
+                return "communicationpath";
             case DEFAULT:
                 return "default";
             default:
@@ -258,6 +266,10 @@ public enum ArchiEnum {
                 return "DiagramModelGroup";
             case SYSTEM_SOFTWARE:
                 return "SystemSoftware";
+            case MEANING:
+                return "Meaning";
+            case COMMUNICATION_PATH:
+                return "CommunicationPath";
             default:
                 return null;
         }

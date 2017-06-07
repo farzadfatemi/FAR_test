@@ -68,6 +68,7 @@ public enum ArchiEnum {
     GROUP(Category.GROUP),
     MEANING(Category.MEANING),
     COMMUNICATION_PATH(Category.COMMUNICATION_PATH),
+    DATABASE(Category.DATABASE),
     DEFAULT(Category.DEFAULT);
     //    private final String name;
     private Category category;
@@ -94,6 +95,7 @@ public enum ArchiEnum {
         GROUP,
         MEANING,
         COMMUNICATION_PATH,
+        DATABASE,
         DEFAULT;
     }
 
@@ -133,6 +135,8 @@ public enum ArchiEnum {
                 return "meaning";
             case COMMUNICATION_PATH:
                 return "communicationpath";
+            case DATABASE:
+                return "database";
             case DEFAULT:
                 return "default";
             default:
@@ -270,6 +274,8 @@ public enum ArchiEnum {
                 return "Meaning";
             case COMMUNICATION_PATH:
                 return "CommunicationPath";
+            case DATABASE:
+                return "Database";
             default:
                 return null;
         }
@@ -280,5 +286,207 @@ public enum ArchiEnum {
 //        System.out.println("%%%%%%%%%%%%  Other name : "+otherName +" getStringValue() : " + (getStringValue() !=null?getStringValue().toLowerCase():"")
 //                + " -- " + (otherName != null && getStringValue()!=null && getStringValue().toLowerCase().equals(otherName.toLowerCase())));
         return otherName != null && getStringValue() != null && getStringValue().toLowerCase().equals(otherName.toLowerCase());
+    }
+
+    public static ArchiEnum getArchiEnum(String value){
+        if (ArchiEnum.APPLICATION_COLLABORATION.equalsName(value)) {
+            return ArchiEnum.APPLICATION_COLLABORATION;
+
+        } else if (ArchiEnum.APPLICATION_COMPONENT.equalsName(value)) {
+            return ArchiEnum.APPLICATION_COMPONENT;
+
+        } else if (ArchiEnum.APPLICATION_FUNCTION.equalsName(value)) {
+            return ArchiEnum.APPLICATION_FUNCTION;
+
+        } else if (ArchiEnum.APPLICATION_INTERACTION.equalsName(value)) {
+            return ArchiEnum.APPLICATION_INTERACTION;
+
+        } else if (ArchiEnum.APPLICATION_INTERFACE.equalsName(value)) {
+            return ArchiEnum.APPLICATION_INTERFACE;
+
+        } else if (ArchiEnum.APPLICATION_OBJECT.equalsName(value)) {
+            return ArchiEnum.APPLICATION_OBJECT;
+
+        } else if (ArchiEnum.APPLICATION_SERVICE.equalsName(value)) {
+            return ArchiEnum.APPLICATION_SERVICE;
+
+        } else if (ArchiEnum.BUSINESS_ACTOR.equalsName(value)) {
+            return ArchiEnum.BUSINESS_ACTOR;
+
+        } else if (ArchiEnum.BUSINESS_COLLABORATION.equalsName(value)) {
+            return ArchiEnum.BUSINESS_COLLABORATION;
+
+        } else if (ArchiEnum.BUSINESS_EVENT.equalsName(value)) {
+            return ArchiEnum.BUSINESS_EVENT;
+
+        } else if (ArchiEnum.BUSINESS_FUNCTION.equalsName(value)) {
+            return ArchiEnum.BUSINESS_FUNCTION;
+
+        } else if (ArchiEnum.BUSINESS_INTERACTION.equalsName(value)) {
+            return ArchiEnum.BUSINESS_INTERACTION;
+
+        } else if (ArchiEnum.BUSINESS_INTERFACE.equalsName(value)) {
+            return ArchiEnum.BUSINESS_INTERFACE;
+
+        } else if (ArchiEnum.BUSINESS_LOCATION.equalsName(value)) {
+            return ArchiEnum.BUSINESS_LOCATION;
+
+        } else if (ArchiEnum.BUSINESS_MEANING.equalsName(value)) {
+            return ArchiEnum.BUSINESS_MEANING;
+
+        } else if (ArchiEnum.BUSINESS_OBJECT.equalsName(value)) {
+            return ArchiEnum.BUSINESS_OBJECT;
+
+        } else if (ArchiEnum.BUSINESS_PROCESS.equalsName(value)) {
+            return ArchiEnum.BUSINESS_PROCESS;
+
+        } else if (ArchiEnum.BUSINESS_PRODUCT.equalsName(value)) {
+            return ArchiEnum.BUSINESS_PRODUCT;
+
+        } else if (ArchiEnum.BUSINESS_ROLE.equalsName(value)) {
+            return ArchiEnum.BUSINESS_ROLE;
+
+        } else if (ArchiEnum.BUSINESS_REPRESENTATION.equalsName(value)) {
+            return ArchiEnum.BUSINESS_REPRESENTATION;
+
+        } else if (ArchiEnum.BUSINESS_SERVICE.equalsName(value)) {
+            return ArchiEnum.BUSINESS_SERVICE;
+
+        } else if (ArchiEnum.BUSINESS_STAKEHOLDER.equalsName(value)) {
+            return ArchiEnum.BUSINESS_STAKEHOLDER;
+
+        } else if (ArchiEnum.BUSINESS_VALUE.equalsName(value)) {
+            return ArchiEnum.BUSINESS_VALUE;
+
+        } else if (ArchiEnum.GOALS_ASSESSMENT.equalsName(value)) {
+            return ArchiEnum.GOALS_ASSESSMENT;
+
+        } else if (ArchiEnum.GOALS_CONSTRAINT.equalsName(value)) {
+            return ArchiEnum.GOALS_CONSTRAINT;
+
+        } else if (ArchiEnum.GOALS_DRIVER.equalsName(value)) {
+            return ArchiEnum.GOALS_DRIVER;
+
+        } else if (ArchiEnum.GOALS_GAP.equalsName(value)) {
+            return ArchiEnum.GOALS_GAP;
+
+        } else if (ArchiEnum.GOALS_GOAL.equalsName(value)) {
+            return ArchiEnum.GOALS_GOAL;
+
+        } else if (ArchiEnum.GOALS_PLATEAU.equalsName(value)) {
+            return ArchiEnum.GOALS_PLATEAU;
+
+        } else if (ArchiEnum.GOALS_PRINCIPAL.equalsName(value)) {
+            return ArchiEnum.GOALS_PRINCIPAL;
+
+        } else if (ArchiEnum.GOALS_REPRESENTATION.equalsName(value)) {
+            return ArchiEnum.GOALS_REPRESENTATION;
+
+        } else if (ArchiEnum.GOALS_REQUIREMENT.equalsName(value)) {
+            return ArchiEnum.GOALS_REQUIREMENT;
+
+        } else if (ArchiEnum.GOALS_ROLE.equalsName(value)) {
+            return ArchiEnum.GOALS_ROLE;
+
+        } else if (ArchiEnum.GOALS_UNAMED.equalsName(value)) {
+            return ArchiEnum.GOALS_UNAMED;
+
+        } else if (ArchiEnum.MAPS.equalsName(value)) {
+            return ArchiEnum.MAPS;
+
+        } else if (ArchiEnum.MAP_BLUE_STRATAMAP.equalsName(value)) {
+            return ArchiEnum.MAP_BLUE_STRATAMAP;
+
+        } else if (ArchiEnum.MAP_GREEN_STRATAMAP.equalsName(value)) {
+            return ArchiEnum.MAP_GREEN_STRATAMAP;
+
+        } else if (ArchiEnum.MAP_OUTLINE_STRATAMAP.equalsName(value)) {
+            return ArchiEnum.MAP_OUTLINE_STRATAMAP;
+
+        } else if (ArchiEnum.STRATAMAP_BLUE_STRATAMAP.equalsName(value)) {
+            return ArchiEnum.STRATAMAP_BLUE_STRATAMAP;
+
+        } else if (ArchiEnum.STRATAMAP_GREEN_STRATAMAP.equalsName(value)) {
+            return ArchiEnum.STRATAMAP_GREEN_STRATAMAP;
+
+        } else if (ArchiEnum.STRATAMAP_OUTLINE_STRATAMAP.equalsName(value)) {
+            return ArchiEnum.STRATAMAP_OUTLINE_STRATAMAP;
+
+        } else if (ArchiEnum.TECHNOLOGY_ARTIFACT.equalsName(value)) {
+            return ArchiEnum.TECHNOLOGY_ARTIFACT;
+
+        } else if (ArchiEnum.TECHNOLOGY_COMMUNICATION_PATH.equalsName(value)) {
+            return ArchiEnum.TECHNOLOGY_COMMUNICATION_PATH;
+
+        } else if (ArchiEnum.TECHNOLOGY_DATABASE.equalsName(value)) {
+            return ArchiEnum.TECHNOLOGY_DATABASE;
+
+        } else if (ArchiEnum.TECHNOLOGY_DEVICE.equalsName(value)) {
+            return ArchiEnum.TECHNOLOGY_DEVICE;
+
+        } else if (ArchiEnum.TECHNOLOGY_FUNCTION.equalsName(value)) {
+            return ArchiEnum.TECHNOLOGY_FUNCTION;
+
+        } else if (ArchiEnum.TECHNOLOGY_INTERFACE.equalsName(value)) {
+            return ArchiEnum.TECHNOLOGY_INTERFACE;
+
+        } else if (ArchiEnum.TECHNOLOGY_NETWORK.equalsName(value)) {
+            return ArchiEnum.TECHNOLOGY_NETWORK;
+
+        } else if (ArchiEnum.TECHNOLOGY_NODE.equalsName(value)) {
+            return ArchiEnum.TECHNOLOGY_NODE;
+
+        } else if (ArchiEnum.TECHNOLOGY_SERVICE.equalsName(value)) {
+            return ArchiEnum.TECHNOLOGY_SERVICE;
+
+        } else if (ArchiEnum.TECHNOLOGY_SYSTEM_SOFTWARE.equalsName(value)) {
+            return ArchiEnum.TECHNOLOGY_SYSTEM_SOFTWARE;
+
+        } else if (ArchiEnum.CONTRACT.equalsName(value)) {
+            return ArchiEnum.CONTRACT;
+
+        } else if (ArchiEnum.LOCATION.equalsName(value)) {
+            return ArchiEnum.LOCATION;
+
+        } else if (ArchiEnum.DATA_OBJECT.equalsName(value)) {
+            return ArchiEnum.DATA_OBJECT;
+
+        } else if (ArchiEnum.ARTIFACT.equalsName(value)) {
+            return ArchiEnum.ARTIFACT;
+
+        } else if (ArchiEnum.NETWORK.equalsName(value)) {
+            return ArchiEnum.NETWORK;
+
+        } else if (ArchiEnum.DEVICE.equalsName(value)) {
+            return ArchiEnum.DEVICE;
+
+        } else if (ArchiEnum.INFRASTRUCTURE_INTERFACE.equalsName(value)) {
+            return ArchiEnum.INFRASTRUCTURE_INTERFACE;
+
+        } else if (ArchiEnum.INFRASTRUCTURE_SERVICE.equalsName(value)) {
+            return ArchiEnum.INFRASTRUCTURE_SERVICE;
+
+        } else if (ArchiEnum.NODE.equalsName(value)) {
+            return ArchiEnum.NODE;
+
+        } else if (ArchiEnum.SYSTEM_SOFTWARE.equalsName(value)) {
+            return ArchiEnum.SYSTEM_SOFTWARE;
+
+        } else if (ArchiEnum.GROUP.equalsName(value)) {
+            return ArchiEnum.GROUP;
+
+        } else if (ArchiEnum.MEANING.equalsName(value)) {
+            return ArchiEnum.MEANING;
+
+        } else if (ArchiEnum.COMMUNICATION_PATH.equalsName(value)) {
+            return ArchiEnum.COMMUNICATION_PATH;
+
+        }else if (ArchiEnum.DATABASE.equalsName(value)) {
+            return ArchiEnum.DATABASE;
+
+        } else {
+            return ArchiEnum.DEFAULT;
+
+        }
     }
 }

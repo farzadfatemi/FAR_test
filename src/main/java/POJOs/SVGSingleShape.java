@@ -39,6 +39,7 @@ public class SVGSingleShape {
     private Map<String, String> connections;
     private boolean hasChild;
     private ArchiEnum shapeType;
+    private List<Property> Properties;
 
     public int getX() {
         return x;
@@ -256,6 +257,14 @@ public class SVGSingleShape {
         this.shapeType = shapeType;
     }
 
+    public List<Property> getProperties() {
+        return Properties;
+    }
+
+    public void setProperties(List<Property> properties) {
+        Properties = properties;
+    }
+
     @Override
     public String toString() {
         return "SVGSingleShape{" +
@@ -286,6 +295,7 @@ public class SVGSingleShape {
                 ", connections=" + connections +
                 ", hasChild=" + hasChild +
                 ", shapeType=" + shapeType +
+                ", Properties=" + Properties +
                 '}';
     }
 

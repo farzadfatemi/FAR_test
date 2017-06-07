@@ -1,6 +1,7 @@
 package com.Farzad.utils.ImageUtils;
 
 import POJOs.Label;
+import POJOs.Property;
 import POJOs.SVGSingleShape;
 import com.Farzad.Enums.ArchiEnum;
 
@@ -13,201 +14,12 @@ class ShapeTools {
     private final static double opacity = 0.9;
 
     static String getSVGShape(SVGSingleShape svgShape) {
-        if (ArchiEnum.APPLICATION_COLLABORATION.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.APPLICATION_COLLABORATION);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.APPLICATION_COMPONENT.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.APPLICATION_COMPONENT);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.APPLICATION_FUNCTION.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.APPLICATION_FUNCTION);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.APPLICATION_INTERACTION.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.APPLICATION_INTERACTION);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.APPLICATION_INTERFACE.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.APPLICATION_INTERFACE);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.APPLICATION_OBJECT.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.APPLICATION_OBJECT);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.APPLICATION_SERVICE.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.APPLICATION_SERVICE);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.BUSINESS_ACTOR.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.BUSINESS_ACTOR);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.BUSINESS_COLLABORATION.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.BUSINESS_COLLABORATION);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.BUSINESS_EVENT.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.BUSINESS_EVENT);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.BUSINESS_FUNCTION.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.BUSINESS_FUNCTION);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.BUSINESS_INTERACTION.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.BUSINESS_INTERACTION);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.BUSINESS_INTERFACE.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.BUSINESS_INTERFACE);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.BUSINESS_LOCATION.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.BUSINESS_LOCATION);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.BUSINESS_MEANING.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.BUSINESS_MEANING);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.BUSINESS_OBJECT.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.BUSINESS_OBJECT);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.BUSINESS_PROCESS.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.BUSINESS_PROCESS);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.BUSINESS_PRODUCT.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.BUSINESS_PRODUCT);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.BUSINESS_ROLE.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.BUSINESS_ROLE);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.BUSINESS_REPRESENTATION.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.BUSINESS_REPRESENTATION);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.BUSINESS_SERVICE.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.BUSINESS_SERVICE);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.BUSINESS_STAKEHOLDER.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.BUSINESS_STAKEHOLDER);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.BUSINESS_VALUE.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.BUSINESS_VALUE);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.GOALS_ASSESSMENT.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.GOALS_ASSESSMENT);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.GOALS_CONSTRAINT.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.GOALS_CONSTRAINT);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.GOALS_DRIVER.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.GOALS_DRIVER);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.GOALS_GAP.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.GOALS_GAP);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.GOALS_GOAL.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.GOALS_GOAL);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.GOALS_PLATEAU.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.GOALS_PLATEAU);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.GOALS_PRINCIPAL.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.GOALS_PRINCIPAL);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.GOALS_REPRESENTATION.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.GOALS_REPRESENTATION);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.GOALS_REQUIREMENT.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.GOALS_REQUIREMENT);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.GOALS_ROLE.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.GOALS_ROLE);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.GOALS_UNAMED.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.GOALS_UNAMED);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.MAPS.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.MAPS);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.MAP_BLUE_STRATAMAP.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.MAP_BLUE_STRATAMAP);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.MAP_GREEN_STRATAMAP.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.MAP_GREEN_STRATAMAP);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.MAP_OUTLINE_STRATAMAP.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.MAP_OUTLINE_STRATAMAP);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.STRATAMAP_BLUE_STRATAMAP.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.STRATAMAP_BLUE_STRATAMAP);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.STRATAMAP_GREEN_STRATAMAP.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.STRATAMAP_GREEN_STRATAMAP);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.STRATAMAP_OUTLINE_STRATAMAP.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.STRATAMAP_OUTLINE_STRATAMAP);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.TECHNOLOGY_ARTIFACT.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.TECHNOLOGY_ARTIFACT);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.TECHNOLOGY_COMMUNICATION_PATH.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.TECHNOLOGY_COMMUNICATION_PATH);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.TECHNOLOGY_DATABASE.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.TECHNOLOGY_DATABASE);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.TECHNOLOGY_DEVICE.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.TECHNOLOGY_DEVICE);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.TECHNOLOGY_FUNCTION.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.TECHNOLOGY_FUNCTION);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.TECHNOLOGY_INTERFACE.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.TECHNOLOGY_INTERFACE);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.TECHNOLOGY_NETWORK.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.TECHNOLOGY_NETWORK);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.TECHNOLOGY_NODE.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.TECHNOLOGY_NODE);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.TECHNOLOGY_SERVICE.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.TECHNOLOGY_SERVICE);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.TECHNOLOGY_SYSTEM_SOFTWARE.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.TECHNOLOGY_SYSTEM_SOFTWARE);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.CONTRACT.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.CONTRACT);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.LOCATION.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.LOCATION);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.DATA_OBJECT.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.DATA_OBJECT);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.ARTIFACT.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.ARTIFACT);
-            System.out.println("--s-s--s-s-s-s-s--s-sd-" + svgShape.getShapeType());
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.NETWORK.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.NETWORK);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.DEVICE.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.DEVICE);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.INFRASTRUCTURE_INTERFACE.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.INFRASTRUCTURE_INTERFACE);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.INFRASTRUCTURE_SERVICE.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.INFRASTRUCTURE_SERVICE);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.NODE.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.NODE);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.SYSTEM_SOFTWARE.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.SYSTEM_SOFTWARE);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.GROUP.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.GROUP);
-            return SVGShapeCode(svgShape);
-        } else if (ArchiEnum.MEANING.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.MEANING);
-            return SVGShapeCode(svgShape);
-        }  else if (ArchiEnum.COMMUNICATION_PATH.equalsName(svgShape.getElementType())) {
-            svgShape.setShapeType(ArchiEnum.COMMUNICATION_PATH);
+
+        if(getPropertyValue(svgShape,"_icon")!=null) {
+            svgShape.setShapeType(getPropertyValue(svgShape,"_icon"));
             return SVGShapeCode(svgShape);
         } else {
-            svgShape.setShapeType(ArchiEnum.DEFAULT);
+            svgShape.setShapeType(ArchiEnum.getArchiEnum(svgShape.getElementType()));
             return SVGShapeCode(svgShape);
         }
 
@@ -260,6 +72,7 @@ class ShapeTools {
                 return mainRect;
             case APPLICATION_COMPONENT:
                 result = new StringBuilder();
+
                 result.append(getComponentShape(archiEnum, svgShape));
 //                svgShape.setX(svgShape.getX()+10);
                 result.append(putText(svgShape, 0, 0));
@@ -578,6 +391,14 @@ class ShapeTools {
                 result.append(putIntoLink(result.toString(), svgShape.getURL()));
                 result.append(putGroupAndSVGTag(result.toString()));
                 return result.toString();
+            case DATABASE:
+                result = new StringBuilder();
+                result.append(getDataBaseShape(svgShape));
+                result.append(putText(svgShape, 0, 0));
+//                result.append(putIcon(archiEnum, svgShape));
+                result.append(putIntoLink(result.toString(), svgShape.getURL()));
+                result.append(putGroupAndSVGTag(result.toString()));
+                return result.toString();
             default:
                 return mainRect;
         }
@@ -660,9 +481,22 @@ class ShapeTools {
 
         return
                 " <ellipse  fill-opacity=\"" + opacity + "\" class=\"cloud\"  cx=\"" + (x + w / 3) + "\" cy=\"" + (y + h / 3.75) + "\" rx=\"" + (w / 3) + "\" ry=\"" + (h / 3.75) + "\"   />\n" +
-                " <ellipse  fill-opacity=\"" + opacity + "\" class=\"cloud\"  cx=\"" + (x + w / 1.8) + "\" cy=\"" + (y + h / 3) + "\" rx=\"" + (w / 2.25) + "\" ry=\"" + (h / 3) + "\"   />\n" +
-                " <ellipse  fill-opacity=\"" + opacity + "\" class=\"cloud\"  cx=\"" + (x + w * 2 / 3) + "\" cy=\"" + (y + h / 1.4) + "\" rx=\"" + (w / 3) + "\" ry=\"" + (h / 3.5) + "\"   />\n" +
-                " <ellipse  fill-opacity=\"" + opacity + "\" class=\"cloud\"  cx=\"" + (x + w / 3) + "\" cy=\"" + (y + h * 2 / 3) + "\" rx=\"" + (w / 3) + "\" ry=\"" + (h / 3.75) + "\"   />\n";
+                        " <ellipse  fill-opacity=\"" + opacity + "\" class=\"cloud\"  cx=\"" + (x + w / 1.8) + "\" cy=\"" + (y + h / 3) + "\" rx=\"" + (w / 2.25) + "\" ry=\"" + (h / 3) + "\"   />\n" +
+                        " <ellipse  fill-opacity=\"" + opacity + "\" class=\"cloud\"  cx=\"" + (x + w * 2 / 3) + "\" cy=\"" + (y + h / 1.4) + "\" rx=\"" + (w / 3) + "\" ry=\"" + (h / 3.5) + "\"   />\n" +
+                        " <ellipse  fill-opacity=\"" + opacity + "\" class=\"cloud\"  cx=\"" + (x + w / 3) + "\" cy=\"" + (y + h * 2 / 3) + "\" rx=\"" + (w / 3) + "\" ry=\"" + (h / 3.75) + "\"   />\n";
+
+    }
+
+    private static String getDataBaseShape(SVGSingleShape svgShape) {
+        int x = svgShape.getX();
+        int w = svgShape.getWidth();
+        int y = svgShape.getY();
+        int h = svgShape.getHeight();
+        return
+            "<line class=\"database\" x1=\" " + x + "\" y1=\"" + y + "\" x2=\"" + x + "\" y2=\"" + (y + h) + "\" /> \n" +
+            "<path class=\"database\" d=\"M" + x + " " + (y + h) + " C " + (x + w / 3) + " " + (y + h + h / 10) + ", " + (x + w* 2 / 3) + " " + (y + h + h / 10) + ", " + (x + w ) + " " + (y + h) + "\"/>\n" +
+            "<line class=\"database\" x1=\" " + (x + w) + "\" y1=\"" + y + "\" x2=\"" + (x + w) + "\" y2=\"" + (y + h) + "\" /> \n" +
+            "<ellipse class=\"database\" cx=\"" + (x + w/2) + " \" cy=\"" + y + "\" rx=\"" + (w / 2) + "\" ry=\"" + (h / 10) + "\"  />";
 
     }
 
@@ -698,6 +532,18 @@ class ShapeTools {
         }
         return "      \n<text text-anchor=\"" + textAnchor + "\" alignment-baseline=\"middle\" " + (svgShape.getType() != null && svgShape.getType().equals(ArchiEnum.GROUP.categoryToString()) ? "class=\"group_text\"" : "") + " x=\"" + customX + "\" xml:space=\"preserve\" y=\"" + customY + "\" \n" +
                 "       fill=\"#FFFFFF\"  >" + label.getLabelText() + "</text>\n";
+    }
+
+    private static ArchiEnum getPropertyValue(SVGSingleShape svgShape, String key) {
+        ArchiEnum archiEnum = null;
+        if (svgShape.getProperties() != null && svgShape.getProperties().size() > 0) {
+            for (Property p : svgShape.getProperties()) {
+                if (p.getKey() != null && p.getKey().equals(key)) {
+                    archiEnum = ArchiEnum.getArchiEnum(p.getValue());
+                }
+            }
+        }
+        return archiEnum;
     }
 
 

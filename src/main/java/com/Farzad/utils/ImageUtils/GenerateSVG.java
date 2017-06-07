@@ -1,16 +1,16 @@
 package com.Farzad.utils.ImageUtils;
 
 
+import POJOs.Property;
 import POJOs.SVGSingleShape;
 import com.archimatetool.model.*;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
-import java.io.File;
 import java.util.*;
 
 import static com.Farzad.utils.ImageUtils.ConnectionTools.getFirstLastDim;
 import static com.Farzad.utils.ImageUtils.ConnectionTools.getSVGline;
-import static com.Farzad.utils.ImageUtils.ModelTools.loadModel;
 import static com.Farzad.utils.ImageUtils.ShapeTools.getSVGShape;
 
 /**
@@ -27,10 +27,10 @@ public class GenerateSVG {
     private static int LAST_Y = 0;
 
 
-    public static String getModelSVGs() {
+    public static String getModelSVGs(IDiagramModel diagramModel) {
         SVGSingleShape svgSingleShape = null;
         SVGSingleShape svgChildSingleShape = null;
-        getAllModelSVGs();
+        getAllModelSVGs(diagramModel);
         StringBuilder sb = new StringBuilder();
         StringBuilder sb2 = new StringBuilder();
         try {
@@ -90,25 +90,13 @@ public class GenerateSVG {
 
 
 
-   
 
 
-    private static void getAllModelSVGs() {
+
+    private static void getAllModelSVGs(IDiagramModel diagramModel) {
+        Iterator<EObject> contents =null;
         try {
-//            File modelFile = new File("D:\\FAR_Documents\\__Startamap\\Archisurance.archimate");
-//            File modelFile = new File("D:\\FAR_Documents\\__Startamap\\eira_v1_1_0_archimate.archimate");
-//            File modelFile = new File("D:\\FAR_Documents\\__Startamap\\nzta-toar.archimate");
-            File modelFile = new File("D:\\FAR_Documents\\__Startamap\\Original2.archimate");
-            IArchimateModel model = loadModel(modelFile);
-            List<IDiagramModel> iDModels = model.getDiagramModels();
-            IDiagramModel diagramModel = iDModels.get(3);
-            System.out.println(iDModels.size());
-//            for (EObject obj : diagramModel.eContents()) {
-//
-//                getSingleModelSVGs((IDiagramModelObject) obj,0,0,false);
-//            }
-
-            Iterator<EObject> contents = diagramModel.eAllContents();
+            contents = diagramModel.eAllContents();
             while (contents.hasNext()) {
                 EObject obj = contents.next();
                 getSingleModels(obj);
@@ -121,7 +109,7 @@ public class GenerateSVG {
             e.printStackTrace();
         }
 
-    } 
+    }
     
     private static void getSingleModels(EObject diagramCpt) {
         boolean addObj = false;
@@ -132,6 +120,8 @@ public class GenerateSVG {
         SVGSingleShape svgChildSingleShape = null;
         int makeUniqueID = 0;
         int makeUniqueIDChild = 0;
+        Property property;
+        List<Property> propertyList;
         if (diagramCpt instanceof IDiagramModelGroup) {
             // Add any child elements to this root
             IDiagramModelGroup modelGrp = (IDiagramModelGroup) diagramCpt;
@@ -173,31 +163,7 @@ public class GenerateSVG {
             finalX = deepSearchForXY(parentObject,finalX,finalY)[0];
             finalY = deepSearchForXY(parentObject,finalX,finalY)[1];
 
-//            while (true) {
-//                if (parentObject != null) {
-//                    if (parentObject instanceof IDiagramModelArchimateObject) {
-//                        if (((IDiagramModelArchimateObject) parentObject).getBounds() != null) {
-//                            finalX += ((IDiagramModelArchimateObject) parentObject).getBounds().getX();
-//                            finalY += ((IDiagramModelArchimateObject) parentObject).getBounds().getY() ;
-//                        }
-//                    } else if (parentObject instanceof IDiagramModelGroup) {
-//                        if (((IDiagramModelGroup) parentObject).getBounds() != null) {
-//                            finalX += ((IDiagramModelGroup) parentObject).getBounds().getX();
-//                            finalY += ((IDiagramModelGroup) parentObject).getBounds().getY() ;
-//                        }
-//                    }
-//                } else {
-//                    break;
-//                }
-//                parentObject = parentObject.eContainer();
-//            }
-//            } else if (parentObject instanceof IDiagramModelGroup) {
-//                if (((IDiagramModelGroup) parentObject).getBounds() != null) {
-//                    finalX = ((IDiagramModelGroup) parentObject).getBounds().getX() + modelGrp.getBounds().getX();
-//                    finalY = ((IDiagramModelGroup) parentObject).getBounds().getY() + modelGrp.getBounds().getY();
-//                }
-//            }
-
+            EList<IProperty> propertiesList= modelGrp.getProperties();
             System.out.println("**##--> " + finalX + " Final Y " + finalY + " child X : " + modelGrp.getBounds().getX() + " child Y : " + modelGrp.getBounds().getY());
 
            System.out.println("@@@@@@@@@@@@@@@@@@@ class name    : " + modelGrp.getClass().getSimpleName());
@@ -216,6 +182,7 @@ public class GenerateSVG {
                     svgSingleShape.setFont(modelGrp.getFont());
                     svgSingleShape.setFontColor(modelGrp.getFontColor());
                     svgSingleShape.setElementType(modelGrp.getClass().getSimpleName());
+                    svgSingleShape.setProperties(getProperties(propertiesList));
 //                    svgSingleShape.setConnections(sourceAndTarget);
                     if (modelGrp.getChildren() != null && modelGrp.getChildren().size() > 0) {
                         svgSingleShape.setHasChild(true);
@@ -237,6 +204,8 @@ public class GenerateSVG {
         } else if (diagramCpt instanceof IDiagramModelArchimateObject) {
             IDiagramModelArchimateObject modelObj = (IDiagramModelArchimateObject) diagramCpt;
             System.out.println("-4---4--4 " + modelObj.getName()+" Type " + modelObj.getClass().getSimpleName());
+            EList<IProperty> propertiesList= modelObj.getArchimateElement().getProperties();
+
             if (modelObj.getBounds() != null) {
                 System.out.println(" X : " + modelObj.getBounds().getX() + " | Y " + modelObj.getBounds().getY() + " Width : " + modelObj.getBounds().getWidth() + " | Height " + modelObj.getBounds().getHeight() + "--  ---");
             }
@@ -335,6 +304,7 @@ public class GenerateSVG {
                     svgSingleShape.setFillColor(modelObj.getFillColor());
                     svgSingleShape.setFont(modelObj.getFont());
                     svgSingleShape.setFontColor(modelObj.getFontColor());
+                    svgSingleShape.setProperties(getProperties(propertiesList));
 //                    svgSingleShape.setConnections(sourceAndTarget);
                     if (modelObj.getChildren() != null && modelObj.getChildren().size() > 0) {
                         svgSingleShape.setHasChild(true);
@@ -567,5 +537,17 @@ public class GenerateSVG {
         i[0]= finalX;
         i[1]=finalY;
         return i;
+    }
+    private static List<Property> getProperties(EList<IProperty> propertiesList){
+        Property property;
+        List<Property> propertyList = new ArrayList<>();
+        for (IProperty singleProperty: propertiesList){
+            System.out.println("--- Property name " + singleProperty.getKey()+" Property value " +singleProperty.getValue());
+            property = new Property();
+            property.setKey(singleProperty.getKey());
+            property.setValue(singleProperty.getValue());
+            propertyList.add(property);
+        }
+        return propertyList;
     }
 }

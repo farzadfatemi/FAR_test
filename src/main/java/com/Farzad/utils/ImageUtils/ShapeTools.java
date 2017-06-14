@@ -4,6 +4,8 @@ import POJOs.Label;
 import POJOs.Property;
 import POJOs.SVGSingleShape;
 import com.Farzad.Enums.ArchiEnum;
+import com.Farzad.Enums.PropertyValues;
+import org.apache.commons.lang.StringEscapeUtils;
 
 import static com.Farzad.utils.Utils.*;
 
@@ -15,8 +17,8 @@ class ShapeTools {
 
     static String getSVGShape(SVGSingleShape svgShape) {
 
-        if(getPropertyValue(svgShape,"_icon")!=null) {
-            svgShape.setShapeType(getPropertyValue(svgShape,"_icon"));
+        if(getPropertyValue(svgShape, PropertyValues.ICON)!=null) {
+            svgShape.setShapeType(getPropertyValue(svgShape,PropertyValues.ICON));
             return SVGShapeCode(svgShape);
         } else {
             svgShape.setShapeType(ArchiEnum.getArchiEnum(svgShape.getElementType()));
@@ -29,47 +31,61 @@ class ShapeTools {
     private static String SVGShapeCode(SVGSingleShape svgShape) {
         Label label = getFitLabel(svgShape);
         StringBuilder result = null;
-        int x = svgShape.getX();
+        StringBuilder mainRect = new StringBuilder();
+       String tmpStr="";
+       int x = svgShape.getX();
         double y = getTextVerticallyPosition(svgShape, label);
         ArchiEnum archiEnum = svgShape.getShapeType();
         String color = null;
-        int rx = 8;
-        int ry = 8;
-        int lineWidth = 4;
-        String fillColor = svgShape.getFillColor();
         System.out.println("Shape TYpe : " + archiEnum.categoryToString());
         svgShape.setURL("http://www.stratamap.co.nz");
         System.out.println("==== >>>" + svgShape.getName() + " ------------- hasChild : " + svgShape.hasAnyChild());
-        String mainRect =
-                " <g>\n" +
-                        " <a xlink:href=\"https://google.com\">\n" +
-                        "      <rect fill-opacity=\"" + opacity + "\" class=\"main_style " + archiEnum.categoryToString() + "\"  x=\"" + svgShape.getX() + "\" y=\"" + svgShape.getY() + "\" width=\"" + svgShape.getWidth()
-                        + "\" height=\"" + svgShape.getHeight() + "\" />\n" +
-                        "      <text text-anchor=\"middle\" alignment-baseline=\"middle\" class=\"shapeLabel\" x=\"" + (svgShape.getX() + svgShape.getWidth() / 2) + "\" xml:space=\"preserve\" y=\"" + y + "\"  >" + label.getLabelText() + "</text>\n" +
-                        "    </a>\n" + IconsTools.getIconSVGCode(archiEnum, svgShape) +
-                        "</g>\n";
 
-        String businessObjectShape = " <g>\n" +
-                " <a xlink:href=\"https://google.com\">\n" +
-                "      <rect fill=\"#e0b416\"  x=\"" + svgShape.getX() + "\" y=\"" + svgShape.getY() + "\" width=\"" + svgShape.getWidth()
-                + "\" height=\"" + svgShape.getHeight() + "\" stroke=\"" + svgShape.getStrokeColor() + "\" stroke-width=\"" + lineWidth + "\" />\n" +
-                "      <rect fill=\"" + svgShape.getFillColor() + "\"  x=\"" + svgShape.getX() + "\" y=\"" + (svgShape.getY() + 13) + "\" width=\"" + svgShape.getWidth()
-                + "\" height=\"" + (svgShape.getHeight() - 13) + "\" stroke=\"" + svgShape.getStrokeColor() + "\" />\n" +
-                "      <text text-anchor=\"middle\" alignment-baseline=\"middle\" class=\"shapeLabel\" x=\"" + (svgShape.getX() + svgShape.getWidth() / 2) + "\" xml:space=\"preserve\" y=\"" + y + "\"  clip-path=\"url(#clipPath20)\" stroke=\"none\"\n" +
-                "       fill=\"#FFFFFF\"  >" + label.getLabelText() + "</text>\n" +
-                "    </a>\n" + IconsTools.getIconSVGCode(archiEnum, svgShape) +
-                "</g>\n";
-        String businessFunctionShape = " <g>\n" +
-                " <a xlink:href=\"https://google.com\">\n" +
-                "      <rect fill=\"" + svgShape.getFillColor() + "\" rx=\"" + rx + "\" ry=\"" + ry + "\"   x=\"" + svgShape.getX() + "\" y=\"" + svgShape.getY() + "\" width=\"" + svgShape.getWidth()
-                + "\" height=\"" + svgShape.getHeight() + "\" stroke=\"" + svgShape.getStrokeColor() + "\" stroke-width=\"" + lineWidth + "\" />\n" +
-                "      <text text-anchor=\"middle\" alignment-baseline=\"middle\" class=\"shapeLabel\" x=\"" + (svgShape.getX() + svgShape.getWidth() / 2) + "\" xml:space=\"preserve\" y=\"" + y + "\" \n" +
-                "       fill=\"#FFFFFF\"  >" + label.getLabelText() + "</text>\n" +
-                "    </a>\n" + IconsTools.getIconSVGCode(archiEnum, svgShape) +
-                "</g>\n";
+        mainRect.append(" <g>\n" );
+        mainRect.append(" <a href=\"https://google.com\">\n");
+        mainRect.append("<rect fill-opacity=\"");
+        mainRect.append(opacity );
+        mainRect.append("\" class=\"main_style ");
+        mainRect.append(archiEnum.categoryToString());
+        mainRect.append("\"  x=\"");
+        mainRect.append(svgShape.getX());
+        mainRect.append("\" y=\"");
+        mainRect.append(svgShape.getY());
+        mainRect.append("\" width=\"");
+        mainRect.append(svgShape.getWidth());
+        mainRect.append("\" height=\"");
+        mainRect.append(svgShape.getHeight());
+        mainRect.append("\" />\n");
+        mainRect.append(putText(svgShape,0,0));
+        mainRect.append("</a>\n");
+        mainRect.append( IconsTools.getIconSVGCode(archiEnum, svgShape));
+        mainRect.append("</g>\n");
+
+
+
+
+
+//        String businessObjectShape = " <g>\n" +
+//                " <a href=\"https://google.com\">\n" +
+//                "      <rect fill=\"#e0b416\"  x=\"" + svgShape.getX() + "\" y=\"" + svgShape.getY() + "\" width=\"" + svgShape.getWidth()
+//                + "\" height=\"" + svgShape.getHeight() + "\" stroke=\"" + svgShape.getStrokeColor() + "\" stroke-width=\"" + lineWidth + "\" />\n" +
+//                "      <rect fill=\"" + svgShape.getFillColor() + "\"  x=\"" + svgShape.getX() + "\" y=\"" + (svgShape.getY() + 13) + "\" width=\"" + svgShape.getWidth()
+//                + "\" height=\"" + (svgShape.getHeight() - 13) + "\" stroke=\"" + svgShape.getStrokeColor() + "\" />\n" +
+//                "      <text text-anchor=\"middle\" alignment-baseline=\"middle\" class=\"shapeLabel\" x=\"" + (svgShape.getX() + svgShape.getWidth() / 2) + "\" xml:space=\"preserve\" y=\"" + y + "\"  clip-path=\"url(#clipPath20)\" stroke=\"none\"\n" +
+//                "       fill=\"#FFFFFF\"  >" + label.getLabelText() + "</text>\n" +
+//                "    </a>\n" + IconsTools.getIconSVGCode(archiEnum, svgShape) +
+//                "</g>\n";
+//        String businessFunctionShape = " <g>\n" +
+//                " <a href=\"https://google.com\">\n" +
+//                "      <rect fill=\"" + svgShape.getFillColor() + "\" rx=\"" + rx + "\" ry=\"" + ry + "\"   x=\"" + svgShape.getX() + "\" y=\"" + svgShape.getY() + "\" width=\"" + svgShape.getWidth()
+//                + "\" height=\"" + svgShape.getHeight() + "\" stroke=\"" + svgShape.getStrokeColor() + "\" stroke-width=\"" + lineWidth + "\" />\n" +
+//                "      <text text-anchor=\"middle\" alignment-baseline=\"middle\" class=\"shapeLabel\" x=\"" + (svgShape.getX() + svgShape.getWidth() / 2) + "\" xml:space=\"preserve\" y=\"" + y + "\" \n" +
+//                "       fill=\"#FFFFFF\"  >" + label.getLabelText() + "</text>\n" +
+//                "    </a>\n" + IconsTools.getIconSVGCode(archiEnum, svgShape) +
+//                "</g>\n";
         switch (archiEnum) {
             case APPLICATION_COLLABORATION:
-                return mainRect;
+                return mainRect.toString();
             case APPLICATION_COMPONENT:
                 result = new StringBuilder();
 
@@ -77,17 +93,17 @@ class ShapeTools {
 //                svgShape.setX(svgShape.getX()+10);
                 result.append(putText(svgShape, 0, 0));
 //                result.append(putIcon(archiEnum, svgShape));
-                result.append(putIntoLink(result.toString(), svgShape.getURL()));
+                tmpStr = putIntoLink(result.toString(), svgShape.getURL());
 //                svgShape.setX(svgShape.getX()-10);
-                return result.toString();
+                return putGroupAndSVGTag(tmpStr);
             case APPLICATION_FUNCTION:
-                return mainRect;
+                return mainRect.toString();
             case APPLICATION_INTERACTION:
-                return mainRect;
+                return mainRect.toString();
             case APPLICATION_INTERFACE:
-                return mainRect;
+                return mainRect.toString();
             case APPLICATION_OBJECT:
-                return mainRect;
+                return mainRect.toString();
             case APPLICATION_SERVICE:
                 result = new StringBuilder();
                 svgShape.setRx(25);
@@ -96,15 +112,14 @@ class ShapeTools {
 //                svgShape.setY(svgShape.getY() - 10);
                 result.append(putText(svgShape, 0, 0));
                 result.append(putIcon(archiEnum, svgShape));
-                result.append(putIntoLink(result.toString(), svgShape.getURL()));
-                result.append(putGroupAndSVGTag(result.toString()));
-                return result.toString();
+                tmpStr = putIntoLink(result.toString(), svgShape.getURL());
+                return putGroupAndSVGTag(tmpStr);
             case BUSINESS_ACTOR:
-                return mainRect;
+                return mainRect.toString();
             case BUSINESS_COLLABORATION:
-                return mainRect;
+                return mainRect.toString();
             case BUSINESS_EVENT:
-                return mainRect;
+                return mainRect.toString();
             case BUSINESS_FUNCTION:
                 result = new StringBuilder();
                 svgShape.setRx(8);
@@ -112,17 +127,16 @@ class ShapeTools {
                 result.append(getSimpleRect(archiEnum, svgShape));
                 result.append(putText(svgShape, 0, 0));
                 result.append(putIcon(archiEnum, svgShape));
-                result.append(putIntoLink(result.toString(), svgShape.getURL()));
-                result.append(putGroupAndSVGTag(result.toString()));
-                return result.toString();
+                tmpStr = putIntoLink(result.toString(), svgShape.getURL());
+                return putGroupAndSVGTag(tmpStr);
             case BUSINESS_INTERACTION:
-                return mainRect;
+                return mainRect.toString();
             case BUSINESS_INTERFACE:
-                return mainRect;
+                return mainRect.toString();
             case BUSINESS_LOCATION:
-                return mainRect;
+                return mainRect.toString();
             case BUSINESS_MEANING:
-                return mainRect;
+                return mainRect.toString();
             case BUSINESS_OBJECT:
                 result = new StringBuilder();
                 color = svgShape.getFillColor();
@@ -134,19 +148,19 @@ class ShapeTools {
                 result.append(getSimpleRect(archiEnum, svgShape));
                 result.append(putText(svgShape, 0, 0));
 //                result.append(putIcon(archiEnum, svgShape));
-                result.append(putIntoLink(result.toString(), svgShape.getURL()));
-                result.append(putGroupAndSVGTag(result.toString()));
+                tmpStr = putIntoLink(result.toString(), svgShape.getURL());
                 svgShape.setY(svgShape.getY() - 13);
-                svgShape.setHeight(svgShape.getHeight() + 13);
-                return result.toString();
+            svgShape.setHeight(svgShape.getHeight() + 13);
+                return putGroupAndSVGTag(tmpStr);
+
             case BUSINESS_PROCESS:
-                return mainRect;
+                return mainRect.toString();
             case BUSINESS_PRODUCT:
-                return mainRect;
+                return mainRect.toString();
             case BUSINESS_REPRESENTATION:
-                return mainRect;
+                return mainRect.toString();
             case BUSINESS_ROLE:
-                return mainRect;
+                return mainRect.toString();
             case BUSINESS_SERVICE:
                 result = new StringBuilder();
                 svgShape.setRx(35);
@@ -154,55 +168,55 @@ class ShapeTools {
                 result.append(getSimpleRect(archiEnum, svgShape));
                 result.append(putText(svgShape, 0, 0));
                 result.append(putIcon(archiEnum, svgShape));
-                result.append(putIntoLink(result.toString(), svgShape.getURL()));
-                result.append(putGroupAndSVGTag(result.toString()));
-                return result.toString();
+                tmpStr = putIntoLink(result.toString(), svgShape.getURL());
+                return putGroupAndSVGTag(tmpStr);
+
             case BUSINESS_STAKEHOLDER:
-                return mainRect;
+                return mainRect.toString();
             case BUSINESS_VALUE:
-                return mainRect;
+                return mainRect.toString();
             case GOALS_ASSESSMENT:
-                return mainRect;
+                return mainRect.toString();
             case GOALS_CONSTRAINT:
-                return mainRect;
+                return mainRect.toString();
             case GOALS_DRIVER:
-                return mainRect;
+                return mainRect.toString();
             case GOALS_GAP:
-                return mainRect;
+                return mainRect.toString();
             case GOALS_GOAL:
-                return mainRect;
+                return mainRect.toString();
             case GOALS_PLATEAU:
-                return mainRect;
+                return mainRect.toString();
             case GOALS_PRINCIPAL:
-                return mainRect;
+                return mainRect.toString();
             case GOALS_REPRESENTATION:
-                return mainRect;
+                return mainRect.toString();
             case GOALS_REQUIREMENT:
-                return mainRect;
+                return mainRect.toString();
             case GOALS_ROLE:
-                return mainRect;
+                return mainRect.toString();
             case GOALS_UNAMED:
-                return mainRect;
+                return mainRect.toString();
             case MAPS:
-                return mainRect;
+                return mainRect.toString();
             case MAP_BLUE_STRATAMAP:
-                return mainRect;
+                return mainRect.toString();
             case MAP_GREEN_STRATAMAP:
-                return mainRect;
+                return mainRect.toString();
             case MAP_OUTLINE_STRATAMAP:
-                return mainRect;
+                return mainRect.toString();
             case STRATAMAP_BLUE_STRATAMAP:
-                return mainRect;
+                return mainRect.toString();
             case STRATAMAP_GREEN_STRATAMAP:
-                return mainRect;
+                return mainRect.toString();
             case STRATAMAP_OUTLINE_STRATAMAP:
-                return mainRect;
+                return mainRect.toString();
             case TECHNOLOGY_ARTIFACT:
-                return mainRect;
+                return mainRect.toString();
             case TECHNOLOGY_COMMUNICATION_PATH:
-                return mainRect;
+                return mainRect.toString();
             case TECHNOLOGY_DATABASE:
-                return mainRect;
+                return mainRect.toString();
             case TECHNOLOGY_DEVICE:
                 result = new StringBuilder();
                 svgShape.setRx(35);
@@ -210,7 +224,6 @@ class ShapeTools {
                 result.append(getSimpleRect(archiEnum, svgShape));
                 result.append(putText(svgShape, 0, 0));
 //                result.append(putIcon(archiEnum, svgShape));
-                result.append(putIntoLink(result.toString(), svgShape.getURL()));
                 svgShape.setPolyDem(new int[][]{
                         {svgShape.getX() + 10, svgShape.getY() + svgShape.getHeight() + 20},
                         {svgShape.getX() + 30, svgShape.getY() + svgShape.getHeight()},
@@ -219,20 +232,21 @@ class ShapeTools {
 
                 });
                 result.append(getSimpleTrapezium(svgShape));
-                result.append(putGroupAndSVGTag(result.toString()));
-                return result.toString();
+                tmpStr = putIntoLink(result.toString(), svgShape.getURL());
+                return putGroupAndSVGTag(tmpStr);
+
             case TECHNOLOGY_FUNCTION:
-                return mainRect;
+                return mainRect.toString();
             case TECHNOLOGY_INTERFACE:
-                return mainRect;
+                return mainRect.toString();
             case TECHNOLOGY_NETWORK:
-                return mainRect;
+                return mainRect.toString();
             case TECHNOLOGY_NODE:
-                return mainRect;
+                return mainRect.toString();
             case TECHNOLOGY_SERVICE:
-                return mainRect;
+                return mainRect.toString();
             case TECHNOLOGY_SYSTEM_SOFTWARE:
-                return mainRect;
+                return mainRect.toString();
             case CONTRACT:
                 result = new StringBuilder();
                 color = svgShape.getFillColor();
@@ -244,13 +258,13 @@ class ShapeTools {
                 result.append(getSimpleRect(archiEnum, svgShape));
                 result.append(putText(svgShape, 0, 0));
 //                result.append(putIcon(archiEnum, svgShape));
-                result.append(putIntoLink(result.toString(), svgShape.getURL()));
-                result.append(putGroupAndSVGTag(result.toString()));
+                tmpStr = putIntoLink(result.toString(), svgShape.getURL());
                 svgShape.setY(svgShape.getY() - 13);
-                svgShape.setHeight(svgShape.getHeight() + 13);
-                return result.toString();
+            svgShape.setHeight(svgShape.getHeight() + 13);
+                return putGroupAndSVGTag(tmpStr);
+
             case LOCATION:
-                return mainRect;
+                return mainRect.toString();
             case DATA_OBJECT:
                 result = new StringBuilder();
                 color = svgShape.getFillColor();
@@ -262,11 +276,11 @@ class ShapeTools {
                 result.append(getSimpleRect(archiEnum, svgShape));
                 result.append(putText(svgShape, 0, 0));
 //                result.append(putIcon(archiEnum, svgShape));
-                result.append(putIntoLink(result.toString(), svgShape.getURL()));
-                result.append(putGroupAndSVGTag(result.toString()));
+                tmpStr = putIntoLink(result.toString(), svgShape.getURL());
                 svgShape.setY(svgShape.getY() - 13);
-                svgShape.setHeight(svgShape.getHeight() + 13);
-                return result.toString();
+            svgShape.setHeight(svgShape.getHeight() + 13);
+                return putGroupAndSVGTag(tmpStr);
+
             case ARTIFACT:
                 result = new StringBuilder();
                 int diff = 13;
@@ -287,25 +301,25 @@ class ShapeTools {
                 result.append(getArtifactShape(svgShape));
                 result.append(putText(svgShape, 0, 0));
 //                result.append(putIcon(archiEnum, svgShape));
-                result.append(putIntoLink(result.toString(), svgShape.getURL()));
-                result.append(putGroupAndSVGTag(result.toString()));
-                return result.toString();
+                tmpStr = putIntoLink(result.toString(), svgShape.getURL());
+                return putGroupAndSVGTag(tmpStr);
+
             case NETWORK:
                 result = new StringBuilder();
                 result.append(getSimpleRect(archiEnum, svgShape));
 //                svgShape.setY(svgShape.getY() - 13);
                 result.append(putText(svgShape, 0, 0));
                 result.append(putIcon(archiEnum, svgShape));
-                result.append(putIntoLink(result.toString(), svgShape.getURL()));
-                svgShape.setPolyDem(new int[][]{
-                        {svgShape.getX() + 10, svgShape.getY() + svgShape.getHeight() + 20},
-                        {svgShape.getX() + 30, svgShape.getY() + svgShape.getHeight()},
-                        {svgShape.getX() + svgShape.getWidth() - 30, svgShape.getY() + svgShape.getHeight()},
-                        {svgShape.getX() + svgShape.getWidth() - 10, svgShape.getY() + svgShape.getHeight() + 20}
+//                svgShape.setPolyDem(new int[][]{
+//                        {svgShape.getX() + 10, svgShape.getY() + svgShape.getHeight() + 20},
+//                        {svgShape.getX() + 30, svgShape.getY() + svgShape.getHeight()},
+//                        {svgShape.getX() + svgShape.getWidth() - 30, svgShape.getY() + svgShape.getHeight()},
+//                        {svgShape.getX() + svgShape.getWidth() - 10, svgShape.getY() + svgShape.getHeight() + 20}
+//
+//                });
+                tmpStr = putIntoLink(result.toString(), svgShape.getURL());
+                return putGroupAndSVGTag(tmpStr);
 
-                });
-                result.append(putGroupAndSVGTag(result.toString()));
-                return result.toString();
             case DEVICE:
                 result = new StringBuilder();
                 svgShape.setRx(15);
@@ -313,7 +327,6 @@ class ShapeTools {
                 result.append(getSimpleRect(archiEnum, svgShape));
                 result.append(putText(svgShape, 0, 0));
 //                result.append(putIcon(archiEnum, svgShape));
-                result.append(putIntoLink(result.toString(), svgShape.getURL()));
                 svgShape.setPolyDem(new int[][]{
                         {svgShape.getX() + 10, svgShape.getY() + svgShape.getHeight() + 10},
                         {svgShape.getX() + 30, svgShape.getY() + svgShape.getHeight()},
@@ -322,10 +335,11 @@ class ShapeTools {
 
                 });
                 result.append(getSimpleTrapezium(svgShape));
-                result.append(putGroupAndSVGTag(result.toString()));
-                return result.toString();
+                tmpStr = putIntoLink(result.toString(), svgShape.getURL());
+                return putGroupAndSVGTag(tmpStr);
+
             case INFRASTRUCTURE_INTERFACE:
-                return mainRect;
+                return mainRect.toString();
             case INFRASTRUCTURE_SERVICE:
                 result = new StringBuilder();
                 svgShape.setRx(8);
@@ -333,19 +347,19 @@ class ShapeTools {
                 result.append(getSimpleRect(archiEnum, svgShape));
                 result.append(putText(svgShape, 0, 0));
                 result.append(putIcon(archiEnum, svgShape));
-                result.append(putIntoLink(result.toString(), svgShape.getURL()));
-                result.append(putGroupAndSVGTag(result.toString()));
-                return result.toString();
+                tmpStr = putIntoLink(result.toString(), svgShape.getURL());
+                return putGroupAndSVGTag(tmpStr);
+
             case NODE:
                 result = new StringBuilder();
                 result.append(getSimpleRect(archiEnum, svgShape));
                 result.append(putText(svgShape, 0, 0));
                 result.append(putIcon(archiEnum, svgShape));
-                result.append(putIntoLink(result.toString(), svgShape.getURL()));
-                result.append(putGroupAndSVGTag(result.toString()));
-                return result.toString();
+                tmpStr = putIntoLink(result.toString(), svgShape.getURL());
+                return putGroupAndSVGTag(tmpStr);
+
             case SYSTEM_SOFTWARE:
-                return mainRect;
+                return mainRect.toString();
             case GROUP:
                 result = new StringBuilder();
                 color = svgShape.getFillColor();
@@ -369,38 +383,37 @@ class ShapeTools {
 
                 result.append(putText(svgShape, svgShape.getX() + 10, svgShape.getY() - 10));
 //                result.append(putIcon(archiEnum, svgShape));
-                result.append(putIntoLink(result.toString(), svgShape.getURL()));
+                tmpStr = putIntoLink(result.toString(), svgShape.getURL());
                 svgShape.setY(svgShape.getY() - 15);
-                result.append(putGroupAndSVGTag(result.toString()));
                 svgShape.setHeight(svgShape.getHeight() + 25);
-                return result.toString();
+                return putGroupAndSVGTag(tmpStr);
             case MEANING:
                 result = new StringBuilder();
                 System.out.println("cloouuuuud");
                 result.append(getCloudShape(svgShape));
                 result.append(putText(svgShape, 0, 0));
-                result.append(putIntoLink(result.toString(), svgShape.getURL()));
-                result.append(putGroupAndSVGTag(result.toString()));
+                tmpStr = putIntoLink(result.toString(), svgShape.getURL());
+                return putGroupAndSVGTag(tmpStr);
 
-                return result.toString();
+
             case COMMUNICATION_PATH:
                 result = new StringBuilder();
                 result.append(getSimpleRect(archiEnum, svgShape));
                 result.append(putText(svgShape, 0, 0));
                 result.append(putIcon(archiEnum, svgShape));
-                result.append(putIntoLink(result.toString(), svgShape.getURL()));
-                result.append(putGroupAndSVGTag(result.toString()));
-                return result.toString();
+                tmpStr = putIntoLink(result.toString(), svgShape.getURL());
+                return putGroupAndSVGTag(tmpStr);
+
             case DATABASE:
                 result = new StringBuilder();
                 result.append(getDataBaseShape(svgShape));
                 result.append(putText(svgShape, 0, 0));
 //                result.append(putIcon(archiEnum, svgShape));
-                result.append(putIntoLink(result.toString(), svgShape.getURL()));
-                result.append(putGroupAndSVGTag(result.toString()));
-                return result.toString();
+                tmpStr = putIntoLink(result.toString(), svgShape.getURL());
+                return putGroupAndSVGTag(tmpStr);
+
             default:
-                return mainRect;
+                return mainRect.toString();
         }
     }
 
@@ -503,7 +516,7 @@ class ShapeTools {
 
     private static String putIntoLink(String shape, String link) {
         return
-                " <a xlink:href=\"" + link + "\">\n" +
+                " <a href=\"" + link + "\">\n" +
                         shape +
                         "</a>\n"
                 ;
@@ -511,11 +524,12 @@ class ShapeTools {
 
     private static String putGroupAndSVGTag(String shape) {
         return
-                "<svg>\n" +
+//                "<svg>\n" +
                         " <g>\n" +
                         shape +
-                        "</g>\n" +
-                        "</svg>\n";
+                        "</g>\n";
+//                                +
+//                        "</svg>\n";
     }
 
     private static String putIcon(ArchiEnum archiEnum, SVGSingleShape svgShape) {
@@ -525,20 +539,36 @@ class ShapeTools {
     private static String putText(SVGSingleShape svgShape, int customX, double customY) {
         Label label = getFitLabel(svgShape);
         System.out.println("==== >>>" + svgShape.getName() + " ------------- hasChild : " + svgShape.hasAnyChild());
+        StringBuilder text = new StringBuilder();
         String textAnchor = null != svgShape.getTextAlignment() && svgShape.getTextAlignment().length() > 0 ? svgShape.getTextAlignment() : "middle";
         if (customX == 0) customX = svgShape.getX() + svgShape.getWidth() / 2;
         if (customY == 0) {
             customY = getTextVerticallyPosition(svgShape, label);
         }
-        return "      \n<text text-anchor=\"" + textAnchor + "\" alignment-baseline=\"middle\" " + (svgShape.getType() != null && svgShape.getType().equals(ArchiEnum.GROUP.categoryToString()) ? "class=\"group_text\"" : "") + " x=\"" + customX + "\" xml:space=\"preserve\" y=\"" + customY + "\" \n" +
-                "       fill=\"#FFFFFF\"  >" + label.getLabelText() + "</text>\n";
+        text.append("<text text-anchor=");
+        text.append(textAnchor);
+        text.append("\" alignment-baseline=\"middle\" ");
+        text.append((svgShape.getType() != null && svgShape.getType().equals(ArchiEnum.GROUP.categoryToString()) ? "class=\"group_text\"" : ""));
+        text.append(" x=\"");
+        text.append(customX);
+        text.append("\" xml:space=\"preserve\"");
+        text.append(" y=\"");
+        text.append(customY);
+        text.append("\" \n" );
+        text.append(" fill=\"#FFFFFF\"  >");
+        text.append(StringEscapeUtils.escapeXml(label.getLabelText()));
+        text.append("</text>\n");
+
+//        return "      \n<text text-anchor=\"" + textAnchor + "\" alignment-baseline=\"middle\" " + (svgShape.getType() != null && svgShape.getType().equals(ArchiEnum.GROUP.categoryToString()) ? "class=\"group_text\"" : "") + " x=\"" + customX + "\" xml:space=\"preserve\" y=\"" + customY + "\" \n" +
+//                "       fill=\"#FFFFFF\"  >" + label.getLabelText() + "</text>\n";
+        return text.toString();
     }
 
-    private static ArchiEnum getPropertyValue(SVGSingleShape svgShape, String key) {
+    private static ArchiEnum getPropertyValue(SVGSingleShape svgShape, PropertyValues key) {
         ArchiEnum archiEnum = null;
         if (svgShape.getProperties() != null && svgShape.getProperties().size() > 0) {
             for (Property p : svgShape.getProperties()) {
-                if (p.getKey() != null && p.getKey().equals(key)) {
+                if (p.getKey() != null && p.getKey().equals(key.toString())) {
                     archiEnum = ArchiEnum.getArchiEnum(p.getValue());
                 }
             }

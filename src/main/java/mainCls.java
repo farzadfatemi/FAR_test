@@ -45,9 +45,9 @@ public class mainCls {
         IArchimateModel model = null;
         try {
 //            File modelFile = new File("D:\\FAR_Documents\\__Startamap\\Archisurance.archimate");
-//            File modelFile = new File("D:\\FAR_Documents\\__Startamap\\eira_v1_1_0_archimate.archimate");
+            File modelFile = new File("D:\\FAR_Documents\\__Startamap\\eira_v1_1_0_archimate.archimate");
 //            File modelFile = new File("D:\\FAR_Documents\\__Startamap\\nzta-toar.archimate");
-            File modelFile = new File("D:\\FAR_Documents\\__Startamap\\Original2.archimate");
+//            File modelFile = new File("D:\\FAR_Documents\\__Startamap\\Original2.archimate");
             model = loadModel(modelFile);
             if(model !=null)
                 System.out.printf("ID ---------------------> "+ model.getId());
@@ -62,7 +62,7 @@ public class mainCls {
         try {
             List<IDiagramModel> iDModels = getArchiModelFromFile()!=null?getArchiModelFromFile().getDiagramModels():null;
             if(iDModels!=null) {
-                diagramModel = iDModels.get(3);
+                diagramModel = iDModels.get(2);
                 System.out.println(iDModels.size());
             }
 

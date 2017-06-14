@@ -5,6 +5,7 @@ package POJOs;
  */
 public class Label {
     private String labelText;
+    private String textAnchor ;
     private int FontLength ;
     private int FontHeight ;
     private double labelWidth ;
@@ -16,6 +17,14 @@ public class Label {
 
     public void setLabelText(String labelText) {
         this.labelText = labelText;
+    }
+
+    public String getTextAnchor() {
+        return textAnchor;
+    }
+
+    public void setTextAnchor(String textAnchor) {
+        this.textAnchor = textAnchor;
     }
 
     public int getFontLength() {
@@ -54,6 +63,7 @@ public class Label {
     public String toString() {
         return "Label{" +
                 "labelText='" + labelText + '\'' +
+                ", textAnchor='" + textAnchor + '\'' +
                 ", FontLength=" + FontLength +
                 ", FontHeight=" + FontHeight +
                 ", labelWidth=" + labelWidth +

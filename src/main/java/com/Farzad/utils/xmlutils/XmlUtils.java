@@ -369,8 +369,8 @@ public class XmlUtils {
 
         try {
 
-//            File modelFile = new File("D:\\FAR_Documents\\__Startamap\\Original.archimate");
-            File modelFile = new File("D:\\FAR_Documents\\__Startamap\\eira_v1_1_0_archimate.archimate");
+            File modelFile = new File("D:\\FAR_Documents\\__Startamap\\Original.archimate");
+//            File modelFile = new File("D:\\FAR_Documents\\__Startamap\\eira_v1_1_0_archimate.archimate");
 
 
             IArchimateModel model = loadModel(modelFile);
@@ -382,6 +382,8 @@ public class XmlUtils {
             IDiagramModel diagramModel = iDModels.get(0);
 //            for (IDiagramModel diagramModel : iDModels) {
             Iterator<EObject> contents = diagramModel.eAllContents();
+            System.out.println("Diagram Name : "+diagramModel.getName());
+            System.out.println("model Name : "+model.getName());
             while (contents.hasNext()) {
 //                System.out.println(contents.next());
                 EObject obj = contents.next();
@@ -491,6 +493,22 @@ public class XmlUtils {
 //                    System.out.println("Source Connections : ");
 //                    SourceConList = dia.getSourceConnections();
 //                    childrenList = dia.getChildren();
+
+                }else if (obj instanceof IProperty) {
+                    conn++;
+                    System.out.println(obj.getClass() + " ---------------Property-"+conn+"--------- ");
+                    IProperty dia = (IProperty)obj;
+                    System.out.println("Property *------------------------- ");
+                    System.out.println("Name : " + dia.getKey());
+//                    System.out.println("getBean : " + dia.getBean());
+                    System.out.println("getValue : " + dia.getValue());
+
+                    System.out.println("dia.getClass().getSimpleName() : " + dia.getClass().getSimpleName());
+
+                }else  {
+                    System.out.println("Nooote Goes Here -----------------------------nnn ");
+                    arch++;
+                    System.out.println(obj.getClass() + " ---------------otherrrs-"+arch+"--------- ");
 
                 }
             }

@@ -4,6 +4,7 @@ import POJOs.ConnectionSVG;
 import POJOs.Label;
 import POJOs.SVGSingleShape;
 import com.Farzad.Enums.ArchiEnum;
+import org.apache.commons.lang.StringEscapeUtils;
 
 import java.awt.*;
 import java.awt.font.FontRenderContext;
@@ -75,30 +76,38 @@ public class Utils {
         return customY;
     }
 
+    public static String getEscapeXmlChars(String text) {
+        return StringEscapeUtils.escapeXml(text);
+    }
+
     public static Label getFitLabel(SVGSingleShape svgShape) {
         if (svgShape == null) return null;
         Label label = new Label();
         boolean hasIcon = hasIcon(svgShape.getShapeType());
         System.out.println("---> getFitLabel | Text name :  " + svgShape.getName());
-        label.setLabelText(svgShape.getName());
+        label.setLabelText(getEscapeXmlChars(svgShape.getName()));
         label.setLabelWidth(getFontSize(svgShape.getName(), true));
         label.setFontHeight(getFontSize(svgShape.getName(), false));
         System.out.println("svgShape.getWidth() : " + svgShape.getWidth() + " label.getLabelWidth() : " + label.getLabelWidth() + " svgShape.getName() length : " + svgShape.getName().length());
         String result = "";
+        String tmpStr = "";
         int lineCount = 0;
         String tempSentence = "";
-        int difference = hasIcon?70:30;
+        int difference = hasIcon ? 70 : 30;
         if (svgShape.getWidth() < label.getLabelWidth()) {
+            tmpStr = getEscapeXmlChars(svgShape.getName());
+            System.out.println("svgShape.getName() ========== " + svgShape.getName());
+            System.out.println("tmpStr ========== " + tmpStr);
             String[] words = svgShape.getName().split(" ");
             for (String word : words) {
                 if (getFontSize(tempSentence, true) < svgShape.getWidth() - difference) {
                     if (getFontSize(tempSentence + word + " ", true) < svgShape.getWidth() - difference) {
                         System.out.println("tempSentence : " + tempSentence + " Word : " + word);
-                        tempSentence += word + " ";
+                        tempSentence += getEscapeXmlChars(word) + " ";
                     } else {
                         lineCount++;
                         result += "<tspan x=\"" + (svgShape.getX() + svgShape.getWidth() / 2) + "\" dy=\"1.2em\">" + tempSentence + "</tspan>\n";
-                        tempSentence = word + " ";
+                        tempSentence = getEscapeXmlChars(word) + " ";
                         System.out.println("next line : " + word);
                         System.out.println("new line : " + result);
                     }
@@ -117,7 +126,7 @@ public class Utils {
             label.setLabelHeight(label.getFontHeight());
             return label;
         }
-        System.out.println(result);
+        System.out.println("resultttttttttttttt is " + label.getLabelText());
 
         return label;
     }

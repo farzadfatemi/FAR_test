@@ -5,7 +5,6 @@ import POJOs.Property;
 import POJOs.SVGSingleShape;
 import com.Farzad.Enums.ArchiEnum;
 import com.Farzad.Enums.PropertyValues;
-import org.apache.commons.lang.StringEscapeUtils;
 
 import static com.Farzad.utils.Utils.*;
 
@@ -29,25 +28,22 @@ class ShapeTools {
 
 
     private static String SVGShapeCode(SVGSingleShape svgShape) {
-        Label label = getFitLabel(svgShape);
         StringBuilder result = null;
         StringBuilder mainRect = new StringBuilder();
        String tmpStr="";
-       int x = svgShape.getX();
-        double y = getTextVerticallyPosition(svgShape, label);
         ArchiEnum archiEnum = svgShape.getShapeType();
         String color = null;
         System.out.println("Shape TYpe : " + archiEnum.categoryToString());
-        svgShape.setURL("http://www.stratamap.co.nz");
+        svgShape.setURL("../page/"+svgShape.getName());
         System.out.println("==== >>>" + svgShape.getName() + " ------------- hasChild : " + svgShape.hasAnyChild());
 
         mainRect.append(" <g>\n" );
-        mainRect.append(" <a href=\"https://google.com\">\n");
+        mainRect.append(" <a href=\"../page/"+getEscapeXmlChars(svgShape.getName())+"\">\n");
         mainRect.append("<rect fill-opacity=\"");
         mainRect.append(opacity );
         mainRect.append("\" class=\"main_style ");
         mainRect.append(archiEnum.categoryToString());
-        mainRect.append("\"  x=\"");
+        mainRect.append("\" x=\"");
         mainRect.append(svgShape.getX());
         mainRect.append("\" y=\"");
         mainRect.append(svgShape.getY());
@@ -545,22 +541,24 @@ class ShapeTools {
         if (customY == 0) {
             customY = getTextVerticallyPosition(svgShape, label);
         }
-        text.append("<text text-anchor=");
+        text.append("<text text-anchor=\"");
         text.append(textAnchor);
-        text.append("\" alignment-baseline=\"middle\" ");
-        text.append((svgShape.getType() != null && svgShape.getType().equals(ArchiEnum.GROUP.categoryToString()) ? "class=\"group_text\"" : ""));
+        text.append("\" ");
+        text.append("alignment-baseline=\"middle\"");
+        text.append((svgShape.getType() != null && svgShape.getType().equals(ArchiEnum.GROUP.categoryToString()) ? " class=\"group_text\"" : ""));
         text.append(" x=\"");
         text.append(customX);
         text.append("\" xml:space=\"preserve\"");
         text.append(" y=\"");
         text.append(customY);
         text.append("\" \n" );
-        text.append(" fill=\"#FFFFFF\"  >");
-        text.append(StringEscapeUtils.escapeXml(label.getLabelText()));
+        text.append(" fill=\"#FFFFFF\">");
+        text.append(label.getLabelText());
         text.append("</text>\n");
 
 //        return "      \n<text text-anchor=\"" + textAnchor + "\" alignment-baseline=\"middle\" " + (svgShape.getType() != null && svgShape.getType().equals(ArchiEnum.GROUP.categoryToString()) ? "class=\"group_text\"" : "") + " x=\"" + customX + "\" xml:space=\"preserve\" y=\"" + customY + "\" \n" +
-//                "       fill=\"#FFFFFF\"  >" + label.getLabelText() + "</text>\n";
+//                "       fill=\"#FFFFFF\"  >" +StringEscapeUtils.escapeXml(label.getLabelText()) + "</text>\n";
+
         return text.toString();
     }
 

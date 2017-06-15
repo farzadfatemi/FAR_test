@@ -1,5 +1,6 @@
 import com.Farzad.utils.IOUtil.FileUtils;
 import com.Farzad.utils.ImageUtils.GenerateSVG;
+import com.Farzad.utils.xmlutils.XmlUtils;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IDiagramModel;
 
@@ -19,81 +20,108 @@ public class mainCls {
 //            Set<String> test = new HashSet<>();
 //            test.add("6ea3e5b7");
 //            getAllModelSVGs(getArchiModelFromFile(),test);
-            SVGGenerator();
-
-//            XmlUtils.ReadArchiModel3();
+//            SVGGenerator();
+//
+            XmlUtils.ReadArchiModel3();
 //            XmlUtils.ReadArchiModel2();
 //            XmlUtils.ReadArchiModel();
 //            System.out.println(GenerateSVG2.getModelSVGs());
 //            System.out.println(CryptoUtils.getSaltedPassword("FARmelody2".getBytes()));
 //            XmlUtils.ReadXMLFile2();
 //            Utils.getFitLabel("hi how are you!!",2);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
+
     private static void SVGGenerator() {
         try {
+int cnt =0;
+//            StringBuilder str = new StringBuilder();
+//            for(IDiagramModel iDiagramModel: getWholeModelsFromFile()){
+//                if(++cnt>90) {
+//                    System.out.println("Model Nuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuuber : " + cnt);
+//                    str.append(GenerateSVG.getModelSVGs(iDiagramModel));
+//                    if (++cnt >150) break;
+//                }
+//            }
+            String str = GenerateSVG.getModelSVGs(getModelFromFile());
+            System.out.println(str);
+            FileUtils.WriteToHTML(str.toString());
 
-            String str = GenerateSVG.getModelSVGs(getModelFromFile());            System.out.println (str);            FileUtils.WriteToHTML (str);
-
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
+
     private static IArchimateModel getArchiModelFromFile() {
         IArchimateModel model = null;
         try {
 //            File modelFile = new File("D:\\FAR_Documents\\__Startamap\\Archisurance.archimate");
-            File modelFile = new File("D:\\FAR_Documents\\__Startamap\\eira_v1_1_0_archimate.archimate");
+//            File modelFile = new File("D:\\FAR_Documents\\__Startamap\\eira_v1_1_0_archimate.archimate");
+//            File modelFile = new File("D:\\FAR_Documents\\__Startamap\\model.archimate");
 //            File modelFile = new File("D:\\FAR_Documents\\__Startamap\\nzta-toar.archimate");
-//            File modelFile = new File("D:\\FAR_Documents\\__Startamap\\Original2.archimate");
+            File modelFile = new File("D:\\FAR_Documents\\__Startamap\\Original2.archimate");
             model = loadModel(modelFile);
-            if(model !=null)
-                System.out.printf("ID ---------------------> "+ model.getId());
+            if (model != null)
+                System.out.printf("ID ---------------------> " + model.getId());
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return  model;
+        return model;
     }
+
     private static IDiagramModel getModelFromFile() {
         IDiagramModel diagramModel = null;
         try {
-            List<IDiagramModel> iDModels = getArchiModelFromFile()!=null?getArchiModelFromFile().getDiagramModels():null;
-            if(iDModels!=null) {
-                diagramModel = iDModels.get(2);
-                System.out.println(iDModels.size());
+            List<IDiagramModel> iDModels = getArchiModelFromFile() != null ? getArchiModelFromFile().getDiagramModels() : null;
+            if (iDModels != null) {
+                System.out.println("Size of iDModels --------------------- " + iDModels.size());
+                diagramModel = iDModels.get(3);
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return  diagramModel;
+        return diagramModel;
     }
-    public static List<String> getAllModelSVGs(IArchimateModel model, Set<String> iDs ) {
-        List<String> SVGList = null;
-        String str="";
+
+    private static List<IDiagramModel> getWholeModelsFromFile() {
+        List<IDiagramModel> iDModels = null;
         try {
-            if(model==null || iDs ==null || iDs.size()==0) return null;
+            iDModels = getArchiModelFromFile() != null ? getArchiModelFromFile().getDiagramModels() : null;
+            System.out.println("Size of iDModels --------------------- " + (iDModels != null ? iDModels.size() : " 0 "));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return iDModels;
+    }
+
+    public static List<String> getAllModelSVGs(IArchimateModel model, Set<String> iDs) {
+        List<String> SVGList = null;
+        String str = "";
+        try {
+            if (model == null || iDs == null || iDs.size() == 0) return null;
             List<IDiagramModel> iDModels = model.getDiagramModels();
             SVGList = new ArrayList<>();
-            System.out.println("------"+iDs);
+            System.out.println("------" + iDs);
             for (IDiagramModel idia : iDModels) {
-                System.out.println("hhhhhhhhhhhhhhh"+idia.getId());
-                if (iDs.contains(idia.getId())){
+                System.out.println("hhhhhhhhhhhhhhh" + idia.getId());
+                if (iDs.contains(idia.getId())) {
                     //make svg
                     SVGList.add(GenerateSVG.getModelSVGs(idia));
-                    str+=GenerateSVG.getModelSVGs(idia);
+                    str += GenerateSVG.getModelSVGs(idia);
                 }
             }
-            System.out.println("IDModels Size : "+iDModels.size());
-            FileUtils.WriteToHTML (str);
+            System.out.println("IDModels Size : " + iDModels.size());
+            FileUtils.WriteToHTML(str);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return  SVGList;
+        return SVGList;
     }
 }

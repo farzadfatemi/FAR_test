@@ -56,7 +56,7 @@ public class GenerateSVG {
             if (LAST_Y < FirstLastXY[3])
                 LAST_Y = FirstLastXY[3];
             System.out.println("======---00000000----   FIRST_X : " + FIRST_X  + " | FIRST_Y" +FIRST_Y  + " | LAST_X" + LAST_X + "  | LAST_Y" +LAST_Y);
-//            sb.append("<svg width=\"100%\" height=\"auto\"  viewBox=\"" + (FIRST_X - 10) + " " + (FIRST_Y - 10) + " " + (Math.abs(FIRST_X) + LAST_X + 30) + " " + (Math.abs(FIRST_Y) + LAST_Y + 30) + " \">");
+//            sb2.append("<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" viewBox=\"" + (FIRST_X - 10) + " " + (FIRST_Y - 10) + " " + (Math.abs(FIRST_X) + LAST_X + 30) + " " + (Math.abs(FIRST_Y) + LAST_Y + 30) + " \">");
             sb2.append("<svg width=\"100%\" height=\"100%\">\n");
             sb2.append("<g transform=\"translate(").append(Math.abs(FIRST_X)).append(",").append(Math.abs(FIRST_Y)).append(") \">\n");
             sb2.append(sb.toString());
@@ -102,9 +102,6 @@ public class GenerateSVG {
                 getSingleModels(obj);
                 System.out.println(obj);
             }
-
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }

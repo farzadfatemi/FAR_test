@@ -36,6 +36,7 @@ public class SVGSingleShape {
     private String fontColor;
     private String textAlignment;
     private String URL;
+    private String modelName;
     private Map<String, String> connections;
     private boolean hasChild;
     private ArchiEnum shapeType;
@@ -239,6 +240,14 @@ public class SVGSingleShape {
 
     public void setURL(String URL) {
         this.URL = URL;
+    }
+
+    public String getModelName() {
+        return modelName;
+    }
+
+    public void setModelName(String modelName) {
+        this.modelName = modelName;
     }
 
     public boolean hasAnyChild() {

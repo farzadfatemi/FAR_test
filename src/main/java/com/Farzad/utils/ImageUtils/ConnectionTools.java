@@ -6,6 +6,7 @@ import POJOs.SVGSingleShape;
 import com.Farzad.Enums.ArrowsTypeEnum;
 import com.Farzad.Enums.ConnectionsEnum;
 import com.Farzad.utils.Utils;
+import org.apache.commons.lang.StringEscapeUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -287,29 +288,60 @@ class ConnectionTools {
     private static String putText(ConnectionSVG svg, SVGSingleShape source) {
         String textAnchor = "start";
         String result = null;
+        int x = svg.getX1();
         int y = svg.getY1();
-        if (svg.getY2() - svg.getY1() == 0) {
-            textAnchor = "middle";
-            y -= 8;
-            result = (source.getConnectionsType() != null ? "<text text-anchor=\"" + textAnchor + "\" class=\"connectionLabel\" x=\"" + ((svg.getX2() + svg.getX1()) / 2) + "\" y=\"" + ((svg.getY2() + y) / 2) + "\" >\n" +
-                    source.getConnectionsName() +
-                    " </text>\n" : "");
+        StringBuilder text = null;
+        if (source.getConnectionsType() != null) {
+            if (svg.getY2() - svg.getY1() == 0) {
+                textAnchor = "middle";
+                y -= 8;
+            } else {
+                x = svg.getX1() + 8;
+            }
+            text = new StringBuilder();
+            text.append("<text text-anchor=\"");
+            text.append(textAnchor);
+            text.append("\"");
+            text.append(" class=\"connectionLabel\"");
+            text.append(" x=\"");
+            text.append(((svg.getX2() + x) / 2));
+            text.append("\" y=\"");
+            text.append(((svg.getY2() + y) / 2));
+            text.append("\" >\n");
+            text.append(StringEscapeUtils.escapeXml(source.getConnectionsName()));
+            text.append("</text>\n");
+            result = text.toString();
+
+        }
+
+//        if (svg.getY2() - svg.getY1() == 0) {
+//            textAnchor = "middle";
+//            y -= 8;
+
+
+//            result = (source.getConnectionsType() != null ? "<text text-anchor=\"" + textAnchor + "\" class=\"connectionLabel\" x=\"" + ((svg.getX2() + svg.getX1()) / 2) + "\" y=\"" + ((svg.getY2() + y) / 2) + "\" >\n" +
+//                    StringEscapeUtils.escapeXml(source.getConnectionsName())+
+//                    " </text>\n" : "");
 //    result =  (source.getConnectionsType() != null ? "<text text-anchor=\"" + textAnchor + "\" font-size=\"" + source.getFontSize() + "\" font-family=\" " + source.getFont() +
 //                    "\" x=\"" + ((svg.getX2() + svg.getX1()) / 2) + "\" y=\"" + ((svg.getY2() + y) / 2) + "\" fill=\"#000000\" stroke=\"none\">\n" +
 //                    source.getConnectionsType() +
 //                    " </text>\n" : "");
 
-        } else {
-            svg.setX1(svg.getX1() + 8);
-            result = (source.getConnectionsType() != null ? "<text text-anchor=\"" + textAnchor + "\"  class=\"connectionLabel\"  x=\"" + ((svg.getX2() + svg.getX1()) / 2) + "\" y=\"" + ((svg.getY2() + y) / 2) + "\" fill=\"#000000\" stroke=\"none\">\n" +
-                    source.getConnectionsName() +
-                    " </text>\n" : "");
-//                 result =  (source.getConnectionsType() != null ? "<text text-anchor=\"" + textAnchor + "\" font-size=\"" + source.getFontSize() + "\" font-family=\" " + source.getFont() +
-//                    "\" x=\"" + ((svg.getX2() + svg.getX1()) / 2) + "\" y=\"" + ((svg.getY2() + y) / 2) + "\" fill=\"#000000\" stroke=\"none\">\n" +
-//                    source.getConnectionsType() +
+//        } else {
+//            svg.setX1(svg.getX1() + 8);
+//
+//
+//
+//
+//            result = (source.getConnectionsType() != null ? "<text text-anchor=\"" + textAnchor + "\"  class=\"connectionLabel\"  x=\"" + ((svg.getX2() + svg.getX1()) / 2) + "\" y=\"" + ((svg.getY2() + y) / 2) + "\" fill=\"#000000\" stroke=\"none\">\n" +
+//                    StringEscapeUtils.escapeXml(source.getConnectionsName())+
 //                    " </text>\n" : "");
-            svg.setX1(svg.getX1() - 8);
-        }
+////                 result =  (source.getConnectionsType() != null ? "<text text-anchor=\"" + textAnchor + "\" font-size=\"" + source.getFontSize() + "\" font-family=\" " + source.getFont() +
+////                    "\" x=\"" + ((svg.getX2() + svg.getX1()) / 2) + "\" y=\"" + ((svg.getY2() + y) / 2) + "\" fill=\"#000000\" stroke=\"none\">\n" +
+////                    source.getConnectionsType() +
+////                    " </text>\n" : "");
+//            svg.setX1(svg.getX1() - 8);
+//        }
         return result;
 
     }
@@ -462,8 +494,8 @@ class ConnectionTools {
             if (!arrowsType.equals(ArrowsTypeEnum.DOUBLE_ORBIT) && !arrowsType.equals(ArrowsTypeEnum.NORMAL)) {
                 result +=
                         " stroke-dasharray=\"" + dashWidth + "," + dashGap + "\"  " +
-                                "" + (arrowsType.equals(ArrowsTypeEnum.DOUBLE_V_TYPE) ? "style=\" marker-start: url(#" + (arrowSVG.getId() + "2") + ");" :
-                                (arrowsType.equals(ArrowsTypeEnum.DIAMOND_BLACK) || arrowsType.equals(ArrowsTypeEnum.DIAMOND_WHITE) ? " style=\" marker-start: url(#" + arrowSVG.getId() + ");\"" : "\""))
+                                (arrowsType.equals(ArrowsTypeEnum.DOUBLE_V_TYPE) ? "style=\" marker-start: url(#" + (arrowSVG.getId() + "2") + ");" :
+                                        (arrowsType.equals(ArrowsTypeEnum.DIAMOND_BLACK) || arrowsType.equals(ArrowsTypeEnum.DIAMOND_WHITE) ? " style=\" marker-start: url(#" + arrowSVG.getId() + ");\"" : ""))
                                 + "/>\n"
                 ;
             } else {
@@ -672,10 +704,10 @@ class ConnectionTools {
 //
                                 if (y2 == (y1 + h1)) {
                                     conSVG.setX1(x1 - shapeBorderWidth);
-                                    conSVG.setX2(x2 + w2 + shapeBorderWidth );
+                                    conSVG.setX2(x2 + w2 + shapeBorderWidth);
                                     conSVG.setY1(y2);
                                     conSVG.setY2(y2);
-                                }else {
+                                } else {
 //                                    int n = 2;
                                     while (true) {
                                         if (y2 + h2 / n < y1 + h1) {
@@ -719,15 +751,15 @@ class ConnectionTools {
                         if (y1 > (y2 + h2)) {
                             // System.out.println("------> y1>(y2+h2)");
                             long time = System.currentTimeMillis();
-                         //        System.out.println("before While **********_----------------------------- +"+time);
+                            //        System.out.println("before While **********_----------------------------- +"+time);
 //                            int n = 2;
-                         //        System.out.println("           3           ----------------------------------    x1  " + x1 + " w1 " + w1  + "   x1 + w1 / " + n + " = " + (x1 + w1 / n) + " |  x2 + w2 = " + ( x2 + w2) + "   |    n = " + n + "   |    source.getName = " + source.getName() );
+                            //        System.out.println("           3           ----------------------------------    x1  " + x1 + " w1 " + w1  + "   x1 + w1 / " + n + " = " + (x1 + w1 / n) + " |  x2 + w2 = " + ( x2 + w2) + "   |    n = " + n + "   |    source.getName = " + source.getName() );
                             if (x1 == (x2 + w2)) {
                                 conSVG.setX1(x1);
                                 conSVG.setX2(x1);
                                 conSVG.setY1(y1 - shapeBorderWidth);
                                 conSVG.setY2(y2 + h2 + shapeBorderWidth);
-                            }else {
+                            } else {
                                 while (true) {
                                     if (x1 + w1 / n < x2 + w2) {
                                         // System.out.println("------> x1 + w1 / " + n + " < x2 + w2");
@@ -735,7 +767,7 @@ class ConnectionTools {
                                         conSVG.setX2(x1 + w1 / n);
                                         conSVG.setY1(y1 - shapeBorderWidth);
                                         conSVG.setY2(y2 + h2 + shapeBorderWidth);
-                                     //        System.out.println("----------3------------------------------------------    x1 + w1 / " + n + " = " + (x1 + w1 / n) + " |  x2 + w2 = " + (x2 + w2) + "   |    n = " + n + "   |    source.getName = " + source.getName());
+                                        //        System.out.println("----------3------------------------------------------    x1 + w1 / " + n + " = " + (x1 + w1 / n) + " |  x2 + w2 = " + (x2 + w2) + "   |    n = " + n + "   |    source.getName = " + source.getName());
 
                                         break;
 
@@ -746,7 +778,7 @@ class ConnectionTools {
                                 }
                             }
 
-                         //        System.out.println("after While **********_----------------------------- +"+(System.currentTimeMillis()-time));
+                            //        System.out.println("after While **********_----------------------------- +"+(System.currentTimeMillis()-time));
 
 //                            if (x1 + w1 / 2 > x2 + w2) {
 //                                conSVG.setX1(x1 + w1 / 2);
@@ -812,20 +844,20 @@ class ConnectionTools {
                                 conSVG.setX2(x2 - shapeBorderWidth);
                                 conSVG.setY1(y1);
                                 conSVG.setY2(y1);
-                            }else { 
-                            while (true) {
-                                if (y1 + h1 / n < y2 + h2) {
-                                    System.out.println("------> y1 + h1 /" + n + " < y2 + h2");
-                                    conSVG.setX1(x1 + w1 + shapeBorderWidth);
-                                    conSVG.setX2(x2 - shapeBorderWidth);
-                                    conSVG.setY1(y1 + h1 / n);
-                                    conSVG.setY2(y1 + h1 / n);
-                                    break;
+                            } else {
+                                while (true) {
+                                    if (y1 + h1 / n < y2 + h2) {
+                                        System.out.println("------> y1 + h1 /" + n + " < y2 + h2");
+                                        conSVG.setX1(x1 + w1 + shapeBorderWidth);
+                                        conSVG.setX2(x2 - shapeBorderWidth);
+                                        conSVG.setY1(y1 + h1 / n);
+                                        conSVG.setY2(y1 + h1 / n);
+                                        break;
 
-                                } else {
-                                    n++;
+                                    } else {
+                                        n++;
+                                    }
                                 }
-                            }
                             }
 //                            conSVG.setX1(x1 + w1 + shapeBorderWidth);
 //                            conSVG.setX2(x2 - shapeBorderWidth);
@@ -855,7 +887,7 @@ class ConnectionTools {
                                 conSVG.setX2(x2 - shapeBorderWidth);
                                 conSVG.setY1(y1);
                                 conSVG.setY2(y1);
-                            }else {
+                            } else {
 //                                int n = 2;
                                 while (true) {
                                     if (y2 + h2 / n < y1 + h1) {
@@ -907,10 +939,10 @@ class ConnectionTools {
 
                             if (x2 == (x1 + w1)) {
                                 conSVG.setX1(x2);
-                                conSVG.setX2(x2 );
+                                conSVG.setX2(x2);
                                 conSVG.setY1(y1 - shapeBorderWidth);
                                 conSVG.setY2(y2 + h2 + shapeBorderWidth);
-                            }else {
+                            } else {
 //                                int n = 2;
                                 while (true) {
                                     if (x2 + w2 / n < x1 + w1) {
@@ -954,10 +986,10 @@ class ConnectionTools {
                             // System.out.println("----> y2>(y1+h1)");
                             if (x2 == (x1 + w1)) {
                                 conSVG.setX1(x2);
-                                conSVG.setX2(x2 );
-                                conSVG.setY1(y1  + h1 + shapeBorderWidth);
+                                conSVG.setX2(x2);
+                                conSVG.setY1(y1 + h1 + shapeBorderWidth);
                                 conSVG.setY2(y2 - shapeBorderWidth);
-                            }else {
+                            } else {
 //                                int n = 2;
                                 while (true) {
                                     if (x2 + w2 / n < x1 + w1) {
@@ -1265,39 +1297,39 @@ class ConnectionTools {
         return new int[]{FIRST_X, FIRST_Y, LAST_X, LAST_Y};
     }
 
-    private static String calculateJoints(int x1, int y1, int bendPointX, int bendPointY, int x2, int y2,int dashWidth,int dashGap) {
+    private static String calculateJoints(int x1, int y1, int bendPointX, int bendPointY, int x2, int y2, int dashWidth, int dashGap) {
 
         String result = "";
-        result +="<path class=\"connection\"   stroke-dasharray=\"" + dashWidth + "," + dashGap + "" ;
+        result += "<path class=\"connection\"   stroke-dasharray=\"" + dashWidth + "," + dashGap + "\" ";
         if (y1 == bendPointY) {
             if (x1 > bendPointX) {
                 if (bendPointY < y2) {
-                    result+="d=\"M" + (bendPointX+10) + "," + bendPointY + " C" + bendPointX + "," + bendPointY + "  " + bendPointX + "," + (bendPointY +5)  + "  " + bendPointX + "," + (bendPointY +10) + "\"/>\n";
+                    result += "d=\"M" + (bendPointX + 10) + "," + bendPointY + " C" + bendPointX + "," + bendPointY + "  " + bendPointX + "," + (bendPointY + 5) + "  " + bendPointX + "," + (bendPointY + 10) + "\"/>\n";
                 } else {
-                    result+="d=\"M" + (bendPointX+10) + "," + bendPointY + " C" + bendPointX + "," + bendPointY + "  " + bendPointX + "," + (bendPointY -5)  + "  " + bendPointX + "," + (bendPointY -10) + "\"/>\n";
+                    result += "d=\"M" + (bendPointX + 10) + "," + bendPointY + " C" + bendPointX + "," + bendPointY + "  " + bendPointX + "," + (bendPointY - 5) + "  " + bendPointX + "," + (bendPointY - 10) + "\"/>\n";
                 }
 
             } else {
                 if (bendPointY < y2) {
-                    result+="d=\"M" + (bendPointX-10) + "," + bendPointY + " C" +  bendPointX + "," + bendPointY + "  " + bendPointX + "," + (bendPointY +5)  + "  " + bendPointX + "," + (bendPointY +10) + "\"/>\n";
+                    result += "d=\"M" + (bendPointX - 10) + "," + bendPointY + " C" + bendPointX + "," + bendPointY + "  " + bendPointX + "," + (bendPointY + 5) + "  " + bendPointX + "," + (bendPointY + 10) + "\"/>\n";
                 } else {
-                    result+="d=\"M" + (bendPointX-10) + "," + bendPointY + " C" + bendPointX + "," + bendPointY + "  " + bendPointX + "," + (bendPointY -5)  + "  " + bendPointX + "," + (bendPointY -10) + "\"/>\n";
+                    result += "d=\"M" + (bendPointX - 10) + "," + bendPointY + " C" + bendPointX + "," + bendPointY + "  " + bendPointX + "," + (bendPointY - 5) + "  " + bendPointX + "," + (bendPointY - 10) + "\"/>\n";
                 }
             }
         }
         if (x1 == bendPointX) {
             if (y1 > bendPointY) {
                 if (bendPointX < x2) {
-                    result+="d=\"M" + x1 + "," + y1 + " C" + bendPointX + "," + bendPointY + "  " + bendPointX + "," + (bendPointY +5)  + "  " + bendPointX + "," + (bendPointY +10) + "\"/>\n";
+                    result += "d=\"M" + x1 + "," + y1 + " C" + bendPointX + "," + bendPointY + "  " + bendPointX + "," + (bendPointY + 5) + "  " + bendPointX + "," + (bendPointY + 10) + "\"/>\n";
                 } else {
-                    result+="d=\"M" + (bendPointX+10) + "," + bendPointY + " C" + bendPointX + "," + bendPointY + "  " + bendPointX + "," + (bendPointY -5)  + "  " + bendPointX + "," + (bendPointY -10) + "\"/>\n";
+                    result += "d=\"M" + (bendPointX + 10) + "," + bendPointY + " C" + bendPointX + "," + bendPointY + "  " + bendPointX + "," + (bendPointY - 5) + "  " + bendPointX + "," + (bendPointY - 10) + "\"/>\n";
                 }
 
-            } else if (y1 < bendPointY){
+            } else if (y1 < bendPointY) {
                 if (bendPointX < x2) {
-                    result+="d=\"M" + (bendPointX-10) + "," + bendPointY + " C" +  bendPointX + "," + bendPointY + "  " + bendPointX + "," + (bendPointY +5)  + "  " + bendPointX + "," + (bendPointY +10) + "\"/>\n";
+                    result += "d=\"M" + (bendPointX - 10) + "," + bendPointY + " C" + bendPointX + "," + bendPointY + "  " + bendPointX + "," + (bendPointY + 5) + "  " + bendPointX + "," + (bendPointY + 10) + "\"/>\n";
                 } else {
-                    result+="d=\"M" + (bendPointX-10) + "," + bendPointY + " C" + bendPointX + "," + bendPointY + "  " + bendPointX + "," + (bendPointY -5)  + "  " + bendPointX + "," + (bendPointY -10) + "\"/>\n";
+                    result += "d=\"M" + (bendPointX - 10) + "," + bendPointY + " C" + bendPointX + "," + bendPointY + "  " + bendPointX + "," + (bendPointY - 5) + "  " + bendPointX + "," + (bendPointY - 10) + "\"/>\n";
                 }
             }
         }
@@ -1328,8 +1360,8 @@ class ConnectionTools {
 //        }
 //        ;
 
-        System.out.println("wwwww result -- " + result );
-        return result ;
+        System.out.println("wwwww result -- " + result);
+        return result;
 
     }
 

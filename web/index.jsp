@@ -6,7 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="com.Farzad.utils.ImageUtils.GenerateSVG" %>
+<%@ page import="com.farzad.utils.image.GenerateSVG" %>
 <%!
     //  public static String getSVG(){
 //    return "<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"1.1\" width=\"300\" height=\"100\">\n" +

@@ -1,10 +1,11 @@
-package com.Farzad.utils.xmlutils;
+package com.farzad.utils.xml;
 
 /**
  * Created by VOLCANO on 4/22/2017.
  */
 
 import com.archimatetool.model.*;
+import com.farzad.utils.image.ModelTools;
 import org.eclipse.emf.ecore.EObject;
 import org.w3c.dom.*;
 
@@ -13,8 +14,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
 import java.util.Iterator;
 import java.util.List;
-
-import static com.Farzad.utils.ImageUtils.ModelTools.loadModel;
 
 public class XmlUtils {
 
@@ -137,7 +136,7 @@ public class XmlUtils {
             File modelFile = new File("D:\\FAR_Documents\\__Startamap\\Original.archimate");
 
 
-            IArchimateModel model = loadModel(modelFile);
+            IArchimateModel model = ModelTools.loadModel(modelFile);
             List<IDiagramModel> iDModels = model.getDiagramModels();
             List SourceConList = null;
             List childSourceConList = null;
@@ -250,7 +249,7 @@ public class XmlUtils {
             File modelFile = new File("D:\\FAR_Documents\\__Startamap\\eira_v1_1_0_archimate.archimate");
 
 
-            IArchimateModel model = loadModel(modelFile);
+            IArchimateModel model = ModelTools.loadModel(modelFile);
             List<IDiagramModel> iDModels = model.getDiagramModels();
             List SourceConList = null;
             List childSourceConList = null;
@@ -373,7 +372,7 @@ public class XmlUtils {
 //            File modelFile = new File("D:\\FAR_Documents\\__Startamap\\eira_v1_1_0_archimate.archimate");
 
 
-            IArchimateModel model = loadModel(modelFile);
+            IArchimateModel model = ModelTools.loadModel(modelFile);
             List<IDiagramModel> iDModels = model.getDiagramModels();
             List SourceConList = null;
             List childSourceConList = null;
@@ -496,9 +495,9 @@ public class XmlUtils {
 
                 }else if (obj instanceof IProperty) {
                     conn++;
-                    System.out.println(obj.getClass() + " ---------------Property-"+conn+"--------- ");
+                    System.out.println(obj.getClass() + " ---------------ArchiEntityProperty-"+conn+"--------- ");
                     IProperty dia = (IProperty)obj;
-                    System.out.println("Property *------------------------- ");
+                    System.out.println("ArchiEntityProperty *------------------------- ");
                     System.out.println("Name : " + dia.getKey());
 //                    System.out.println("getBean : " + dia.getBean());
                     System.out.println("getValue : " + dia.getValue());

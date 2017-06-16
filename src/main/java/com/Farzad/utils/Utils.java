@@ -1,9 +1,8 @@
-package com.Farzad.utils;
+package com.farzad.utils;
 
-import POJOs.ConnectionSVG;
-import POJOs.Label;
-import POJOs.SVGSingleShape;
-import com.Farzad.Enums.ArchiEnum;
+import com.farzad.enums.ArchiEnum;
+import com.farzad.pojo.ConnectionSVG;
+import com.farzad.pojo.SVGSingleShape;
 import org.apache.commons.lang.StringEscapeUtils;
 
 import java.awt.*;
@@ -61,7 +60,7 @@ public class Utils {
         return getWidth ? textWidth : textHeight;
     }
 
-    public static double getTextVerticallyPosition(SVGSingleShape svgShape, Label label) {
+    public static double getTextVerticallyPosition(SVGSingleShape svgShape, com.farzad.pojo.Label label) {
         double customY;
         System.out.println("label.getFontHeight() : " + label.getFontHeight() + " label.getLabelHeight() : " + label.getLabelHeight() + " label.getLabelWidth() : " + label.getLabelWidth());
         if (svgShape.hasAnyChild()) {
@@ -80,9 +79,9 @@ public class Utils {
         return StringEscapeUtils.escapeXml(text);
     }
 
-    public static Label getFitLabel(SVGSingleShape svgShape) {
+    public static com.farzad.pojo.Label getFitLabel(SVGSingleShape svgShape) {
         if (svgShape == null) return null;
-        Label label = new Label();
+        com.farzad.pojo.Label label = new com.farzad.pojo.Label();
         boolean hasIcon = hasIcon(svgShape.getShapeType());
         System.out.println("---> getFitLabel | Text name :  " + svgShape.getName());
         label.setLabelText(getEscapeXmlChars(svgShape.getName()));

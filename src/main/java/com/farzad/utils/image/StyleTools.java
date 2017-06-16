@@ -1,6 +1,6 @@
-package com.Farzad.utils.ImageUtils;
+package com.farzad.utils.image;
 
-import com.Farzad.Enums.ArchiEnum;
+import com.farzad.enums.ArchiEnum;
 
 /**
  * Created by VOLCANO on 5/2/2017.

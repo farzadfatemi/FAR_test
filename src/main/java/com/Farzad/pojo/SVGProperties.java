@@ -1,4 +1,4 @@
-package POJOs;
+package com.farzad.pojo;
 
 import java.util.List;
 

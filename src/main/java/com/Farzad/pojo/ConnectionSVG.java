@@ -1,6 +1,6 @@
-package POJOs;
+package com.farzad.pojo;
 
-import com.Farzad.utils.ImageUtils.BendPoints;
+import com.farzad.utils.image.BendPoints;
 
 import java.util.Arrays;
 import java.util.List;

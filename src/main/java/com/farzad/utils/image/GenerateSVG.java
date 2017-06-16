@@ -1,17 +1,17 @@
-package com.Farzad.utils.ImageUtils;
+package com.farzad.utils.image;
 
 
-import POJOs.Property;
-import POJOs.SVGSingleShape;
 import com.archimatetool.model.*;
+import com.farzad.pojo.ArchiEntityProperty;
+import com.farzad.pojo.SVGSingleShape;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
 import java.util.*;
 
-import static com.Farzad.utils.ImageUtils.ConnectionTools.getFirstLastDim;
-import static com.Farzad.utils.ImageUtils.ConnectionTools.getSVGline;
-import static com.Farzad.utils.ImageUtils.ShapeTools.getSVGShape;
+import static com.farzad.utils.image.ConnectionTools.getFirstLastDim;
+import static com.farzad.utils.image.ConnectionTools.getSVGline;
+import static com.farzad.utils.image.ShapeTools.getSVGShape;
 
 /**
  * Created by VOLCANO on 4/21/2017.
@@ -19,7 +19,7 @@ import static com.Farzad.utils.ImageUtils.ShapeTools.getSVGShape;
 public class GenerateSVG {
 //    private static Map<String, SVGSingleShape> All_MAIN_SVG_SHAPES_AND_CONNECTORS = new HashMap<>();
     private static List<SVGSingleShape> All_MAIN_SVG_SHAPES_AND_CONNECTORS = new ArrayList<>();
-    private static Map<String, SVGSingleShape> All_GROUP_SVG_SHAPES_AND_CONNECTORS = new HashMap<>();
+//    private static Map<String, SVGSingleShape> All_GROUP_SVG_SHAPES_AND_CONNECTORS = new HashMap<>();
     private static Map<SVGSingleShape, SVGSingleShape> All_CONNECTIONS = new HashMap<>();
     private static int FIRST_X = 0;
     private static int FIRST_Y = 0;
@@ -28,8 +28,8 @@ public class GenerateSVG {
 
 
     public static String getModelSVGs(IDiagramModel diagramModel) {
-        SVGSingleShape svgSingleShape = null;
-        SVGSingleShape svgChildSingleShape = null;
+//        SVGSingleShape svgSingleShape = null;
+//       SVGSingleShape svgChildSingleShape = null;
         getAllModelSVGs(diagramModel);
         StringBuilder sb = new StringBuilder();
         StringBuilder sb2 = new StringBuilder();
@@ -37,7 +37,7 @@ public class GenerateSVG {
             for( SVGSingleShape svgSingle  : All_MAIN_SVG_SHAPES_AND_CONNECTORS ){
                 sb.append(getSVGShape(svgSingle));
                 sb.append("\n");
-            };
+            }
 
 
             for (Map.Entry<SVGSingleShape, SVGSingleShape> obj : All_CONNECTIONS.entrySet()) {
@@ -58,6 +58,7 @@ public class GenerateSVG {
             System.out.println("======---00000000----   FIRST_X : " + FIRST_X  + " | FIRST_Y" +FIRST_Y  + " | LAST_X" + LAST_X + "  | LAST_Y" +LAST_Y);
 //            sb2.append("<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" viewBox=\"" + (FIRST_X - 10) + " " + (FIRST_Y - 10) + " " + (Math.abs(FIRST_X) + LAST_X + 30) + " " + (Math.abs(FIRST_Y) + LAST_Y + 30) + " \">");
             sb2.append("<svg width=\"100%\" height=\"100%\">\n");
+            if(FIRST_X!=0 || FIRST_Y !=0)
             sb2.append("<g transform=\"translate(").append(Math.abs(FIRST_X)).append(",").append(Math.abs(FIRST_Y)).append(") \">\n");
             sb2.append(sb.toString());
 //            int cnt=0;
@@ -65,7 +66,7 @@ public class GenerateSVG {
 //                cnt++;
 //                System.out.println(cnt+" ------ tam "+s.getValue().getName());
 //            };
-
+            if(FIRST_X!=0 || FIRST_Y !=0)
 
 
 //            All_GROUP_SVG_SHAPES_AND_CONNECTORS.entrySet().stream().filter(obj -> obj.getValue() != null).forEachOrdered(obj -> {
@@ -84,7 +85,8 @@ public class GenerateSVG {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        All_MAIN_SVG_SHAPES_AND_CONNECTORS.clear();
+        All_CONNECTIONS.clear();
         return sb2.toString();
     }
 
@@ -94,7 +96,7 @@ public class GenerateSVG {
 
 
     private static void getAllModelSVGs(IDiagramModel diagramModel) {
-        Iterator<EObject> contents =null;
+        Iterator<EObject> contents ;
         try {
             contents = diagramModel.eAllContents();
             while (contents.hasNext()) {
@@ -109,16 +111,8 @@ public class GenerateSVG {
     }
     
     private static void getSingleModels(EObject diagramCpt) {
-        boolean addObj = false;
-        String objName = "-";
-        Map<String, String> sourceAndTarget = new HashMap<String, String>();
-        List SourceConList = null;
+        Map<String, String> sourceAndTarget = new HashMap<>();
         SVGSingleShape svgSingleShape = null;
-        SVGSingleShape svgChildSingleShape = null;
-        int makeUniqueID = 0;
-        int makeUniqueIDChild = 0;
-        Property property;
-        List<Property> propertyList;
         if (diagramCpt instanceof IDiagramModelGroup) {
             // Add any child elements to this root
             IDiagramModelGroup modelGrp = (IDiagramModelGroup) diagramCpt;
@@ -329,21 +323,6 @@ public class GenerateSVG {
             if (modelNote.getBounds() != null) {
                 System.out.println(" X : " + modelNote.getBounds().getX() + " | Y " + modelNote.getBounds().getY() + " Width : " + modelNote.getBounds().getWidth() + " | Height " + modelNote.getBounds().getHeight() + "--  ---");
             }
-//            SourceConList = modelNote.getSourceConnections();
-//            for (Object iDiModelConnObj : SourceConList) {
-//                makeUniqueID++;
-//                if (((IDiagramModelConnection) iDiModelConnObj).getTarget() != null) {
-//                    sourceAndTarget.put(makeUniqueID + "-" + ((IDiagramModelConnection) iDiModelConnObj).getTarget().getId(), ((IDiagramModelConnection) iDiModelConnObj).getName());
-////                            sourceAndTarget.add(((IDiagramModelConnection) iDiModelConnObj).getTarget().getId());
-//
-//                    System.out.println("-- " + modelNote.getName() + " --4---4---" + ((IDiagramModelConnection) iDiModelConnObj).getTarget().getName() + "--  ---" + ((IDiagramModelConnection) iDiModelConnObj).getTarget().getId() + "--  ---" + ((IDiagramModelConnection) iDiModelConnObj).getName());
-//                }
-//
-//
-////                        for (Map.Entry<String, String> a : sourceAndTarget.entrySet()) {
-////                            System.out.println(" ---------*>>  relations: " + a.getValue());
-////                        }
-//            }
 
             System.out.println("======---00000000----   " + FIRST_X + " " + FIRST_Y + " " + LAST_X + " " + LAST_Y);
             System.out.println("======---11111111----   " + modelNote.getBounds().getX() + " " + modelNote.getBounds().getY() + " " + (modelNote.getBounds().getX() + modelNote.getBounds().getWidth()) + " " + (modelNote.getBounds().getY() + modelNote.getBounds().getHeight()));
@@ -379,7 +358,6 @@ public class GenerateSVG {
                     svgSingleShape.setFillColor(modelNote.getFillColor());
                     svgSingleShape.setFont(modelNote.getFont());
                     svgSingleShape.setFontColor(modelNote.getFontColor());
-//                    svgSingleShape.setConnections(sourceAndTarget);
                          svgSingleShape.setHasChild(false);
                      svgSingleShape.setElementType( modelNote.getClass().getSimpleName());
 
@@ -393,7 +371,7 @@ public class GenerateSVG {
             All_MAIN_SVG_SHAPES_AND_CONNECTORS.add( svgSingleShape);
 
         } else if (diagramCpt instanceof IDiagramModelArchimateConnection) {
-            List<BendPoints> bindPointsList = null;
+            List<BendPoints> bindPointsList ;
             // Add any child elements to this root
             IDiagramModelArchimateConnection modelConn = (IDiagramModelArchimateConnection) diagramCpt;
             int finalSourceX = modelConn.getSource().getBounds().getX();
@@ -605,16 +583,16 @@ public class GenerateSVG {
         i[1]=finalY;
         return i;
     }
-    private static List<Property> getProperties(EList<IProperty> propertiesList){
-        Property property;
-        List<Property> propertyList = new ArrayList<>();
+    private static List<ArchiEntityProperty> getProperties(EList<IProperty> propertiesList){
+        ArchiEntityProperty archiEntityProperty;
+        List<ArchiEntityProperty> archiEntityPropertyList = new ArrayList<>();
         for (IProperty singleProperty: propertiesList){
-            System.out.println("--- Property name " + singleProperty.getKey()+" Property value " +singleProperty.getValue());
-            property = new Property();
-            property.setKey(singleProperty.getKey());
-            property.setValue(singleProperty.getValue());
-            propertyList.add(property);
+            System.out.println("--- ArchiEntityProperty name " + singleProperty.getKey()+" ArchiEntityProperty value " +singleProperty.getValue());
+            archiEntityProperty = new ArchiEntityProperty();
+            archiEntityProperty.setKey(singleProperty.getKey());
+            archiEntityProperty.setValue(singleProperty.getValue());
+            archiEntityPropertyList.add(archiEntityProperty);
         }
-        return propertyList;
+        return archiEntityPropertyList;
     }
 }

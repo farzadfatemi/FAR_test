@@ -1,4 +1,4 @@
-package com.Farzad.utils.ImageUtils; /**
+package com.farzad.utils.image; /**
  * Created by VOLCANO on 4/15/2017.
  */
 

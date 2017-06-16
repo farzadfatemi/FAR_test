@@ -1,4 +1,4 @@
-package com.Farzad.Enums;
+package com.farzad.enums;
 
 /**
  * Created by FARzad - VOLCANO on 5/5/2017.

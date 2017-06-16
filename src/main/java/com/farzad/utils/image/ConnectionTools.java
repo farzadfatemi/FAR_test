@@ -1,11 +1,11 @@
-package com.Farzad.utils.ImageUtils;
+package com.farzad.utils.image;
 
-import POJOs.ArrowSVG;
-import POJOs.ConnectionSVG;
-import POJOs.SVGSingleShape;
-import com.Farzad.Enums.ArrowsTypeEnum;
-import com.Farzad.Enums.ConnectionsEnum;
-import com.Farzad.utils.Utils;
+import com.farzad.enums.ArrowsTypeEnum;
+import com.farzad.enums.ConnectionsEnum;
+import com.farzad.pojo.ArrowSVG;
+import com.farzad.pojo.ConnectionSVG;
+import com.farzad.pojo.SVGSingleShape;
+import com.farzad.utils.Utils;
 import org.apache.commons.lang.StringEscapeUtils;
 
 import java.util.ArrayList;

@@ -1,12 +1,12 @@
-package com.Farzad.utils.ImageUtils;
+package com.farzad.utils.image;
 
-import POJOs.Label;
-import POJOs.Property;
-import POJOs.SVGSingleShape;
-import com.Farzad.Enums.ArchiEnum;
-import com.Farzad.Enums.PropertyValues;
+import com.farzad.enums.ArchiEnum;
+import com.farzad.enums.PropertyValues;
+import com.farzad.pojo.ArchiEntityProperty;
+import com.farzad.pojo.Label;
+import com.farzad.pojo.SVGSingleShape;
 
-import static com.Farzad.utils.Utils.*;
+import static com.farzad.utils.Utils.*;
 
 /**
  * Created by FARzad - VOLCANO on 5/2/2017.
@@ -16,8 +16,8 @@ class ShapeTools {
 
     static String getSVGShape(SVGSingleShape svgShape) {
 
-        if(getPropertyValue(svgShape, PropertyValues.ICON)!=null) {
-            svgShape.setShapeType(getPropertyValue(svgShape,PropertyValues.ICON));
+        if (getPropertyValue(svgShape, PropertyValues.ICON) != null) {
+            svgShape.setShapeType(getPropertyValue(svgShape, PropertyValues.ICON));
             return SVGShapeCode(svgShape);
         } else {
             svgShape.setShapeType(ArchiEnum.getArchiEnum(svgShape.getElementType()));
@@ -30,17 +30,18 @@ class ShapeTools {
     private static String SVGShapeCode(SVGSingleShape svgShape) {
         StringBuilder result = null;
         StringBuilder mainRect = new StringBuilder();
-       String tmpStr="";
+        int diff = 13;
+        String tmpStr = "";
         ArchiEnum archiEnum = svgShape.getShapeType();
         String color = null;
         System.out.println("Shape TYpe : " + archiEnum.categoryToString());
-        svgShape.setURL("../page/"+svgShape.getName());
+        svgShape.setURL("../page/" + svgShape.getName());
         System.out.println("==== >>>" + svgShape.getName() + " ------------- hasChild : " + svgShape.hasAnyChild());
 
-        mainRect.append(" <g>\n" );
+        mainRect.append(" <g>\n");
         mainRect.append(" <a href=\"../page/").append(getEscapeXmlChars(svgShape.getName())).append("\">\n");
         mainRect.append("<rect fill-opacity=\"");
-        mainRect.append(opacity );
+        mainRect.append(opacity);
         mainRect.append("\" class=\"main_style ");
         mainRect.append(archiEnum.categoryToString());
         mainRect.append("\" x=\"");
@@ -52,13 +53,10 @@ class ShapeTools {
         mainRect.append("\" height=\"");
         mainRect.append(svgShape.getHeight());
         mainRect.append("\" />\n");
-        mainRect.append(putText(svgShape,0,0));
+        mainRect.append(putText(svgShape, 0, 0));
         mainRect.append("</a>\n");
-        mainRect.append( IconsTools.getIconSVGCode(archiEnum, svgShape));
+        mainRect.append(IconsTools.getIconSVGCode(archiEnum, svgShape));
         mainRect.append("</g>\n");
-
-
-
 
 
 //        String businessObjectShape = " <g>\n" +
@@ -146,7 +144,7 @@ class ShapeTools {
 //                result.append(putIcon(archiEnum, svgShape));
                 tmpStr = putIntoLink(result.toString(), svgShape.getURL());
                 svgShape.setY(svgShape.getY() - 13);
-            svgShape.setHeight(svgShape.getHeight() + 13);
+                svgShape.setHeight(svgShape.getHeight() + 13);
                 return putGroupAndSVGTag(tmpStr);
 
             case BUSINESS_PROCESS:
@@ -256,7 +254,7 @@ class ShapeTools {
 //                result.append(putIcon(archiEnum, svgShape));
                 tmpStr = putIntoLink(result.toString(), svgShape.getURL());
                 svgShape.setY(svgShape.getY() - 13);
-            svgShape.setHeight(svgShape.getHeight() + 13);
+                svgShape.setHeight(svgShape.getHeight() + 13);
                 return putGroupAndSVGTag(tmpStr);
 
             case LOCATION:
@@ -274,12 +272,11 @@ class ShapeTools {
 //                result.append(putIcon(archiEnum, svgShape));
                 tmpStr = putIntoLink(result.toString(), svgShape.getURL());
                 svgShape.setY(svgShape.getY() - 13);
-            svgShape.setHeight(svgShape.getHeight() + 13);
+                svgShape.setHeight(svgShape.getHeight() + 13);
                 return putGroupAndSVGTag(tmpStr);
 
             case ARTIFACT:
                 result = new StringBuilder();
-                int diff = 13;
                 svgShape.setPolyDem(new int[][]{
                         // main shape
                         {svgShape.getX(), svgShape.getY()},
@@ -408,6 +405,22 @@ class ShapeTools {
                 tmpStr = putIntoLink(result.toString(), svgShape.getURL());
                 return putGroupAndSVGTag(tmpStr);
 
+            case NOTE:
+                result = new StringBuilder();
+                svgShape.setPolyDem(new int[][]{
+                        // main shape
+                        {svgShape.getX(), svgShape.getY()},
+                        {svgShape.getX() + svgShape.getWidth(), svgShape.getY()},
+                        {svgShape.getX() + svgShape.getWidth(), (svgShape.getY() + svgShape.getHeight() - diff)},
+                        {svgShape.getX() + svgShape.getWidth() - diff, svgShape.getY() + svgShape.getHeight()},
+                        {svgShape.getX(), svgShape.getY() + svgShape.getHeight()},
+                        {svgShape.getX(), svgShape.getY()}
+                });
+                result.append(getNoteShape(svgShape));
+                result.append(putText(svgShape, 0, 0));
+                tmpStr = putIntoLink(result.toString(), svgShape.getURL());
+                return putGroupAndSVGTag(tmpStr);
+
             default:
                 return mainRect.toString();
         }
@@ -502,10 +515,18 @@ class ShapeTools {
         int y = svgShape.getY();
         int h = svgShape.getHeight();
         return
-            "<line class=\"database\" x1=\" " + x + "\" y1=\"" + y + "\" x2=\"" + x + "\" y2=\"" + (y + h) + "\" /> \n" +
-            "<path class=\"database\" d=\"M" + x + " " + (y + h) + " C " + (x + w / 3) + " " + (y + h + h / 10) + ", " + (x + w* 2 / 3) + " " + (y + h + h / 10) + ", " + (x + w ) + " " + (y + h) + "\"/>\n" +
-            "<line class=\"database\" x1=\" " + (x + w) + "\" y1=\"" + y + "\" x2=\"" + (x + w) + "\" y2=\"" + (y + h) + "\" /> \n" +
-            "<ellipse class=\"database\" cx=\"" + (x + w/2) + " \" cy=\"" + y + "\" rx=\"" + (w / 2) + "\" ry=\"" + (h / 10) + "\"  />";
+                "<line class=\"database\" x1=\" " + x + "\" y1=\"" + y + "\" x2=\"" + x + "\" y2=\"" + (y + h) + "\" /> \n" +
+                        "<path class=\"database\" d=\"M" + x + " " + (y + h) + " C " + (x + w / 3) + " " + (y + h + h / 10) + ", " + (x + w * 2 / 3) + " " + (y + h + h / 10) + ", " + (x + w) + " " + (y + h) + "\"/>\n" +
+                        "<line class=\"database\" x1=\" " + (x + w) + "\" y1=\"" + y + "\" x2=\"" + (x + w) + "\" y2=\"" + (y + h) + "\" /> \n" +
+                        "<ellipse class=\"database\" cx=\"" + (x + w / 2) + " \" cy=\"" + y + "\" rx=\"" + (w / 2) + "\" ry=\"" + (h / 10) + "\"  />";
+
+    }
+
+    private static String getNoteShape(SVGSingleShape svgShape) {
+        int[][] polyDem = svgShape.getPolyDem();
+        svgShape.setStrokeWidth(4);
+        return " <polygon class=\"note\" fill-opacity=\"" + opacity + "\"  points=\"" + polyDem[0][0] + " " + polyDem[0][1] + ","
+                + polyDem[1][0] + " " + polyDem[1][1] + "," + polyDem[2][0] + " " + polyDem[2][1] + "," + polyDem[3][0] + " " + polyDem[3][1]+ "," + polyDem[4][0] + " " + polyDem[4][1] + "\"/>\n";
 
     }
 
@@ -521,7 +542,7 @@ class ShapeTools {
     private static String putGroupAndSVGTag(String shape) {
         return
 //                "<svg>\n" +
-                        " <g>\n" +
+                " <g>\n" +
                         shape +
                         "</g>\n";
 //                                +
@@ -545,14 +566,14 @@ class ShapeTools {
         text.append(textAnchor);
         text.append("\" ");
         text.append("alignment-baseline=\"middle\"");
-        text.append((svgShape.getType() != null && svgShape.getType().equals(ArchiEnum.GROUP.categoryToString()) ? " class=\"group_text\"" : ""));
+        text.append(" class=\"default_text ").append(svgShape.getShapeType().categoryToString()).append("_text\"");
         text.append(" x=\"");
         text.append(customX);
         text.append("\" xml:space=\"preserve\"");
         text.append(" y=\"");
         text.append(customY);
-        text.append("\" \n" );
-        text.append(" fill=\"#FFFFFF\">");
+        text.append("\" \n");
+        text.append(">");
         text.append(label.getLabelText());
         text.append("</text>\n");
 
@@ -565,7 +586,7 @@ class ShapeTools {
     private static ArchiEnum getPropertyValue(SVGSingleShape svgShape, PropertyValues key) {
         ArchiEnum archiEnum = null;
         if (svgShape.getProperties() != null && svgShape.getProperties().size() > 0) {
-            for (Property p : svgShape.getProperties()) {
+            for (ArchiEntityProperty p : svgShape.getProperties()) {
                 if (p.getKey() != null && p.getKey().equals(key.toString())) {
                     archiEnum = ArchiEnum.getArchiEnum(p.getValue());
                 }

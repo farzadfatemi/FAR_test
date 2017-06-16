@@ -1,4 +1,4 @@
-package POJOs;
+package com.farzad.pojo;
 
 /**
  * Created by VOLCANO on 4/22/2017.

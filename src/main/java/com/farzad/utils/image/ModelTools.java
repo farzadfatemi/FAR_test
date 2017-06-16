@@ -1,11 +1,11 @@
-package com.Farzad.utils.ImageUtils;
+package com.farzad.utils.image;
 
-import POJOs.SVGSingleShape;
 import com.archimatetool.editor.model.compatibility.ModelCompatibility;
-import com.archimatetool.model.*;
+import com.archimatetool.model.IArchimateModel;
+import com.archimatetool.model.IArchimatePackage;
+import com.archimatetool.model.ModelVersion;
 import com.archimatetool.model.util.ArchimateResourceFactory;
 import org.apache.commons.io.FileUtils;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 
 import java.io.File;
@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * Created by VOLCANO on 5/1/2017.

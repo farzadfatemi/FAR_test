@@ -13,7 +13,7 @@
       </configuration>
     </facet>
   </component>
-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8" inherit-compiler-output="false">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
     <content url="file://$MODULE_DIR$">
@@ -26,6 +26,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" scope="PROVIDED" name="JBoss 4.0.4.GA" level="application_server_libraries" />
     <orderEntry type="library" name="lib" level="project" />
+    <orderEntry type="library" name="Maven: commons-lang:commons-lang:2.6" level="project" />
     <orderEntry type="library" name="Maven: archimatetool:archimatetool.model:3.3.2" level="project" />
     <orderEntry type="library" name="Maven: org.eclipse:gef:3.2.100-v20070620" level="project" />
     <orderEntry type="library" name="Maven: org.eclipse:draw2d:3.2.100-v20070529" level="project" />

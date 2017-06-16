@@ -1,4 +1,4 @@
-package com.Farzad.Enums;
+package com.farzad.enums;
 
 /**
  * Created by VOLCANO on 5/2/2017.
@@ -281,7 +281,7 @@ public enum ArchiEnum {
             case DATABASE:
                 return "Database";
              case NOTE:
-                return "Note";
+                return "DiagramModelNote";
             default:
                 return null;
         }

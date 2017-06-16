@@ -1,14 +1,14 @@
-import com.Farzad.utils.IOUtil.FileUtils;
-import com.Farzad.utils.ImageUtils.GenerateSVG;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IDiagramModel;
+import com.farzad.utils.image.GenerateSVG;
+import com.farzad.utils.io.FileUtils;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import static com.Farzad.utils.ImageUtils.ModelTools.loadModel;
+import static com.farzad.utils.image.ModelTools.loadModel;
 
 /**
  * Created by VOLCANO on 4/7/2017.

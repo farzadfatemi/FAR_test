@@ -1,4 +1,4 @@
-package com.Farzad.utils.IOUtil;
+package com.farzad.utils.io;
 
 /**
  * Created by VOLCANO on 4/28/2017.

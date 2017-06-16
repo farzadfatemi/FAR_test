@@ -322,6 +322,76 @@ public class GenerateSVG {
 //            All_MAIN_SVG_SHAPES_AND_CONNECTORS.put(modelObj.getId(), svgSingleShape);
             All_MAIN_SVG_SHAPES_AND_CONNECTORS.add( svgSingleShape);
 
+        } else if (diagramCpt instanceof IDiagramModelNote) {
+            IDiagramModelNote modelNote = (IDiagramModelNote) diagramCpt;
+            System.out.println("-4---4--4 " + modelNote.getName()+" Type " + modelNote.getClass().getSimpleName());
+
+            if (modelNote.getBounds() != null) {
+                System.out.println(" X : " + modelNote.getBounds().getX() + " | Y " + modelNote.getBounds().getY() + " Width : " + modelNote.getBounds().getWidth() + " | Height " + modelNote.getBounds().getHeight() + "--  ---");
+            }
+//            SourceConList = modelNote.getSourceConnections();
+//            for (Object iDiModelConnObj : SourceConList) {
+//                makeUniqueID++;
+//                if (((IDiagramModelConnection) iDiModelConnObj).getTarget() != null) {
+//                    sourceAndTarget.put(makeUniqueID + "-" + ((IDiagramModelConnection) iDiModelConnObj).getTarget().getId(), ((IDiagramModelConnection) iDiModelConnObj).getName());
+////                            sourceAndTarget.add(((IDiagramModelConnection) iDiModelConnObj).getTarget().getId());
+//
+//                    System.out.println("-- " + modelNote.getName() + " --4---4---" + ((IDiagramModelConnection) iDiModelConnObj).getTarget().getName() + "--  ---" + ((IDiagramModelConnection) iDiModelConnObj).getTarget().getId() + "--  ---" + ((IDiagramModelConnection) iDiModelConnObj).getName());
+//                }
+//
+//
+////                        for (Map.Entry<String, String> a : sourceAndTarget.entrySet()) {
+////                            System.out.println(" ---------*>>  relations: " + a.getValue());
+////                        }
+//            }
+
+            System.out.println("======---00000000----   " + FIRST_X + " " + FIRST_Y + " " + LAST_X + " " + LAST_Y);
+            System.out.println("======---11111111----   " + modelNote.getBounds().getX() + " " + modelNote.getBounds().getY() + " " + (modelNote.getBounds().getX() + modelNote.getBounds().getWidth()) + " " + (modelNote.getBounds().getY() + modelNote.getBounds().getHeight()));
+
+            if (FIRST_X > modelNote.getBounds().getX())
+                FIRST_X = modelNote.getBounds().getX();
+            if (FIRST_Y > modelNote.getBounds().getY())
+                FIRST_Y = modelNote.getBounds().getY();
+            if (LAST_X < modelNote.getBounds().getX() + modelNote.getBounds().getWidth())
+                LAST_X = modelNote.getBounds().getX() + modelNote.getBounds().getWidth();
+            if (LAST_Y < modelNote.getBounds().getY() + modelNote.getBounds().getHeight())
+                LAST_Y = modelNote.getBounds().getY() + modelNote.getBounds().getHeight();
+            System.out.println("======---222222222----   " + FIRST_X + " " + FIRST_Y + " " + LAST_X + " " + LAST_Y);
+            try {
+                EObject parentObject = modelNote.eContainer();
+                System.out.println("===================== class name    : " + parentObject.getClass().getSimpleName());
+                int finalX = modelNote.getBounds().getX(), finalY = modelNote.getBounds().getY();
+
+                finalX = deepSearchForXY(parentObject,finalX,finalY)[0];
+                finalY = deepSearchForXY(parentObject,finalX,finalY)[1];
+
+
+                if (modelNote.getBounds() != null) {
+                    svgSingleShape = new SVGSingleShape();
+                    svgSingleShape.setId(modelNote.getId());
+                    svgSingleShape.setX(finalX);
+                    svgSingleShape.setY(finalY);
+                    svgSingleShape.setWidth(modelNote.getBounds().getWidth());
+                    svgSingleShape.setHeight(modelNote.getBounds().getHeight());
+                    svgSingleShape.setName(modelNote.getContent());
+                    svgSingleShape.setStrokeColor(modelNote.getLineColor());
+                    svgSingleShape.setStrokeWidth(modelNote.getLineWidth());
+                    svgSingleShape.setFillColor(modelNote.getFillColor());
+                    svgSingleShape.setFont(modelNote.getFont());
+                    svgSingleShape.setFontColor(modelNote.getFontColor());
+//                    svgSingleShape.setConnections(sourceAndTarget);
+                         svgSingleShape.setHasChild(false);
+                     svgSingleShape.setElementType( modelNote.getClass().getSimpleName());
+
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            System.out.println( " ------ pam "+modelNote.getName());
+//            All_MAIN_SVG_SHAPES_AND_CONNECTORS.put(modelNote.getId(), svgSingleShape);
+            All_MAIN_SVG_SHAPES_AND_CONNECTORS.add( svgSingleShape);
+
         } else if (diagramCpt instanceof IDiagramModelArchimateConnection) {
             List<BendPoints> bindPointsList = null;
             // Add any child elements to this root

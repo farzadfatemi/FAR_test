@@ -1,6 +1,5 @@
 import com.Farzad.utils.IOUtil.FileUtils;
 import com.Farzad.utils.ImageUtils.GenerateSVG;
-import com.Farzad.utils.xmlutils.XmlUtils;
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IDiagramModel;
 
@@ -20,9 +19,9 @@ public class mainCls {
 //            Set<String> test = new HashSet<>();
 //            test.add("6ea3e5b7");
 //            getAllModelSVGs(getArchiModelFromFile(),test);
-//            SVGGenerator();
-//
-            XmlUtils.ReadArchiModel3();
+            SVGGenerator();
+
+//            XmlUtils.ReadArchiModel3();
 //            XmlUtils.ReadArchiModel2();
 //            XmlUtils.ReadArchiModel();
 //            System.out.println(GenerateSVG2.getModelSVGs());

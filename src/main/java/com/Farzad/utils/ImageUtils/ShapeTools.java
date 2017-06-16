@@ -38,7 +38,7 @@ class ShapeTools {
         System.out.println("==== >>>" + svgShape.getName() + " ------------- hasChild : " + svgShape.hasAnyChild());
 
         mainRect.append(" <g>\n" );
-        mainRect.append(" <a href=\"../page/"+getEscapeXmlChars(svgShape.getName())+"\">\n");
+        mainRect.append(" <a href=\"../page/").append(getEscapeXmlChars(svgShape.getName())).append("\">\n");
         mainRect.append("<rect fill-opacity=\"");
         mainRect.append(opacity );
         mainRect.append("\" class=\"main_style ");

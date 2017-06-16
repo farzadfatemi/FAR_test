@@ -69,6 +69,7 @@ public enum ArchiEnum {
     MEANING(Category.MEANING),
     COMMUNICATION_PATH(Category.COMMUNICATION_PATH),
     DATABASE(Category.DATABASE),
+    NOTE(Category.NOTE),
     DEFAULT(Category.DEFAULT);
     //    private final String name;
     private Category category;
@@ -96,6 +97,7 @@ public enum ArchiEnum {
         MEANING,
         COMMUNICATION_PATH,
         DATABASE,
+        NOTE,
         DEFAULT;
     }
 
@@ -137,6 +139,8 @@ public enum ArchiEnum {
                 return "communicationpath";
             case DATABASE:
                 return "database";
+            case NOTE:
+                return "note";
             case DEFAULT:
                 return "default";
             default:
@@ -276,6 +280,8 @@ public enum ArchiEnum {
                 return "CommunicationPath";
             case DATABASE:
                 return "Database";
+             case NOTE:
+                return "Note";
             default:
                 return null;
         }
@@ -483,6 +489,9 @@ public enum ArchiEnum {
 
         }else if (ArchiEnum.DATABASE.equalsName(value)) {
             return ArchiEnum.DATABASE;
+
+        } else if (ArchiEnum.NOTE.equalsName(value)) {
+            return ArchiEnum.NOTE;
 
         } else {
             return ArchiEnum.DEFAULT;

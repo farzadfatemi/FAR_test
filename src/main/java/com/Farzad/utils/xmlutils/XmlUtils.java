@@ -369,7 +369,7 @@ public class XmlUtils {
 
         try {
 
-            File modelFile = new File("D:\\FAR_Documents\\__Startamap\\Original.archimate");
+            File modelFile = new File("D:\\FAR_Documents\\__Startamap\\Original2.archimate");
 //            File modelFile = new File("D:\\FAR_Documents\\__Startamap\\eira_v1_1_0_archimate.archimate");
 
 
@@ -379,7 +379,7 @@ public class XmlUtils {
             List childSourceConList = null;
             int grp =0,arch=0,conn=0;
             List childrenList = null;
-            IDiagramModel diagramModel = iDModels.get(0);
+            IDiagramModel diagramModel = iDModels.get(3);
 //            for (IDiagramModel diagramModel : iDModels) {
             Iterator<EObject> contents = diagramModel.eAllContents();
             System.out.println("Diagram Name : "+diagramModel.getName());

@@ -3,7 +3,7 @@ package com.farzad.pojo;
 /**
  * Created by FARzad - VOLCANO on 5/30/2017.
  */
-public class Label {
+public class SVGLabel {
     private String labelText;
     private String textAnchor ;
     private int FontLength ;
@@ -61,7 +61,7 @@ public class Label {
 
     @Override
     public String toString() {
-        return "Label{" +
+        return "SVGLabel{" +
                 "labelText='" + labelText + '\'' +
                 ", textAnchor='" + textAnchor + '\'' +
                 ", FontLength=" + FontLength +

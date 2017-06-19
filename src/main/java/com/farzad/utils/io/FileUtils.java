@@ -4,9 +4,11 @@ package com.farzad.utils.io;
  * Created by VOLCANO on 4/28/2017.
  */
 
+import java.awt.*;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URI;
 
 public class FileUtils {
 //    private static final String FILENAME = "D:\\FAR_Documents\\__Startamap\\archiModelToSVG.html";
@@ -75,11 +77,12 @@ public class FileUtils {
         try {
 
 
-//            if (Desktop.isDesktopSupported ()) {
-//                Desktop.getDesktop ().browse (new URI ("file:///D:/FAR_Documents/__Startamap/archiModelToSVG.html"));
-//            }
+            if (Desktop.isDesktopSupported ()) {
+//                Desktop.getDesktop ().browse (new URI("file:///D:/FAR_Documents/__Startamap/archiModelToSVG.html"));
+                Desktop.getDesktop ().browse (new URI("file:///D:/FAR_Documents/__Startamap/archiModelToSVG.svg"));
+            }
 //            Runtime.getRuntime().exec(new String[]{"cmd", "/c", "start chrome file:///D:/FAR_Documents/__Startamap/archiModelToSVG.html"});
-            Runtime.getRuntime().exec(new String[]{"cmd", "/c", "start chrome file:///D:/FAR_Documents/__Startamap/archiModelToSVG.svg"});
+//            Runtime.getRuntime().exec(new String[]{"cmd", "/c", "start chrome file:///D:/FAR_Documents/__Startamap/archiModelToSVG."});
         } catch (Exception e) {
 
             e.printStackTrace();

@@ -3,10 +3,10 @@ package com.farzad.utils.image;
 import com.farzad.enums.ArchiEnum;
 import com.farzad.enums.PropertyValues;
 import com.farzad.pojo.ArchiEntityProperty;
-import com.farzad.pojo.Label;
+import com.farzad.pojo.SVGLabel;
 import com.farzad.pojo.SVGSingleShape;
 
-import static com.farzad.utils.Utils.*;
+import static com.farzad.utils.GeneralUtils.*;
 
 /**
  * Created by FARzad - VOLCANO on 5/2/2017.
@@ -35,7 +35,7 @@ class ShapeTools {
         ArchiEnum archiEnum = svgShape.getShapeType();
         String color = null;
         System.out.println("Shape TYpe : " + archiEnum.categoryToString());
-        svgShape.setURL("../page/" + svgShape.getName());
+        svgShape.setURL(getEscapeXmlChars("../page/" + svgShape.getName()));
         System.out.println("==== >>>" + svgShape.getName() + " ------------- hasChild : " + svgShape.hasAnyChild());
 
         mainRect.append(" <g>\n");
@@ -533,7 +533,7 @@ class ShapeTools {
 
     private static String putIntoLink(String shape, String link) {
         return
-                " <a href=\"" + link + "\">\n" +
+                " <a href=\"" + getEscapeXmlChars(link) + "\">\n" +
                         shape +
                         "</a>\n"
                 ;
@@ -554,13 +554,13 @@ class ShapeTools {
     }
 
     private static String putText(SVGSingleShape svgShape, int customX, double customY) {
-        Label label = getFitLabel(svgShape);
+        SVGLabel SVGLabel = getFitLabel(svgShape);
         System.out.println("==== >>>" + svgShape.getName() + " ------------- hasChild : " + svgShape.hasAnyChild());
         StringBuilder text = new StringBuilder();
         String textAnchor = null != svgShape.getTextAlignment() && svgShape.getTextAlignment().length() > 0 ? svgShape.getTextAlignment() : "middle";
         if (customX == 0) customX = svgShape.getX() + svgShape.getWidth() / 2;
         if (customY == 0) {
-            customY = getTextVerticallyPosition(svgShape, label);
+            customY = getTextVerticallyPosition(svgShape, SVGLabel);
         }
         text.append("<text text-anchor=\"");
         text.append(textAnchor);
@@ -574,11 +574,11 @@ class ShapeTools {
         text.append(customY);
         text.append("\" \n");
         text.append(">");
-        text.append(label.getLabelText());
+        text.append(SVGLabel.getLabelText());
         text.append("</text>\n");
 
 //        return "      \n<text text-anchor=\"" + textAnchor + "\" alignment-baseline=\"middle\" " + (svgShape.getType() != null && svgShape.getType().equals(ArchiEnum.GROUP.categoryToString()) ? "class=\"group_text\"" : "") + " x=\"" + customX + "\" xml:space=\"preserve\" y=\"" + customY + "\" \n" +
-//                "       fill=\"#FFFFFF\"  >" +StringEscapeUtils.escapeXml(label.getLabelText()) + "</text>\n";
+//                "       fill=\"#FFFFFF\"  >" +getEscapeXmlChars(SVGLabel.getLabelText()) + "</text>\n";
 
         return text.toString();
     }

@@ -3,13 +3,13 @@ package com.farzad.utils.image;
 
 import com.archimatetool.model.*;
 import com.farzad.pojo.ArchiEntityProperty;
+import com.farzad.pojo.BendPoints;
 import com.farzad.pojo.SVGSingleShape;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
 import java.util.*;
 
-import static com.farzad.utils.image.ConnectionTools.getFirstLastDim;
 import static com.farzad.utils.image.ConnectionTools.getSVGline;
 import static com.farzad.utils.image.ShapeTools.getSVGShape;
 
@@ -17,9 +17,9 @@ import static com.farzad.utils.image.ShapeTools.getSVGShape;
  * Created by VOLCANO on 4/21/2017.
  */
 public class GenerateSVG {
-//    private static Map<String, SVGSingleShape> All_MAIN_SVG_SHAPES_AND_CONNECTORS = new HashMap<>();
+    //    private static Map<String, SVGSingleShape> All_MAIN_SVG_SHAPES_AND_CONNECTORS = new HashMap<>();
     private static List<SVGSingleShape> All_MAIN_SVG_SHAPES_AND_CONNECTORS = new ArrayList<>();
-//    private static Map<String, SVGSingleShape> All_GROUP_SVG_SHAPES_AND_CONNECTORS = new HashMap<>();
+    //    private static Map<String, SVGSingleShape> All_GROUP_SVG_SHAPES_AND_CONNECTORS = new HashMap<>();
     private static Map<SVGSingleShape, SVGSingleShape> All_CONNECTIONS = new HashMap<>();
     private static int FIRST_X = 0;
     private static int FIRST_Y = 0;
@@ -34,7 +34,7 @@ public class GenerateSVG {
         StringBuilder sb = new StringBuilder();
         StringBuilder sb2 = new StringBuilder();
         try {
-            for( SVGSingleShape svgSingle  : All_MAIN_SVG_SHAPES_AND_CONNECTORS ){
+            for (SVGSingleShape svgSingle : All_MAIN_SVG_SHAPES_AND_CONNECTORS) {
                 sb.append(getSVGShape(svgSingle));
                 sb.append("\n");
             }
@@ -45,28 +45,27 @@ public class GenerateSVG {
 //                System.out.println("---------< Target ID : "+ obj.getValue().getId());
                 sb.append(getSVGline(obj.getKey(), obj.getValue()));
             }
-            int[] FirstLastXY = getFirstLastDim();
-
-            if (FIRST_X > FirstLastXY[0])
-                FIRST_X = FirstLastXY[0];
-            if (FIRST_Y > FirstLastXY[1])
-                FIRST_Y = FirstLastXY[1];
-            if (LAST_X < FirstLastXY[2])
-                LAST_X = FirstLastXY[2];
-            if (LAST_Y < FirstLastXY[3])
-                LAST_Y = FirstLastXY[3];
-            System.out.println("======---00000000----   FIRST_X : " + FIRST_X  + " | FIRST_Y" +FIRST_Y  + " | LAST_X" + LAST_X + "  | LAST_Y" +LAST_Y);
+//            int[] FirstLastXY = getFirstLastDim();
+//
+//            if (FIRST_X > FirstLastXY[0])
+//                FIRST_X = FirstLastXY[0];
+//            if (FIRST_Y > FirstLastXY[1])
+//                FIRST_Y = FirstLastXY[1];
+//            if (LAST_X < FirstLastXY[2])
+//                LAST_X = FirstLastXY[2];
+//            if (LAST_Y < FirstLastXY[3])
+//                LAST_Y = FirstLastXY[3];
+            System.out.println("======---00000000----   FIRST_X : " + FIRST_X + " | FIRST_Y" + FIRST_Y + " | LAST_X" + LAST_X + "  | LAST_Y" + LAST_Y);
 //            sb2.append("<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" viewBox=\"" + (FIRST_X - 10) + " " + (FIRST_Y - 10) + " " + (Math.abs(FIRST_X) + LAST_X + 30) + " " + (Math.abs(FIRST_Y) + LAST_Y + 30) + " \">");
             sb2.append("<svg width=\"100%\" height=\"100%\">\n");
-            if(FIRST_X!=0 || FIRST_Y !=0)
-            sb2.append("<g transform=\"translate(").append(Math.abs(FIRST_X)).append(",").append(Math.abs(FIRST_Y)).append(") \">\n");
+            if (FIRST_X != 0 || FIRST_Y != 0)
+                sb2.append("<g transform=\"translate(").append(Math.abs(FIRST_X)).append(",").append(Math.abs(FIRST_Y)).append(") \">\n");
             sb2.append(sb.toString());
 //            int cnt=0;
 //            for(Map.Entry<String, SVGSingleShape> s : All_MAIN_SVG_SHAPES_AND_CONNECTORS.entrySet()){
 //                cnt++;
 //                System.out.println(cnt+" ------ tam "+s.getValue().getName());
 //            };
-            if(FIRST_X!=0 || FIRST_Y !=0)
 
 
 //            All_GROUP_SVG_SHAPES_AND_CONNECTORS.entrySet().stream().filter(obj -> obj.getValue() != null).forEachOrdered(obj -> {
@@ -79,8 +78,9 @@ public class GenerateSVG {
 //            });
 
 
-
-            sb2.append(" </g>");
+            if (FIRST_X != 0 || FIRST_Y != 0) {
+                sb2.append(" </g>");
+            }
             sb2.append("</svg>");
         } catch (Exception e) {
             e.printStackTrace();
@@ -91,12 +91,8 @@ public class GenerateSVG {
     }
 
 
-
-
-
-
     private static void getAllModelSVGs(IDiagramModel diagramModel) {
-        Iterator<EObject> contents ;
+        Iterator<EObject> contents;
         try {
             contents = diagramModel.eAllContents();
             while (contents.hasNext()) {
@@ -109,7 +105,7 @@ public class GenerateSVG {
         }
 
     }
-    
+
     private static void getSingleModels(EObject diagramCpt) {
         Map<String, String> sourceAndTarget = new HashMap<>();
         SVGSingleShape svgSingleShape = null;
@@ -138,26 +134,28 @@ public class GenerateSVG {
 //            }
 //            System.out.println("======---00000000----   " + FIRST_X + " " + FIRST_Y + " " + LAST_X + " " + LAST_Y);
 //            System.out.println("======---33333333----   " + modelGrp.getBounds().getX() + " " + modelGrp.getBounds().getY() + " " + (modelGrp.getBounds().getX() + modelGrp.getBounds().getWidth()) + " " + (modelGrp.getBounds().getY() + modelGrp.getBounds().getHeight()));
-            if (FIRST_X > modelGrp.getBounds().getX())
-                FIRST_X = modelGrp.getBounds().getX();
-            if (FIRST_Y > modelGrp.getBounds().getY())
-                FIRST_Y = modelGrp.getBounds().getY();
-            if (LAST_X < modelGrp.getBounds().getX() + modelGrp.getBounds().getWidth())
-                LAST_X = modelGrp.getBounds().getX() + modelGrp.getBounds().getWidth();
-            if (LAST_Y < modelGrp.getBounds().getY() + modelGrp.getBounds().getHeight())
-                LAST_Y = modelGrp.getBounds().getY() + modelGrp.getBounds().getHeight();
+//            if (FIRST_X > modelGrp.getBounds().getX())
+//                FIRST_X = modelGrp.getBounds().getX();
+//            if (FIRST_Y > modelGrp.getBounds().getY())
+//                FIRST_Y = modelGrp.getBounds().getY();
+//            if (LAST_X < modelGrp.getBounds().getX() + modelGrp.getBounds().getWidth())
+//                LAST_X = modelGrp.getBounds().getX() + modelGrp.getBounds().getWidth();
+//            if (LAST_Y < modelGrp.getBounds().getY() + modelGrp.getBounds().getHeight())
+//                LAST_Y = modelGrp.getBounds().getY() + modelGrp.getBounds().getHeight();
+            setFirstLastXY(modelGrp.getBounds().getX(), modelGrp.getBounds().getY(), modelGrp.getBounds().getX() + modelGrp.getBounds().getWidth(), modelGrp.getBounds().getY() + modelGrp.getBounds().getHeight());
+
             System.out.println("======---444444444----   " + FIRST_X + " " + FIRST_Y + " " + LAST_X + " " + LAST_Y);
             EObject parentObject = modelGrp.eContainer();
             int finalX = modelGrp.getBounds().getX(), finalY = modelGrp.getBounds().getY();
 //            if (parentObject instanceof IDiagramModelArchimateObject) {
 
-            finalX = deepSearchForXY(parentObject,finalX,finalY)[0];
-            finalY = deepSearchForXY(parentObject,finalX,finalY)[1];
+            finalX = deepSearchForXY(parentObject, finalX, finalY)[0];
+            finalY = deepSearchForXY(parentObject, finalX, finalY)[1];
 
-            EList<IProperty> propertiesList= modelGrp.getProperties();
+            EList<IProperty> propertiesList = modelGrp.getProperties();
             System.out.println("**##--> " + finalX + " Final Y " + finalY + " child X : " + modelGrp.getBounds().getX() + " child Y : " + modelGrp.getBounds().getY());
 
-           System.out.println("@@@@@@@@@@@@@@@@@@@ class name    : " + modelGrp.getClass().getSimpleName());
+            System.out.println("@@@@@@@@@@@@@@@@@@@ class name    : " + modelGrp.getClass().getSimpleName());
             try {
                 if (modelGrp.getBounds() != null) {
                     svgSingleShape = new SVGSingleShape();
@@ -194,8 +192,8 @@ public class GenerateSVG {
 
         } else if (diagramCpt instanceof IDiagramModelArchimateObject) {
             IDiagramModelArchimateObject modelObj = (IDiagramModelArchimateObject) diagramCpt;
-            System.out.println("-4---4--4 " + modelObj.getName()+" Type " + modelObj.getClass().getSimpleName());
-            EList<IProperty> propertiesList= modelObj.getArchimateElement().getProperties();
+            System.out.println("-4---4--4 " + modelObj.getName() + " Type " + modelObj.getClass().getSimpleName());
+            EList<IProperty> propertiesList = modelObj.getArchimateElement().getProperties();
 
             if (modelObj.getBounds() != null) {
                 System.out.println(" X : " + modelObj.getBounds().getX() + " | Y " + modelObj.getBounds().getY() + " Width : " + modelObj.getBounds().getWidth() + " | Height " + modelObj.getBounds().getHeight() + "--  ---");
@@ -219,23 +217,24 @@ public class GenerateSVG {
             System.out.println("======---00000000----   " + FIRST_X + " " + FIRST_Y + " " + LAST_X + " " + LAST_Y);
             System.out.println("======---11111111----   " + modelObj.getBounds().getX() + " " + modelObj.getBounds().getY() + " " + (modelObj.getBounds().getX() + modelObj.getBounds().getWidth()) + " " + (modelObj.getBounds().getY() + modelObj.getBounds().getHeight()));
 
-            if (FIRST_X > modelObj.getBounds().getX())
-                FIRST_X = modelObj.getBounds().getX();
-            if (FIRST_Y > modelObj.getBounds().getY())
-                FIRST_Y = modelObj.getBounds().getY();
-            if (LAST_X < modelObj.getBounds().getX() + modelObj.getBounds().getWidth())
-                LAST_X = modelObj.getBounds().getX() + modelObj.getBounds().getWidth();
-            if (LAST_Y < modelObj.getBounds().getY() + modelObj.getBounds().getHeight())
-                LAST_Y = modelObj.getBounds().getY() + modelObj.getBounds().getHeight();
+//            if (FIRST_X > modelObj.getBounds().getX())
+//                FIRST_X = modelObj.getBounds().getX();
+//            if (FIRST_Y > modelObj.getBounds().getY())
+//                FIRST_Y = modelObj.getBounds().getY();
+//            if (LAST_X < modelObj.getBounds().getX() + modelObj.getBounds().getWidth())
+//                LAST_X = modelObj.getBounds().getX() + modelObj.getBounds().getWidth();
+//            if (LAST_Y < modelObj.getBounds().getY() + modelObj.getBounds().getHeight())
+//                LAST_Y = modelObj.getBounds().getY() + modelObj.getBounds().getHeight();
             System.out.println("======---222222222----   " + FIRST_X + " " + FIRST_Y + " " + LAST_X + " " + LAST_Y);
+            setFirstLastXY(modelObj.getBounds().getX(), modelObj.getBounds().getY(), modelObj.getBounds().getX() + modelObj.getBounds().getWidth(), modelObj.getBounds().getY() + modelObj.getBounds().getHeight());
             try {
                 EObject parentObject = modelObj.eContainer();
                 System.out.println("===================== class name    : " + parentObject.getClass().getSimpleName());
                 int finalX = modelObj.getBounds().getX(), finalY = modelObj.getBounds().getY();
 
-                finalX = deepSearchForXY(parentObject,finalX,finalY)[0];
-                finalY = deepSearchForXY(parentObject,finalX,finalY)[1];
-                
+                finalX = deepSearchForXY(parentObject, finalX, finalY)[0];
+                finalY = deepSearchForXY(parentObject, finalX, finalY)[1];
+
 //                while (true) {
 //                    if (parentObject != null) {
 //                        if (parentObject instanceof IDiagramModelGroup) {
@@ -254,10 +253,6 @@ public class GenerateSVG {
 //                    }
 //                    parentObject = parentObject.eContainer();
 //                }
-
-
-
-
 
 
 //                if (parentObject instanceof IDiagramModelArchimateObject) {
@@ -304,7 +299,7 @@ public class GenerateSVG {
                     }
                     svgSingleShape.setElementType(modelObj.getArchimateElement() != null && modelObj.getArchimateElement().getClass() != null ?
                             modelObj.getArchimateElement().getClass().getSimpleName() : "");
-                                System.out.println("-2-2-2-2-2-2-2--2"+svgSingleShape.getElementType());
+                    System.out.println("-2-2-2-2-2-2-2--2" + svgSingleShape.getElementType());
 //                                System.out.println(svgSingleShape.toString());
 
                 }
@@ -312,13 +307,13 @@ public class GenerateSVG {
                 e.printStackTrace();
             }
 
-            System.out.println( " ------ pam "+modelObj.getName());
+            System.out.println(" ------ pam " + modelObj.getName());
 //            All_MAIN_SVG_SHAPES_AND_CONNECTORS.put(modelObj.getId(), svgSingleShape);
-            All_MAIN_SVG_SHAPES_AND_CONNECTORS.add( svgSingleShape);
+            All_MAIN_SVG_SHAPES_AND_CONNECTORS.add(svgSingleShape);
 
         } else if (diagramCpt instanceof IDiagramModelNote) {
             IDiagramModelNote modelNote = (IDiagramModelNote) diagramCpt;
-            System.out.println("-4---4--4 " + modelNote.getName()+" Type " + modelNote.getClass().getSimpleName());
+            System.out.println("-4---4--4 " + modelNote.getName() + " Type " + modelNote.getClass().getSimpleName());
 
             if (modelNote.getBounds() != null) {
                 System.out.println(" X : " + modelNote.getBounds().getX() + " | Y " + modelNote.getBounds().getY() + " Width : " + modelNote.getBounds().getWidth() + " | Height " + modelNote.getBounds().getHeight() + "--  ---");
@@ -327,22 +322,24 @@ public class GenerateSVG {
             System.out.println("======---00000000----   " + FIRST_X + " " + FIRST_Y + " " + LAST_X + " " + LAST_Y);
             System.out.println("======---11111111----   " + modelNote.getBounds().getX() + " " + modelNote.getBounds().getY() + " " + (modelNote.getBounds().getX() + modelNote.getBounds().getWidth()) + " " + (modelNote.getBounds().getY() + modelNote.getBounds().getHeight()));
 
-            if (FIRST_X > modelNote.getBounds().getX())
-                FIRST_X = modelNote.getBounds().getX();
-            if (FIRST_Y > modelNote.getBounds().getY())
-                FIRST_Y = modelNote.getBounds().getY();
-            if (LAST_X < modelNote.getBounds().getX() + modelNote.getBounds().getWidth())
-                LAST_X = modelNote.getBounds().getX() + modelNote.getBounds().getWidth();
-            if (LAST_Y < modelNote.getBounds().getY() + modelNote.getBounds().getHeight())
-                LAST_Y = modelNote.getBounds().getY() + modelNote.getBounds().getHeight();
+//            if (FIRST_X > modelNote.getBounds().getX())
+//                FIRST_X = modelNote.getBounds().getX();
+//            if (FIRST_Y > modelNote.getBounds().getY())
+//                FIRST_Y = modelNote.getBounds().getY();
+//            if (LAST_X < modelNote.getBounds().getX() + modelNote.getBounds().getWidth())
+//                LAST_X = modelNote.getBounds().getX() + modelNote.getBounds().getWidth();
+//            if (LAST_Y < modelNote.getBounds().getY() + modelNote.getBounds().getHeight())
+//                LAST_Y = modelNote.getBounds().getY() + modelNote.getBounds().getHeight();
+
+            setFirstLastXY(modelNote.getBounds().getX(), modelNote.getBounds().getY(), modelNote.getBounds().getX() + modelNote.getBounds().getWidth(), modelNote.getBounds().getY() + modelNote.getBounds().getHeight());
             System.out.println("======---222222222----   " + FIRST_X + " " + FIRST_Y + " " + LAST_X + " " + LAST_Y);
             try {
                 EObject parentObject = modelNote.eContainer();
                 System.out.println("===================== class name    : " + parentObject.getClass().getSimpleName());
                 int finalX = modelNote.getBounds().getX(), finalY = modelNote.getBounds().getY();
 
-                finalX = deepSearchForXY(parentObject,finalX,finalY)[0];
-                finalY = deepSearchForXY(parentObject,finalX,finalY)[1];
+                finalX = deepSearchForXY(parentObject, finalX, finalY)[0];
+                finalY = deepSearchForXY(parentObject, finalX, finalY)[1];
 
 
                 if (modelNote.getBounds() != null) {
@@ -358,20 +355,20 @@ public class GenerateSVG {
                     svgSingleShape.setFillColor(modelNote.getFillColor());
                     svgSingleShape.setFont(modelNote.getFont());
                     svgSingleShape.setFontColor(modelNote.getFontColor());
-                         svgSingleShape.setHasChild(false);
-                     svgSingleShape.setElementType( modelNote.getClass().getSimpleName());
+                    svgSingleShape.setHasChild(false);
+                    svgSingleShape.setElementType(modelNote.getClass().getSimpleName());
 
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
-            System.out.println( " ------ pam "+modelNote.getName());
+            System.out.println(" ------ pam " + modelNote.getName());
 //            All_MAIN_SVG_SHAPES_AND_CONNECTORS.put(modelNote.getId(), svgSingleShape);
-            All_MAIN_SVG_SHAPES_AND_CONNECTORS.add( svgSingleShape);
+            All_MAIN_SVG_SHAPES_AND_CONNECTORS.add(svgSingleShape);
 
         } else if (diagramCpt instanceof IDiagramModelArchimateConnection) {
-            List<BendPoints> bindPointsList ;
+            List<BendPoints> bindPointsList;
             // Add any child elements to this root
             IDiagramModelArchimateConnection modelConn = (IDiagramModelArchimateConnection) diagramCpt;
             int finalSourceX = modelConn.getSource().getBounds().getX();
@@ -381,8 +378,8 @@ public class GenerateSVG {
             EObject parentObject = modelConn.getSource().eContainer();
 
 
-            finalSourceX = deepSearchForXY(parentObject,finalSourceX,finalSourceY)[0];
-            finalSourceY = deepSearchForXY(parentObject,finalSourceX,finalSourceY)[1];
+            finalSourceX = deepSearchForXY(parentObject, finalSourceX, finalSourceY)[0];
+            finalSourceY = deepSearchForXY(parentObject, finalSourceX, finalSourceY)[1];
 
 //            while (true) {
 //                if (parentObject != null) {
@@ -402,9 +399,6 @@ public class GenerateSVG {
 //                }
 //                parentObject = parentObject.eContainer();
 //            }
-
-
-
 
 
 //            if (parentObject instanceof IDiagramModelArchimateObject) {
@@ -427,8 +421,8 @@ public class GenerateSVG {
             parentObject = modelConn.getTarget().eContainer();
             System.out.println("aaaaaaaaaaaaayyyyyyyyy" + parentObject.getClass().getSimpleName());
 
-            finalTargetX = deepSearchForXY(parentObject,finalTargetX,finalTargetY)[0];
-            finalTargetY = deepSearchForXY(parentObject,finalTargetX,finalTargetY)[1];
+            finalTargetX = deepSearchForXY(parentObject, finalTargetX, finalTargetY)[0];
+            finalTargetY = deepSearchForXY(parentObject, finalTargetX, finalTargetY)[1];
 //            while (true) {
 //                if (parentObject != null) {
 //                    if (parentObject instanceof IDiagramModelGroup) {
@@ -449,15 +443,16 @@ public class GenerateSVG {
 //            }
 
 
-
-            if (FIRST_X >finalSourceX)
-                FIRST_X = finalSourceX;
-            if (FIRST_Y >finalSourceY)
-                FIRST_Y = finalSourceY;
-            if (LAST_X < finalTargetX)
-                LAST_X = finalTargetX;
-            if (LAST_Y <finalTargetY)
-                LAST_Y = finalTargetY;
+//
+//            if (FIRST_X >finalSourceX)
+//                FIRST_X = finalSourceX;
+//            if (FIRST_Y >finalSourceY)
+//                FIRST_Y = finalSourceY;
+//            if (LAST_X < finalTargetX)
+//                LAST_X = finalTargetX;
+//            if (LAST_Y <finalTargetY)
+//                LAST_Y = finalTargetY;
+            setFirstLastXY(finalSourceX, finalSourceY, finalTargetX, finalTargetY);
             System.out.println("======---222222222----   " + FIRST_X + " " + FIRST_Y + " " + LAST_X + " " + LAST_Y);
 
             System.out.println("=Connection=========== finalTargetX    : " + finalTargetX + " Child X " + modelConn.getTarget().getBounds().getX());
@@ -558,8 +553,8 @@ public class GenerateSVG {
         }
 
     }
-    
-    private static int[] deepSearchForXY(EObject parentObject, int finalX, int finalY){
+
+    private static int[] deepSearchForXY(EObject parentObject, int finalX, int finalY) {
         int[] i = new int[2];
         while (true) {
             if (parentObject != null) {
@@ -571,7 +566,7 @@ public class GenerateSVG {
                 } else if (parentObject instanceof IDiagramModelArchimateObject) {
                     if (((IDiagramModelArchimateObject) parentObject).getBounds() != null) {
                         finalX += ((IDiagramModelArchimateObject) parentObject).getBounds().getX();
-                        finalY += ((IDiagramModelArchimateObject) parentObject).getBounds().getY() ;
+                        finalY += ((IDiagramModelArchimateObject) parentObject).getBounds().getY();
                     }
                 }
             } else {
@@ -579,20 +574,32 @@ public class GenerateSVG {
             }
             parentObject = parentObject.eContainer();
         }
-        i[0]= finalX;
-        i[1]=finalY;
+        i[0] = finalX;
+        i[1] = finalY;
         return i;
     }
-    private static List<ArchiEntityProperty> getProperties(EList<IProperty> propertiesList){
+
+    private static List<ArchiEntityProperty> getProperties(EList<IProperty> propertiesList) {
         ArchiEntityProperty archiEntityProperty;
         List<ArchiEntityProperty> archiEntityPropertyList = new ArrayList<>();
-        for (IProperty singleProperty: propertiesList){
-            System.out.println("--- ArchiEntityProperty name " + singleProperty.getKey()+" ArchiEntityProperty value " +singleProperty.getValue());
+        for (IProperty singleProperty : propertiesList) {
+            System.out.println("--- ArchiEntityProperty name " + singleProperty.getKey() + " ArchiEntityProperty value " + singleProperty.getValue());
             archiEntityProperty = new ArchiEntityProperty();
             archiEntityProperty.setKey(singleProperty.getKey());
             archiEntityProperty.setValue(singleProperty.getValue());
             archiEntityPropertyList.add(archiEntityProperty);
         }
         return archiEntityPropertyList;
+    }
+
+    public static void setFirstLastXY(int fx, int fy, int lx, int ly) {
+        if (FIRST_X > fx)
+            FIRST_X = fx;
+        if (FIRST_Y > fy)
+            FIRST_Y = fy;
+        if (LAST_X < lx)
+            LAST_X = lx;
+        if (LAST_Y < ly)
+            LAST_Y = ly;
     }
 }

@@ -2,6 +2,7 @@ package com.farzad.utils;
 
 import com.farzad.enums.ArchiEnum;
 import com.farzad.pojo.ConnectionSVG;
+import com.farzad.pojo.SVGLabel;
 import com.farzad.pojo.SVGSingleShape;
 import org.apache.commons.lang.StringEscapeUtils;
 
@@ -13,7 +14,7 @@ import java.awt.geom.AffineTransform;
 /**
  * Created by VOLCANO on 4/17/2017.
  */
-public class Utils {
+public class GeneralUtils {
     public static byte[] str2byteArray(String str) {
         return str.getBytes();
     }
@@ -60,17 +61,17 @@ public class Utils {
         return getWidth ? textWidth : textHeight;
     }
 
-    public static double getTextVerticallyPosition(SVGSingleShape svgShape, com.farzad.pojo.Label label) {
+    public static double getTextVerticallyPosition(SVGSingleShape svgShape, SVGLabel SVGLabel) {
         double customY;
-        System.out.println("label.getFontHeight() : " + label.getFontHeight() + " label.getLabelHeight() : " + label.getLabelHeight() + " label.getLabelWidth() : " + label.getLabelWidth());
+        System.out.println("SVGLabel.getFontHeight() : " + SVGLabel.getFontHeight() + " SVGLabel.getLabelHeight() : " + SVGLabel.getLabelHeight() + " SVGLabel.getLabelWidth() : " + SVGLabel.getLabelWidth());
         if (svgShape.hasAnyChild()) {
             customY = svgShape.getY() + 20;
-        } else if (label.getFontHeight() == label.getLabelHeight()) {
+        } else if (SVGLabel.getFontHeight() == SVGLabel.getLabelHeight()) {
             System.out.println("-- Single Row -- ");
             customY = svgShape.getY() + svgShape.getHeight() / 2;
         } else {
             System.out.println("-- Multi Row -- ");
-            customY = (svgShape.getY() + svgShape.getHeight() / 2) - label.getLabelHeight() / 2;
+            customY = (svgShape.getY() + svgShape.getHeight() / 2) - SVGLabel.getLabelHeight() / 2;
         }
         return customY;
     }
@@ -79,33 +80,35 @@ public class Utils {
         return StringEscapeUtils.escapeXml(text);
     }
 
-    public static com.farzad.pojo.Label getFitLabel(SVGSingleShape svgShape) {
+    public static SVGLabel getFitLabel(SVGSingleShape svgShape) {
         if (svgShape == null) return null;
-        com.farzad.pojo.Label label = new com.farzad.pojo.Label();
+        SVGLabel SVGLabel = new SVGLabel();
         boolean hasIcon = hasIcon(svgShape.getShapeType());
         System.out.println("---> getFitLabel | Text name :  " + svgShape.getName());
-        label.setLabelText(getEscapeXmlChars(svgShape.getName()));
-        label.setLabelWidth(getFontSize(svgShape.getName(), true));
-        label.setFontHeight(getFontSize(svgShape.getName(), false));
-        System.out.println("svgShape.getWidth() : " + svgShape.getWidth() + " label.getLabelWidth() : " + label.getLabelWidth() + " svgShape.getName() length : " + svgShape.getName().length());
-        String result = "";
+        SVGLabel.setLabelText(getEscapeXmlChars(svgShape.getName()));
+        SVGLabel.setLabelWidth(getFontSize(svgShape.getName(), true));
+        SVGLabel.setFontHeight(getFontSize(svgShape.getName(), false));
+        System.out.println("svgShape.getWidth() : " + svgShape.getWidth() + " SVGLabel.getLabelWidth() : " + SVGLabel.getLabelWidth() + " svgShape.getName() length : " + svgShape.getName().length());
+        StringBuilder result = new StringBuilder();
         String tmpStr = "";
         int lineCount = 0;
         String tempSentence = "";
-        int difference = hasIcon ? 70 : 30;
-        if (svgShape.getWidth() < label.getLabelWidth()) {
+        int difference = hasIcon ? 80 : 30;
+        if ((svgShape.getWidth()- difference ) < SVGLabel.getLabelWidth()) {
             tmpStr = getEscapeXmlChars(svgShape.getName());
             System.out.println("svgShape.getName() ========== " + svgShape.getName());
             System.out.println("tmpStr ========== " + tmpStr);
             String[] words = svgShape.getName().split(" ");
             for (String word : words) {
-                if (getFontSize(tempSentence, true) < svgShape.getWidth() - difference) {
+                if (getFontSize(tempSentence, true) < (svgShape.getWidth() - difference)) {
                     if (getFontSize(tempSentence + word + " ", true) < svgShape.getWidth() - difference) {
                         System.out.println("tempSentence : " + tempSentence + " Word : " + word);
+                        System.out.println("tempSentence + new word width : " + (getFontSize(tempSentence + word + " ", true)) + " svgShape.getWidth() : " + svgShape.getWidth());
                         tempSentence += getEscapeXmlChars(word) + " ";
                     } else {
                         lineCount++;
-                        result += "<tspan x=\"" + (svgShape.getX() + svgShape.getWidth() / 2) + "\" dy=\"1.2em\">" + tempSentence + "</tspan>\n";
+                        System.out.println("Add new line tempSentence + new word width : " + (getFontSize(tempSentence + word + " ", true)) + " svgShape.getWidth() : " + svgShape.getWidth());
+                        result.append("<tspan x=\"").append(svgShape.getX() + svgShape.getWidth() / 2).append("\" dy=\"1.2em\">").append(tempSentence).append("</tspan>\n");
                         tempSentence = getEscapeXmlChars(word) + " ";
                         System.out.println("next line : " + word);
                         System.out.println("new line : " + result);
@@ -114,20 +117,20 @@ public class Utils {
             }
             if (tempSentence.length() > 1) {
                 lineCount++;
-                result += "<tspan x=\"" + (svgShape.getX() + svgShape.getWidth() / 2) + "\" dy=\"1.2em\">" + tempSentence + "</tspan>\n";
+                result.append("<tspan x=\"").append(svgShape.getX() + svgShape.getWidth() / 2).append("\" dy=\"1.2em\">").append(tempSentence).append("</tspan>\n");
             }
-            System.out.println("lineCount : " + lineCount + " label.getFontHeight() : " + label.getFontHeight() + " Label Height : " + label.getLabelHeight());
-            label.setLabelHeight(lineCount * label.getFontHeight() + (lineCount * 1.2));
-            label.setLabelText(result);
+            System.out.println("lineCount : " + lineCount + " SVGLabel.getFontHeight() : " + SVGLabel.getFontHeight() + " SVGLabel Height : " + SVGLabel.getLabelHeight());
+            SVGLabel.setLabelHeight(lineCount * SVGLabel.getFontHeight() + (lineCount * 1.2));
+            SVGLabel.setLabelText(result.toString());
 
 
         } else {
-            label.setLabelHeight(label.getFontHeight());
-            return label;
+            SVGLabel.setLabelHeight(SVGLabel.getFontHeight());
+            return SVGLabel;
         }
-        System.out.println("resultttttttttttttt is " + label.getLabelText());
+        System.out.println("resultttttttttttttt is " + SVGLabel.getLabelText());
 
-        return label;
+        return SVGLabel;
     }
 
     private static boolean hasIcon(ArchiEnum archiEnum) {

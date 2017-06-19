@@ -1,4 +1,4 @@
-package com.farzad.utils.image;
+package com.farzad.pojo;
 
 /**
  * Created by FARzad - VOLCANO on 5/24/2017.

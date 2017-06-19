@@ -27,7 +27,7 @@ public class mainCls {
 //            System.out.println(GenerateSVG2.getModelSVGs());
 //            System.out.println(CryptoUtils.getSaltedPassword("FARmelody2".getBytes()));
 //            XmlUtils.ReadXMLFile2();
-//            Utils.getFitLabel("hi how are you!!",2);
+//            GeneralUtils.getFitLabel("hi how are you!!",2);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -57,10 +57,10 @@ int cnt =0;
         IArchimateModel model = null;
         try {
 //            File modelFile = new File("D:\\FAR_Documents\\__Startamap\\Archisurance.archimate");
-//            File modelFile = new File("D:\\FAR_Documents\\__Startamap\\eira_v1_1_0_archimate.archimate");
+            File modelFile = new File("D:\\FAR_Documents\\__Startamap\\eira_v1_1_0_archimate.archimate");
 //            File modelFile = new File("D:\\FAR_Documents\\__Startamap\\model.archimate");
 //            File modelFile = new File("D:\\FAR_Documents\\__Startamap\\nzta-toar.archimate");
-            File modelFile = new File("D:\\FAR_Documents\\__Startamap\\Original2.archimate");
+//            File modelFile = new File("D:\\FAR_Documents\\__Startamap\\Original2.archimate");
             model = loadModel(modelFile);
             if (model != null)
                 System.out.printf("ID ---------------------> " + model.getId());

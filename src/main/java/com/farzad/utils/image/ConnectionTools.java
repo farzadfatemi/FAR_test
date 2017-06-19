@@ -3,10 +3,10 @@ package com.farzad.utils.image;
 import com.farzad.enums.ArrowsTypeEnum;
 import com.farzad.enums.ConnectionsEnum;
 import com.farzad.pojo.ArrowSVG;
+import com.farzad.pojo.BendPoints;
 import com.farzad.pojo.ConnectionSVG;
 import com.farzad.pojo.SVGSingleShape;
-import com.farzad.utils.Utils;
-import org.apache.commons.lang.StringEscapeUtils;
+import com.farzad.utils.GeneralUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,10 +15,10 @@ import java.util.List;
  * Created by VOLCANO on 5/1/2017.
  */
 class ConnectionTools {
-    private static int FIRST_X = 0;
-    private static int FIRST_Y = 0;
-    private static int LAST_X = 0;
-    private static int LAST_Y = 0;
+//    protected static int FIRST_X = 0;
+//    protected static int FIRST_Y = 0;
+//    protected static int LAST_X = 0;
+//    protected static int LAST_Y = 0;
     private static final int shapeBorderWidth = 4;
     private static final List<ConnectionSVG> connectionCoordinates = new ArrayList<>();
 
@@ -191,7 +191,7 @@ class ConnectionTools {
         int tMX = conSvg.getTarget().getX() + conSvg.getTarget().getWidth() / 2;
         int tMY = conSvg.getTarget().getY() + conSvg.getTarget().getHeight() / 2;
 
-        String dim = "M" + conSvg.getX1() + "," + conSvg.getY1();
+        StringBuilder dim = new StringBuilder("M" + conSvg.getX1() + "," + conSvg.getY1());
 //        dim += " q" ;
 //        for (BendPoints b : conSvg.getBendPointses()) {
 //            dim += b.getStartX() + " " + b.getStartY() + " "
@@ -199,15 +199,16 @@ class ConnectionTools {
 //            ;
 //        }
 //        dim += " L" + conSvg.getX2() + "," + conSvg.getY2();
-        if (FIRST_X > conSvg.getX1())
-            FIRST_X = conSvg.getX1();
-        if (FIRST_Y > conSvg.getY1())
-            FIRST_Y = conSvg.getY1();
-        if (LAST_X < conSvg.getX2())
-            LAST_X = conSvg.getX2();
-        if (LAST_Y < conSvg.getY2())
-            LAST_Y = conSvg.getY2();
-        System.out.println("======---cccc66666----   " + FIRST_X + " " + FIRST_Y + " " + LAST_X + " " + LAST_Y);
+//        if (GenerateSVG.FIRST_X > conSvg.getX1())
+//            GenerateSVG.FIRST_X = conSvg.getX1();
+//        if (GenerateSVG.FIRST_Y > conSvg.getY1())
+//            GenerateSVG.FIRST_Y = conSvg.getY1();
+//        if (GenerateSVG.LAST_X < conSvg.getX2())
+//            GenerateSVG.LAST_X = conSvg.getX2();
+//        if (GenerateSVG.LAST_Y < conSvg.getY2())
+//            GenerateSVG.LAST_Y = conSvg.getY2();
+//        System.out.println("======---cccc66666----   " + FIRST_X + " " + FIRST_Y + " " + LAST_X + " " + LAST_Y);
+        GenerateSVG.setFirstLastXY(conSvg.getX1(),conSvg.getY1(),conSvg.getX2(),conSvg.getY2());
         System.out.println("before Bend points StartX : " + conSvg.getX1() + " | StartY :" + conSvg.getY1() + " | EndX :" + conSvg.getX2() + " | EndY :" + conSvg.getY2());
 //        int[] calculateJoints = calculateJoints(conSvg.getX1(),conSvg.getY1(),(b.getStartX() + sMX),(b.getStartX() + sMX),conSvg.getX1(),conSvg.getY2());
 //
@@ -244,30 +245,32 @@ class ConnectionTools {
 
         for (BendPoints b : conSvg.getBendPointses()) {
 
-            System.out.println("======---cccc77777----   " + FIRST_X + " " + FIRST_Y + " " + LAST_X + " " + LAST_Y);
+//            System.out.println("======---cccc77777----   " + FIRST_X + " " + FIRST_Y + " " + LAST_X + " " + LAST_Y);
             System.out.println("intoooo BBBBBBBBBBBeeeeeeeeeeend points StartX : " + b.getStartX() + " | StartY :" + b.getEndX() + " | EndX :" + b.getEndX() + " | EndY :" + b.getEndY());
-            dim += " L" + (b.getStartX() + sMX) + "," + (b.getStartY() + sMY);
+            dim.append(" L").append(b.getStartX() + sMX).append(",").append(b.getStartY() + sMY);
 
 
-            if (FIRST_X > (b.getStartX() + sMX)) {
-                FIRST_X = (b.getStartX() + sMX);
-            }
-            if (FIRST_Y > (b.getStartY() + sMY)) {
-                FIRST_Y = (b.getStartY() + sMY);
-            }
-            if (LAST_X < b.getEndX())
-                LAST_X = b.getEndX();
-            if (LAST_Y < b.getEndY())
-                LAST_Y = b.getEndY();
+            GenerateSVG.setFirstLastXY(b.getStartX() + sMX,b.getStartY() + sMY,b.getEndX()+tMX,b.getEndY()+tMY);
+//            if (FIRST_X > (b.getStartX() + sMX)) {
+//                FIRST_X = (b.getStartX() + sMX);
+//            }
+//            if (FIRST_Y > (b.getStartY() + sMY)) {
+//                FIRST_Y = (b.getStartY() + sMY);
+//            }
+//            if (LAST_X < b.getEndX())
+//                LAST_X = b.getEndX();
+//            if (LAST_Y < b.getEndY())
+//                LAST_Y = b.getEndY();
+
 //           dim += " L"+(b.getEndX()+conSvg.getX1())+","+(b.getEndY()+conSvg.getY1());
 //            dim += " L"+b.getStartX() + " " + b.getStartY() + " "
 //            dim += " L"+b.getEndX()+","+b.getEndY();
             ;
         }
-        dim += " L" + conSvg.getX2() + "," + conSvg.getY2() + "";
+        dim.append(" L").append(conSvg.getX2()).append(",").append(conSvg.getY2()).append("");
 //        dim += " L" + tMX + "," + tMY;
 
-        return dim;
+        return dim.toString();
 
 
     }
@@ -308,7 +311,7 @@ class ConnectionTools {
             text.append("\" y=\"");
             text.append(((svg.getY2() + y) / 2));
             text.append("\" >\n");
-            text.append(StringEscapeUtils.escapeXml(source.getConnectionsName()));
+            text.append(GeneralUtils.getEscapeXmlChars(source.getConnectionsName()));
             text.append("</text>\n");
             result = text.toString();
 
@@ -320,7 +323,7 @@ class ConnectionTools {
 
 
 //            result = (source.getConnectionsType() != null ? "<text text-anchor=\"" + textAnchor + "\" class=\"connectionLabel\" x=\"" + ((svg.getX2() + svg.getX1()) / 2) + "\" y=\"" + ((svg.getY2() + y) / 2) + "\" >\n" +
-//                    StringEscapeUtils.escapeXml(source.getConnectionsName())+
+//                    getEscapeXmlChars(source.getConnectionsName())+
 //                    " </text>\n" : "");
 //    result =  (source.getConnectionsType() != null ? "<text text-anchor=\"" + textAnchor + "\" font-size=\"" + source.getFontSize() + "\" font-family=\" " + source.getFont() +
 //                    "\" x=\"" + ((svg.getX2() + svg.getX1()) / 2) + "\" y=\"" + ((svg.getY2() + y) / 2) + "\" fill=\"#000000\" stroke=\"none\">\n" +
@@ -334,7 +337,7 @@ class ConnectionTools {
 //
 //
 //            result = (source.getConnectionsType() != null ? "<text text-anchor=\"" + textAnchor + "\"  class=\"connectionLabel\"  x=\"" + ((svg.getX2() + svg.getX1()) / 2) + "\" y=\"" + ((svg.getY2() + y) / 2) + "\" fill=\"#000000\" stroke=\"none\">\n" +
-//                    StringEscapeUtils.escapeXml(source.getConnectionsName())+
+//                    getEscapeXmlChars(source.getConnectionsName())+
 //                    " </text>\n" : "");
 ////                 result =  (source.getConnectionsType() != null ? "<text text-anchor=\"" + textAnchor + "\" font-size=\"" + source.getFontSize() + "\" font-family=\" " + source.getFont() +
 ////                    "\" x=\"" + ((svg.getX2() + svg.getX1()) / 2) + "\" y=\"" + ((svg.getY2() + y) / 2) + "\" fill=\"#000000\" stroke=\"none\">\n" +
@@ -801,7 +804,7 @@ class ConnectionTools {
                         System.out.println("-----> y2>y1");
                         if (y2 > (y1 + h1)) {
                             System.out.println("----> y2>(y1+h1)");
-                            conSVG = Utils.getBestPoint(source, target);
+                            conSVG = GeneralUtils.getBestPoint(source, target);
 //                            if (x1 + w1 / 2 > x2 + w2) {
 //                                conSVG.setX1(x1 - shapeBorderWidth);
 //                                conSVG.setX2(x2 + w2 / 2);
@@ -1293,9 +1296,9 @@ class ConnectionTools {
         return false;
     }
 
-    protected static int[] getFirstLastDim() {
-        return new int[]{FIRST_X, FIRST_Y, LAST_X, LAST_Y};
-    }
+//    protected static int[] getFirstLastDim() {
+//        return new int[]{FIRST_X, FIRST_Y, LAST_X, LAST_Y};
+//    }
 
     private static String calculateJoints(int x1, int y1, int bendPointX, int bendPointY, int x2, int y2, int dashWidth, int dashGap) {
 

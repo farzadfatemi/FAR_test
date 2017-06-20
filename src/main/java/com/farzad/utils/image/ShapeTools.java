@@ -361,20 +361,21 @@ class ShapeTools {
                 svgShape.setFillColor("#cccccc");
 //                svgShape.setWidth(svgShape.getName()!=null?svgShape.getName().length():svgShape.getWidth()/2);
                 System.out.println("yesss    " + getFontSize(svgShape.getName(), true) + " Width    " + svgShape.getWidth() + " normal width : " + (svgShape.getName() != null ? svgShape.getName().length() : "nooooo"));
-                svgShape.setWidth(getFontSize(svgShape.getName(), true) + 40);
+                svgShape.setWidth(getFontSize(svgShape.getName(), true) + 35);
+                System.out.println("svgShape.setWidth    " + svgShape.getWidth());
                 svgShape.setHeight(25);
                 svgShape.setTextAlignment("start");
                 svgShape.setType(ArchiEnum.GROUP.categoryToString());
                 result.append(getSimpleRect(archiEnum, svgShape));
                 svgShape.setFillColor(color);
-                svgShape.setWidth(tempWidth);
                 svgShape.setY(svgShape.getY() + 25);
                 svgShape.setHeight(tempHeight - 25);
+                result.append(putText(svgShape, svgShape.getX() +5, svgShape.getY() - 10));
+                svgShape.setWidth(tempWidth);
                 result.append(getSimpleRect(archiEnum, svgShape));
 //                result.append(putText(svgShape,svgShape.getX()+10,svgShape.getY()+10));
 
 
-                result.append(putText(svgShape, svgShape.getX() + 10, svgShape.getY() - 10));
 //                result.append(putIcon(archiEnum, svgShape));
                 tmpStr = putIntoLink(result.toString(), svgShape.getURL());
                 svgShape.setY(svgShape.getY() - 15);

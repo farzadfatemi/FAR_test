@@ -10,7 +10,7 @@ import static com.farzad.enums.ArchiEnum.Category;
  */
 public class IconsTools {
     public static String getIconSVGCode(ArchiEnum archiEnum, SVGSingleShape svgShape) {
-        int x = svgShape.getX() + svgShape.getWidth() - 40;
+        int x = svgShape.getX() + svgShape.getWidth() - 35;
         int y = svgShape.getY() + svgShape.getHeight()/2-15;
         if(svgShape.hasAnyChild()){
             y=svgShape.getY() +10;

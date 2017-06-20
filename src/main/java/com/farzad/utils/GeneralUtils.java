@@ -51,7 +51,7 @@ public class GeneralUtils {
 
     public static int getFontSize(String text, boolean getWidth) {
 
-        Font defaultFont = new Font("Montserrat", Font.PLAIN, 14);
+        Font defaultFont = new Font("Montserrat", Font.PLAIN, 13);
 
         AffineTransform affinetransform = new AffineTransform();
         FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
@@ -61,11 +61,12 @@ public class GeneralUtils {
         return getWidth ? textWidth : textHeight;
     }
 
+
     public static double getTextVerticallyPosition(SVGSingleShape svgShape, SVGLabel SVGLabel) {
         double customY;
         System.out.println("SVGLabel.getFontHeight() : " + SVGLabel.getFontHeight() + " SVGLabel.getLabelHeight() : " + SVGLabel.getLabelHeight() + " SVGLabel.getLabelWidth() : " + SVGLabel.getLabelWidth());
         if (svgShape.hasAnyChild()) {
-            customY = svgShape.getY() + 20;
+            customY = svgShape.getY() + 12;
         } else if (SVGLabel.getFontHeight() == SVGLabel.getLabelHeight()) {
             System.out.println("-- Single Row -- ");
             customY = svgShape.getY() + svgShape.getHeight() / 2;
@@ -93,27 +94,49 @@ public class GeneralUtils {
         String tmpStr = "";
         int lineCount = 0;
         String tempSentence = "";
-        int difference = hasIcon ? 80 : 30;
-        if ((svgShape.getWidth()- difference ) < SVGLabel.getLabelWidth()) {
+        int difference = hasIcon ? 70 : 30;
+        if ((svgShape.getWidth() - difference) < SVGLabel.getLabelWidth()) {
             tmpStr = getEscapeXmlChars(svgShape.getName());
             System.out.println("svgShape.getName() ========== " + svgShape.getName());
             System.out.println("tmpStr ========== " + tmpStr);
             String[] words = svgShape.getName().split(" ");
             for (String word : words) {
-                if (getFontSize(tempSentence, true) < (svgShape.getWidth() - difference)) {
-                    if (getFontSize(tempSentence + word + " ", true) < svgShape.getWidth() - difference) {
-                        System.out.println("tempSentence : " + tempSentence + " Word : " + word);
-                        System.out.println("tempSentence + new word width : " + (getFontSize(tempSentence + word + " ", true)) + " svgShape.getWidth() : " + svgShape.getWidth());
-                        tempSentence += getEscapeXmlChars(word) + " ";
-                    } else {
-                        lineCount++;
-                        System.out.println("Add new line tempSentence + new word width : " + (getFontSize(tempSentence + word + " ", true)) + " svgShape.getWidth() : " + svgShape.getWidth());
-                        result.append("<tspan x=\"").append(svgShape.getX() + svgShape.getWidth() / 2).append("\" dy=\"1.2em\">").append(tempSentence).append("</tspan>\n");
-                        tempSentence = getEscapeXmlChars(word) + " ";
-                        System.out.println("next line : " + word);
-                        System.out.println("new line : " + result);
-                    }
+                System.out.println("getFontSize(tempSentence, true)" + getFontSize(tempSentence, true) + " (svgShape.getWidth() - difference)" + (svgShape.getWidth() - difference));
+                System.out.println("getFontSize(tempSentence + word + \" \", true)" + getFontSize(tempSentence + word + " ", true) + " svgShape.getWidth() - difference" + (svgShape.getWidth() - difference));
+
+                if (tempSentence.length() > 0 && getFontSize(tempSentence + getEscapeXmlChars(word) + " ", true) > svgShape.getWidth() - difference) {
+                    lineCount++;
+
+//                    System.out.println("Add new line tempSentence + new word width : " + (getFontSize(tempSentence + word + " ", true)) + " svgShape.getWidth() : " + svgShape.getWidth());
+                    System.out.println("tempSentence : " + tempSentence + " Word : " + word);
+
+                    result.append("<tspan x=\"").append(svgShape.getX() + svgShape.getWidth() / 2).append("\" dy=\"1.2em\">").append(tempSentence).append("</tspan>\n");
+                    tempSentence = word + " ";
+
+                    System.out.println("next line : " + word);
+                    System.out.println("new line : " + result);
+
+                } else {
+                    tempSentence += getEscapeXmlChars(word) + " ";
+                    System.out.println("tempSentence : " + tempSentence + " Word : " + word);
+//                        System.out.println("tempSentence + new word width : " + (getFontSize(tempSentence + word + " ", true)) + " svgShape.getWidth() : " + svgShape.getWidth());
+
+//                        tempSentence += getEscapeXmlChars(word) + " ";
+
                 }
+//                    else {
+//                        lineCount++;
+//
+//                        System.out.println("Add new line tempSentence + new word width : " + (getFontSize(tempSentence + word + " ", true)) + " svgShape.getWidth() : " + svgShape.getWidth());
+//                        System.out.println("tempSentence : " + tempSentence + " Word : " + word);
+//
+//                        result.append("<tspan x=\"").append(svgShape.getX() + svgShape.getWidth() / 2).append("\" dy=\"1.2em\">").append(tempSentence).append("</tspan>\n");
+//                        tempSentence = "";
+//
+//                        System.out.println("next line : " + word);
+//                        System.out.println("new line : " + result);
+//                    }
+//                }
             }
             if (tempSentence.length() > 1) {
                 lineCount++;

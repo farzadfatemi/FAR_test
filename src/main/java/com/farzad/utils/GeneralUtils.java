@@ -57,7 +57,6 @@ public class GeneralUtils {
         FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
         int textWidth = (int) (defaultFont.getStringBounds(text, frc).getWidth()) + 10;
         int textHeight = (int) (defaultFont.getStringBounds(text, frc).getHeight());
-//        System.out.println(textwidth);
         return getWidth ? textWidth : textHeight;
     }
 

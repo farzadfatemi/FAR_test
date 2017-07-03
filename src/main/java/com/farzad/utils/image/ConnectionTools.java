@@ -1,5 +1,6 @@
 package com.farzad.utils.image;
 
+
 import com.farzad.enums.ArrowsTypeEnum;
 import com.farzad.enums.ConnectionsEnum;
 import com.farzad.pojo.ArrowSVG;
@@ -10,7 +11,6 @@ import com.farzad.utils.GeneralUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-
 /**
  * Created by VOLCANO on 5/1/2017.
  */
@@ -277,14 +277,14 @@ class ConnectionTools {
 
     private static String makeLineWithDoubleOrb(String line, ConnectionSVG svg) {
 
-        return " <circle cx=\"" + svg.getX1() + "\" cy=\"" + svg.getY1() + "\" r=\"3\" fill=\"" + svg.getColor() + "\" />" +
+        return " <circle class=\"arrows\" cx=\"" + svg.getX1() + "\" cy=\"" + svg.getY1() + "\" r=\"3\"  />" +
                 line +
-                "<circle cx=\"" + svg.getX2() + "\" cy=\"" + svg.getY2() + "\" r=\"3\" fill=\"" + svg.getColor() + "\" />";
+                "<circle class=\"arrows\" cx=\"" + svg.getX2() + "\" cy=\"" + svg.getY2() + "\" r=\"3\" />";
     }
 
     private static String makeSingleOrb(ConnectionSVG svg, int x, int y) {
 
-        return " <circle cx=\"" + x + "\" cy=\"" + y + "\" r=\"3\" fill=\"" + svg.getColor() + "\" />";
+        return " <circle class=\"arrows\" cx=\"" + x + "\" cy=\"" + y + "\" r=\"3\" />";
 
     }
 
@@ -487,7 +487,7 @@ class ConnectionTools {
 
         }
         if (arrowsType.equals(ArrowsTypeEnum.DOUBLE_ORBIT)) {
-            result += "<circle cx=\"" + conSvg.getX1() + "\" cy=\"" + conSvg.getY1() + "\" r=\"3\" fill=\"" + conSvg.getColor() + "\" />\n";
+            result += "<circle class=\"arrows\" cx=\"" + conSvg.getX1() + "\" cy=\"" + conSvg.getY1() + "\" r=\"3\"/>\n";
         }
 
         if (conSvg.isOwnConnection()) {
@@ -568,7 +568,7 @@ class ConnectionTools {
             }
         }
         if (arrowsType.equals(ArrowsTypeEnum.DOUBLE_ORBIT)) {
-            result += "<circle cx=\"" + conSvg.getX2() + "\" cy=\"" + conSvg.getY2() + "\" r=\"3\" fill=\"" + conSvg.getColor() + "\" />\n";
+            result += "<circle class=\"arrows\" cx=\"" + conSvg.getX2() + "\" cy=\"" + conSvg.getY2() + "\" r=\"3\" />\n";
         }
         System.out.println("---- cccc ---> Connection : Source : " + conSvg.getSourceName() + " to : Target : " + conSvg.getTargetName() + " SVG Code : \n" + result);
         return result;

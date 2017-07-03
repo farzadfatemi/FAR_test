@@ -46,7 +46,7 @@ int cnt =0;
 //            }
             String str = GenerateSVG.getModelSVGs(getModelFromFile());
             System.out.println(str);
-            FileUtils.WriteToHTML(str.toString());
+            FileUtils.WriteToHTML(str);
 
         } catch (Exception ex) {
             ex.printStackTrace();

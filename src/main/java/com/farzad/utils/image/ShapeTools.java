@@ -378,10 +378,10 @@ class ShapeTools {
 
 
 //                result.append(putIcon(archiEnum, svgShape));
-                tmpStr = putIntoLink(result.toString(), svgShape.getURL());
+//                tmpStr = putIntoLink(result.toString(), svgShape.getURL());
                 svgShape.setY(svgShape.getY() - 15);
                 svgShape.setHeight(svgShape.getHeight() + 25);
-                return putGroupAndSVGTag(tmpStr);
+                return putGroupAndSVGTag(result.toString());
             case MEANING:
                 result = new StringBuilder();
                 System.out.println("cloouuuuud");

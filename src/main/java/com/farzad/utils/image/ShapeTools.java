@@ -13,6 +13,7 @@ import static com.farzad.utils.GeneralUtils.*;
  */
 class ShapeTools {
     private final static double opacity = 0.9;
+    private final static int BORDER_WIDTH = 3;
 
     static String getSVGShape(SVGSingleShape svgShape) {
 
@@ -511,15 +512,34 @@ class ShapeTools {
     }
 
     private static String getDataBaseShape(SVGSingleShape svgShape) {
-        int x = svgShape.getX();
+        int x = svgShape.getX()+BORDER_WIDTH;
         int w = svgShape.getWidth();
         int y = svgShape.getY();
         int h = svgShape.getHeight();
         return
-                "<line class=\"database\" x1=\" " + x + "\" y1=\"" + y + "\" x2=\"" + x + "\" y2=\"" + (y + h) + "\" /> \n" +
-                        "<path class=\"database\" d=\"M" + x + " " + (y + h) + " C " + (x + w / 3) + " " + (y + h + h / 10) + ", " + (x + w * 2 / 3) + " " + (y + h + h / 10) + ", " + (x + w) + " " + (y + h) + "\"/>\n" +
-                        "<line class=\"database\" x1=\" " + (x + w) + "\" y1=\"" + y + "\" x2=\"" + (x + w) + "\" y2=\"" + (y + h) + "\" /> \n" +
-                        "<ellipse class=\"database\" cx=\"" + (x + w / 2) + " \" cy=\"" + y + "\" rx=\"" + (w / 2) + "\" ry=\"" + (h / 10) + "\"  />";
+                " <path class=\"database\" d=\"M" + x + " " + y +
+                "           L " + x + " " + (y+h) +
+                "           A 15 1.5 0 0 0 " + (x+w) + " " + (y+h) +
+                "           L " + (x+w) + " " + (y+h) + " ," + (x+w) + " " + y +
+                "           A 15 1 0 0 0 " + x + " " + y +
+                "           A 15 1 0 0 0 " + (x+w) + " " + y +
+                "          \"   /> \n"
+                ;
+
+//                +
+
+//                " <path class=\"database\" d=\"M4 20\n" +
+//                "           L 4 60\n" +
+//                "           A 5 1.5 0 0 0 100 60 \n" +
+//                "           L 100 60 , 100 20\n" +
+//                "           A 5 1 0 0 0 4 20  \n" +
+//                "           A 5 1 0 0 0 100 20 \n" +
+//                "          \"   /> \n" +
+//                "    "+
+//                "<line class=\"database\" x1=\" " + x + "\" y1=\"" + y + "\" x2=\"" + x + "\" y2=\"" + (y + h) + "\" /> \n" +
+//                        "<path class=\"database\" d=\"M" + x + " " + (y + h) + " C " + (x + w / 3) + " " + (y + h + h / 10) + ", " + (x + w * 2 / 3) + " " + (y + h + h / 10) + ", " + (x + w) + " " + (y + h) + "\"/>\n" +
+//                        "<line class=\"database\" x1=\" " + (x + w) + "\" y1=\"" + y + "\" x2=\"" + (x + w) + "\" y2=\"" + (y + h) + "\" /> \n" +
+//                        "<ellipse class=\"database\" cx=\"" + (x + w / 2) + " \" cy=\"" + y + "\" rx=\"" + (w / 2) + "\" ry=\"" + (h / 10) + "\"  />";
 
     }
 

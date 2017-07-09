@@ -423,6 +423,24 @@ class ShapeTools {
                 tmpStr = putIntoLink(result.toString(), svgShape.getURL());
                 return putGroupAndSVGTag(tmpStr);
 
+            case PRINCIPLE:
+                result = new StringBuilder();
+                svgShape.setPolyDem(new int[][]{
+                        // main shape
+                        {svgShape.getX()+diff, svgShape.getY()},
+                        {svgShape.getX() + svgShape.getWidth()- diff, svgShape.getY()},
+                        {svgShape.getX() + svgShape.getWidth(), svgShape.getY()+ diff},
+                        {svgShape.getX() + svgShape.getWidth(), (svgShape.getY() + svgShape.getHeight() - diff)},
+                        {svgShape.getX() + svgShape.getWidth() - diff, svgShape.getY() + svgShape.getHeight()},
+                        {svgShape.getX() + diff, svgShape.getY() + svgShape.getHeight()},
+                        {svgShape.getX(), svgShape.getY() + svgShape.getHeight() -diff},
+                        {svgShape.getX(), svgShape.getY()+diff}
+                });
+                result.append(getPrincipleShape(svgShape));
+                result.append(putText(svgShape, 0, 0));
+                tmpStr = putIntoLink(result.toString(), svgShape.getURL());
+                return putGroupAndSVGTag(tmpStr);
+
             default:
                 return mainRect.toString();
         }
@@ -549,6 +567,18 @@ class ShapeTools {
         return " <polygon class=\"note\" fill-opacity=\"" + opacity + "\"  points=\"" + polyDem[0][0] + " " + polyDem[0][1] + ","
                 + polyDem[1][0] + " " + polyDem[1][1] + "," + polyDem[2][0] + " " + polyDem[2][1] + "," + polyDem[3][0] + " " + polyDem[3][1]+ "," + polyDem[4][0] + " " + polyDem[4][1] + "\"/>\n";
 
+    }
+
+    private static String getPrincipleShape(SVGSingleShape svgShape) {
+        int[][] polyDem = svgShape.getPolyDem();
+        svgShape.setStrokeWidth(4);
+        return " <polygon class=\"principle\" fill-opacity=\"" + opacity + "\"  points=\"" + polyDem[0][0] + " " + polyDem[0][1] + ","
+                + polyDem[1][0] + " " + polyDem[1][1] + "," + polyDem[2][0] + " " + polyDem[2][1] + "," + polyDem[3][0] + " " + polyDem[3][1]
+                + "," + polyDem[4][0] + " " + polyDem[4][1]
+                + "," + polyDem[5][0] + " " + polyDem[5][1]
+                + "," + polyDem[6][0] + " " + polyDem[6][1]
+                + "," + polyDem[7][0] + " " + polyDem[7][1]
+                + "\"/>\n";
     }
 
 

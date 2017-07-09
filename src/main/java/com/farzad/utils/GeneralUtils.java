@@ -110,7 +110,7 @@ public class GeneralUtils {
                     System.out.println("tempSentence : " + tempSentence + " Word : " + word);
 
                     result.append("<tspan x=\"").append(svgShape.getX() + svgShape.getWidth() / 2).append("\" dy=\"1.2em\">").append(tempSentence).append("</tspan>\n");
-                    tempSentence = word + " ";
+                    tempSentence = getEscapeXmlChars(word) + " ";
 
                     System.out.println("next line : " + word);
                     System.out.println("new line : " + result);

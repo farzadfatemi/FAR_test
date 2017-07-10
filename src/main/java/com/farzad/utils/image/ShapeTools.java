@@ -154,7 +154,14 @@ class ShapeTools {
                 return putGroupAndSVGTag(tmpStr);
 
             case BUSINESS_PROCESS:
-                return mainRect.toString();
+                result = new StringBuilder();
+                svgShape.setRx(8);
+                svgShape.setRy(8);
+                result.append(getSimpleRect(archiEnum, svgShape));
+                result.append(putText(svgShape, 0, 0));
+                result.append(putIcon(archiEnum, svgShape));
+                tmpStr = putIntoLink(result.toString(), svgShape.getURL());
+                return putGroupAndSVGTag(tmpStr);
             case BUSINESS_PRODUCT:
                 return mainRect.toString();
             case BUSINESS_REPRESENTATION:

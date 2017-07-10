@@ -50,14 +50,16 @@ public class GeneralUtils {
     }
 
     public static int getFontSize(String text, boolean getWidth) {
+        if(text !=null && text.length()>0) {
+            Font defaultFont = new Font("Montserrat", Font.PLAIN, 13);
 
-        Font defaultFont = new Font("Montserrat", Font.PLAIN, 13);
-
-        AffineTransform affinetransform = new AffineTransform();
-        FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
-        int textWidth = (int) (defaultFont.getStringBounds(text, frc).getWidth()) + 10;
-        int textHeight = (int) (defaultFont.getStringBounds(text, frc).getHeight());
-        return getWidth ? textWidth : textHeight;
+            AffineTransform affinetransform = new AffineTransform();
+            FontRenderContext frc = new FontRenderContext(affinetransform, true, true);
+            int textWidth = (int) (defaultFont.getStringBounds(text, frc) != null ? defaultFont.getStringBounds(text, frc).getWidth() : 0) + 10;
+            int textHeight = (int) (defaultFont.getStringBounds(text, frc) != null ? defaultFont.getStringBounds(text, frc).getHeight() : 0);
+            return getWidth ? textWidth : textHeight;
+        }
+        return 0;
     }
 
 
@@ -88,7 +90,7 @@ public class GeneralUtils {
         SVGLabel.setLabelText(getEscapeXmlChars(svgShape.getName()));
         SVGLabel.setLabelWidth(getFontSize(svgShape.getName(), true));
         SVGLabel.setFontHeight(getFontSize(svgShape.getName(), false));
-        System.out.println("svgShape.getWidth() : " + svgShape.getWidth() + " SVGLabel.getLabelWidth() : " + SVGLabel.getLabelWidth() + " svgShape.getName() length : " + svgShape.getName().length());
+        System.out.println("svgShape.getWidth() : " + svgShape.getWidth() + " SVGLabel.getLabelWidth() : " + SVGLabel.getLabelWidth() + " svgShape.getName() length : " + (svgShape.getName()!=null? svgShape.getName().length():"No Name"));
         StringBuilder result = new StringBuilder();
         String tmpStr = "";
         int lineCount = 0;

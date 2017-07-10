@@ -521,6 +521,73 @@ public class XmlUtils {
         }
 
     }
+    public static void ReadSingleTypeArchiModel() {
+
+        try {
+
+            File modelFile = new File("D:\\FAR_Documents\\__Startamap\\Archisurance-2.archimate");
+//            File modelFile = new File("D:\\FAR_Documents\\__Startamap\\Original2.archimate");
+//            File modelFile = new File("D:\\FAR_Documents\\__Startamap\\eira_v1_1_0_archimate.archimate");
+
+
+            IArchimateModel model = ModelTools.loadModel(modelFile);
+            List<IDiagramModel> iDModels = model.getDiagramModels();
+            List SourceConList = null;
+            List childSourceConList = null;
+            int grp =0,arch=0,conn=0;
+            List childrenList = null;
+            IDiagramModel diagramModel = iDModels.get(2);
+//            for (IDiagramModel diagramModel : iDModels) {
+            Iterator<EObject> contents = diagramModel.eAllContents();
+            System.out.println("Diagram Name : "+diagramModel.getName());
+            System.out.println("model Name : "+model.getName());
+            while (contents.hasNext()) {
+//                System.out.println(contents.next());
+                EObject obj = contents.next();
+                if (obj instanceof IDiagramModelReference) {
+                    EObject obj2 = ((IDiagramModelReference) obj).getReferencedModel();
+                    System.out.println("_+_+_+_+_"+obj2.getClass().getName());
+                    grp++;
+                    System.out.println(obj.getClass() + " ----------------"+grp+"--------- ");
+                    IDiagramModelReference dia = (IDiagramModelReference) obj;
+                    System.out.println("IDiagramModelGroup ## ------------------------- ");
+                    System.out.println("Name : " + dia.getName());
+                    System.out.println("Bounds : " + dia.getBounds());
+                    System.out.println("Fill Color : " + dia.getFillColor());
+                    System.out.println("Font : " + dia.getFont());
+                    System.out.println("FontColor : " + dia.getFontColor());
+                    System.out.println("Id : " + dia.getId());
+                    System.out.println("eAllContents : " + dia.eAllContents());
+                    System.out.println("LineColor : " + dia.getLineColor());
+                    System.out.println("LineWidth : " + dia.getLineWidth());
+//                    System.out.println("Type : " + dia.getType());
+                    System.out.println("DefaultTextAlignment : " + dia.getDefaultTextAlignment());
+                    System.out.println("TextAlignment : " + dia.getTextAlignment());
+                    System.out.println("Source Connections : ");
+                    SourceConList = dia.getSourceConnections();
+                    for (Object b : SourceConList) {
+
+                        System.out.println("-- SourceConList : id : " + ((IDiagramModelConnection)b).getId() );
+                        System.out.println("-- Source : x : " + ((IDiagramModelConnection)b).getSource().getBounds().getX());
+                        System.out.println("-- Source : Y : " + ((IDiagramModelConnection)b).getSource().getBounds().getY());
+                        System.out.println("-- Target : x : " + ((IDiagramModelConnection)b).getTarget().getBounds().getX());
+                        System.out.println("-- Target : Y : " + ((IDiagramModelConnection)b).getTarget().getBounds().getY());
+                    }
+
+
+                } else  {
+                    System.out.println("Other Type -----------------------------nnn "+obj.getClass().getName());
+                    arch++;
+//                    System.out.println(obj.getClass() + " ---------------otherrrs-"+arch+"--------- ");
+
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 
 
 }

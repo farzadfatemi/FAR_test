@@ -2,6 +2,7 @@ import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IDiagramModel;
 import com.farzad.utils.image.GenerateSVG;
 import com.farzad.utils.io.FileUtils;
+import com.farzad.utils.xml.XmlUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -19,8 +20,9 @@ public class mainCls {
 //            Set<String> test = new HashSet<>();
 //            test.add("6ea3e5b7");
 //            getAllModelSVGs(getArchiModelFromFile(),test);
-            SVGGenerator();
-
+//            SVGGenerator();
+//
+            XmlUtils.ReadSingleTypeArchiModel();
 //            XmlUtils.ReadArchiModel3();
 //            XmlUtils.ReadArchiModel2();
 //            XmlUtils.ReadArchiModel();
@@ -64,7 +66,7 @@ int cnt =0;
 //            File modelFile = new File("D:\\FAR_Documents\\__Startamap\\stratamap-test.archimate");
             model = loadModel(modelFile);
             if (model != null)
-                System.out.printf("ID ---------------------> " + model.getId());
+                System.out.printf(" ID ---------------------> " + model.getId());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -77,8 +79,8 @@ int cnt =0;
         try {
             List<IDiagramModel> iDModels = getArchiModelFromFile() != null ? getArchiModelFromFile().getDiagramModels() : null;
             if (iDModels != null) {
-                System.out.println("Size of iDModels --------------------- " + iDModels.size());
-                diagramModel = iDModels.get(8);
+                System.out.println(" Size of iDModels --------------------- " + iDModels.size());
+                diagramModel = iDModels.get(2);
 //                diagramModel = iDModels.get(18);
             }
 
@@ -93,7 +95,7 @@ int cnt =0;
         List<IDiagramModel> iDModels = null;
         try {
             iDModels = getArchiModelFromFile() != null ? getArchiModelFromFile().getDiagramModels() : null;
-            System.out.println("Size of iDModels --------------------- " + (iDModels != null ? iDModels.size() : " 0 "));
+            System.out.println(" Size of iDModels --------------------- " + (iDModels != null ? iDModels.size() : " 0 "));
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -70,6 +70,9 @@ public enum ArchiEnum {
     COMMUNICATION_PATH(Category.COMMUNICATION_PATH),
     DATABASE(Category.DATABASE),
     NOTE(Category.NOTE),
+    PRINCIPLE(Category.PRINCIPLE),
+    VALUE(Category.VALUE),
+    REPRESENTATION(Category.REPRESENTATION),
     DEFAULT(Category.DEFAULT);
     //    private final String name;
     private Category category;
@@ -98,6 +101,9 @@ public enum ArchiEnum {
         COMMUNICATION_PATH,
         DATABASE,
         NOTE,
+        PRINCIPLE,
+        VALUE,
+        REPRESENTATION,
         DEFAULT;
     }
 
@@ -141,8 +147,14 @@ public enum ArchiEnum {
                 return "database";
             case NOTE:
                 return "note";
+            case PRINCIPLE:
+                return "principle";
+            case VALUE:
+                return "value";
+            case REPRESENTATION:
+                return "Representation";
             case DEFAULT:
-                return "default";
+            return "default";
             default:
                 return null;
         }
@@ -280,8 +292,14 @@ public enum ArchiEnum {
                 return "CommunicationPath";
             case DATABASE:
                 return "Database";
-             case NOTE:
+            case NOTE:
                 return "DiagramModelNote";
+            case PRINCIPLE:
+                return "Principle";
+           case VALUE:
+                return "Value";
+            case REPRESENTATION:
+                return "Representation";
             default:
                 return null;
         }
@@ -294,7 +312,7 @@ public enum ArchiEnum {
         return otherName != null && getStringValue() != null && getStringValue().toLowerCase().equals(otherName.toLowerCase());
     }
 
-    public static ArchiEnum getArchiEnum(String value){
+    public static ArchiEnum getArchiEnum(String value) {
         if (ArchiEnum.APPLICATION_COLLABORATION.equalsName(value)) {
             return ArchiEnum.APPLICATION_COLLABORATION;
 
@@ -487,11 +505,20 @@ public enum ArchiEnum {
         } else if (ArchiEnum.COMMUNICATION_PATH.equalsName(value)) {
             return ArchiEnum.COMMUNICATION_PATH;
 
-        }else if (ArchiEnum.DATABASE.equalsName(value)) {
+        } else if (ArchiEnum.DATABASE.equalsName(value)) {
             return ArchiEnum.DATABASE;
 
         } else if (ArchiEnum.NOTE.equalsName(value)) {
             return ArchiEnum.NOTE;
+
+        } else if (ArchiEnum.PRINCIPLE.equalsName(value)) {
+            return ArchiEnum.PRINCIPLE;
+
+        } else if (ArchiEnum.VALUE.equalsName(value)) {
+            return ArchiEnum.VALUE;
+
+        } else if (ArchiEnum.REPRESENTATION.equalsName(value)) {
+            return ArchiEnum.REPRESENTATION;
 
         } else {
             return ArchiEnum.DEFAULT;

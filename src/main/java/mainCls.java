@@ -78,7 +78,7 @@ int cnt =0;
             List<IDiagramModel> iDModels = getArchiModelFromFile() != null ? getArchiModelFromFile().getDiagramModels() : null;
             if (iDModels != null) {
                 System.out.println("Size of iDModels --------------------- " + iDModels.size());
-                diagramModel = iDModels.get(1);
+                diagramModel = iDModels.get(8);
 //                diagramModel = iDModels.get(18);
             }
 

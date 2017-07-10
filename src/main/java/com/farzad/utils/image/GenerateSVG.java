@@ -363,6 +363,13 @@ public class GenerateSVG {
                     svgSingleShape.setElementType(modelNote.getClass().getSimpleName());
 
                 }
+                if (modelNote.getSourceConnections() != null) {
+                    EList<IDiagramModelConnection> connections = modelNote.getSourceConnections();
+                    for (IDiagramModelConnection modelConn : connections) {
+                        addConnections(modelConn);
+                    }
+                }
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -429,188 +436,7 @@ public class GenerateSVG {
 
 //        }
         else if (diagramCpt instanceof IDiagramModelArchimateConnection) {
-            List<BendPoints> bindPointsList;
-            // Add any child elements to this root
-            IDiagramModelArchimateConnection modelConn = (IDiagramModelArchimateConnection) diagramCpt;
-            int finalSourceX = modelConn.getSource().getBounds().getX();
-            int finalSourceY = modelConn.getSource().getBounds().getY();
-            int finalTargetX = modelConn.getTarget().getBounds().getX();
-            int finalTargetY = modelConn.getTarget().getBounds().getY();
-            EObject parentObject = modelConn.getSource().eContainer();
-
-
-            finalSourceX = deepSearchForXY(parentObject, finalSourceX, finalSourceY)[0];
-            finalSourceY = deepSearchForXY(parentObject, finalSourceX, finalSourceY)[1];
-
-//            while (true) {
-//                if (parentObject != null) {
-//                    if (parentObject instanceof IDiagramModelGroup) {
-//                        if (((IDiagramModelGroup) parentObject).getBounds() != null) {
-//                            finalSourceX += ((IDiagramModelGroup) parentObject).getBounds().getX();
-//                            finalSourceY += ((IDiagramModelGroup) parentObject).getBounds().getY();
-//                        }
-//                    } else if (parentObject instanceof IDiagramModelArchimateObject) {
-//                        if (((IDiagramModelArchimateObject) parentObject).getBounds() != null) {
-//                            finalSourceX += ((IDiagramModelArchimateObject) parentObject).getBounds().getX();
-//                            finalSourceY += ((IDiagramModelArchimateObject) parentObject).getBounds().getY() ;
-//                        }
-//                    }
-//                } else {
-//                    break;
-//                }
-//                parentObject = parentObject.eContainer();
-//            }
-
-
-//            if (parentObject instanceof IDiagramModelArchimateObject) {
-//                if (((IDiagramModelArchimateObject) parentObject).getBounds() != null) {
-//                    finalSourceX = ((IDiagramModelArchimateObject) parentObject).getBounds().getX() + modelConn.getSource().getBounds().getX();
-//                    finalSourceY = ((IDiagramModelArchimateObject) parentObject).getBounds().getY() + modelConn.getSource().getBounds().getY();
-//                }
-//            } else if (parentObject instanceof IDiagramModelGroup) {
-//                if (((IDiagramModelGroup) parentObject).getBounds() != null) {
-//                    finalSourceX = ((IDiagramModelGroup) parentObject).getBounds().getX() + modelConn.getSource().getBounds().getX();
-//                    finalSourceY = ((IDiagramModelGroup) parentObject).getBounds().getY() + modelConn.getSource().getBounds().getY();
-//                }
-//            }
-
-
-            System.out.println("=Connection=========== finalSourceX    : " + finalSourceX + " Child X " + modelConn.getSource().getBounds().getX());
-            System.out.println("=Connection========== finalSourceY   : " + finalSourceY + " Child Y " + modelConn.getSource().getBounds().getY());
-
-
-            parentObject = modelConn.getTarget().eContainer();
-            System.out.println("aaaaaaaaaaaaayyyyyyyyy" + parentObject.getClass().getSimpleName());
-
-            finalTargetX = deepSearchForXY(parentObject, finalTargetX, finalTargetY)[0];
-            finalTargetY = deepSearchForXY(parentObject, finalTargetX, finalTargetY)[1];
-//            while (true) {
-//                if (parentObject != null) {
-//                    if (parentObject instanceof IDiagramModelGroup) {
-//                        if (((IDiagramModelGroup) parentObject).getBounds() != null) {
-//                            finalTargetX += ((IDiagramModelGroup) parentObject).getBounds().getX();
-//                            finalTargetY += ((IDiagramModelGroup) parentObject).getBounds().getY();
-//                        }
-//                    } else if (parentObject instanceof IDiagramModelArchimateObject) {
-//                        if (((IDiagramModelArchimateObject) parentObject).getBounds() != null) {
-//                            finalTargetX += ((IDiagramModelArchimateObject) parentObject).getBounds().getX();
-//                            finalTargetY += ((IDiagramModelArchimateObject) parentObject).getBounds().getY() ;
-//                        }
-//                    }
-//                } else {
-//                    break;
-//                }
-//                parentObject = parentObject.eContainer();
-//            }
-
-
-//
-//            if (FIRST_X >finalSourceX)
-//                FIRST_X = finalSourceX;
-//            if (FIRST_Y >finalSourceY)
-//                FIRST_Y = finalSourceY;
-//            if (LAST_X < finalTargetX)
-//                LAST_X = finalTargetX;
-//            if (LAST_Y <finalTargetY)
-//                LAST_Y = finalTargetY;
-            setFirstLastXY(finalSourceX, finalSourceY, finalTargetX, finalTargetY);
-            System.out.println("======---222222222----   " + FIRST_X + " " + FIRST_Y + " " + LAST_X + " " + LAST_Y);
-
-            System.out.println("=Connection=========== finalTargetX    : " + finalTargetX + " Child X " + modelConn.getTarget().getBounds().getX());
-            System.out.println("=Connection========== finalTargetY   : " + finalTargetY + " Child Y " + modelConn.getTarget().getBounds().getY());
-
-            try {
-                if (modelConn.getSource() != null && modelConn.getTarget() != null) {
-
-                    System.out.println("Model Conn - Source Name & ID : ----------- > " + modelConn.getSource().getName() + " | " + modelConn.getSource().getId());
-                    System.out.println("Model Conn - Target Name & ID : ----------- > " + modelConn.getTarget().getName() + " | " + modelConn.getTarget().getId());
-
-                    SVGSingleShape svgSourceShape = new SVGSingleShape();
-                    SVGSingleShape svgTargetShape = new SVGSingleShape();
-                    svgSourceShape.setId(modelConn.getSource().getId());
-                    svgSourceShape.setX(finalSourceX);
-                    svgSourceShape.setY(finalSourceY);
-                    svgSourceShape.setWidth(modelConn.getSource().getBounds().getWidth());
-                    svgSourceShape.setHeight(modelConn.getSource().getBounds().getHeight());
-                    svgSourceShape.setName(modelConn.getSource().getName());
-                    svgSourceShape.setStrokeColor(modelConn.getSource().getLineColor());
-                    svgSourceShape.setStrokeWidth(modelConn.getSource().getLineWidth());
-                    svgSourceShape.setFillColor(modelConn.getSource().getFillColor());
-                    svgSourceShape.setFont(modelConn.getSource().getFont());
-                    svgSourceShape.setFontColor(modelConn.getSource().getFontColor());
-                    svgSourceShape.setConnectionsName(modelConn.getRelationship() != null ? modelConn.getRelationship().getName() : "");
-                    svgSourceShape.setConnectionsType(modelConn.getRelationship() != null ? modelConn.getRelationship().getClass().getSimpleName() : "");
-                    svgSourceShape.setConnections(sourceAndTarget);
-
-
-                    bindPointsList = new ArrayList<>();
-                    System.out.println("Model Conn - Connection Coord : ----------- > Source X " + modelConn.getSource().getBounds().getX()
-                            + " | Source Y " + modelConn.getSource().getBounds().getY()
-                    );
-                    for (IDiagramModelBendpoint e : modelConn.getBendpoints()) {
-                        System.out.println(" | Bend Points e.getStartX() " + e.getStartX() + " | StartY() " + e.getStartY() + " | getEndX() " + e.getEndX() + " | getEndY() " + e.getEndY());
-                        BendPoints bendPoints = new BendPoints();
-                        bendPoints.setStartX(e.getStartX());
-                        bendPoints.setStartY(e.getStartY());
-//                        bendPoints.setStartX(e.getStartX()+ modelConn.getSource().getBounds().getX());
-//                        bendPoints.setStartY(e.getStartY()+ modelConn.getSource().getBounds().getY());
-                        bendPoints.setEndX(e.getEndX());
-                        bendPoints.setEndY(e.getEndY());
-                        bindPointsList.add(bendPoints);
-
-//                        if (FIRST_X > e.getStartX())
-//                            FIRST_X = e.getStartX();
-//                        if (FIRST_Y > e.getStartY())
-//                            FIRST_Y =  e.getStartY();
-//                        if (LAST_X < e.getEndX())
-//                            LAST_X = e.getEndX();
-//                        if (LAST_Y < e.getEndY())
-//                            LAST_Y =  e.getEndY();
-//                        System.out.println("======---222222222----   " + FIRST_X + " " + FIRST_Y + " " + LAST_X + " " + LAST_Y);
-
-                    }
-                    svgSourceShape.setConnectionBendPointsList(bindPointsList);
-                    System.out.println("Model Conn - Connection Coord : ----------- > Target X " + modelConn.getTarget().getBounds().getX()
-                            + " | Target Y " + modelConn.getTarget().getBounds().getY()
-                    );
-
-                    System.out.println("Model Conn - ConnectionsType : ----------- > " + svgSourceShape.getConnectionsType());
-                    System.out.println("Model Conn -   Name : ----------- > " + modelConn.getName());
-                    System.out.println("Model Conn -   Name : ----------- > " + modelConn.getName());
-                    System.out.println("Model Conn - getClass getSimpleName : ----------- > " + modelConn.getClass().getSimpleName());
-                    System.out.println("Model Conn - getRelationship getName : ----------- > " + modelConn.getRelationship().getName());
-                    System.out.println("Model Conn - getRelationship getClass getName : ----------- > " + modelConn.getRelationship().getClass().getName());
-                    System.out.println("Model Conn - getRelationship getClass getSimle Name : ----------- > " + modelConn.getRelationship().getClass().getSimpleName());
-                    System.out.println("Model Conn - Target getName : ----------- > " + modelConn.getTarget().getName());
-//                    System.out.println("Model Conn - Target getName : ----------- > " + modelConn.getTarget().getName());
-//                    System.out.println("Model Conn - Source getName : ----------- > " + modelConn.getSource().getName());
-
-
-                    svgTargetShape.setId(modelConn.getTarget().getId());
-                    svgTargetShape.setX(finalTargetX);
-                    svgTargetShape.setY(finalTargetY);
-                    svgTargetShape.setWidth(modelConn.getTarget().getBounds().getWidth());
-                    svgTargetShape.setHeight(modelConn.getTarget().getBounds().getHeight());
-                    svgTargetShape.setName(modelConn.getTarget().getName());
-                    svgTargetShape.setStrokeColor(modelConn.getTarget().getLineColor());
-                    svgTargetShape.setStrokeWidth(modelConn.getTarget().getLineWidth());
-                    svgTargetShape.setFillColor(modelConn.getTarget().getFillColor());
-                    svgTargetShape.setFont(modelConn.getTarget().getFont());
-                    svgTargetShape.setFontColor(modelConn.getTarget().getFontColor());
-                    svgTargetShape.setConnections(sourceAndTarget);
-
-                    All_CONNECTIONS.put(svgSourceShape, svgTargetShape);
-//                    svgSingleShape.setHasChild(false);
-//                    svgSingleShape.setElementType(modelConn.getArchimateElement() != null && modelConn.getArchimateElement().getClass() != null ?
-//                            modelConn.getArchimateElement().getClass().getSimpleName() : "");
-////                                System.out.println(svgSingleShape.toString());
-
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-
+            addConnections(diagramCpt);
         } else {
             System.out.println("--------> Clss Name "+diagramCpt.getClass().getName());
         }
@@ -664,5 +490,180 @@ public class GenerateSVG {
             LAST_X = lx;
         if (LAST_Y < ly)
             LAST_Y = ly;
+    }
+
+    private static void addConnections(EObject obj) {
+        List<BendPoints> bindPointsList;
+        // Add any child elements to this root
+        IDiagramModelConnection modelConn = null;
+        if(obj instanceof IDiagramModelArchimateConnection) {
+             modelConn = (IDiagramModelArchimateConnection) obj;
+        } else if (obj instanceof IDiagramModelConnection){
+             modelConn = (IDiagramModelConnection) obj;
+        }
+        int finalSourceX = modelConn.getSource().getBounds().getX();
+        int finalSourceY = modelConn.getSource().getBounds().getY();
+        int finalTargetX = modelConn.getTarget().getBounds().getX();
+        int finalTargetY = modelConn.getTarget().getBounds().getY();
+        EObject parentObject = modelConn.getSource().eContainer();
+
+
+        finalSourceX = deepSearchForXY(parentObject, finalSourceX, finalSourceY)[0];
+        finalSourceY = deepSearchForXY(parentObject, finalSourceX, finalSourceY)[1];
+
+//            while (true) {
+//                if (parentObject != null) {
+//                    if (parentObject instanceof IDiagramModelGroup) {
+//                        if (((IDiagramModelGroup) parentObject).getBounds() != null) {
+//                            finalSourceX += ((IDiagramModelGroup) parentObject).getBounds().getX();
+//                            finalSourceY += ((IDiagramModelGroup) parentObject).getBounds().getY();
+//                        }
+//                    } else if (parentObject instanceof IDiagramModelArchimateObject) {
+//                        if (((IDiagramModelArchimateObject) parentObject).getBounds() != null) {
+//                            finalSourceX += ((IDiagramModelArchimateObject) parentObject).getBounds().getX();
+//                            finalSourceY += ((IDiagramModelArchimateObject) parentObject).getBounds().getY() ;
+//                        }
+//                    }
+//                } else {
+//                    break;
+//                }
+//                parentObject = parentObject.eContainer();
+//            }
+
+
+//            if (parentObject instanceof IDiagramModelArchimateObject) {
+//                if (((IDiagramModelArchimateObject) parentObject).getBounds() != null) {
+//                    finalSourceX = ((IDiagramModelArchimateObject) parentObject).getBounds().getX() + modelConn.getSource().getBounds().getX();
+//                    finalSourceY = ((IDiagramModelArchimateObject) parentObject).getBounds().getY() + modelConn.getSource().getBounds().getY();
+//                }
+//            } else if (parentObject instanceof IDiagramModelGroup) {
+//                if (((IDiagramModelGroup) parentObject).getBounds() != null) {
+//                    finalSourceX = ((IDiagramModelGroup) parentObject).getBounds().getX() + modelConn.getSource().getBounds().getX();
+//                    finalSourceY = ((IDiagramModelGroup) parentObject).getBounds().getY() + modelConn.getSource().getBounds().getY();
+//                }
+//            }
+
+
+        System.out.println("=Connection=========== finalSourceX    : " + finalSourceX + " Child X " + modelConn.getSource().getBounds().getX());
+        System.out.println("=Connection========== finalSourceY   : " + finalSourceY + " Child Y " + modelConn.getSource().getBounds().getY());
+
+
+        parentObject = modelConn.getTarget().eContainer();
+        System.out.println("aaaaaaaaaaaaayyyyyyyyy" + parentObject.getClass().getSimpleName());
+
+        finalTargetX = deepSearchForXY(parentObject, finalTargetX, finalTargetY)[0];
+        finalTargetY = deepSearchForXY(parentObject, finalTargetX, finalTargetY)[1];
+//            while (true) {
+//                if (parentObject != null) {
+//                    if (parentObject instanceof IDiagramModelGroup) {
+//                        if (((IDiagramModelGroup) parentObject).getBounds() != null) {
+//                            finalTargetX += ((IDiagramModelGroup) parentObject).getBounds().getX();
+//                            finalTargetY += ((IDiagramModelGroup) parentObject).getBounds().getY();
+//                        }
+//                    } else if (parentObject instanceof IDiagramModelArchimateObject) {
+//                        if (((IDiagramModelArchimateObject) parentObject).getBounds() != null) {
+//                            finalTargetX += ((IDiagramModelArchimateObject) parentObject).getBounds().getX();
+//                            finalTargetY += ((IDiagramModelArchimateObject) parentObject).getBounds().getY() ;
+//                        }
+//                    }
+//                } else {
+//                    break;
+//                }
+//                parentObject = parentObject.eContainer();
+//            }
+
+
+//
+//            if (FIRST_X >finalSourceX)
+//                FIRST_X = finalSourceX;
+//            if (FIRST_Y >finalSourceY)
+//                FIRST_Y = finalSourceY;
+//            if (LAST_X < finalTargetX)
+//                LAST_X = finalTargetX;
+//            if (LAST_Y <finalTargetY)
+//                LAST_Y = finalTargetY;
+        setFirstLastXY(finalSourceX, finalSourceY, finalTargetX, finalTargetY);
+        System.out.println("======---222222222----   " + FIRST_X + " " + FIRST_Y + " " + LAST_X + " " + LAST_Y);
+
+        System.out.println("=Connection=========== finalTargetX    : " + finalTargetX + " Child X " + modelConn.getTarget().getBounds().getX());
+        System.out.println("=Connection========== finalTargetY   : " + finalTargetY + " Child Y " + modelConn.getTarget().getBounds().getY());
+
+        try {
+            if (modelConn.getSource() != null && modelConn.getTarget() != null) {
+
+                System.out.println("Model Conn - Source Name & ID : ----------- > " + modelConn.getSource().getName() + " | " + modelConn.getSource().getId());
+                System.out.println("Model Conn - Target Name & ID : ----------- > " + modelConn.getTarget().getName() + " | " + modelConn.getTarget().getId());
+
+                SVGSingleShape svgSourceShape = new SVGSingleShape();
+                SVGSingleShape svgTargetShape = new SVGSingleShape();
+                svgSourceShape.setId(modelConn.getSource().getId());
+                svgSourceShape.setX(finalSourceX);
+                svgSourceShape.setY(finalSourceY);
+                svgSourceShape.setWidth(modelConn.getSource().getBounds().getWidth());
+                svgSourceShape.setHeight(modelConn.getSource().getBounds().getHeight());
+                svgSourceShape.setName(modelConn.getSource().getName());
+                svgSourceShape.setStrokeColor(modelConn.getSource().getLineColor());
+                svgSourceShape.setStrokeWidth(modelConn.getSource().getLineWidth());
+                svgSourceShape.setFillColor(modelConn.getSource().getFillColor());
+                svgSourceShape.setFont(modelConn.getSource().getFont());
+                svgSourceShape.setFontColor(modelConn.getSource().getFontColor());
+                if(obj instanceof IDiagramModelArchimateConnection) {
+                    svgSourceShape.setConnectionsName(((IDiagramModelArchimateConnection) modelConn).getRelationship() != null ? ((IDiagramModelArchimateConnection) modelConn).getRelationship().getName() : "");
+                    svgSourceShape.setConnectionsType(((IDiagramModelArchimateConnection) modelConn).getRelationship() != null ? ((IDiagramModelArchimateConnection) modelConn).getRelationship().getClass().getSimpleName() : "");
+                }
+
+
+                bindPointsList = new ArrayList<>();
+                System.out.println("Model Conn - Connection Coord : ----------- > Source X " + modelConn.getSource().getBounds().getX()
+                        + " | Source Y " + modelConn.getSource().getBounds().getY()
+                );
+                for (IDiagramModelBendpoint e : modelConn.getBendpoints()) {
+                    System.out.println(" | Bend Points e.getStartX() " + e.getStartX() + " | StartY() " + e.getStartY() + " | getEndX() " + e.getEndX() + " | getEndY() " + e.getEndY());
+                    BendPoints bendPoints = new BendPoints();
+                    bendPoints.setStartX(e.getStartX());
+                    bendPoints.setStartY(e.getStartY());
+                    bendPoints.setEndX(e.getEndX());
+                    bendPoints.setEndY(e.getEndY());
+                    bindPointsList.add(bendPoints);
+
+
+                }
+                svgSourceShape.setConnectionBendPointsList(bindPointsList);
+                System.out.println("Model Conn - Connection Coord : ----------- > Target X " + modelConn.getTarget().getBounds().getX()
+                        + " | Target Y " + modelConn.getTarget().getBounds().getY()
+                );
+
+                System.out.println("Model Conn - ConnectionsType : ----------- > " + svgSourceShape.getConnectionsType());
+                System.out.println("Model Conn -   Name : ----------- > " + modelConn.getName());
+                System.out.println("Model Conn -   Name : ----------- > " + modelConn.getName());
+                System.out.println("Model Conn - getClass getSimpleName : ----------- > " + modelConn.getClass().getSimpleName());
+                if(obj instanceof IDiagramModelArchimateConnection) {
+                    System.out.println("Model Conn - getRelationship getName : ----------- > " + ((IDiagramModelArchimateConnection) modelConn).getRelationship().getName());
+                    System.out.println("Model Conn - getRelationship getClass getName : ----------- > " + ((IDiagramModelArchimateConnection) modelConn).getRelationship().getClass().getName());
+                    System.out.println("Model Conn - getRelationship getClass getSimle Name : ----------- > " + ((IDiagramModelArchimateConnection) modelConn).getRelationship().getClass().getSimpleName());
+                }
+                System.out.println("Model Conn - Target getName : ----------- > " + modelConn.getTarget().getName());
+
+
+
+                svgTargetShape.setId(modelConn.getTarget().getId());
+                svgTargetShape.setX(finalTargetX);
+                svgTargetShape.setY(finalTargetY);
+                svgTargetShape.setWidth(modelConn.getTarget().getBounds().getWidth());
+                svgTargetShape.setHeight(modelConn.getTarget().getBounds().getHeight());
+                svgTargetShape.setName(modelConn.getTarget().getName());
+                svgTargetShape.setStrokeColor(modelConn.getTarget().getLineColor());
+                svgTargetShape.setStrokeWidth(modelConn.getTarget().getLineWidth());
+                svgTargetShape.setFillColor(modelConn.getTarget().getFillColor());
+                svgTargetShape.setFont(modelConn.getTarget().getFont());
+                svgTargetShape.setFontColor(modelConn.getTarget().getFontColor());
+
+                All_CONNECTIONS.put(svgSourceShape, svgTargetShape);
+
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

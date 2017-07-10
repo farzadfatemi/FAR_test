@@ -6,6 +6,7 @@ package com.farzad.utils.xml;
 
 import com.archimatetool.model.*;
 import com.farzad.utils.image.ModelTools;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.w3c.dom.*;
 
@@ -376,19 +377,19 @@ public class XmlUtils {
             List<IDiagramModel> iDModels = model.getDiagramModels();
             List SourceConList = null;
             List childSourceConList = null;
-            int grp =0,arch=0,conn=0;
+            int grp = 0, arch = 0, conn = 0;
             List childrenList = null;
             IDiagramModel diagramModel = iDModels.get(3);
 //            for (IDiagramModel diagramModel : iDModels) {
             Iterator<EObject> contents = diagramModel.eAllContents();
-            System.out.println("Diagram Name : "+diagramModel.getName());
-            System.out.println("model Name : "+model.getName());
+            System.out.println("Diagram Name : " + diagramModel.getName());
+            System.out.println("model Name : " + model.getName());
             while (contents.hasNext()) {
 //                System.out.println(contents.next());
                 EObject obj = contents.next();
                 if (obj instanceof IDiagramModelGroup) {
                     grp++;
-                    System.out.println(obj.getClass() + " ----------------"+grp+"--------- ");
+                    System.out.println(obj.getClass() + " ----------------" + grp + "--------- ");
                     IDiagramModelGroup dia = (IDiagramModelGroup) obj;
                     System.out.println("IDiagramModelGroup ## ------------------------- ");
                     System.out.println("Name : " + dia.getName());
@@ -409,18 +410,18 @@ public class XmlUtils {
                     SourceConList = dia.getSourceConnections();
                     for (Object b : SourceConList) {
 
-                        System.out.println("-- SourceConList : id : " + ((IDiagramModelConnection)b).getId() );
-                        System.out.println("-- Source : x : " + ((IDiagramModelConnection)b).getSource().getBounds().getX());
-                        System.out.println("-- Source : Y : " + ((IDiagramModelConnection)b).getSource().getBounds().getY());
-                        System.out.println("-- Target : x : " + ((IDiagramModelConnection)b).getTarget().getBounds().getX());
-                        System.out.println("-- Target : Y : " + ((IDiagramModelConnection)b).getTarget().getBounds().getY());
+                        System.out.println("-- SourceConList : id : " + ((IDiagramModelConnection) b).getId());
+                        System.out.println("-- Source : x : " + ((IDiagramModelConnection) b).getSource().getBounds().getX());
+                        System.out.println("-- Source : Y : " + ((IDiagramModelConnection) b).getSource().getBounds().getY());
+                        System.out.println("-- Target : x : " + ((IDiagramModelConnection) b).getTarget().getBounds().getX());
+                        System.out.println("-- Target : Y : " + ((IDiagramModelConnection) b).getTarget().getBounds().getY());
                     }
                     childrenList = dia.getChildren();
                     for (Object b : childrenList) {
 
-                        System.out.println("--------- Children : id : " + ((IDiagramModelObject)b).getId() );
-                        System.out.println("--------- Children : name : " + ((IDiagramModelObject)b).getName() );
-                        System.out.println("--------- Children : bound : " + ((IDiagramModelObject)b).getBounds() );
+                        System.out.println("--------- Children : id : " + ((IDiagramModelObject) b).getId());
+                        System.out.println("--------- Children : name : " + ((IDiagramModelObject) b).getName());
+                        System.out.println("--------- Children : bound : " + ((IDiagramModelObject) b).getBounds());
                     }
 
 //                    for (EObject b : dia.eContents()) {
@@ -431,7 +432,7 @@ public class XmlUtils {
 
                 } else if (obj instanceof IDiagramModelArchimateObject) {
                     arch++;
-                    System.out.println(obj.getClass() + " ---------------arch-"+arch+"--------- ");
+                    System.out.println(obj.getClass() + " ---------------arch-" + arch + "--------- ");
                     IDiagramModelArchimateObject dia = (IDiagramModelArchimateObject) obj;
                     System.out.println("ArchimateDiagramModel ^^------------^^------------- ^^");
                     System.out.println("Name : " + dia.getName());
@@ -451,31 +452,30 @@ public class XmlUtils {
                     System.out.println("Source Connections : ");
                     SourceConList = dia.getSourceConnections();
                     for (Object b : SourceConList) {
-                        System.out.println("-- SourceConList : id : " + ((IDiagramModelConnection)b).getId() );
-                        System.out.println("-- Source : x : " + ((IDiagramModelConnection)b).getSource().getBounds().getX());
-                        System.out.println("-- Source : Y : " + ((IDiagramModelConnection)b).getSource().getBounds().getY());
-                        System.out.println("-- Target : x : " + ((IDiagramModelConnection)b).getTarget().getBounds().getX());
-                        System.out.println("-- Target : Y : " + ((IDiagramModelConnection)b).getTarget().getBounds().getY());
+                        System.out.println("-- SourceConList : id : " + ((IDiagramModelConnection) b).getId());
+                        System.out.println("-- Source : x : " + ((IDiagramModelConnection) b).getSource().getBounds().getX());
+                        System.out.println("-- Source : Y : " + ((IDiagramModelConnection) b).getSource().getBounds().getY());
+                        System.out.println("-- Target : x : " + ((IDiagramModelConnection) b).getTarget().getBounds().getX());
+                        System.out.println("-- Target : Y : " + ((IDiagramModelConnection) b).getTarget().getBounds().getY());
                     }
                     childrenList = dia.getChildren();
                     for (Object b : childrenList) {
 
-                        System.out.println("------------- Children : id : " + ((IDiagramModelObject)b).getId() );
-                        System.out.println("---------^^   Children : name : " + ((IDiagramModelObject)b).getName() );
+                        System.out.println("------------- Children : id : " + ((IDiagramModelObject) b).getId());
+                        System.out.println("---------^^   Children : name : " + ((IDiagramModelObject) b).getName());
                     }
                     System.out.println("ArchimateDiagramModel vv------------vv------------- vv");
 
-                }
-                else if (obj instanceof IDiagramModelArchimateConnection) {
+                } else if (obj instanceof IDiagramModelArchimateConnection) {
                     conn++;
-                    System.out.println(obj.getClass() + " ---------------conn-"+conn+"--------- ");
-                    IDiagramModelArchimateConnection dia = (IDiagramModelArchimateConnection)obj;
+                    System.out.println(obj.getClass() + " ---------------conn-" + conn + "--------- ");
+                    IDiagramModelArchimateConnection dia = (IDiagramModelArchimateConnection) obj;
                     System.out.println("IDiagramModelArchimateConnection *------------------------- ");
                     System.out.println("Name : " + dia.getName());
                     System.out.println("Source : " + dia.getSource());
                     System.out.println("Target : " + dia.getTarget());
-                    for(IDiagramModelBendpoint b : dia.getBendpoints()){
-                        System.out.println("Bendpoints : SX : " + b.getStartX()+ " SY : " + b.getStartY()+ " EX : " + b.getEndX()+ " EY : " + b.getEndY());
+                    for (IDiagramModelBendpoint b : dia.getBendpoints()) {
+                        System.out.println("Bendpoints : SX : " + b.getStartX() + " SY : " + b.getStartY() + " EX : " + b.getEndX() + " EY : " + b.getEndY());
                     }
                     System.out.println("TextPosition : " + dia.getTextPosition());
                     System.out.println("Font : " + dia.getFont());
@@ -493,10 +493,10 @@ public class XmlUtils {
 //                    SourceConList = dia.getSourceConnections();
 //                    childrenList = dia.getChildren();
 
-                }else if (obj instanceof IProperty) {
+                } else if (obj instanceof IProperty) {
                     conn++;
-                    System.out.println(obj.getClass() + " ---------------ArchiEntityProperty-"+conn+"--------- ");
-                    IProperty dia = (IProperty)obj;
+                    System.out.println(obj.getClass() + " ---------------ArchiEntityProperty-" + conn + "--------- ");
+                    IProperty dia = (IProperty) obj;
                     System.out.println("ArchiEntityProperty *------------------------- ");
                     System.out.println("Name : " + dia.getKey());
 //                    System.out.println("getBean : " + dia.getBean());
@@ -504,29 +504,30 @@ public class XmlUtils {
 
                     System.out.println("dia.getClass().getSimpleName() : " + dia.getClass().getSimpleName());
 
-                }else  {
+                } else {
                     System.out.println("Nooote Goes Here -----------------------------nnn ");
                     arch++;
-                    System.out.println(obj.getClass() + " ---------------otherrrs-"+arch+"--------- ");
+                    System.out.println(obj.getClass() + " ---------------otherrrs-" + arch + "--------- ");
 
                 }
             }
 
 //            }
-            System.out.println("Group Cnt : "+grp);
-            System.out.println("Arch Cnt : "+arch);
-            System.out.println("Conn Cnt : "+conn);
+            System.out.println("Group Cnt : " + grp);
+            System.out.println("Arch Cnt : " + arch);
+            System.out.println("Conn Cnt : " + conn);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
+
     public static void ReadSingleTypeArchiModel() {
 
         try {
 
-            File modelFile = new File("D:\\FAR_Documents\\__Startamap\\Archisurance-2.archimate");
-//            File modelFile = new File("D:\\FAR_Documents\\__Startamap\\Original2.archimate");
+//            File modelFile = new File("D:\\FAR_Documents\\__Startamap\\Archisurance-2.archimate");
+            File modelFile = new File("D:\\FAR_Documents\\__Startamap\\Original2.archimate");
 //            File modelFile = new File("D:\\FAR_Documents\\__Startamap\\eira_v1_1_0_archimate.archimate");
 
 
@@ -534,60 +535,112 @@ public class XmlUtils {
             List<IDiagramModel> iDModels = model.getDiagramModels();
             List SourceConList = null;
             List childSourceConList = null;
-            int grp =0,arch=0,conn=0;
+            int grp = 0, arch = 0, conn = 0;
             List childrenList = null;
-            IDiagramModel diagramModel = iDModels.get(2);
+            IDiagramModel diagramModel = iDModels.get(3);
 //            for (IDiagramModel diagramModel : iDModels) {
             Iterator<EObject> contents = diagramModel.eAllContents();
-            System.out.println("Diagram Name : "+diagramModel.getName());
-            System.out.println("model Name : "+model.getName());
+            System.out.println("Diagram Name : " + diagramModel.getName());
+            System.out.println("model Name : " + model.getName());
             while (contents.hasNext()) {
 //                System.out.println(contents.next());
                 EObject obj = contents.next();
-                if (obj instanceof IDiagramModelReference) {
-                    EObject obj2 = ((IDiagramModelReference) obj).getReferencedModel();
-                    System.out.println("_+_+_+_+_"+obj2.getClass().getName());
-                    grp++;
-                    System.out.println(obj.getClass() + " ----------------"+grp+"--------- ");
-                    IDiagramModelReference dia = (IDiagramModelReference) obj;
-                    System.out.println("IDiagramModelGroup ## ------------------------- ");
-                    System.out.println("Name : " + dia.getName());
-                    System.out.println("Bounds : " + dia.getBounds());
-                    System.out.println("Fill Color : " + dia.getFillColor());
-                    System.out.println("Font : " + dia.getFont());
-                    System.out.println("FontColor : " + dia.getFontColor());
-                    System.out.println("Id : " + dia.getId());
-                    System.out.println("eAllContents : " + dia.eAllContents());
-                    System.out.println("LineColor : " + dia.getLineColor());
-                    System.out.println("LineWidth : " + dia.getLineWidth());
-//                    System.out.println("Type : " + dia.getType());
-                    System.out.println("DefaultTextAlignment : " + dia.getDefaultTextAlignment());
-                    System.out.println("TextAlignment : " + dia.getTextAlignment());
-                    System.out.println("Source Connections : ");
-                    SourceConList = dia.getSourceConnections();
-                    for (Object b : SourceConList) {
+//                if (obj instanceof IDiagramModelReference) {
+//                    EObject obj2 = ((IDiagramModelReference) obj).getReferencedModel();
+//                    System.out.println("_+_+_+_+_"+obj2.getClass().getName());
+//                    grp++;
+//                    System.out.println(obj.getClass() + " ----------------"+grp+"--------- ");
+//                    IDiagramModelReference dia = (IDiagramModelReference) obj;
+//                    System.out.println("IDiagramModelGroup ## ------------------------- ");
+//                    System.out.println("Name : " + dia.getName());
+//                    System.out.println("Bounds : " + dia.getBounds());
+//                    System.out.println("Fill Color : " + dia.getFillColor());
+//                    System.out.println("Font : " + dia.getFont());
+//                    System.out.println("FontColor : " + dia.getFontColor());
+//                    System.out.println("Id : " + dia.getId());
+//                    System.out.println("eAllContents : " + dia.eAllContents());
+//                    System.out.println("LineColor : " + dia.getLineColor());
+//                    System.out.println("LineWidth : " + dia.getLineWidth());
+////                    System.out.println("Type : " + dia.getType());
+//                    System.out.println("DefaultTextAlignment : " + dia.getDefaultTextAlignment());
+//                    System.out.println("TextAlignment : " + dia.getTextAlignment());
+//                    System.out.println("Source Connections : ");
+//                    SourceConList = dia.getSourceConnections();
+//                    for (Object b : SourceConList) {
+//
+//                        System.out.println("-- SourceConList : id : " + ((IDiagramModelConnection)b).getId() );
+//                        System.out.println("-- Source : x : " + ((IDiagramModelConnection)b).getSource().getBounds().getX());
+//                        System.out.println("-- Source : Y : " + ((IDiagramModelConnection)b).getSource().getBounds().getY());
+//                        System.out.println("-- Target : x : " + ((IDiagramModelConnection)b).getTarget().getBounds().getX());
+//                        System.out.println("-- Target : Y : " + ((IDiagramModelConnection)b).getTarget().getBounds().getY());
+//                    }
+//
+//
+//                } else  {
+//                    System.out.println("Other Type -----------------------------nnn "+obj.getClass().getName());
+//                    arch++;
+////                    System.out.println(obj.getClass() + " ---------------otherrrs-"+arch+"--------- ");
+//
+//                }
+                if (obj instanceof IDiagramModelNote) {
+                    IDiagramModelNote modelNote = (IDiagramModelNote) obj;
+                    System.out.println("-4---4--4 " + modelNote.getName() + " Type " + modelNote.getClass().getSimpleName());
 
-                        System.out.println("-- SourceConList : id : " + ((IDiagramModelConnection)b).getId() );
-                        System.out.println("-- Source : x : " + ((IDiagramModelConnection)b).getSource().getBounds().getX());
-                        System.out.println("-- Source : Y : " + ((IDiagramModelConnection)b).getSource().getBounds().getY());
-                        System.out.println("-- Target : x : " + ((IDiagramModelConnection)b).getTarget().getBounds().getX());
-                        System.out.println("-- Target : Y : " + ((IDiagramModelConnection)b).getTarget().getBounds().getY());
+                    if (modelNote.getBounds() != null) {
+                        System.out.println(" X : " + modelNote.getBounds().getX() + " | Y " + modelNote.getBounds().getY() + " Width : " + modelNote.getBounds().getWidth() + " | Height " + modelNote.getBounds().getHeight() + "--  ---");
+                    }
+                    try {
+                        EObject parentObject = modelNote.eContainer();
+                        System.out.println("===================== class name    : " + parentObject.getClass().getSimpleName());
+
+                        if (modelNote.getSourceConnections() != null) {
+                            EList<IDiagramModelConnection> connections = modelNote.getSourceConnections();
+
+                            for (IDiagramModelConnection modelConn : connections) {
+
+                                try {
+                                    if (modelConn.getSource() != null && modelConn.getTarget() != null) {
+
+                                        System.out.println("Model Conn - Source Name & ID : ----------- > " +  modelConn.getSource().getName() + " | " + modelConn.getSource().getId());
+                                        System.out.println("Model Conn - Target Name & ID : ----------- > " + modelConn.getTarget().getName() + " | " + modelConn.getTarget().getId());
+
+
+                                        System.out.println("Model Conn - Connection Coord : ----------- > Source X " + modelConn.getSource().getBounds().getX()
+                                                + " | Source Y " + modelConn.getSource().getBounds().getY()
+                                        );
+                                        for (IDiagramModelBendpoint e : modelConn.getBendpoints()) {
+                                            System.out.println(" | Bend Points e.getStartX() " + e.getStartX() + " | StartY() " + e.getStartY() + " | getEndX() " + e.getEndX() + " | getEndY() " + e.getEndY());
+                                        }
+                                        System.out.println("Model Conn - Connection Coord : ----------- > Target X " + modelConn.getTarget().getBounds().getX()
+                                                + " | Target Y " + modelConn.getTarget().getBounds().getY()
+                                        );
+
+                                        System.out.println("Model Conn -   Name : ----------- > " + modelConn.getName());
+                                        System.out.println("Model Conn - getClass getSimpleName : ----------- > " + modelConn.getClass().getSimpleName());
+//                                        System.out.println("Model Conn - getRelationship getName : ----------- > " + modelConn.getRelationship().getName());
+//                                        System.out.println("Model Conn - getRelationship getClass getName : ----------- > " + modelConn.getRelationship().getClass().getName());
+//                                        System.out.println("Model Conn - getRelationship getClass getSimle Name : ----------- > " + modelConn.getRelationship().getClass().getSimpleName());
+                                        System.out.println("Model Conn - Target getName : ----------- > " + modelConn.getTarget().getName());
+                                        System.out.println("Model Conn - Source getName : ----------- > " + modelConn.getSource().getName());
+
+
+                                    }
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
 
-
-                } else  {
-                    System.out.println("Other Type -----------------------------nnn "+obj.getClass().getName());
-                    arch++;
-//                    System.out.println(obj.getClass() + " ---------------otherrrs-"+arch+"--------- ");
-
                 }
-            }
 
+
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
-
-
 }

@@ -47,8 +47,10 @@ class ConnectionTools {
                 return lineSVGCode(source, target, ConnectionsEnum.COMPOSITION);
             } else if (ConnectionsEnum.SPECIALIZATION.equalsName(source.getConnectionsType().toLowerCase())) {
                 return lineSVGCode(source, target, ConnectionsEnum.SPECIALIZATION);
+            } else if (ConnectionsEnum.FLOW.equalsName(source.getConnectionsType().toLowerCase())) {
+                return lineSVGCode(source, target, ConnectionsEnum.FLOW);
             } else
-                return lineSVGCode(source, target, ConnectionsEnum.ACCESSES);
+                return lineSVGCode(source, target, ConnectionsEnum.ASSOCIATION);
 //            return null;
 
 
@@ -68,7 +70,7 @@ class ConnectionTools {
 
         } else
 //            return source != null ? source.getName() : null;
-            return lineSVGCode(source, target, ConnectionsEnum.ACCESSES);
+            return lineSVGCode(source, target, ConnectionsEnum.ASSOCIATION);
 
     }
 
@@ -97,71 +99,28 @@ class ConnectionTools {
                 case ACCESSES:
                     conSVG.setDashArray(new int[]{2, 2});
                     return (makeArrows(conSVG, ArrowsTypeEnum.DOUBLE_V_TYPE) + putText(conSVG, source));
-//              return  " <circle cx=\"" + x1 + "\" cy=\"" + y1 + "\" r=\"3\" fill=\"#000000\" />" +
-//                        "      <line stroke-dasharray=\"2, 2\" fill=\"black\" x1=\"" + x1 + "\" x2=\"" + x2 + "\" y1=\"" + y1 + "\" y2=\"" + y2 + "\" " +
-//                        "stroke=\"#000000\" stroke-width=\"" + lineWidth + "\"/>\n" +
-//                        "<circle cx=\"" + x2 + "\" cy=\"" + y2 + "\" r=\"3\" fill=\"#000000\" />";
                 case USED_BY:
                     return (makeArrows(conSVG, ArrowsTypeEnum.V_TYPE) + putText(conSVG, source));
-//              " <polygon points=\"" + x1 + "," + y1 + " " + (x1+20) + "," + (y1-10) + " " + (x1+40) + "," + y1 + " " + (x1+50) + "," + (y1+10) + "\"/>" +
-//                        "      <line fill=\"black\" x1=\"" + x1 + "\" x2=\"" + x2 + "\" y1=\"" + y1 + "\" y2=\"" + y2 + "\" " +
-//                                "stroke=\"#000000\" stroke-width=\"" + lineWidth + "\"/>\n" +
-//                                "<circle cx=\"" + x2 + "\" cy=\"" + y2 + "\" r=\"3\" fill=\"#000000\" />"+
-//                                "      <text x=\"" + (x1+x2)/2 + "\" xml:space=\"preserve\" y=\"" + (y1+y2)/2 + "\" clip-path=\"url(#clipPath20)\" stroke=\"none\"\n" +
-//                                "      font-family=\"" + source.getFont() + "\" fill=\"#000000\"  >" + source.getConnectionsType() + "</text>\n"
-//                        ;
                 case ASSIGNED:
                     return (makeArrows(conSVG, ArrowsTypeEnum.DOUBLE_ORBIT) + putText(conSVG, source));
-//                return (makeLineWithDoubleOrb(makeLine(conSVG), conSVG) + putText(conSVG, source));
-
-
-//                return  " <circle cx=\"" + x1 + "\" cy=\"" + y1 + "\" r=\"3\" fill=\"#000000\" />" +
-//                        "      <line fill=\"black\" x1=\"" + x1 + "\" x2=\"" + x2 + "\" y1=\"" + y1 + "\" y2=\"" + y2 + "\" " +
-//                        "stroke=\"#000000\" stroke-width=\"" + lineWidth + "\"/>\n" +
-//                        "<circle cx=\"" + x2 + "\" cy=\"" + y2 + "\" r=\"3\" fill=\"#000000\" />";
                 case REALISES:
                     conSVG.setDashArray(new int[]{5, 5});
                     return (makeArrows(conSVG, ArrowsTypeEnum.TRIANGLE_WHITE) + putText(conSVG, source));
-//                return  " <circle cx=\"" + x1 + "\" cy=\"" + y1 + "\" r=\"3\" fill=\"#000000\" />" +
-//                        "      <line stroke-dasharray=\"5, 5\" fill=\"black\" x1=\"" + x1 + "\" x2=\"" + x2 + "\" y1=\"" + y1 + "\" y2=\"" + y2 + "\" " +
-//                        "stroke=\"#000000\" stroke-width=\"" + lineWidth + "\"/>\n" +
-//                        "<circle cx=\"" + x2 + "\" cy=\"" + y2 + "\" r=\"3\" fill=\"#000000\" />";
                 case USES:
                     return (makeArrows(conSVG, ArrowsTypeEnum.V_TYPE) + putText(conSVG, source));
-//                return  " <circle cx=\"" + x1 + "\" cy=\"" + y1 + "\" r=\"3\" fill=\"#000000\" />" +
-//                        "      <line fill=\"black\" x1=\"" + x1 + "\" x2=\"" + x2 + "\" y1=\"" + y1 + "\" y2=\"" + y2 + "\" " +
-//                        "stroke=\"#000000\" stroke-width=\"" + lineWidth + "\"/>\n" +
-//                        "<circle cx=\"" + x2 + "\" cy=\"" + y2 + "\" r=\"3\" fill=\"#000000\" />";
                 case AGGREGATION:
                     return (makeArrows(conSVG, ArrowsTypeEnum.DIAMOND_WHITE) + putText(conSVG, source));
-//                return  " <circle cx=\"" + x1 + "\" cy=\"" + y1 + "\" r=\"3\" fill=\"#000000\" />" +
-//                        "      <line fill=\"black\" x1=\"" + x1 + "\" x2=\"" + x2 + "\" y1=\"" + y1 + "\" y2=\"" + y2 + "\" " +
-//                        "stroke=\"#000000\" stroke-width=\"" + lineWidth + "\"/>\n" +
-//                        "<circle cx=\"" + x2 + "\" cy=\"" + y2 + "\" r=\"3\" fill=\"#000000\" />";
                 case ASSOCIATION:
                     return (makeLine(conSVG) + putText(conSVG, source));
-//                return  " <circle cx=\"" + x1 + "\" cy=\"" + y1 + "\" r=\"3\" fill=\"#000000\" />" +
-//                        "      <line fill=\"black\" x1=\"" + x1 + "\" x2=\"" + x2 + "\" y1=\"" + y1 + "\" y2=\"" + y2 + "\" " +
-//                        "stroke=\"#000000\" stroke-width=\"" + lineWidth + "\"/>\n" +
-//                        "<circle cx=\"" + x2 + "\" cy=\"" + y2 + "\" r=\"3\" fill=\"#000000\" />";
-//            case READ_AND_WRITE:
-//                conSVG.setDashArray(new int[]{2, 2});
-//                return (makeArrows(conSVG, ArrowsTypeEnum.DOUBLE_V_TYPE) + putText(conSVG, source));
-
                 case COMPOSITION:
                     return (makeArrows(conSVG, ArrowsTypeEnum.DIAMOND_BLACK) + putText(conSVG, source));
-//                return  " <circle cx=\"" + x1 + "\" cy=\"" + y1 + "\" r=\"3\" fill=\"#000000\" />" +
-//                        "      <line fill=\"black\" x1=\"" + x1 + "\" x2=\"" + x2 + "\" y1=\"" + y1 + "\" y2=\"" + y2 + "\" " +
-//                        "stroke=\"#000000\" stroke-width=\"" + lineWidth + "\"/>\n" +
-//                        "<circle cx=\"" + x2 + "\" cy=\"" + y2 + "\" r=\"3\" fill=\"#000000\" />";
                 case SPECIALIZATION:
                     return (makeArrows(conSVG, ArrowsTypeEnum.TRIANGLE_WHITE) + putText(conSVG, source));
+                case FLOW:
+                    conSVG.setDashArray(new int[]{2, 2});
+                    return (makeArrows(conSVG, ArrowsTypeEnum.TRIANGLE_BLACK) + putText(conSVG, source));
                 default:
                     return (makeLine(conSVG) + putText(conSVG, source));
-//                return  " <circle cx=\"" + x1 + "\" cy=\"" + y1 + "\" r=\"3\" fill=\"#000000\" />" +
-//                        "      <line fill=\"black\" x1=\"" + x1 + "\" x2=\"" + x2 + "\" y1=\"" + y1 + "\" y2=\"" + y2 + "\" " +
-//                        "stroke=\"#000000\" stroke-width=\"" + lineWidth + "\"/>\n" +
-//                        "<circle cx=\"" + x2 + "\" cy=\"" + y2 + "\" r=\"3\" fill=\"#000000\" />";
             }
         } else {
             return null;
@@ -179,8 +138,8 @@ class ConnectionTools {
             return "<path class=\"connection\" stroke-dasharray=\"" + dashWidth + "," + dashGap + "\" d=\"" + makeDimWithBendPoints(conSvg) + "\"/>";
 
         } else {
-            return "<line fill=\"black\" class=\"connection\" stroke-dasharray=\"" + dashWidth + "," + dashGap + "\" x1=\"" + conSvg.getX1() + "\" x2=\"" + conSvg.getX2() + "\" y1=\"" + conSvg.getY1() + "\" y2=\"" + conSvg.getY2() + "\" />\n";
-//                "stroke=\"" + conSvg.getColor() + "\" stroke-width=\"" + conSvg.getWidth() + "\"/>\n";
+            return "<line fill=\"black\" class=\"connection\" stroke-dasharray=\"" + dashWidth + "," + dashGap
+                    + "\" x1=\"" + conSvg.getX1() + "\" x2=\"" + conSvg.getX2() + "\" y1=\"" + conSvg.getY1() + "\" y2=\"" + conSvg.getY2() + "\" />\n";
         }
 
     }
@@ -192,55 +151,10 @@ class ConnectionTools {
         int tMY = conSvg.getTarget().getY() + conSvg.getTarget().getHeight() / 2;
 
         StringBuilder dim = new StringBuilder("M" + conSvg.getX1() + "," + conSvg.getY1());
-//        dim += " q" ;
-//        for (BendPoints b : conSvg.getBendPointses()) {
-//            dim += b.getStartX() + " " + b.getStartY() + " "
-//                    +b.getEndX()+" "+b.getEndY()+"  "
-//            ;
-//        }
-//        dim += " L" + conSvg.getX2() + "," + conSvg.getY2();
-//        if (GenerateSVG.FIRST_X > conSvg.getX1())
-//            GenerateSVG.FIRST_X = conSvg.getX1();
-//        if (GenerateSVG.FIRST_Y > conSvg.getY1())
-//            GenerateSVG.FIRST_Y = conSvg.getY1();
-//        if (GenerateSVG.LAST_X < conSvg.getX2())
-//            GenerateSVG.LAST_X = conSvg.getX2();
-//        if (GenerateSVG.LAST_Y < conSvg.getY2())
-//            GenerateSVG.LAST_Y = conSvg.getY2();
 //        System.out.println("======---cccc66666----   " + FIRST_X + " " + FIRST_Y + " " + LAST_X + " " + LAST_Y);
         GenerateSVG.setFirstLastXY(conSvg.getX1(),conSvg.getY1(),conSvg.getX2(),conSvg.getY2());
         System.out.println("before Bend points StartX : " + conSvg.getX1() + " | StartY :" + conSvg.getY1() + " | EndX :" + conSvg.getX2() + " | EndY :" + conSvg.getY2());
-//        int[] calculateJoints = calculateJoints(conSvg.getX1(),conSvg.getY1(),(b.getStartX() + sMX),(b.getStartX() + sMX),conSvg.getX1(),conSvg.getY2());
-//
-//        result += "<path class=\"connection\"   stroke-dasharray=\"" + dashWidth + "," + dashGap + "\" d=\"M" + (conSvg.getX1()) + "," + (conSvg.getY1() + 10) + " C" + (conSvg.getX1()) + "," + (conSvg.getY1() + 15) +
-//                "  " + (conSvg.getX1()) + "," + (conSvg.getY1() + 20) +
-//                "  " + (conSvg.getX1() + 10) + "," + (conSvg.getY1() + 20) + "\"/>\n";
-//
-//        result += "<path class=\"connection\"    stroke-dasharray=\"" + dashWidth + "," + dashGap + "\" d=\"M" + (conSvg.getX1() + 10) + "," + (conSvg.getY1() + 20) + " L" + (conSvg.getX1() + 20) + "," + (conSvg.getY1() + 20) + " \"/>\n";
-//        result += "<path class=\"connection\"   stroke-dasharray=\"" + dashWidth + "," + dashGap + "\" d=\"M" + (conSvg.getX1() + 20) + "," + (conSvg.getY1() + 20) + " C" + (conSvg.getX1() + 30) + "," + (conSvg.getY1() + 20) +
-//                "  " + (conSvg.getX1() + 30) + "," + (conSvg.getY1() + 15) +
-//                "  " + (conSvg.getX1() + 30) + "," + (conSvg.getY1() + 10) + "\"/>\n";
-//
-//
-//        result += "<path class=\"connection\"   stroke-dasharray=\"" + dashWidth + "," + dashGap + "\" d=\"M" + (conSvg.getX1() + 30) + "," + (conSvg.getY1() + 10) + " L" + (conSvg.getX1() + 30) + "," + (conSvg.getY2() + 5) + " \"/>\n";
-//        result += "<path class=\"connection\"  stroke-dasharray=\"" + dashWidth + "," + dashGap + "\" d=\"M" + (conSvg.getX1() + 30) + "," + (conSvg.getY2() + 5) + " C" + (conSvg.getX1() + 30) + "," + (conSvg.getY2()) +
-//                "  " + (conSvg.getX1() + 25) + "," + (conSvg.getY2()) +
-//                "  " + (conSvg.getX1() + 20) + "," + (conSvg.getY2()) + "\"/>\n";
-//
-//        result += "<path class=\"connection\"  d=\"M" + (conSvg.getX2()) + "," + (conSvg.getY2()) + " L" + (conSvg.getX1() + 20) + "," + (conSvg.getY2()) + "\"";
-//
-//        if (!arrowsType.equals(ArrowsTypeEnum.DOUBLE_ORBIT) && !arrowsType.equals(ArrowsTypeEnum.NORMAL)) {
-//            result +=
-//                    " stroke-dasharray=\"" + dashWidth + "," + dashGap + "\"  " +
-//                            "" + (arrowsType.equals(ArrowsTypeEnum.DIAMOND_BLACK) || arrowsType.equals(ArrowsTypeEnum.DIAMOND_WHITE) ? "" : "style=\"marker-end: url(#" + arrowSVG.getId() + ");\"") + "/>\n"
-//            ;
-//        } else {
-//            result += " stroke-dasharray=\"" + dashWidth + "," + dashGap + "\"/>\n";
-//        }
-//        ;
-//
-//        System.out.println("wwwww result -- " + result);
-//
+
 
 
         for (BendPoints b : conSvg.getBendPointses()) {
@@ -317,34 +231,6 @@ class ConnectionTools {
 
         }
 
-//        if (svg.getY2() - svg.getY1() == 0) {
-//            textAnchor = "middle";
-//            y -= 8;
-
-
-//            result = (source.getConnectionsType() != null ? "<text text-anchor=\"" + textAnchor + "\" class=\"connectionLabel\" x=\"" + ((svg.getX2() + svg.getX1()) / 2) + "\" y=\"" + ((svg.getY2() + y) / 2) + "\" >\n" +
-//                    getEscapeXmlChars(source.getConnectionsName())+
-//                    " </text>\n" : "");
-//    result =  (source.getConnectionsType() != null ? "<text text-anchor=\"" + textAnchor + "\" font-size=\"" + source.getFontSize() + "\" font-family=\" " + source.getFont() +
-//                    "\" x=\"" + ((svg.getX2() + svg.getX1()) / 2) + "\" y=\"" + ((svg.getY2() + y) / 2) + "\" fill=\"#000000\" stroke=\"none\">\n" +
-//                    source.getConnectionsType() +
-//                    " </text>\n" : "");
-
-//        } else {
-//            svg.setX1(svg.getX1() + 8);
-//
-//
-//
-//
-//            result = (source.getConnectionsType() != null ? "<text text-anchor=\"" + textAnchor + "\"  class=\"connectionLabel\"  x=\"" + ((svg.getX2() + svg.getX1()) / 2) + "\" y=\"" + ((svg.getY2() + y) / 2) + "\" fill=\"#000000\" stroke=\"none\">\n" +
-//                    getEscapeXmlChars(source.getConnectionsName())+
-//                    " </text>\n" : "");
-////                 result =  (source.getConnectionsType() != null ? "<text text-anchor=\"" + textAnchor + "\" font-size=\"" + source.getFontSize() + "\" font-family=\" " + source.getFont() +
-////                    "\" x=\"" + ((svg.getX2() + svg.getX1()) / 2) + "\" y=\"" + ((svg.getY2() + y) / 2) + "\" fill=\"#000000\" stroke=\"none\">\n" +
-////                    source.getConnectionsType() +
-////                    " </text>\n" : "");
-//            svg.setX1(svg.getX1() - 8);
-//        }
         return result;
 
     }
@@ -476,11 +362,11 @@ class ConnectionTools {
         if (!arrowsType.equals(ArrowsTypeEnum.DOUBLE_ORBIT) && !arrowsType.equals(ArrowsTypeEnum.NORMAL)) {
             result = "<defs>\n " +
                     "   <marker id=\"" + arrowSVG.getId() + "\" markerWidth=\"" + arrowSVG.getMarkerWidth() + "\" markerHeight=\"" + arrowSVG.getMarkerHeight() + "\" refX=\"" + arrowSVG.getRefX() + "\" refY=\"" + arrowSVG.getRefY() + "\" orient=\"auto\" >\n" +
-                    "        <path class=\"arrows\" d=\"" + arrowSVG.getDim() + "\"   style=\"fill:" + arrowSVG.getColor() + "\" />\n" +
+                    "        <path class=\"arrows\" d=\"" + arrowSVG.getDim() + "\" />\n" +
                     "  </marker>\n";
             if (arrowsType.equals(ArrowsTypeEnum.DOUBLE_V_TYPE) && arrowSVG2 != null) {
                 result += "   <marker id=\"" + (arrowSVG.getId() + "2") + "\" markerWidth=\"" + arrowSVG2.getMarkerWidth() + "\" markerHeight=\"" + arrowSVG2.getMarkerHeight() + "\" refX=\"" + arrowSVG2.getRefX() + "\" refY=\"" + arrowSVG2.getRefY() + "\" orient=\"auto\" >\n" +
-                        "        <path class=\"arrows\" d=\"" + arrowSVG2.getDim() + "\" style=\"fill:" + arrowSVG2.getColor() + "\" />\n" +
+                        "        <path class=\"arrows\" d=\"" + arrowSVG2.getDim() + "\" />\n" +
                         "  </marker>\n";
             }
             result += "</defs>\n ";
@@ -491,8 +377,6 @@ class ConnectionTools {
         }
 
         if (conSvg.isOwnConnection()) {
-//            result += "<path class=\"connection\" stroke-linejoin=\"round\" d=\"M" + conSvg.getX1() + "," + conSvg.getY1() + " L" + (conSvg.getX1()) + "," + (conSvg.getY1() + 20) + " L" + (conSvg.getX1() + 40) + "," + (conSvg.getY1() + 20) + " L" + (conSvg.getX1() + 40) + "," + (conSvg.getY2()) + " L" + (conSvg.getX2()) + "," + (conSvg.getY2()) + "\" ";
-//            System.out.println("owwwwwwwwwwwwwwwwwwwwwwwwwwwwwn");
             result += "<path class=\"connection\"  d=\"M" + conSvg.getX1() + "," + conSvg.getY1() + " L" + (conSvg.getX1()) + "," + (conSvg.getY1() + 10) + "\"";
             if (!arrowsType.equals(ArrowsTypeEnum.DOUBLE_ORBIT) && !arrowsType.equals(ArrowsTypeEnum.NORMAL)) {
                 result +=
@@ -534,20 +418,6 @@ class ConnectionTools {
             ;
 
             System.out.println("wwwww result -- " + result);
-//            AddArrowToConnection(arrowsType,result,dashWidth,dashGap,arrowSVG);
-
-//            <path d="M185,365 L185,375" stroke-width="3" stroke="purple" fill="transparent"/>
-//
-//            <path d="M185 375 C 185 380, 185 385, 195 385" stroke="purple"           stroke-width="3" fill="transparent"/>
-//
-//            <path d="M195,385 L215,385" stroke-width="3" stroke="purple" fill="transparent"/>
-
-//            <path d="M215 385 C 225 385, 225 380, 225 375" stroke="purple"             stroke-width="3" fill="transparent"/>
-
-//            <path d="M225,375 L225,360" stroke-width="3" stroke="purple" fill="transparent"/>
-//            <path d="M225 360 C 225 355, 220 350, 215 350" stroke="purple" 		        stroke-width="3" fill="transparent"/>
-
-//            <path d="M215,350 L200,350" stroke-width="3" stroke="purple" fill="transparent"/>
 
 
         } else {
@@ -1303,7 +1173,7 @@ class ConnectionTools {
     private static String calculateJoints(int x1, int y1, int bendPointX, int bendPointY, int x2, int y2, int dashWidth, int dashGap) {
 
         String result = "";
-        result += "<path class=\"connection\"   stroke-dasharray=\"" + dashWidth + "," + dashGap + "\" ";
+        result += "<path class=\"connection\" stroke-dasharray=\"" + dashWidth + "," + dashGap + "\" ";
         if (y1 == bendPointY) {
             if (x1 > bendPointX) {
                 if (bendPointY < y2) {

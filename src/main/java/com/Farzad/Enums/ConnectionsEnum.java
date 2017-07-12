@@ -11,6 +11,7 @@ public enum ConnectionsEnum {
     AGGREGATION("AggregationRelationship"),
     ASSOCIATION("AssociationRelationship"),
     REALISES("RealisationRelationship"),
+    FLOW("FlowRelationship"),
 //    READ_AND_WRITE("read/write"),
     SPECIALIZATION("SpecialisationRelationship"),
     COMPOSITION("CompositionRelationship");

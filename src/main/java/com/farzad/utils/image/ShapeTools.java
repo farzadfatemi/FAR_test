@@ -421,6 +421,7 @@ class ShapeTools {
 
             case NOTE:
                 result = new StringBuilder();
+                svgShape.setTextAlignment("start");
                 svgShape.setPolyDem(new int[][]{
                         // main shape
                         {svgShape.getX(), svgShape.getY()},
@@ -431,7 +432,7 @@ class ShapeTools {
                         {svgShape.getX(), svgShape.getY()}
                 });
                 result.append(getNoteShape(svgShape));
-                result.append(putText(svgShape, 0, 0));
+                result.append(putText(svgShape, svgShape.getX() + 5, svgShape.getY() + 5));
                 tmpStr = putIntoLink(result.toString(), svgShape.getURL());
                 return putGroupAndSVGTag(tmpStr);
 
@@ -673,7 +674,7 @@ class ShapeTools {
     }
 
     private static String putText(SVGSingleShape svgShape, int customX, double customY) {
-        SVGLabel SVGLabel = getFitLabel(svgShape);
+        SVGLabel SVGLabel = getFitLabel(svgShape, customX, 0);
         System.out.println("==== >>>" + svgShape.getName() + " ------------- hasChild : " + svgShape.hasAnyChild());
         StringBuilder text = new StringBuilder();
         String textAnchor = null != svgShape.getTextAlignment() && svgShape.getTextAlignment().length() > 0 ? svgShape.getTextAlignment() : "middle";

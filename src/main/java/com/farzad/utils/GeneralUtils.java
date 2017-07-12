@@ -82,8 +82,14 @@ public class GeneralUtils {
         return StringEscapeUtils.escapeXml(text);
     }
 
-    public static SVGLabel getFitLabel(SVGSingleShape svgShape) {
+    public static SVGLabel getFitLabel(SVGSingleShape svgShape, int customX, int customY) {
         if (svgShape == null) return null;
+        int x = svgShape.getX()+svgShape.getWidth()/2;
+        String y = "1.2em";
+        if(customX>0 || customY>0){
+            x = customX;
+//            y = customY;
+        }
         SVGLabel SVGLabel = new SVGLabel();
         boolean hasIcon = hasIcon(svgShape.getShapeType());
         System.out.println("---> getFitLabel | Text name :  " + svgShape.getName());
@@ -111,7 +117,7 @@ public class GeneralUtils {
 //                    System.out.println("Add new line tempSentence + new word width : " + (getFontSize(tempSentence + word + " ", true)) + " svgShape.getWidth() : " + svgShape.getWidth());
                     System.out.println("tempSentence : " + tempSentence + " Word : " + word);
 
-                    result.append("<tspan x=\"").append(svgShape.getX() + svgShape.getWidth() / 2).append("\" dy=\"1.2em\">").append(tempSentence).append("</tspan>\n");
+                    result.append("<tspan x=\"").append(x).append("\" dy=\"1.2em\">").append(tempSentence).append("</tspan>\n");
                     tempSentence = getEscapeXmlChars(word) + " ";
 
                     System.out.println("next line : " + word);
@@ -141,7 +147,7 @@ public class GeneralUtils {
             }
             if (tempSentence.length() > 1) {
                 lineCount++;
-                result.append("<tspan x=\"").append(svgShape.getX() + svgShape.getWidth() / 2).append("\" dy=\"1.2em\">").append(tempSentence).append("</tspan>\n");
+                result.append("<tspan x=\"").append(x).append("\" dy=\"1.2em\">").append(tempSentence).append("</tspan>\n");
             }
             System.out.println("lineCount : " + lineCount + " SVGLabel.getFontHeight() : " + SVGLabel.getFontHeight() + " SVGLabel Height : " + SVGLabel.getLabelHeight());
             SVGLabel.setLabelHeight(lineCount * SVGLabel.getFontHeight() + (lineCount * 1.2));

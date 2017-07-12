@@ -11,11 +11,12 @@ import com.farzad.utils.GeneralUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+
 /**
  * Created by VOLCANO on 5/1/2017.
  */
 class ConnectionTools {
-//    protected static int FIRST_X = 0;
+    //    protected static int FIRST_X = 0;
 //    protected static int FIRST_Y = 0;
 //    protected static int LAST_X = 0;
 //    protected static int LAST_Y = 0;
@@ -111,7 +112,7 @@ class ConnectionTools {
                 case AGGREGATION:
                     return (makeArrows(conSVG, ArrowsTypeEnum.DIAMOND_WHITE) + putText(conSVG, source));
                 case ASSOCIATION:
-                    return (makeLine(conSVG) + putText(conSVG, source));
+                    return (makeArrows(conSVG, null) + putText(conSVG, source));
                 case COMPOSITION:
                     return (makeArrows(conSVG, ArrowsTypeEnum.DIAMOND_BLACK) + putText(conSVG, source));
                 case SPECIALIZATION:
@@ -120,29 +121,37 @@ class ConnectionTools {
                     conSVG.setDashArray(new int[]{2, 2});
                     return (makeArrows(conSVG, ArrowsTypeEnum.TRIANGLE_BLACK) + putText(conSVG, source));
                 default:
-                    return (makeLine(conSVG) + putText(conSVG, source));
+                    return (makeArrows(conSVG, null) + putText(conSVG, source));
             }
         } else {
             return null;
         }
 
     }
-
-    private static String makeLine(ConnectionSVG conSvg) {
-        int dashWidth = 0, dashGap = 0;
-        if (conSvg.getDashArray() != null && conSvg.getDashArray().length > 1) {
-            dashWidth = conSvg.getDashArray()[0];
-            dashGap = conSvg.getDashArray()[1];
-        }
-        if (conSvg.getBendPointses() != null && conSvg.getBendPointses().size() > 0) {
-            return "<path class=\"connection\" stroke-dasharray=\"" + dashWidth + "," + dashGap + "\" d=\"" + makeDimWithBendPoints(conSvg) + "\"/>";
-
-        } else {
-            return "<line fill=\"black\" class=\"connection\" stroke-dasharray=\"" + dashWidth + "," + dashGap
-                    + "\" x1=\"" + conSvg.getX1() + "\" x2=\"" + conSvg.getX2() + "\" y1=\"" + conSvg.getY1() + "\" y2=\"" + conSvg.getY2() + "\" />\n";
-        }
-
-    }
+//
+//    private static String makeLine(ConnectionSVG conSvg) {
+//        int dashWidth = 1, dashGap = 0;
+//        boolean solidLine = true;
+//        if (conSvg.getDashArray() != null && conSvg.getDashArray().length > 1) {
+//            dashWidth = conSvg.getDashArray()[0];
+//            dashGap = conSvg.getDashArray()[1];
+//            solidLine = false;
+//        }
+//
+//        if (conSvg.getBendPointses() != null && conSvg.getBendPointses().size() > 0) {
+//            return "<path class=\"connection\" "+(solidLine?"":dashLine)+" d=\"" + makeDimWithBendPoints(conSvg) + "\"/>";
+//
+//        } else {
+////            return "<path class=\"connection\" stroke-dasharray=\"" + dashWidth + "," + dashGap + "\" d=\"" + makeDimWithBendPoints(conSvg) + "\"/>";
+//            return "<path class=\"connection\" "+(solidLine?"":dashLine)+
+//                    "d=\"M" + conSvg.getX1()+" "+conSvg.getY1() + " L " + conSvg.getX2() + " " + conSvg.getY2() + "\" />\n";
+//
+//
+////            return "<line fill=\"black\" class=\"connection\" stroke-dasharray=\"" + dashWidth + "," + dashGap
+////                    + "\" x1=\"" + conSvg.getX1() + "\" x2=\"" + conSvg.getX2() + "\" y1=\"" + conSvg.getY1() + "\" y2=\"" + conSvg.getY2() + "\" />\n";
+//        }
+//
+//    }
 
     private static String makeDimWithBendPoints(ConnectionSVG conSvg) {
         int sMX = conSvg.getSource().getX() + conSvg.getSource().getWidth() / 2;
@@ -152,9 +161,8 @@ class ConnectionTools {
 
         StringBuilder dim = new StringBuilder("M" + conSvg.getX1() + "," + conSvg.getY1());
 //        System.out.println("======---cccc66666----   " + FIRST_X + " " + FIRST_Y + " " + LAST_X + " " + LAST_Y);
-        GenerateSVG.setFirstLastXY(conSvg.getX1(),conSvg.getY1(),conSvg.getX2(),conSvg.getY2());
+        GenerateSVG.setFirstLastXY(conSvg.getX1(), conSvg.getY1(), conSvg.getX2(), conSvg.getY2());
         System.out.println("before Bend points StartX : " + conSvg.getX1() + " | StartY :" + conSvg.getY1() + " | EndX :" + conSvg.getX2() + " | EndY :" + conSvg.getY2());
-
 
 
         for (BendPoints b : conSvg.getBendPointses()) {
@@ -164,7 +172,7 @@ class ConnectionTools {
             dim.append(" L").append(b.getStartX() + sMX).append(",").append(b.getStartY() + sMY);
 
 
-            GenerateSVG.setFirstLastXY(b.getStartX() + sMX,b.getStartY() + sMY,b.getEndX()+tMX,b.getEndY()+tMY);
+            GenerateSVG.setFirstLastXY(b.getStartX() + sMX, b.getStartY() + sMY, b.getEndX() + tMX, b.getEndY() + tMY);
 //            if (FIRST_X > (b.getStartX() + sMX)) {
 //                FIRST_X = (b.getStartX() + sMX);
 //            }
@@ -202,29 +210,40 @@ class ConnectionTools {
 
     }
 
-    private static String putText(ConnectionSVG svg, SVGSingleShape source) {
+    private static String putText(ConnectionSVG conSVG, SVGSingleShape source) {
+        int sMX = conSVG.getSource().getX() + conSVG.getSource().getWidth() / 2;
+        int sMY = conSVG.getSource().getY() + conSVG.getSource().getHeight() / 2;
+
         String textAnchor = "start";
         String result = null;
-        int x = svg.getX1();
-        int y = svg.getY1();
+        int x = conSVG.getX1();
+        int y = conSVG.getY1();
         StringBuilder text = null;
         if (source.getConnectionsType() != null) {
-            if (svg.getY2() - svg.getY1() == 0) {
+            text = new StringBuilder();
+            if (conSVG.getY2() - conSVG.getY1() == 0) {
                 textAnchor = "middle";
                 y -= 8;
             } else {
-                x = svg.getX1() + 8;
+                x = conSVG.getX1() + 8;
             }
-            text = new StringBuilder();
             text.append("<text text-anchor=\"");
             text.append(textAnchor);
             text.append("\"");
             text.append(" class=\"connectionLabel\"");
-            text.append(" x=\"");
-            text.append(((svg.getX2() + x) / 2));
-            text.append("\" y=\"");
-            text.append(((svg.getY2() + y) / 2));
-            text.append("\" >\n");
+            if (conSVG.getBendPointses() != null && conSVG.getBendPointses().size() > 0) {
+                text.append(" x=\"");
+                text.append(sMX+conSVG.getBendPointses().get(0).getStartX()+5);
+                text.append("\" y=\"");
+                text.append(sMY+conSVG.getBendPointses().get(0).getStartY()+10);
+                text.append("\" >\n");
+            }else {
+                text.append(" x=\"");
+                text.append(((conSVG.getX2() + x) / 2));
+                text.append("\" y=\"");
+                text.append(((conSVG.getY2() + y) / 2));
+                text.append("\" >\n");
+            }
             text.append(GeneralUtils.getEscapeXmlChars(source.getConnectionsName()));
             text.append("</text>\n");
             result = text.toString();
@@ -297,11 +316,24 @@ class ConnectionTools {
         ArrowSVG arrowSVG2 = null;
         String result = "";
         int dashWidth = 0, dashGap = 0;
+        boolean solidLine = true;
         if (conSvg.getDashArray() != null && conSvg.getDashArray().length > 1) {
             dashWidth = conSvg.getDashArray()[0];
             dashGap = conSvg.getDashArray()[1];
+            solidLine = false;
         }
         arrowSVG.setId(conSvg.getId());
+        String dashLine = " stroke-dasharray=\"" + dashWidth + "," + dashGap + "\"";
+        if (arrowsType == null) {
+            if (conSvg.getBendPointses() != null && conSvg.getBendPointses().size() > 0) {
+                return "<path class=\"connection\" " + (solidLine ? "" : dashLine) + " d=\"" + makeDimWithBendPoints(conSvg) + "\"/>";
+
+            } else {
+                return "<path class=\"connection\" " + (solidLine ? "" : dashLine) +
+                        "d=\"M" + conSvg.getX1() + " " + conSvg.getY1() + " L " + conSvg.getX2() + " " + conSvg.getY2() + "\" />\n";
+
+            }
+        }
         switch (arrowsType) {
             case TRIANGLE_BLACK:
                 arrowSVG.setDim("M2,2 L2,13 L8,7 L2,2");
@@ -358,6 +390,8 @@ class ConnectionTools {
                 arrowSVG.setRefY(11);
                 arrowSVG.setColor("#000000");
                 break;
+		default:
+			break;
         }
         if (!arrowsType.equals(ArrowsTypeEnum.DOUBLE_ORBIT) && !arrowsType.equals(ArrowsTypeEnum.NORMAL)) {
             result = "<defs>\n " +
@@ -365,7 +399,8 @@ class ConnectionTools {
                     "        <path class=\"arrows\" d=\"" + arrowSVG.getDim() + "\" />\n" +
                     "  </marker>\n";
             if (arrowsType.equals(ArrowsTypeEnum.DOUBLE_V_TYPE) && arrowSVG2 != null) {
-                result += "   <marker id=\"" + (arrowSVG.getId() + "2") + "\" markerWidth=\"" + arrowSVG2.getMarkerWidth() + "\" markerHeight=\"" + arrowSVG2.getMarkerHeight() + "\" refX=\"" + arrowSVG2.getRefX() + "\" refY=\"" + arrowSVG2.getRefY() + "\" orient=\"auto\" >\n" +
+                result += "   <marker id=\"" + (arrowSVG.getId() + "2") + "\" markerWidth=\"" + arrowSVG2.getMarkerWidth() + "\" markerHeight=\"" + arrowSVG2.getMarkerHeight() + "\" " +
+                        "refX=\"" + arrowSVG2.getRefX() + "\" refY=\"" + arrowSVG2.getRefY() + "\" orient=\"auto\" >\n" +
                         "        <path class=\"arrows\" d=\"" + arrowSVG2.getDim() + "\" />\n" +
                         "  </marker>\n";
             }
@@ -377,46 +412,37 @@ class ConnectionTools {
         }
 
         if (conSvg.isOwnConnection()) {
-            result += "<path class=\"connection\"  d=\"M" + conSvg.getX1() + "," + conSvg.getY1() + " L" + (conSvg.getX1()) + "," + (conSvg.getY1() + 10) + "\"";
+            result += "<path class=\"connection\"  d=\"M" + conSvg.getX1() + "," + conSvg.getY1() + " L" + (conSvg.getX1()) + "," + (conSvg.getY1() + 10) + "\" ";
+            result += (solidLine ? "" : dashLine) ;
             if (!arrowsType.equals(ArrowsTypeEnum.DOUBLE_ORBIT) && !arrowsType.equals(ArrowsTypeEnum.NORMAL)) {
-                result +=
-                        " stroke-dasharray=\"" + dashWidth + "," + dashGap + "\"  " +
-                                (arrowsType.equals(ArrowsTypeEnum.DOUBLE_V_TYPE) ? "style=\" marker-start: url(#" + (arrowSVG.getId() + "2") + ");" :
-                                        (arrowsType.equals(ArrowsTypeEnum.DIAMOND_BLACK) || arrowsType.equals(ArrowsTypeEnum.DIAMOND_WHITE) ? " style=\" marker-start: url(#" + arrowSVG.getId() + ");\"" : ""))
-                                + "/>\n"
+                result += (arrowsType.equals(ArrowsTypeEnum.DOUBLE_V_TYPE) ? " style=\" marker-start: url(#" + (arrowSVG.getId() + "2") + ");" :
+                        (arrowsType.equals(ArrowsTypeEnum.DIAMOND_BLACK) || arrowsType.equals(ArrowsTypeEnum.DIAMOND_WHITE) ? " style=\" marker-start: url(#" + arrowSVG.getId() + ");\"" : ""))
                 ;
-            } else {
-                result += " stroke-dasharray=\"" + dashWidth + "," + dashGap + "\"/>\n";
             }
+            result +="/>\n";
 
-
-            result += "<path class=\"connection\"   stroke-dasharray=\"" + dashWidth + "," + dashGap + "\" d=\"M" + (conSvg.getX1()) + "," + (conSvg.getY1() + 10) + " C" + (conSvg.getX1()) + "," + (conSvg.getY1() + 15) +
+            result += "<path class=\"connection\"  "+ (solidLine ? "" : dashLine) + " d=\"M" + (conSvg.getX1()) + "," + (conSvg.getY1() + 10) + " C" + (conSvg.getX1()) + "," + (conSvg.getY1() + 15) +
                     "  " + (conSvg.getX1()) + "," + (conSvg.getY1() + 20) +
                     "  " + (conSvg.getX1() + 10) + "," + (conSvg.getY1() + 20) + "\"/>\n";
 
-            result += "<path class=\"connection\"    stroke-dasharray=\"" + dashWidth + "," + dashGap + "\" d=\"M" + (conSvg.getX1() + 10) + "," + (conSvg.getY1() + 20) + " L" + (conSvg.getX1() + 20) + "," + (conSvg.getY1() + 20) + " \"/>\n";
-            result += "<path class=\"connection\"   stroke-dasharray=\"" + dashWidth + "," + dashGap + "\" d=\"M" + (conSvg.getX1() + 20) + "," + (conSvg.getY1() + 20) + " C" + (conSvg.getX1() + 30) + "," + (conSvg.getY1() + 20) +
+            result += "<path class=\"connection\"  "+ (solidLine ? "" : dashLine) + " d=\"M" + (conSvg.getX1() + 10) + "," + (conSvg.getY1() + 20) + " L" + (conSvg.getX1() + 20) + "," + (conSvg.getY1() + 20) + " \"/>\n";
+            result += "<path class=\"connection\"  "+ (solidLine ? "" : dashLine) + " d=\"M" + (conSvg.getX1() + 20) + "," + (conSvg.getY1() + 20) + " C" + (conSvg.getX1() + 30) + "," + (conSvg.getY1() + 20) +
                     "  " + (conSvg.getX1() + 30) + "," + (conSvg.getY1() + 15) +
                     "  " + (conSvg.getX1() + 30) + "," + (conSvg.getY1() + 10) + "\"/>\n";
 
 
-            result += "<path class=\"connection\"   stroke-dasharray=\"" + dashWidth + "," + dashGap + "\" d=\"M" + (conSvg.getX1() + 30) + "," + (conSvg.getY1() + 10) + " L" + (conSvg.getX1() + 30) + "," + (conSvg.getY2() + 5) + " \"/>\n";
-            result += "<path class=\"connection\"  stroke-dasharray=\"" + dashWidth + "," + dashGap + "\" d=\"M" + (conSvg.getX1() + 30) + "," + (conSvg.getY2() + 5) + " C" + (conSvg.getX1() + 30) + "," + (conSvg.getY2()) +
+            result += "<path class=\"connection\" "+ (solidLine ? "" : dashLine) + " d=\"M" + (conSvg.getX1() + 30) + "," + (conSvg.getY1() + 10) + " L" + (conSvg.getX1() + 30) + "," + (conSvg.getY2() + 5) + " \"/>\n";
+            result += "<path class=\"connection\""+ (solidLine ? "" : dashLine) + " d=\"M" + (conSvg.getX1() + 30) + "," + (conSvg.getY2() + 5) + " C" + (conSvg.getX1() + 30) + "," + (conSvg.getY2()) +
                     "  " + (conSvg.getX1() + 25) + "," + (conSvg.getY2()) +
                     "  " + (conSvg.getX1() + 20) + "," + (conSvg.getY2()) + "\"/>\n";
 
             result += "<path class=\"connection\"  d=\"M" + (conSvg.getX2()) + "," + (conSvg.getY2()) + " L" + (conSvg.getX1() + 20) + "," + (conSvg.getY2()) + "\"";
-
+            result += (solidLine ? "" : dashLine) ;
             if (!arrowsType.equals(ArrowsTypeEnum.DOUBLE_ORBIT) && !arrowsType.equals(ArrowsTypeEnum.NORMAL)) {
-                result +=
-                        " stroke-dasharray=\"" + dashWidth + "," + dashGap + "\"  " +
-                                "" + (arrowsType.equals(ArrowsTypeEnum.DIAMOND_BLACK) || arrowsType.equals(ArrowsTypeEnum.DIAMOND_WHITE) ? "" : "style=\"marker-end: url(#" + arrowSVG.getId() + ");\"") + "/>\n"
+                result +=  (arrowsType.equals(ArrowsTypeEnum.DIAMOND_BLACK) || arrowsType.equals(ArrowsTypeEnum.DIAMOND_WHITE) ? "" : "style=\"marker-end: url(#" + arrowSVG.getId() + ");\"")
                 ;
-            } else {
-                result += " stroke-dasharray=\"" + dashWidth + "," + dashGap + "\"/>\n";
             }
-            ;
-
+            result +="/>\n";
             System.out.println("wwwww result -- " + result);
 
 
@@ -426,16 +452,15 @@ class ConnectionTools {
             } else {
                 result += "<path class=\"connection\" d=\"M" + conSvg.getX1() + "," + conSvg.getY1() + " L" + (conSvg.getX2()) + "," + (conSvg.getY2() + "\"");
             }
+            result += (solidLine ? "" : dashLine) ;
 
             if (!arrowsType.equals(ArrowsTypeEnum.DOUBLE_ORBIT) && !arrowsType.equals(ArrowsTypeEnum.NORMAL)) {
-                result +=
-                        " stroke-dasharray=\"" + dashWidth + "," + dashGap + "\"  " +
-                                "style=\"" + (arrowsType.equals(ArrowsTypeEnum.DOUBLE_V_TYPE) ? " marker-start: url(#" + (arrowSVG.getId() + "2") + ");" : "")
-                                + (arrowsType.equals(ArrowsTypeEnum.DIAMOND_BLACK) || arrowsType.equals(ArrowsTypeEnum.DIAMOND_WHITE) ? " marker-start: url(#" + arrowSVG.getId() + ");\"" : " marker-end: url(#" + arrowSVG.getId() + ");\"") + "/>\n"
+                result += " style=\"" + (arrowsType.equals(ArrowsTypeEnum.DOUBLE_V_TYPE) ? " marker-start: url(#" + (arrowSVG.getId() + "2") + ");" : "")
+                                + (arrowsType.equals(ArrowsTypeEnum.DIAMOND_BLACK) || arrowsType.equals(ArrowsTypeEnum.DIAMOND_WHITE) ?
+                        " marker-start: url(#" + arrowSVG.getId() + ");\"" : " marker-end: url(#" + arrowSVG.getId() + ");\"")
                 ;
-            } else {
-                result += " stroke-dasharray=\"" + dashWidth + "," + dashGap + "\"/>\n";
             }
+            result +="/>\n";
         }
         if (arrowsType.equals(ArrowsTypeEnum.DOUBLE_ORBIT)) {
             result += "<circle class=\"arrows\" cx=\"" + conSvg.getX2() + "\" cy=\"" + conSvg.getY2() + "\" r=\"3\" />\n";

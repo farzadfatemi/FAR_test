@@ -54,9 +54,9 @@ class ShapeTools {
         mainRect.append("\" height=\"");
         mainRect.append(svgShape.getHeight());
         mainRect.append("\" />\n");
+        mainRect.append(IconsTools.getIconSVGCode(archiEnum, svgShape));
         mainRect.append(putText(svgShape, 0, 0));
         mainRect.append("</a>\n");
-        mainRect.append(IconsTools.getIconSVGCode(archiEnum, svgShape));
         mainRect.append("</g>\n");
 
 
@@ -105,8 +105,8 @@ class ShapeTools {
                 svgShape.setRy(25);
                 result.append(getSimpleRect(archiEnum, svgShape));
 //                svgShape.setY(svgShape.getY() - 10);
-                result.append(putText(svgShape, 0, 0));
                 result.append(putIcon(archiEnum, svgShape));
+                result.append(putText(svgShape, 0, 0));
                 tmpStr = putIntoLink(result.toString(), svgShape.getURL());
                 return putGroupAndSVGTag(tmpStr);
             case BUSINESS_ACTOR:
@@ -116,8 +116,8 @@ class ShapeTools {
             case BUSINESS_EVENT:
                 result = new StringBuilder();
                 result.append(getBusinessEventShape(svgShape));
-                result.append(putText(svgShape, 0, 0));
                 result.append(putIcon(archiEnum, svgShape));
+                result.append(putText(svgShape, 0, 0));
                 tmpStr = putIntoLink(result.toString(), svgShape.getURL());
                 return putGroupAndSVGTag(tmpStr);
             case BUSINESS_FUNCTION:
@@ -125,8 +125,8 @@ class ShapeTools {
                 svgShape.setRx(8);
                 svgShape.setRy(8);
                 result.append(getSimpleRect(archiEnum, svgShape));
-                result.append(putText(svgShape, 0, 0));
                 result.append(putIcon(archiEnum, svgShape));
+                result.append(putText(svgShape, 0, 0));
                 tmpStr = putIntoLink(result.toString(), svgShape.getURL());
                 return putGroupAndSVGTag(tmpStr);
             case BUSINESS_INTERACTION:
@@ -146,8 +146,8 @@ class ShapeTools {
                 svgShape.setY(svgShape.getY() + 13);
                 svgShape.setHeight(svgShape.getHeight() - 13);
                 result.append(getSimpleRect(archiEnum, svgShape));
-                result.append(putText(svgShape, 0, 0));
 //                result.append(putIcon(archiEnum, svgShape));
+                result.append(putText(svgShape, 0, 0));
                 tmpStr = putIntoLink(result.toString(), svgShape.getURL());
                 svgShape.setY(svgShape.getY() - 13);
                 svgShape.setHeight(svgShape.getHeight() + 13);
@@ -158,8 +158,8 @@ class ShapeTools {
                 svgShape.setRx(8);
                 svgShape.setRy(8);
                 result.append(getSimpleRect(archiEnum, svgShape));
-                result.append(putText(svgShape, 0, 0));
                 result.append(putIcon(archiEnum, svgShape));
+                result.append(putText(svgShape, 0, 0));
                 tmpStr = putIntoLink(result.toString(), svgShape.getURL());
                 return putGroupAndSVGTag(tmpStr);
             case BUSINESS_PRODUCT:
@@ -173,8 +173,8 @@ class ShapeTools {
                 svgShape.setRx(35);
                 svgShape.setRy(35);
                 result.append(getSimpleRect(archiEnum, svgShape));
-                result.append(putText(svgShape, 0, 0));
                 result.append(putIcon(archiEnum, svgShape));
+                result.append(putText(svgShape, 0, 0));
                 tmpStr = putIntoLink(result.toString(), svgShape.getURL());
                 return putGroupAndSVGTag(tmpStr);
 
@@ -229,7 +229,6 @@ class ShapeTools {
                 svgShape.setRx(35);
                 svgShape.setRy(35);
                 result.append(getSimpleRect(archiEnum, svgShape));
-                result.append(putText(svgShape, 0, 0));
 //                result.append(putIcon(archiEnum, svgShape));
                 svgShape.setPolyDem(new int[][]{
                         {svgShape.getX() + 10, svgShape.getY() + svgShape.getHeight() + 20},
@@ -239,6 +238,7 @@ class ShapeTools {
 
                 });
                 result.append(getSimpleTrapezium(svgShape));
+                result.append(putText(svgShape, 0, 0));
                 tmpStr = putIntoLink(result.toString(), svgShape.getURL());
                 return putGroupAndSVGTag(tmpStr);
 
@@ -263,8 +263,8 @@ class ShapeTools {
                 svgShape.setY(svgShape.getY() + 13);
                 svgShape.setHeight(svgShape.getHeight() - 13);
                 result.append(getSimpleRect(archiEnum, svgShape));
-                result.append(putText(svgShape, 0, 0));
 //                result.append(putIcon(archiEnum, svgShape));
+                result.append(putText(svgShape, 0, 0));
                 tmpStr = putIntoLink(result.toString(), svgShape.getURL());
                 svgShape.setY(svgShape.getY() - 13);
                 svgShape.setHeight(svgShape.getHeight() + 13);
@@ -281,8 +281,8 @@ class ShapeTools {
                 svgShape.setY(svgShape.getY() + 13);
                 svgShape.setHeight(svgShape.getHeight() - 13);
                 result.append(getSimpleRect(archiEnum, svgShape));
-                result.append(putText(svgShape, 0, 0));
 //                result.append(putIcon(archiEnum, svgShape));
+                result.append(putText(svgShape, 0, 0));
                 tmpStr = putIntoLink(result.toString(), svgShape.getURL());
                 svgShape.setY(svgShape.getY() - 13);
                 svgShape.setHeight(svgShape.getHeight() + 13);
@@ -305,8 +305,8 @@ class ShapeTools {
 
                 });
                 result.append(getArtifactShape(svgShape));
-                result.append(putText(svgShape, 0, 0));
 //                result.append(putIcon(archiEnum, svgShape));
+                result.append(putText(svgShape, 0, 0));
                 tmpStr = putIntoLink(result.toString(), svgShape.getURL());
                 return putGroupAndSVGTag(tmpStr);
 
@@ -314,8 +314,8 @@ class ShapeTools {
                 result = new StringBuilder();
                 result.append(getSimpleRect(archiEnum, svgShape));
 //                svgShape.setY(svgShape.getY() - 13);
-                result.append(putText(svgShape, 0, 0));
                 result.append(putIcon(archiEnum, svgShape));
+                result.append(putText(svgShape, 0, 0));
 //                svgShape.setPolyDem(new int[][]{
 //                        {svgShape.getX() + 10, svgShape.getY() + svgShape.getHeight() + 20},
 //                        {svgShape.getX() + 30, svgShape.getY() + svgShape.getHeight()},
@@ -331,8 +331,8 @@ class ShapeTools {
                 svgShape.setRx(15);
                 svgShape.setRy(15);
                 result.append(getSimpleRect(archiEnum, svgShape));
-                result.append(putText(svgShape, 0, 0));
 //                result.append(putIcon(archiEnum, svgShape));
+                result.append(putText(svgShape, 0, 0));
                 svgShape.setPolyDem(new int[][]{
                         {svgShape.getX() + 10, svgShape.getY() + svgShape.getHeight() + 10},
                         {svgShape.getX() + 30, svgShape.getY() + svgShape.getHeight()},
@@ -351,16 +351,16 @@ class ShapeTools {
                 svgShape.setRx(8);
                 svgShape.setRy(8);
                 result.append(getSimpleRect(archiEnum, svgShape));
-                result.append(putText(svgShape, 0, 0));
                 result.append(putIcon(archiEnum, svgShape));
+                result.append(putText(svgShape, 0, 0));
                 tmpStr = putIntoLink(result.toString(), svgShape.getURL());
                 return putGroupAndSVGTag(tmpStr);
 
             case NODE:
                 result = new StringBuilder();
                 result.append(getSimpleRect(archiEnum, svgShape));
-                result.append(putText(svgShape, 0, 0));
                 result.append(putIcon(archiEnum, svgShape));
+                result.append(putText(svgShape, 0, 0));
                 tmpStr = putIntoLink(result.toString(), svgShape.getURL());
                 return putGroupAndSVGTag(tmpStr);
 
@@ -714,6 +714,4 @@ class ShapeTools {
         }
         return archiEnum;
     }
-
-
 }

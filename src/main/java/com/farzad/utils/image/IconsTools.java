@@ -13,7 +13,7 @@ public class IconsTools {
         int x = svgShape.getX() + svgShape.getWidth() - 35;
         int y = svgShape.getY() + svgShape.getHeight()/2-15;
         if(svgShape.hasAnyChild()){
-            y=svgShape.getY() +10;
+            y=svgShape.getY() +5;
         }
         int width = 30;
         int height = 30;

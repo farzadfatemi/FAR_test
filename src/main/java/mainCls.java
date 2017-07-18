@@ -20,6 +20,7 @@ public class mainCls {
 //            test.add("6ea3e5b7");
 //            getAllModelSVGs(getArchiModelFromFile(),test);
             SVGGenerator();
+//            System.out.println(Arrays.toString(GeneralUtils.findClosePointsForDrawingArc(20, 40, 30, 70)));
 
 //            XmlUtils.ReadSingleTypeArchiModel();
 //            XmlUtils.ReadArchiModel3();
@@ -29,6 +30,7 @@ public class mainCls {
 //            System.out.println(CryptoUtils.getSaltedPassword("FARmelody2".getBytes()));
 //            XmlUtils.ReadXMLFile2();
 //            GeneralUtils.getFitLabel("hi how are you!!",2);
+
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -36,7 +38,7 @@ public class mainCls {
 
     private static void SVGGenerator() {
         try {
-int cnt =0;
+            int cnt = 0;
 //            StringBuilder str = new StringBuilder();
 //            for(IDiagramModel iDiagramModel: getWholeModelsFromFile()){
 //                if(++cnt>90) {

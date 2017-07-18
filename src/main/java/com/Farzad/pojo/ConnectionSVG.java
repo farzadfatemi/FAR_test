@@ -21,6 +21,7 @@ public class ConnectionSVG {
     private String color;
     private String type;
     private String name;
+    private String bendPointDirection;
     private boolean ownConnection;
     private SVGSingleShape source;
     private SVGSingleShape target;
@@ -139,6 +140,14 @@ public class ConnectionSVG {
         this.name = name;
     }
 
+    public String getBendPointDirection() {
+        return bendPointDirection;
+    }
+
+    public void setBendPointDirection(String bendPointDirection) {
+        this.bendPointDirection = bendPointDirection;
+    }
+
     public boolean isOwnConnection() {
         return ownConnection;
     }
@@ -188,6 +197,7 @@ public class ConnectionSVG {
                 ", color='" + color + '\'' +
                 ", type='" + type + '\'' +
                 ", name='" + name + '\'' +
+                ", bendPointDirection='" + bendPointDirection + '\'' +
                 ", ownConnection=" + ownConnection +
                 ", source=" + source +
                 ", target=" + target +

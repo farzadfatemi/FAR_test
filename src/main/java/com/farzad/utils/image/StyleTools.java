@@ -22,6 +22,10 @@ public class StyleTools {
                 return "fill=\"#19b47b\"";
             case INFRASTRUCTURE:
                 return "fill=\"#19b47b\"";
+            case GAP:
+                return "fill=\"#6b6b6b\"";
+            case PLATEAU:
+                return "fill=\"#6b6b6b\"";
             default:
                 return "fill=\"#000000\"";
         }

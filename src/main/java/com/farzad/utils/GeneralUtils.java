@@ -50,7 +50,7 @@ public class GeneralUtils {
     }
 
     public static int getFontSize(String text, boolean getWidth) {
-        if(text !=null && text.length()>0) {
+        if (text != null && text.length() > 0) {
             Font defaultFont = new Font("Montserrat", Font.PLAIN, 13);
 
             AffineTransform affinetransform = new AffineTransform();
@@ -84,9 +84,9 @@ public class GeneralUtils {
 
     public static SVGLabel getFitLabel(SVGSingleShape svgShape, int customX, int customY) {
         if (svgShape == null) return null;
-        int x = svgShape.getX()+svgShape.getWidth()/2;
+        int x = svgShape.getX() + svgShape.getWidth() / 2;
         String y = "1.2em";
-        if(customX>0 || customY>0){
+        if (customX > 0 || customY > 0) {
             x = customX;
 //            y = customY;
         }
@@ -96,7 +96,7 @@ public class GeneralUtils {
         SVGLabel.setLabelText(getEscapeXmlChars(svgShape.getName()));
         SVGLabel.setLabelWidth(getFontSize(svgShape.getName(), true));
         SVGLabel.setFontHeight(getFontSize(svgShape.getName(), false));
-        System.out.println("svgShape.getWidth() : " + svgShape.getWidth() + " SVGLabel.getLabelWidth() : " + SVGLabel.getLabelWidth() + " svgShape.getName() length : " + (svgShape.getName()!=null? svgShape.getName().length():"No Name"));
+        System.out.println("svgShape.getWidth() : " + svgShape.getWidth() + " SVGLabel.getLabelWidth() : " + SVGLabel.getLabelWidth() + " svgShape.getName() length : " + (svgShape.getName() != null ? svgShape.getName().length() : "No Name"));
         StringBuilder result = new StringBuilder();
         String tmpStr = "";
         int lineCount = 0;
@@ -211,28 +211,30 @@ public class GeneralUtils {
                 return false;
             case BUSINESS_VALUE:
                 return false;
-            case GOALS_ASSESSMENT:
-                return false;
-            case GOALS_CONSTRAINT:
-                return false;
-            case GOALS_DRIVER:
-                return false;
-            case GOALS_GAP:
-                return false;
-            case GOALS_GOAL:
-                return false;
-            case GOALS_PLATEAU:
-                return false;
-            case GOALS_PRINCIPAL:
-                return false;
-            case GOALS_REPRESENTATION:
-                return false;
-            case GOALS_REQUIREMENT:
-                return false;
-            case GOALS_ROLE:
-                return false;
-            case GOALS_UNAMED:
-                return false;
+            case ASSESSMENT:
+                return true;
+            case CONSTRAINT:
+                return true;
+            case DRIVER:
+                return true;
+            case GAP:
+                return true;
+            case GOAL:
+                return true;
+            case PLATEAU:
+                return true;
+            case PRINCIPLE:
+                return true;
+            case REPRESENTATION:
+                return true;
+            case REQUIREMENT:
+                return true;
+            case ROLE:
+                return true;
+            case STAKEHOLDER:
+                return true;
+            case UNAMED:
+                return true;
             case MAPS:
                 return false;
             case MAP_BLUE_STRATAMAP:
@@ -289,9 +291,101 @@ public class GeneralUtils {
                 return false;
             case GROUP:
                 return false;
+            case DELIVERABLE:
+                return false;
             default:
                 return false;
         }
     }
+
+    public static float[] findPointOnConnectionLineByRatio(int x1, int x2, int y1, int y2) {
+        float m = 0;
+        float[] xy = new float[2];
+        int diff = Math.abs(x2 - x1) / 15;
+        if ((x1 - x2) != 0) {
+            m = (float) (y1 - y2) / (x1 - x2);
+            // y = m*(x-x2) + y2
+            // y = m*(x-30)+70;
+            System.out.println("(y1 - y2) = " + (y1 - y2) + " | (x1 - x2) = " + (x1 - x2) + " | (y1 - y2) / (x1 - x2) = " + ((float) (y1 - y2) / (x1 - x2)));
+
+            if (x1 > x2) {
+                System.out.println("X1 = " + x1 + " | X2 = " + x2 + " | Y1 = " + y1 + " | Y2 = " + y2 + " | M = " + m + " | X target = " + (x2 + diff) + " | Y target = " + (((x2 + diff) - x1) * m + y1));
+                xy[0] = (x2 + diff);
+                xy[1] = ((x2 + diff) - x2) * m + y2;
+            } else {
+                System.out.println("X1 = " + x1 + " | X2 = " + x2 + " | Y1 = " + y1 + " | Y2 = " + y2 + " | M = " + m + " | X target = " + (x2 - diff) + " | Y target = " + (((x1 + diff) - x1) * m + y1));
+                xy[0] = (x2 - diff);
+                xy[1] = ((x2 - diff) - x2) * m + y2;
+            }
+
+        } else {
+            if (y2 > y1) {
+                System.out.println("(x1 - x2) == 0 | X1 = " + x1 + " | X2 = " + x2 + " | Y1 = " + y1 + " | Y2 = " + y2 + " | M = " + m + " | X target = " + x1 + " | Y target = " + (y2 + ((y2 - y1) / 12)));
+                xy[0] = (x2);
+                xy[1] = y2 + ((y2 - y1) / 12);
+            } else {
+                System.out.println("(x1 - x2) == 0 | X1 = " + x1 + " | X2 = " + x2 + " | Y1 = " + y1 + " | Y2 = " + y2 + " | M = " + m + " | X target = " + x1 + " | Y target = " + (y2 - ((y2 - y1) / 12)));
+                xy[0] = (x2);
+                xy[1] = y2 - ((y2 - y1) / 12);
+            }
+        }
+        return xy;
+    }
+
+    public static double[] findClosePointsForDrawingArc(int x1, int x2, int y1, int y2) {
+        double[] xy = new double[2];
+        double diff = 15;
+        double angle = 0;
+//        if ((x1 - x2) != 0) {
+        // tan a = y2-y1/x2-x1
+        System.out.println(" x1  = " + x1 + " y1  = " + y1 + " |  x2  = " + x2 + " |  y2  = " + y2);
+//        angle = Math.toDegrees(Math.atan2(Math.abs(y1 - y2), Math.abs(x1 - x2)));
+//        xy[0] = (Math.cos(angle) * diff) + x2;
+//        xy[1] = (Math.sin(angle) * diff) + y2;
+//        System.out.println("xt " + xy[0] + "  yt " + xy[1] + " angel would be : " + angle + " and Different number : " + diff);
+
+        angle = Math.toDegrees(Math.atan2(Math.abs(y1 - y2), Math.abs(x1 - x2)));
+        System.out.println("Math.abs(x1-x2)" + Math.abs(x1 - x2) +"  |  Math.abs(y1-y2) " + Math.abs(y1 - y2) +  "  |   angel would be : " + angle + " |   Different number : " + diff);
+        if (x1 > x2) {
+            if (y1 > y2) {
+                xy[0] = x2 + (Math.cos(angle) * diff);
+                xy[1] = y2 + (Math.sin(angle) * diff);
+            } else {
+                xy[0] = x2 + (Math.cos(angle) * diff);
+                xy[1] = y2 - (Math.sin(angle) * diff);
+            }
+
+        } else if (x1 < x2) {
+            if (y1 > y2) {
+                xy[0] = x2 - (Math.cos(angle) * diff);
+                xy[1] = y2 + (Math.sin(angle) * diff);
+            } else {
+                xy[0] = x2 - (Math.cos(angle) * diff);
+                xy[1] = y2 - (Math.sin(angle) * diff);
+            }
+        } else  {
+            if (y1 > y2) {
+                xy[0] = x2 ;
+                xy[1] = y2 + (Math.sin(angle) * diff);
+            } else {
+                xy[0] = x2 ;
+                xy[1] = y2 - (Math.sin(angle) * diff);
+            }
+        }
+        System.out.println(" X1 = " + x1 + " | X2 = " + x2 + " | Y1 = " + y1 + " | Y2 = " + y2 +   " | X target = " + xy[0] + " | Y target = " + xy[1]);
+//        } else {
+//            if (y2 > y1) {
+//                System.out.println("(x1 - x2) == 0 | X1 = " + x1 + " | X2 = " + x2 + " | Y1 = " + y1 + " | Y2 = " + y2 +   " | X target = " + x1 + " | Y target = " + (y2 + ((y2 - y1) / 12)));
+//                xy[0] = (x2);
+//                xy[1] = y2 + ((y2 - y1) / 12);
+//            } else {
+//                System.out.println("(x1 - x2) == 0 | X1 = " + x1 + " | X2 = " + x2 + " | Y1 = " + y1 + " | Y2 = " + y2  + " | X target = " + x1 + " | Y target = " + (y2 - ((y2 - y1) / 12)));
+//                xy[0] = (x2);
+//                xy[1] = y2 - ((y2 - y1 )/ 12);
+//            }
+//        }
+        return xy;
+    }
+
 
 }

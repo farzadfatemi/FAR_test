@@ -163,35 +163,24 @@ class ConnectionTools {
 //        System.out.println("======---cccc66666----   " + FIRST_X + " " + FIRST_Y + " " + LAST_X + " " + LAST_Y);
         GenerateSVG.setFirstLastXY(conSvg.getX1(), conSvg.getY1(), conSvg.getX2(), conSvg.getY2());
         System.out.println("before Bend points StartX : " + conSvg.getX1() + " | StartY :" + conSvg.getY1() + " | EndX :" + conSvg.getX2() + " | EndY :" + conSvg.getY2());
-
-
+        double[] xy = null;
+//<path class="connection" d=" M10,80 L50 ,60 Q55 55 ,50 50  L20, 30"/>
         for (BendPoints b : conSvg.getBendPointses()) {
+            System.out.println("intoooo BBBBBBBBBBBeeeeeeeeeeend points StartX : " + b.getStartX() + " | StartY :" + b.getStartY() + " | EndX :" + b.getEndX() + " | EndY :" + b.getEndY());
 
-//            System.out.println("======---cccc77777----   " + FIRST_X + " " + FIRST_Y + " " + LAST_X + " " + LAST_Y);
-            System.out.println("intoooo BBBBBBBBBBBeeeeeeeeeeend points StartX : " + b.getStartX() + " | StartY :" + b.getEndX() + " | EndX :" + b.getEndX() + " | EndY :" + b.getEndY());
-            dim.append(" L").append(b.getStartX() + sMX).append(",").append(b.getStartY() + sMY);
 
+            xy = GeneralUtils.findClosePointsForDrawingArc(conSvg.getX1(),b.getStartX() + sMX,conSvg.getY1(),b.getStartY() + sMY);
+            dim.append(" L").append(xy[0]).append(",").append(xy[1]);
+            dim.append(" Q").append(b.getStartX() + sMX+5).append(" ").append(b.getStartY() + sMY);
+            xy = GeneralUtils.findClosePointsForDrawingArc(conSvg.getX2(),(b.getStartX() + sMX),conSvg.getY2(), (b.getStartY() + sMY));
+            dim.append(" ,").append(xy[0]).append(" ").append(xy[1]);
 
             GenerateSVG.setFirstLastXY(b.getStartX() + sMX, b.getStartY() + sMY, b.getEndX() + tMX, b.getEndY() + tMY);
-//            if (FIRST_X > (b.getStartX() + sMX)) {
-//                FIRST_X = (b.getStartX() + sMX);
-//            }
-//            if (FIRST_Y > (b.getStartY() + sMY)) {
-//                FIRST_Y = (b.getStartY() + sMY);
-//            }
-//            if (LAST_X < b.getEndX())
-//                LAST_X = b.getEndX();
-//            if (LAST_Y < b.getEndY())
-//                LAST_Y = b.getEndY();
 
-//           dim += " L"+(b.getEndX()+conSvg.getX1())+","+(b.getEndY()+conSvg.getY1());
-//            dim += " L"+b.getStartX() + " " + b.getStartY() + " "
-//            dim += " L"+b.getEndX()+","+b.getEndY();
-            ;
         }
         dim.append(" L").append(conSvg.getX2()).append(",").append(conSvg.getY2()).append("");
 //        dim += " L" + tMX + "," + tMY;
-
+        System.out.println("Final svg connection code " +dim.toString());
         return dim.toString();
 
 
@@ -330,7 +319,7 @@ class ConnectionTools {
 
             } else {
                 return "<path class=\"connection\" " + (solidLine ? "" : dashLine) +
-                        "d=\"M" + conSvg.getX1() + " " + conSvg.getY1() + " L " + conSvg.getX2() + " " + conSvg.getY2() + "\" />\n";
+                        " d=\"M" + conSvg.getX1() + " " + conSvg.getY1() + " L " + conSvg.getX2() + " " + conSvg.getY2() + "\" />\n";
 
             }
         }
@@ -439,7 +428,7 @@ class ConnectionTools {
             result += "<path class=\"connection\"  d=\"M" + (conSvg.getX2()) + "," + (conSvg.getY2()) + " L" + (conSvg.getX1() + 20) + "," + (conSvg.getY2()) + "\"";
             result += (solidLine ? "" : dashLine) ;
             if (!arrowsType.equals(ArrowsTypeEnum.DOUBLE_ORBIT) && !arrowsType.equals(ArrowsTypeEnum.NORMAL)) {
-                result +=  (arrowsType.equals(ArrowsTypeEnum.DIAMOND_BLACK) || arrowsType.equals(ArrowsTypeEnum.DIAMOND_WHITE) ? "" : "style=\"marker-end: url(#" + arrowSVG.getId() + ");\"")
+                result +=  (arrowsType.equals(ArrowsTypeEnum.DIAMOND_BLACK) || arrowsType.equals(ArrowsTypeEnum.DIAMOND_WHITE) ? "" : " style=\"marker-end: url(#" + arrowSVG.getId() + ");\"")
                 ;
             }
             result +="/>\n";

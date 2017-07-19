@@ -167,13 +167,13 @@ class ConnectionTools {
 //<path class="connection" d=" M10,80 L50 ,60 Q55 55 ,50 50  L20, 30"/>
         for (BendPoints b : conSvg.getBendPointses()) {
             System.out.println("intoooo BBBBBBBBBBBeeeeeeeeeeend points StartX : " + b.getStartX() + " | StartY :" + b.getStartY() + " | EndX :" + b.getEndX() + " | EndY :" + b.getEndY());
+           dim.append(" L").append(b.getStartX() + sMX).append(",").append(b.getStartY() + sMY);
 
-
-            xy = GeneralUtils.findClosePointsForDrawingArc(conSvg.getX1(),b.getStartX() + sMX,conSvg.getY1(),b.getStartY() + sMY);
-            dim.append(" L").append(xy[0]).append(",").append(xy[1]);
-            dim.append(" Q").append(b.getStartX() + sMX+5).append(" ").append(b.getStartY() + sMY);
-            xy = GeneralUtils.findClosePointsForDrawingArc(conSvg.getX2(),(b.getStartX() + sMX),conSvg.getY2(), (b.getStartY() + sMY));
-            dim.append(" ,").append(xy[0]).append(" ").append(xy[1]);
+//            xy = GeneralUtils.findClosePointsForDrawingArc(conSvg.getX1(),b.getStartX() + sMX,conSvg.getY1(),b.getStartY() + sMY);
+//            dim.append(" L").append(xy[0]).append(",").append(xy[1]);
+//            dim.append(" Q").append(b.getStartX() + sMX).append(" ").append(b.getStartY() + sMY);
+//            xy = GeneralUtils.findClosePointsForDrawingArc(conSvg.getX2(),(b.getStartX() + sMX),conSvg.getY2(), (b.getStartY() + sMY));
+//            dim.append(" ,").append(xy[0]).append(" ").append(xy[1]);
 
             GenerateSVG.setFirstLastXY(b.getStartX() + sMX, b.getStartY() + sMY, b.getEndX() + tMX, b.getEndY() + tMY);
 
@@ -325,19 +325,20 @@ class ConnectionTools {
         }
         switch (arrowsType) {
             case TRIANGLE_BLACK:
-                arrowSVG.setDim("M2,2 L2,13 L8,7 L2,2");
-                arrowSVG.setMarkerWidth(13);
-                arrowSVG.setMarkerHeight(13);
-                arrowSVG.setRefX(7);
-                arrowSVG.setRefY(7);
+                arrowSVG.setDim("M0,0 L0,6 L4,3 z");
+//                arrowSVG.setDim("M2,2 L2,13 L8,7 L2,2");
+                arrowSVG.setMarkerWidth(10);
+                arrowSVG.setMarkerHeight(10);
+                arrowSVG.setRefX(5);
+                arrowSVG.setRefY(3);
                 arrowSVG.setColor("#000000");
                 break;
             case TRIANGLE_WHITE:
-                arrowSVG.setDim("M2,2 L2,13 L8,7 L2,2");
-                arrowSVG.setMarkerWidth(13);
-                arrowSVG.setMarkerHeight(13);
-                arrowSVG.setRefX(7);
-                arrowSVG.setRefY(7);
+                arrowSVG.setDim("M0,0 L0,9 L6,4.5 z");
+                arrowSVG.setMarkerWidth(10);
+                arrowSVG.setMarkerHeight(10);
+                arrowSVG.setRefX(5);
+                arrowSVG.setRefY(4);
                 arrowSVG.setColor("#ffffff");
                 break;
             case V_TYPE:
@@ -385,22 +386,23 @@ class ConnectionTools {
         if (!arrowsType.equals(ArrowsTypeEnum.DOUBLE_ORBIT) && !arrowsType.equals(ArrowsTypeEnum.NORMAL)) {
             result = "<defs>\n " +
                     "   <marker id=\"" + arrowSVG.getId() + "\" markerWidth=\"" + arrowSVG.getMarkerWidth() + "\" markerHeight=\"" + arrowSVG.getMarkerHeight() + "\" refX=\"" + arrowSVG.getRefX() + "\" refY=\"" + arrowSVG.getRefY() + "\" orient=\"auto\" >\n" +
-                    "        <path class=\"arrows\" d=\"" + arrowSVG.getDim() + "\" />\n" +
+                    "        <path class=\"arrows "+arrowsType.toString()+"\" d=\"" + arrowSVG.getDim() + "\" />\n" +
                     "  </marker>\n";
             if (arrowsType.equals(ArrowsTypeEnum.DOUBLE_V_TYPE) && arrowSVG2 != null) {
                 result += "   <marker id=\"" + (arrowSVG.getId() + "2") + "\" markerWidth=\"" + arrowSVG2.getMarkerWidth() + "\" markerHeight=\"" + arrowSVG2.getMarkerHeight() + "\" " +
                         "refX=\"" + arrowSVG2.getRefX() + "\" refY=\"" + arrowSVG2.getRefY() + "\" orient=\"auto\" >\n" +
-                        "        <path class=\"arrows\" d=\"" + arrowSVG2.getDim() + "\" />\n" +
+                        "        <path class=\"arrows "+arrowsType.toString()+"\" d=\"" + arrowSVG2.getDim() + "\" />\n" +
                         "  </marker>\n";
             }
             result += "</defs>\n ";
 
         }
         if (arrowsType.equals(ArrowsTypeEnum.DOUBLE_ORBIT)) {
-            result += "<circle class=\"arrows\" cx=\"" + conSvg.getX1() + "\" cy=\"" + conSvg.getY1() + "\" r=\"3\"/>\n";
+            result += "<circle class=\"arrows "+arrowsType.toString()+"\" cx=\"" + conSvg.getX1() + "\" cy=\"" + conSvg.getY1() + "\" r=\"3\"/>\n";
         }
 
         if (conSvg.isOwnConnection()) {
+
             result += "<path class=\"connection\"  d=\"M" + conSvg.getX1() + "," + conSvg.getY1() + " L" + (conSvg.getX1()) + "," + (conSvg.getY1() + 10) + "\" ";
             result += (solidLine ? "" : dashLine) ;
             if (!arrowsType.equals(ArrowsTypeEnum.DOUBLE_ORBIT) && !arrowsType.equals(ArrowsTypeEnum.NORMAL)) {
@@ -452,7 +454,7 @@ class ConnectionTools {
             result +="/>\n";
         }
         if (arrowsType.equals(ArrowsTypeEnum.DOUBLE_ORBIT)) {
-            result += "<circle class=\"arrows\" cx=\"" + conSvg.getX2() + "\" cy=\"" + conSvg.getY2() + "\" r=\"3\" />\n";
+            result += "<circle class=\"arrows "+arrowsType.toString()+"\" cx=\"" + conSvg.getX2() + "\" cy=\"" + conSvg.getY2() + "\" r=\"3\" />\n";
         }
         System.out.println("---- cccc ---> Connection : Source : " + conSvg.getSourceName() + " to : Target : " + conSvg.getTargetName() + " SVG Code : \n" + result);
         return result;

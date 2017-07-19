@@ -334,42 +334,54 @@ public class GeneralUtils {
 
     public static double[] findClosePointsForDrawingArc(int x1, int x2, int y1, int y2) {
         double[] xy = new double[2];
-        double diff = 15;
+        double d = 10;
         double angle = 0;
 //        if ((x1 - x2) != 0) {
         // tan a = y2-y1/x2-x1
-        System.out.println(" x1  = " + x1 + " y1  = " + y1 + " |  x2  = " + x2 + " |  y2  = " + y2);
+//        System.out.println(" x1  = " + x1 + " y1  = " + y1 + " |  x2  = " + x2 + " |  y2  = " + y2);
 //        angle = Math.toDegrees(Math.atan2(Math.abs(y1 - y2), Math.abs(x1 - x2)));
-//        xy[0] = (Math.cos(angle) * diff) + x2;
-//        xy[1] = (Math.sin(angle) * diff) + y2;
-//        System.out.println("xt " + xy[0] + "  yt " + xy[1] + " angel would be : " + angle + " and Different number : " + diff);
+//        xy[0] = (Math.cos(angle) * d) + x2;
+//        xy[1] = (Math.sin(angle) * d) + y2;
+//        System.out.println("xt " + xy[0] + "  yt " + xy[1] + " angel would be : " + angle + " and Different number : " + d);
 
         angle = Math.toDegrees(Math.atan2(Math.abs(y1 - y2), Math.abs(x1 - x2)));
-        System.out.println("Math.abs(x1-x2)" + Math.abs(x1 - x2) +"  |  Math.abs(y1-y2) " + Math.abs(y1 - y2) +  "  |   angel would be : " + angle + " |   Different number : " + diff);
+        System.out.println("Math.abs(x1-x2)" + Math.abs(x1 - x2) +"  |  Math.abs(y1-y2) " + Math.abs(y1 - y2) +  "  |   angel would be : " + angle + " |   Different number : " + d);
         if (x1 > x2) {
             if (y1 > y2) {
-                xy[0] = x2 + (Math.cos(angle) * diff);
-                xy[1] = y2 + (Math.sin(angle) * diff);
+                System.out.println("x1>x2 && y1>y2 | x2= "+x2+" | cos(angle) = "+Math.cos(angle)+" | d = "+d);
+                xy[0] = x2 + (Math.abs(Math.cos(angle)) * d);
+                System.out.println("x1>x2 && y1>y2 | x2= "+x2+" | sin(angle) = "+Math.sin(angle)+" | d = "+d);
+                xy[1] = y2 + (Math.abs(Math.sin(angle)) * d);
             } else {
-                xy[0] = x2 + (Math.cos(angle) * diff);
-                xy[1] = y2 - (Math.sin(angle) * diff);
+                System.out.println("x1>x2 && y1<=y2 | x2= "+x2+" | cos(angle) = "+Math.cos(angle)+" | d = "+d);
+                xy[0] = x2 + (Math.abs(Math.cos(angle)) * d);
+                System.out.println("x1>x2 && y1<=y2 | x2= "+x2+" | sin(angle) = "+Math.sin(angle)+" | d = "+d);
+                xy[1] = y2 - (Math.abs(Math.sin(angle)) * d);
             }
 
         } else if (x1 < x2) {
             if (y1 > y2) {
-                xy[0] = x2 - (Math.cos(angle) * diff);
-                xy[1] = y2 + (Math.sin(angle) * diff);
+                System.out.println("x1<x2 && y1>y2 | x2= "+x2+" | cos(angle) = "+Math.cos(angle)+" | d = "+d);
+                xy[0] = x2 - (Math.abs(Math.cos(angle)) * d);
+                System.out.println("x1<x2 && y1>y2 | x2= "+x2+" | sin(angle) = "+Math.sin(angle)+" | d = "+d);
+                xy[1] = y2 + (Math.abs(Math.sin(angle)) * d);
             } else {
-                xy[0] = x2 - (Math.cos(angle) * diff);
-                xy[1] = y2 - (Math.sin(angle) * diff);
+                System.out.println("x1<x2 && y1<=y2 | x2= "+x2+" | cos(angle) = "+Math.cos(angle)+" | d = "+d);
+                xy[0] = x2 - (Math.abs(Math.cos(angle)) * d);
+                System.out.println("x1<x2 && y1<=y2 | x2= "+x2+" | sin(angle) = "+Math.sin(angle)+" | d = "+d);
+                xy[1] = y2 - (Math.abs(Math.sin(angle)) * d);
             }
         } else  {
             if (y1 > y2) {
+                System.out.println("x1=x2 && y1>y2 | x2= "+x2+" | cos(angle) = "+Math.cos(angle)+" | d = "+d);
                 xy[0] = x2 ;
-                xy[1] = y2 + (Math.sin(angle) * diff);
+                System.out.println("x1=x2 && y1>y2 | x2= "+x2+" | sin(angle) = "+Math.sin(angle)+" | d = "+d);
+                xy[1] = y2 + (Math.abs(Math.sin(angle) * d));
             } else {
+                System.out.println("x1=x2 && y1<=y2 | x2= "+x2+" | cos(angle) = "+Math.cos(angle)+" | d = "+d);
                 xy[0] = x2 ;
-                xy[1] = y2 - (Math.sin(angle) * diff);
+                System.out.println("x1=x2 && y1<=y2 | x2= "+x2+" | sin(angle) = "+Math.sin(angle)+" | d = "+d);
+                xy[1] = y2 - (Math.abs(Math.sin(angle)) * d);
             }
         }
         System.out.println(" X1 = " + x1 + " | X2 = " + x2 + " | Y1 = " + y1 + " | Y2 = " + y2 +   " | X target = " + xy[0] + " | Y target = " + xy[1]);

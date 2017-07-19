@@ -682,15 +682,16 @@ class ShapeTools {
     }
 
     private static String getTwoRect(SVGSingleShape svgShape, ArchiEnum archiEnum, int widthDivision) {
-        String color;
         StringBuilder result = new StringBuilder();
         result.append(getSimpleRect(archiEnum, svgShape));
+        int origHeight= svgShape.getHeight();
         svgShape.setWidth(svgShape.getWidth()/widthDivision);
-        svgShape.setHeight(svgShape.getHeight() / 5);
+        svgShape.setHeight(12);
         result.append(getSimpleUpperRect(archiEnum, svgShape));
         svgShape.setWidth(svgShape.getWidth()*widthDivision);
-        svgShape.setHeight(svgShape.getHeight() * 5);
+        svgShape.setHeight(origHeight);
         result.append(putText(svgShape, 0, 0));
+
 
         return putGroupAndSVGTag(putIntoLink(result.toString(), svgShape.getURL()));
     }

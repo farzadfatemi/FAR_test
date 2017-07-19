@@ -27,17 +27,16 @@ public enum ArchiEnum {
     BUSINESS_SERVICE(Category.BUSINESS),
     BUSINESS_STAKEHOLDER(Category.BUSINESS),
     BUSINESS_VALUE(Category.BUSINESS),
-    GOALS_ASSESSMENT(Category.GOALS),
-    GOALS_CONSTRAINT(Category.GOALS),
-    GOALS_DRIVER(Category.GOALS),
-    GOALS_GAP(Category.GOALS),
-    GOALS_GOAL(Category.GOALS),
-    GOALS_PLATEAU(Category.GOALS),
-    GOALS_PRINCIPAL(Category.GOALS),
-    GOALS_REPRESENTATION(Category.GOALS),
-    GOALS_REQUIREMENT(Category.GOALS),
-    GOALS_ROLE(Category.GOALS),
-    GOALS_UNAMED(Category.GOALS),
+    PRODUCT(Category.BUSINESS),
+    ASSESSMENT(Category.GOALS),
+    CONSTRAINT(Category.GOALS),
+    DRIVER(Category.GOALS),
+    GOAL(Category.GOALS),
+    PRINCIPLE(Category.GOALS),
+    REQUIREMENT(Category.GOALS),
+    ROLE(Category.GOALS),
+    STAKEHOLDER(Category.GOALS),
+    UNAMED(Category.GOALS),
     MAPS(Category.MAPS),
     MAP_BLUE_STRATAMAP(Category.STRATAMAP_MAPS),
     MAP_GREEN_STRATAMAP(Category.STRATAMAP_MAPS),
@@ -70,9 +69,13 @@ public enum ArchiEnum {
     COMMUNICATION_PATH(Category.COMMUNICATION_PATH),
     DATABASE(Category.DATABASE),
     NOTE(Category.NOTE),
-    PRINCIPLE(Category.PRINCIPLE),
     VALUE(Category.VALUE),
     REPRESENTATION(Category.REPRESENTATION),
+    DELIVERABLE(Category.DELIVERABLE),
+    GAP(Category.GAP),
+    PLATEAU(Category.PLATEAU),
+    INFRASTRUCTURE_FUNCTION(Category.INFRASTRUCTURE_FUNCTION),
+    WORK_PACKAGE(Category.WORK_PACKAGE),
     DEFAULT(Category.DEFAULT);
     //    private final String name;
     private Category category;
@@ -101,9 +104,13 @@ public enum ArchiEnum {
         COMMUNICATION_PATH,
         DATABASE,
         NOTE,
-        PRINCIPLE,
         VALUE,
         REPRESENTATION,
+        DELIVERABLE,
+        GAP,
+        PLATEAU,
+        INFRASTRUCTURE_FUNCTION,
+        WORK_PACKAGE,
         DEFAULT;
     }
 
@@ -124,7 +131,7 @@ public enum ArchiEnum {
             case LOCATION:
                 return "location";
             case DATA_OBJECT:
-                return "dataObject";
+                return "data_object";
             case ARTIFACT:
                 return "artifact";
             case NETWORK:
@@ -142,17 +149,23 @@ public enum ArchiEnum {
             case MEANING:
                 return "meaning";
             case COMMUNICATION_PATH:
-                return "communicationpath";
+                return "communication_path";
             case DATABASE:
                 return "database";
             case NOTE:
                 return "note";
-            case PRINCIPLE:
-                return "principle";
             case VALUE:
                 return "value";
             case REPRESENTATION:
-                return "Representation";
+                return "representation";
+            case DELIVERABLE:
+                return "deliverable";
+            case PLATEAU:
+                return "plateau";
+            case INFRASTRUCTURE_FUNCTION:
+                return "infrastructure_function";
+            case WORK_PACKAGE:
+                return "work_package";
             case DEFAULT:
             return "default";
             default:
@@ -208,28 +221,28 @@ public enum ArchiEnum {
                 return "BusinessStakeholder";
             case BUSINESS_VALUE:
                 return "BusinessValue";
-            case GOALS_ASSESSMENT:
-                return "GoalsAssessment";
-            case GOALS_CONSTRAINT:
-                return "GoalsConstraint";
-            case GOALS_DRIVER:
-                return "GoalsDriver";
-            case GOALS_GAP:
-                return "GoalsGap";
-            case GOALS_GOAL:
-                return "GoalsGoal";
-            case GOALS_PLATEAU:
-                return "GoalsPlateau";
-            case GOALS_PRINCIPAL:
-                return "GoalsPrincipal";
-            case GOALS_REPRESENTATION:
-                return "GoalsRepresentation";
-            case GOALS_REQUIREMENT:
-                return "GoalsRequirement";
-            case GOALS_ROLE:
-                return "GoalsRole";
-            case GOALS_UNAMED:
-                return "GoalsUnamed";
+            case ASSESSMENT:
+                return "Assessment";
+            case CONSTRAINT:
+                return "Constraint";
+            case DRIVER:
+                return "Driver";
+            case GAP:
+                return "Gap";
+            case GOAL:
+                return "Goal";
+            case PLATEAU:
+                return "Plateau";
+            case PRINCIPLE:
+                return "Principle";
+            case REQUIREMENT:
+                return "Requirement";
+            case ROLE:
+                return "Role";
+            case STAKEHOLDER:
+                return "Stakeholder";
+            case UNAMED:
+                return "Unamed";
             case MAPS:
                 return "Maps";
             case MAP_BLUE_STRATAMAP:
@@ -294,12 +307,18 @@ public enum ArchiEnum {
                 return "Database";
             case NOTE:
                 return "DiagramModelNote";
-            case PRINCIPLE:
-                return "Principle";
            case VALUE:
                 return "Value";
             case REPRESENTATION:
                 return "Representation";
+            case DELIVERABLE:
+                return "Deliverable";
+            case INFRASTRUCTURE_FUNCTION:
+                return "InfrastructureFunction";
+            case WORK_PACKAGE:
+                return "WorkPackage";
+            case PRODUCT:
+                return "Product";
             default:
                 return null;
         }
@@ -382,38 +401,41 @@ public enum ArchiEnum {
         } else if (ArchiEnum.BUSINESS_VALUE.equalsName(value)) {
             return ArchiEnum.BUSINESS_VALUE;
 
-        } else if (ArchiEnum.GOALS_ASSESSMENT.equalsName(value)) {
-            return ArchiEnum.GOALS_ASSESSMENT;
+        } else if (ArchiEnum.ASSESSMENT.equalsName(value)) {
+            return ArchiEnum.ASSESSMENT;
 
-        } else if (ArchiEnum.GOALS_CONSTRAINT.equalsName(value)) {
-            return ArchiEnum.GOALS_CONSTRAINT;
+        } else if (ArchiEnum.CONSTRAINT.equalsName(value)) {
+            return ArchiEnum.CONSTRAINT;
 
-        } else if (ArchiEnum.GOALS_DRIVER.equalsName(value)) {
-            return ArchiEnum.GOALS_DRIVER;
+        } else if (ArchiEnum.DRIVER.equalsName(value)) {
+            return ArchiEnum.DRIVER;
 
-        } else if (ArchiEnum.GOALS_GAP.equalsName(value)) {
-            return ArchiEnum.GOALS_GAP;
+        } else if (ArchiEnum.GAP.equalsName(value)) {
+            return ArchiEnum.GAP;
 
-        } else if (ArchiEnum.GOALS_GOAL.equalsName(value)) {
-            return ArchiEnum.GOALS_GOAL;
+        } else if (ArchiEnum.GOAL.equalsName(value)) {
+            return ArchiEnum.GOAL;
 
-        } else if (ArchiEnum.GOALS_PLATEAU.equalsName(value)) {
-            return ArchiEnum.GOALS_PLATEAU;
+//        } else if (ArchiEnum.GOAL.equalsName(value)) {
+//            return ArchiEnum.GOAL;
 
-        } else if (ArchiEnum.GOALS_PRINCIPAL.equalsName(value)) {
-            return ArchiEnum.GOALS_PRINCIPAL;
+        } else if (ArchiEnum.PLATEAU.equalsName(value)) {
+            return ArchiEnum.PLATEAU;
 
-        } else if (ArchiEnum.GOALS_REPRESENTATION.equalsName(value)) {
-            return ArchiEnum.GOALS_REPRESENTATION;
+        } else if (ArchiEnum.PRINCIPLE.equalsName(value)) {
+            return ArchiEnum.PRINCIPLE;
 
-        } else if (ArchiEnum.GOALS_REQUIREMENT.equalsName(value)) {
-            return ArchiEnum.GOALS_REQUIREMENT;
+        }  else if (ArchiEnum.REQUIREMENT.equalsName(value)) {
+            return ArchiEnum.REQUIREMENT;
 
-        } else if (ArchiEnum.GOALS_ROLE.equalsName(value)) {
-            return ArchiEnum.GOALS_ROLE;
+        } else if (ArchiEnum.ROLE.equalsName(value)) {
+            return ArchiEnum.ROLE;
 
-        } else if (ArchiEnum.GOALS_UNAMED.equalsName(value)) {
-            return ArchiEnum.GOALS_UNAMED;
+        } else if (ArchiEnum.STAKEHOLDER.equalsName(value)) {
+            return ArchiEnum.STAKEHOLDER;
+
+        } else if (ArchiEnum.UNAMED.equalsName(value)) {
+            return ArchiEnum.UNAMED;
 
         } else if (ArchiEnum.MAPS.equalsName(value)) {
             return ArchiEnum.MAPS;
@@ -511,14 +533,23 @@ public enum ArchiEnum {
         } else if (ArchiEnum.NOTE.equalsName(value)) {
             return ArchiEnum.NOTE;
 
-        } else if (ArchiEnum.PRINCIPLE.equalsName(value)) {
-            return ArchiEnum.PRINCIPLE;
-
-        } else if (ArchiEnum.VALUE.equalsName(value)) {
+        }  else if (ArchiEnum.VALUE.equalsName(value)) {
             return ArchiEnum.VALUE;
 
         } else if (ArchiEnum.REPRESENTATION.equalsName(value)) {
             return ArchiEnum.REPRESENTATION;
+
+        }  else if (ArchiEnum.DELIVERABLE.equalsName(value)) {
+            return ArchiEnum.DELIVERABLE;
+
+        }  else if (ArchiEnum.INFRASTRUCTURE_FUNCTION.equalsName(value)) {
+            return ArchiEnum.INFRASTRUCTURE_FUNCTION;
+
+        }else if (ArchiEnum.WORK_PACKAGE.equalsName(value)) {
+            return ArchiEnum.WORK_PACKAGE;
+
+        }else if (ArchiEnum.PRODUCT.equalsName(value)) {
+            return ArchiEnum.PRODUCT;
 
         } else {
             return ArchiEnum.DEFAULT;

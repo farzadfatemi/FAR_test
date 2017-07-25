@@ -12,6 +12,7 @@ public class ConnectionSVG {
     private int y1;
     private int y2;
     private int width;
+    private int accessType;
     private int[] dashArray;
     private String id;
     private String sourceId;
@@ -66,6 +67,14 @@ public class ConnectionSVG {
 
     public void setWidth(int width) {
         this.width = width;
+    }
+
+    public int getAccessType() {
+        return accessType;
+    }
+
+    public void setAccessType(int accessType) {
+        this.accessType = accessType;
     }
 
     public int[] getDashArray() {

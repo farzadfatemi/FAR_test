@@ -7,7 +7,7 @@ import com.farzad.pojo.ArrowSVG;
 import com.farzad.pojo.BendPoints;
 import com.farzad.pojo.ConnectionSVG;
 import com.farzad.pojo.SVGSingleShape;
-import com.farzad.utils.GeneralUtils;
+import com.farzad.utils.ComUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,21 +94,27 @@ class ConnectionTools {
             conSVG.setTargetName(target.getName());
             conSVG.setSource(source);
             conSVG.setTarget(target);
+            conSVG.setAccessType(source.getAccessType());
 //        int lineWidth = source.getStrokeWidth();
             source.setFontSize(13);
             switch (connectionEnum) {
                 case ACCESSES:
+                    System.out.println("conSVG.getAccessType() " + conSVG.getAccessType());
                     conSVG.setDashArray(new int[]{2, 2});
-                    return (makeArrows(conSVG, ArrowsTypeEnum.DOUBLE_V_TYPE) + putText(conSVG, source));
+                    ArrowsTypeEnum arrowsTypeEnum = conSVG.getAccessType() == 3 ? ArrowsTypeEnum.DOUBLE_V_TYPE :
+                            conSVG.getAccessType() == 1 ? ArrowsTypeEnum.V_TYPE_READ : ArrowsTypeEnum.V_TYPE_WRITE;
+                    System.out.println(arrowsTypeEnum);
+                    return (makeArrows(conSVG, (conSVG.getAccessType() == 3 ? ArrowsTypeEnum.DOUBLE_V_TYPE :
+                            conSVG.getAccessType() == 1 ? ArrowsTypeEnum.V_TYPE_READ : ArrowsTypeEnum.V_TYPE_WRITE)) + putText(conSVG, source));
                 case USED_BY:
-                    return (makeArrows(conSVG, ArrowsTypeEnum.V_TYPE) + putText(conSVG, source));
+                    return (makeArrows(conSVG, ArrowsTypeEnum.V_TYPE_WRITE) + putText(conSVG, source));
                 case ASSIGNED:
                     return (makeArrows(conSVG, ArrowsTypeEnum.DOUBLE_ORBIT) + putText(conSVG, source));
                 case REALISES:
                     conSVG.setDashArray(new int[]{5, 5});
                     return (makeArrows(conSVG, ArrowsTypeEnum.TRIANGLE_WHITE) + putText(conSVG, source));
                 case USES:
-                    return (makeArrows(conSVG, ArrowsTypeEnum.V_TYPE) + putText(conSVG, source));
+                    return (makeArrows(conSVG, ArrowsTypeEnum.V_TYPE_WRITE) + putText(conSVG, source));
                 case AGGREGATION:
                     return (makeArrows(conSVG, ArrowsTypeEnum.DIAMOND_WHITE) + putText(conSVG, source));
                 case ASSOCIATION:
@@ -160,31 +166,113 @@ class ConnectionTools {
         int tMY = conSvg.getTarget().getY() + conSvg.getTarget().getHeight() / 2;
 
         StringBuilder dim = new StringBuilder("M" + conSvg.getX1() + "," + conSvg.getY1());
-//        System.out.println("======---cccc66666----   " + FIRST_X + " " + FIRST_Y + " " + LAST_X + " " + LAST_Y);
+        System.out.println("First Step ----    M" + conSvg.getX1() + "," + conSvg.getY1());
         GenerateSVG.setFirstLastXY(conSvg.getX1(), conSvg.getY1(), conSvg.getX2(), conSvg.getY2());
-        System.out.println("before Bend points StartX : " + conSvg.getX1() + " | StartY :" + conSvg.getY1() + " | EndX :" + conSvg.getX2() + " | EndY :" + conSvg.getY2());
+        System.out.println("before Bend points conSvg.getX1() : StartX : " + conSvg.getX1() + " | StartY :" + conSvg.getY1() + " | EndX :" + conSvg.getX2() + " | EndY :" + conSvg.getY2());
         double[] xy = null;
 //<path class="connection" d=" M10,80 L50 ,60 Q55 55 ,50 50  L20, 30"/>
-        for (BendPoints b : conSvg.getBendPointses()) {
-            System.out.println("intoooo BBBBBBBBBBBeeeeeeeeeeend points StartX : " + b.getStartX() + " | StartY :" + b.getStartY() + " | EndX :" + b.getEndX() + " | EndY :" + b.getEndY());
-           dim.append(" L").append(b.getStartX() + sMX).append(",").append(b.getStartY() + sMY);
+        double x1 = conSvg.getX1();
+        double y1 = conSvg.getY1();
+        if (conSvg.getBendPointses() != null) {
+            BendPoints b = null;
+            BendPoints b2 = null;
+            System.out.println("The list of Bend points   : ");
+            for (BendPoints bb : conSvg.getBendPointses()) {
+                System.out.println(" StartX : " + (bb.getStartX()  ) + " | StartY :" + (bb.getStartY() ) + " | EndX :" + (bb.getEndX()  ) + " | EndY :" + (bb.getEndY()) +
+                        " X : " + (bb.getStartX() + sMX) + " |  Y :" + (bb.getStartY() + sMY) );
+            }
 
-//            xy = GeneralUtils.findClosePointsForDrawingArc(conSvg.getX1(),b.getStartX() + sMX,conSvg.getY1(),b.getStartY() + sMY);
-//            dim.append(" L").append(xy[0]).append(",").append(xy[1]);
-//            dim.append(" Q").append(b.getStartX() + sMX).append(" ").append(b.getStartY() + sMY);
-//            xy = GeneralUtils.findClosePointsForDrawingArc(conSvg.getX2(),(b.getStartX() + sMX),conSvg.getY2(), (b.getStartY() + sMY));
-//            dim.append(" ,").append(xy[0]).append(" ").append(xy[1]);
 
-            GenerateSVG.setFirstLastXY(b.getStartX() + sMX, b.getStartY() + sMY, b.getEndX() + tMX, b.getEndY() + tMY);
+            for (int i = 0; i < conSvg.getBendPointses().size(); i++) {
+                //           dim.append(" L").append(b.getStartX() + sMX).append(",").append(b.getStartY() + sMY);
+                b = conSvg.getBendPointses().get(i);
+                System.out.println("intoooo BBBBBBBBBBBeeeeeeeeeeend points  X : " + (b.getStartX() + sMX) + " |  Y :" + (b.getStartY() + sMY));
+                xy = ComUtils.findPointOnConnectionLineByRatio((int) x1, b.getStartX() + sMX, (int) y1, b.getStartY() + sMY);
+                dim.append(" L").append(xy[0]).append(",").append(xy[1]);
+                System.out.println("Second Step ---- L " + xy[0] + " " + xy[1]);
+                dim.append(" Q").append(b.getStartX() + sMX).append("  ").append(b.getStartY() + sMY);
+                System.out.println("Third Step ---- Q " + (b.getStartX() + sMX) + " " + (b.getStartY() + sMY));
+
+                if (i < conSvg.getBendPointses().size() - 1) {
+                    b2 = conSvg.getBendPointses().get(i + 1);
+                    xy = ComUtils.findPointOnConnectionLineByRatio((b2.getStartX() + sMX), (b.getStartX() + sMX), (b2.getStartY() + sMY), (b.getStartY() + sMY));
+                    dim.append(" ,").append(xy[0]).append(" ").append(xy[1]);
+                    System.out.println("Forth Step for current bend point ----  , " + xy[0] + " " + xy[1]);
+                } else {
+                    xy = ComUtils.findPointOnConnectionLineByRatio(conSvg.getX2(), (b.getStartX() + sMX), conSvg.getY2(), (b.getStartY() + sMY));
+                    dim.append(" ,").append(xy[0]).append(" ").append(xy[1]);
+                    System.out.println("Forth Step when just have one bend point or for last one ----  , " + xy[0] + " " + xy[1]);
+                }
+                x1 = xy[0];
+                y1 = xy[1];
+                GenerateSVG.setFirstLastXY(b.getStartX() + sMX, b.getStartY() + sMY, b.getEndX() + tMX, b.getEndY() + tMY);
+
+            }
+        }
+
+//            if (conSvg.getBendPointses().size() < 2) {
+//                b = conSvg.getBendPointses().get(0);
+//                System.out.println("intoooo BBBBBBBBBBBeeeeeeeeeeend points StartX : " + (b.getStartX() + sMX) + " | StartY :" + (b.getStartY() + sMY) + " | EndX :" + (b.getEndX() + tMX) + " | EndY :" + (b.getEndY() + tMY));
+////           dim.append(" L").append(b.getStartX() + sMX).append(",").append(b.getStartY() + sMY);
+//
+//                xy = ComUtils.findClosePointsForDrawingArc((int) x1, b.getStartX() + sMX, (int) y1, b.getStartY() + sMY);
+//                System.out.println("---" + Arrays.toString(xy));
+//                dim.append(" L").append(xy[0]).append(",").append(xy[1]);
+//                System.out.println("Second Step ---- L " + xy[0] + "," + xy[1]);
+//                dim.append(" Q").append(b.getStartX() + sMX).append(" ").append(b.getStartY() + sMY);
+//                System.out.println("Third Step ---- Q " + (b.getStartX() + sMX) + " " + (b.getStartY() + sMY));
+//                x1 = xy[0];
+//                y1 = xy[1];
+//                xy = ComUtils.findClosePointsForDrawingArc(conSvg.getX2(), (b.getStartX() + sMX), conSvg.getY2(), (b.getStartY() + sMY));
+//                dim.append(" ,").append(xy[0]).append(" ").append(xy[1]);
+//                System.out.println("Forth Step ----  , " + xy[0] + "," + xy[1]);
+//                GenerateSVG.setFirstLastXY(b.getStartX() + sMX, b.getStartY() + sMY, b.getEndX() + tMX, b.getEndY() + tMY);
+//
+//            } else {
+//                b = conSvg.getBendPointses().get(0);
+//                xy = ComUtils.findClosePointsForDrawingArc((int) x1, b.getStartX() + sMX, (int) y1, b.getStartY() + sMY);
+//                dim.append(" L").append(xy[0]).append(",").append(xy[1]);
+//                System.out.println("Second Step ---- L " + xy[0] + "," + xy[1]);
+//                dim.append(" Q").append(b.getStartX() + sMX).append(" ").append(b.getStartY() + sMY);
+//                System.out.println("Third Step ---- Q " + (b.getStartX() + sMX) + " " + (b.getStartY() + sMY));
+//                x1 = xy[0];
+//                y1 = xy[1];
+//                for (int i = 1; i < conSvg.getBendPointses().size(); i++) {
+//                    b = conSvg.getBendPointses().get(i);
+////            System.out.println("intoooo BBBBBBBBBBBeeeeeeeeeeend points StartX : " + b.getStartX() + " | StartY :" + b.getStartY() + " | EndX :" + b.getEndX() + " | EndY :" + b.getEndY());
+//                    System.out.println("intoooo BBBBBBBBBBBeeeeeeeeeeend points StartX : " + (b.getStartX() + sMX) + " | StartY :" + (b.getStartY() + sMY) + " | EndX :" + (b.getEndX() + tMX) + " | EndY :" + (b.getEndY() + tMY));
+////           dim.append(" L").append(b.getStartX() + sMX).append(",").append(b.getStartY() + sMY);
+//
+//                    xy = ComUtils.findClosePointsForDrawingArc((int) x1, b.getStartX() + sMX, (int) y1, b.getStartY() + sMY);
+//                    System.out.println("---" + Arrays.toString(xy));
+//                    dim.append("  ").append(xy[0]).append(",").append(xy[1]);
+//                    System.out.println("Second Step ---- L " + xy[0] + "," + xy[1]);
+//                    dim.append(" Q").append(b.getStartX() + sMX).append(" ").append(b.getStartY() + sMY);
+//                    System.out.println("Third Step ---- Q " + (b.getStartX() + sMX) + " " + (b.getStartY() + sMY));
+//                    x1 = xy[0];
+//                    y1 = xy[1];
+//                    if (i == conSvg.getBendPointses().size() - 1) {
+//                        xy = ComUtils.findClosePointsForDrawingArc(conSvg.getX2(), (b.getStartX() + sMX), conSvg.getY2(), (b.getStartY() + sMY));
+//                        dim.append(" ,").append(xy[0]).append(" ").append(xy[1]);
+//                        System.out.println("Forth Step ----  , " + xy[0] + "," + xy[1]);
+//                    } else {
+//                        b2 = conSvg.getBendPointses().get(++i);
+//                        xy = ComUtils.findClosePointsForDrawingArc((b2.getStartX() + sMX), (b.getStartX() + sMX), (b2.getStartY() + sMY), (b.getStartY() + sMY));
+//                        dim.append(" ,").append(xy[0]).append(" ").append(xy[1]);
+//                        x1 = xy[0];
+//                        y1 = xy[1];
+//                    }
+//                    GenerateSVG.setFirstLastXY(b.getStartX() + sMX, b.getStartY() + sMY, b.getEndX() + tMX, b.getEndY() + tMY);
+//
+//                }
+//            }
+            dim.append(" L").append(conSvg.getX2()).append(",").append(conSvg.getY2()).append("");
+//        dim += " L" + tMX + "," + tMY;
+            System.out.println("Final svg connection code " + dim.toString());
+            return dim.toString();
+
 
         }
-        dim.append(" L").append(conSvg.getX2()).append(",").append(conSvg.getY2()).append("");
-//        dim += " L" + tMX + "," + tMY;
-        System.out.println("Final svg connection code " +dim.toString());
-        return dim.toString();
-
-
-    }
 
     private static String makeLineWithDoubleOrb(String line, ConnectionSVG svg) {
 
@@ -203,7 +291,7 @@ class ConnectionTools {
         int sMX = conSVG.getSource().getX() + conSVG.getSource().getWidth() / 2;
         int sMY = conSVG.getSource().getY() + conSVG.getSource().getHeight() / 2;
 
-        String textAnchor = "start";
+        String textAnchor = "middle";
         String result = null;
         int x = conSVG.getX1();
         int y = conSVG.getY1();
@@ -211,7 +299,7 @@ class ConnectionTools {
         if (source.getConnectionsType() != null) {
             text = new StringBuilder();
             if (conSVG.getY2() - conSVG.getY1() == 0) {
-                textAnchor = "middle";
+//                textAnchor = "middle";
                 y -= 8;
             } else {
                 x = conSVG.getX1() + 8;
@@ -222,18 +310,18 @@ class ConnectionTools {
             text.append(" class=\"connectionLabel\"");
             if (conSVG.getBendPointses() != null && conSVG.getBendPointses().size() > 0) {
                 text.append(" x=\"");
-                text.append(sMX+conSVG.getBendPointses().get(0).getStartX()+5);
+                text.append(sMX + conSVG.getBendPointses().get(0).getStartX() + 5);
                 text.append("\" y=\"");
-                text.append(sMY+conSVG.getBendPointses().get(0).getStartY()+10);
+                text.append(sMY + conSVG.getBendPointses().get(0).getStartY() + 10);
                 text.append("\" >\n");
-            }else {
+            } else {
                 text.append(" x=\"");
                 text.append(((conSVG.getX2() + x) / 2));
                 text.append("\" y=\"");
                 text.append(((conSVG.getY2() + y) / 2));
                 text.append("\" >\n");
             }
-            text.append(GeneralUtils.getEscapeXmlChars(source.getConnectionsName()));
+            text.append(ComUtils.getEscapeXmlChars(source.getConnectionsName()));
             text.append("</text>\n");
             result = text.toString();
 
@@ -341,27 +429,34 @@ class ConnectionTools {
                 arrowSVG.setRefY(4);
                 arrowSVG.setColor("#ffffff");
                 break;
-            case V_TYPE:
-                arrowSVG.setDim("M2,2 L8,7 L2,13 L8,7 L2,2");
-                arrowSVG.setMarkerWidth(13);
-                arrowSVG.setMarkerHeight(13);
-                arrowSVG.setRefX(7);
-                arrowSVG.setRefY(7);
-                arrowSVG.setColor("#000000");
+            case V_TYPE_READ:
+                arrowSVG.setDim("M5,1 L1,5 L5,9 L1,5");
+                arrowSVG.setMarkerWidth(5);
+                arrowSVG.setMarkerHeight(9);
+                arrowSVG.setRefX(0);
+                arrowSVG.setRefY(5);
+                break;
+            case V_TYPE_WRITE:
+                arrowSVG.setDim("M0,0 L4,4 L0,8 L4,4");
+                arrowSVG.setMarkerWidth(5);
+                arrowSVG.setMarkerHeight(8);
+                arrowSVG.setRefX(4);
+                arrowSVG.setRefY(4);
+//                arrowSVG.setColor("#000000");
                 break;
             case DOUBLE_V_TYPE:
-                arrowSVG.setDim("M2,2 L8,7 L2,13 L8,7 L2,2");
-                arrowSVG.setMarkerWidth(13);
-                arrowSVG.setMarkerHeight(13);
-                arrowSVG.setRefX(7);
-                arrowSVG.setRefY(7);
+                arrowSVG.setDim("M0,0 L4,4 L0,8 L4,4");
+                arrowSVG.setMarkerWidth(5);
+                arrowSVG.setMarkerHeight(8);
+                arrowSVG.setRefX(4);
+                arrowSVG.setRefY(4);
                 arrowSVG.setColor("#000000");
                 arrowSVG2 = new ArrowSVG();
-                arrowSVG2.setDim("M8,8 L2,13 L8,18 L2,13 L8,8");
-                arrowSVG2.setMarkerWidth(16);
-                arrowSVG2.setMarkerHeight(18);
-                arrowSVG2.setRefX(4);
-                arrowSVG2.setRefY(13);
+                arrowSVG2.setDim("M5,1 L1,5 L5,9 L1,5");
+                arrowSVG2.setMarkerWidth(5);
+                arrowSVG2.setMarkerHeight(9);
+                arrowSVG2.setRefX(0);
+                arrowSVG2.setRefY(5);
                 arrowSVG2.setColor("#000000");
                 break;
             case DIAMOND_WHITE:
@@ -380,60 +475,60 @@ class ConnectionTools {
                 arrowSVG.setRefY(11);
                 arrowSVG.setColor("#000000");
                 break;
-		default:
-			break;
+            default:
+                break;
         }
         if (!arrowsType.equals(ArrowsTypeEnum.DOUBLE_ORBIT) && !arrowsType.equals(ArrowsTypeEnum.NORMAL)) {
             result = "<defs>\n " +
                     "   <marker id=\"" + arrowSVG.getId() + "\" markerWidth=\"" + arrowSVG.getMarkerWidth() + "\" markerHeight=\"" + arrowSVG.getMarkerHeight() + "\" refX=\"" + arrowSVG.getRefX() + "\" refY=\"" + arrowSVG.getRefY() + "\" orient=\"auto\" >\n" +
-                    "        <path class=\"arrows "+arrowsType.toString()+"\" d=\"" + arrowSVG.getDim() + "\" />\n" +
+                    "        <path class=\"arrows " + arrowsType.toString() + "\" d=\"" + arrowSVG.getDim() + "\" />\n" +
                     "  </marker>\n";
             if (arrowsType.equals(ArrowsTypeEnum.DOUBLE_V_TYPE) && arrowSVG2 != null) {
                 result += "   <marker id=\"" + (arrowSVG.getId() + "2") + "\" markerWidth=\"" + arrowSVG2.getMarkerWidth() + "\" markerHeight=\"" + arrowSVG2.getMarkerHeight() + "\" " +
                         "refX=\"" + arrowSVG2.getRefX() + "\" refY=\"" + arrowSVG2.getRefY() + "\" orient=\"auto\" >\n" +
-                        "        <path class=\"arrows "+arrowsType.toString()+"\" d=\"" + arrowSVG2.getDim() + "\" />\n" +
+                        "        <path class=\"arrows " + arrowsType.toString() + "\" d=\"" + arrowSVG2.getDim() + "\" />\n" +
                         "  </marker>\n";
             }
             result += "</defs>\n ";
 
         }
         if (arrowsType.equals(ArrowsTypeEnum.DOUBLE_ORBIT)) {
-            result += "<circle class=\"arrows "+arrowsType.toString()+"\" cx=\"" + conSvg.getX1() + "\" cy=\"" + conSvg.getY1() + "\" r=\"3\"/>\n";
+            result += "<circle class=\"arrows " + arrowsType.toString() + "\" cx=\"" + conSvg.getX1() + "\" cy=\"" + conSvg.getY1() + "\" r=\"3\"/>\n";
         }
 
         if (conSvg.isOwnConnection()) {
 
             result += "<path class=\"connection\"  d=\"M" + conSvg.getX1() + "," + conSvg.getY1() + " L" + (conSvg.getX1()) + "," + (conSvg.getY1() + 10) + "\" ";
-            result += (solidLine ? "" : dashLine) ;
+            result += (solidLine ? "" : dashLine);
             if (!arrowsType.equals(ArrowsTypeEnum.DOUBLE_ORBIT) && !arrowsType.equals(ArrowsTypeEnum.NORMAL)) {
                 result += (arrowsType.equals(ArrowsTypeEnum.DOUBLE_V_TYPE) ? " style=\" marker-start: url(#" + (arrowSVG.getId() + "2") + ");" :
-                        (arrowsType.equals(ArrowsTypeEnum.DIAMOND_BLACK) || arrowsType.equals(ArrowsTypeEnum.DIAMOND_WHITE) ? " style=\" marker-start: url(#" + arrowSVG.getId() + ");\"" : ""))
+                        (arrowsType.equals(ArrowsTypeEnum.DIAMOND_BLACK) || arrowsType.equals(ArrowsTypeEnum.DIAMOND_WHITE) || arrowsType.equals(ArrowsTypeEnum.V_TYPE_READ) ? " style=\" marker-start: url(#" + arrowSVG.getId() + ");\"" : ""))
                 ;
             }
-            result +="/>\n";
+            result += "/>\n";
 
-            result += "<path class=\"connection\"  "+ (solidLine ? "" : dashLine) + " d=\"M" + (conSvg.getX1()) + "," + (conSvg.getY1() + 10) + " C" + (conSvg.getX1()) + "," + (conSvg.getY1() + 15) +
+            result += "<path class=\"connection\"  " + (solidLine ? "" : dashLine) + " d=\"M" + (conSvg.getX1()) + "," + (conSvg.getY1() + 10) + " C" + (conSvg.getX1()) + "," + (conSvg.getY1() + 15) +
                     "  " + (conSvg.getX1()) + "," + (conSvg.getY1() + 20) +
                     "  " + (conSvg.getX1() + 10) + "," + (conSvg.getY1() + 20) + "\"/>\n";
 
-            result += "<path class=\"connection\"  "+ (solidLine ? "" : dashLine) + " d=\"M" + (conSvg.getX1() + 10) + "," + (conSvg.getY1() + 20) + " L" + (conSvg.getX1() + 20) + "," + (conSvg.getY1() + 20) + " \"/>\n";
-            result += "<path class=\"connection\"  "+ (solidLine ? "" : dashLine) + " d=\"M" + (conSvg.getX1() + 20) + "," + (conSvg.getY1() + 20) + " C" + (conSvg.getX1() + 30) + "," + (conSvg.getY1() + 20) +
+            result += "<path class=\"connection\"  " + (solidLine ? "" : dashLine) + " d=\"M" + (conSvg.getX1() + 10) + "," + (conSvg.getY1() + 20) + " L" + (conSvg.getX1() + 20) + "," + (conSvg.getY1() + 20) + " \"/>\n";
+            result += "<path class=\"connection\"  " + (solidLine ? "" : dashLine) + " d=\"M" + (conSvg.getX1() + 20) + "," + (conSvg.getY1() + 20) + " C" + (conSvg.getX1() + 30) + "," + (conSvg.getY1() + 20) +
                     "  " + (conSvg.getX1() + 30) + "," + (conSvg.getY1() + 15) +
                     "  " + (conSvg.getX1() + 30) + "," + (conSvg.getY1() + 10) + "\"/>\n";
 
 
-            result += "<path class=\"connection\" "+ (solidLine ? "" : dashLine) + " d=\"M" + (conSvg.getX1() + 30) + "," + (conSvg.getY1() + 10) + " L" + (conSvg.getX1() + 30) + "," + (conSvg.getY2() + 5) + " \"/>\n";
-            result += "<path class=\"connection\""+ (solidLine ? "" : dashLine) + " d=\"M" + (conSvg.getX1() + 30) + "," + (conSvg.getY2() + 5) + " C" + (conSvg.getX1() + 30) + "," + (conSvg.getY2()) +
+            result += "<path class=\"connection\" " + (solidLine ? "" : dashLine) + " d=\"M" + (conSvg.getX1() + 30) + "," + (conSvg.getY1() + 10) + " L" + (conSvg.getX1() + 30) + "," + (conSvg.getY2() + 5) + " \"/>\n";
+            result += "<path class=\"connection\"" + (solidLine ? "" : dashLine) + " d=\"M" + (conSvg.getX1() + 30) + "," + (conSvg.getY2() + 5) + " C" + (conSvg.getX1() + 30) + "," + (conSvg.getY2()) +
                     "  " + (conSvg.getX1() + 25) + "," + (conSvg.getY2()) +
                     "  " + (conSvg.getX1() + 20) + "," + (conSvg.getY2()) + "\"/>\n";
 
             result += "<path class=\"connection\"  d=\"M" + (conSvg.getX2()) + "," + (conSvg.getY2()) + " L" + (conSvg.getX1() + 20) + "," + (conSvg.getY2()) + "\"";
-            result += (solidLine ? "" : dashLine) ;
+            result += (solidLine ? "" : dashLine);
             if (!arrowsType.equals(ArrowsTypeEnum.DOUBLE_ORBIT) && !arrowsType.equals(ArrowsTypeEnum.NORMAL)) {
-                result +=  (arrowsType.equals(ArrowsTypeEnum.DIAMOND_BLACK) || arrowsType.equals(ArrowsTypeEnum.DIAMOND_WHITE) ? "" : " style=\"marker-end: url(#" + arrowSVG.getId() + ");\"")
+                result += (arrowsType.equals(ArrowsTypeEnum.DIAMOND_BLACK) || arrowsType.equals(ArrowsTypeEnum.DIAMOND_WHITE) || arrowsType.equals(ArrowsTypeEnum.V_TYPE_READ) ? "" : " style=\"marker-end: url(#" + arrowSVG.getId() + ");\"")
                 ;
             }
-            result +="/>\n";
+            result += "/>\n";
             System.out.println("wwwww result -- " + result);
 
 
@@ -443,18 +538,18 @@ class ConnectionTools {
             } else {
                 result += "<path class=\"connection\" d=\"M" + conSvg.getX1() + "," + conSvg.getY1() + " L" + (conSvg.getX2()) + "," + (conSvg.getY2() + "\"");
             }
-            result += (solidLine ? "" : dashLine) ;
+            result += (solidLine ? "" : dashLine);
 
             if (!arrowsType.equals(ArrowsTypeEnum.DOUBLE_ORBIT) && !arrowsType.equals(ArrowsTypeEnum.NORMAL)) {
                 result += " style=\"" + (arrowsType.equals(ArrowsTypeEnum.DOUBLE_V_TYPE) ? " marker-start: url(#" + (arrowSVG.getId() + "2") + ");" : "")
-                                + (arrowsType.equals(ArrowsTypeEnum.DIAMOND_BLACK) || arrowsType.equals(ArrowsTypeEnum.DIAMOND_WHITE) ?
+                        + (arrowsType.equals(ArrowsTypeEnum.DIAMOND_BLACK) || arrowsType.equals(ArrowsTypeEnum.DIAMOND_WHITE) || arrowsType.equals(ArrowsTypeEnum.V_TYPE_READ) ?
                         " marker-start: url(#" + arrowSVG.getId() + ");\"" : " marker-end: url(#" + arrowSVG.getId() + ");\"")
                 ;
             }
-            result +="/>\n";
+            result += "/>\n";
         }
         if (arrowsType.equals(ArrowsTypeEnum.DOUBLE_ORBIT)) {
-            result += "<circle class=\"arrows "+arrowsType.toString()+"\" cx=\"" + conSvg.getX2() + "\" cy=\"" + conSvg.getY2() + "\" r=\"3\" />\n";
+            result += "<circle class=\"arrows " + arrowsType.toString() + "\" cx=\"" + conSvg.getX2() + "\" cy=\"" + conSvg.getY2() + "\" r=\"3\" />\n";
         }
         System.out.println("---- cccc ---> Connection : Source : " + conSvg.getSourceName() + " to : Target : " + conSvg.getTargetName() + " SVG Code : \n" + result);
         return result;
@@ -690,7 +785,7 @@ class ConnectionTools {
                         System.out.println("-----> y2>y1");
                         if (y2 > (y1 + h1)) {
                             System.out.println("----> y2>(y1+h1)");
-                            conSVG = GeneralUtils.getBestPoint(source, target);
+                            conSVG = ComUtils.getBestPoint(source, target);
 //                            if (x1 + w1 / 2 > x2 + w2) {
 //                                conSVG.setX1(x1 - shapeBorderWidth);
 //                                conSVG.setX2(x2 + w2 / 2);
@@ -931,7 +1026,7 @@ class ConnectionTools {
 
         ConnectionSVG conSVG = null;
         if (source == null || target == null) return null;
-        boolean hasBendPoint = (source.getConnectionBendPointsList() != null && source.getConnectionBendPointsList().size() > 0);
+        // boolean hasBendPoint = (source.getConnectionBendPointsList() != null && source.getConnectionBendPointsList().size() > 0);
         conSVG = new ConnectionSVG();
         conSVG.setX1(source.getX() + source.getWidth() - 20);
         conSVG.setX2(target.getX() + source.getWidth() + shapeBorderWidth);
@@ -947,7 +1042,7 @@ class ConnectionTools {
 
     private static ConnectionSVG positionWithBendPoints(SVGSingleShape source, SVGSingleShape target) {
         // the border should avoid from startpoint/endpoint connection
-        boolean ownConnection = false;
+       // boolean ownConnection = false;
         ConnectionSVG conSVG = null;
         if (source == null || target == null) return null;
         conSVG = new ConnectionSVG();

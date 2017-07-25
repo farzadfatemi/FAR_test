@@ -1,12 +1,13 @@
 import com.archimatetool.model.IArchimateModel;
 import com.archimatetool.model.IDiagramModel;
+import com.archimatetool.model.IFolder;
+import com.archimatetool.model.impl.AccessRelationship;
 import com.farzad.utils.image.GenerateSVG;
 import com.farzad.utils.io.FileUtils;
+import org.eclipse.emf.ecore.EObject;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static com.farzad.utils.image.ModelTools.loadModel;
 
@@ -14,13 +15,14 @@ import static com.farzad.utils.image.ModelTools.loadModel;
  * Created by VOLCANO on 4/7/2017.
  */
 public class mainCls {
+    private static Map<String,Integer> AllAccessRelationships = new HashMap<>();
     public static void main(String[] args) {
         try {
 //            Set<String> test = new HashSet<>();
 //            test.add("6ea3e5b7");
 //            getAllModelSVGs(getArchiModelFromFile(),test);
             SVGGenerator();
-//            System.out.println(Arrays.toString(GeneralUtils.findClosePointsForDrawingArc(20, 40, 30, 70)));
+//            System.out.println(Arrays.toString(ComUtils.findClosePointsForDrawingArc(20, 40, 30, 70)));
 
 //            XmlUtils.ReadSingleTypeArchiModel();
 //            XmlUtils.ReadArchiModel3();
@@ -29,7 +31,7 @@ public class mainCls {
 //            System.out.println(GenerateSVG2.getModelSVGs());
 //            System.out.println(CryptoUtils.getSaltedPassword("FARmelody2".getBytes()));
 //            XmlUtils.ReadXMLFile2();
-//            GeneralUtils.getFitLabel("hi how are you!!",2);
+//            ComUtils.getFitLabel("hi how are you!!",2);
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -47,7 +49,8 @@ public class mainCls {
 //                    if (++cnt >150) break;
 //                }
 //            }
-            String str = GenerateSVG.getModelSVGs(getModelFromFile());
+            IDiagramModel model = getModelFromFile();
+            String str = GenerateSVG.getModelSVGs(model,AllAccessRelationships);
             System.out.println(str);
             FileUtils.WriteToHTML(str);
 
@@ -65,9 +68,25 @@ public class mainCls {
 //            File modelFile = new File("D:\\FAR_Documents\\__Startamap\\model.archimate");
             File modelFile = new File("D:\\FAR_Documents\\__Startamap\\Original2.archimate");
 //            File modelFile = new File("D:\\FAR_Documents\\__Startamap\\stratamap-test.archimate");
+//            File modelFile = new File("C:\\Users\\VOLCANO\\Desktop\\old-stratamap-test.archimate");
+//            File modelFile = new File("C:\\Users\\VOLCANO\\Desktop\\stratamap-test.archimate");
+//            File modelFile = new File("C:\\Users\\VOLCANO\\stratamap\\test.stratamap.nz\\stratamap-test.archimate");
             model = loadModel(modelFile);
-            if (model != null)
-                System.out.printf(" ID ---------------------> " + model.getId());
+            if (model != null) {
+                System.out.println(" ID ---------------------> " + model.getId());
+                for (IFolder ifo : model.getFolders()) {
+                    for (EObject e : ifo.getElements()){
+                        if (e instanceof AccessRelationship){
+                            System.out.println(" IFO ---------------------> getId" + ((AccessRelationship)e).getId());
+                            System.out.println(" IFO --------------------->getName " + ((AccessRelationship)e).getName());
+                            System.out.println(" IFO ---------------------> getSource " + ((AccessRelationship)e).getSource().getId());
+                            System.out.println(" IFO ---------------------> getTarget " + ((AccessRelationship)e).getTarget().getId());
+                            System.out.println(" IFO ---------------------> " + ((AccessRelationship)e).getAccessType());
+                            AllAccessRelationships.put(((AccessRelationship)e).getId(),((AccessRelationship)e).getAccessType());
+                        }
+                    }
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -81,7 +100,7 @@ public class mainCls {
             List<IDiagramModel> iDModels = getArchiModelFromFile() != null ? getArchiModelFromFile().getDiagramModels() : null;
             if (iDModels != null) {
                 System.out.println(" Size of iDModels --------------------- " + iDModels.size());
-                diagramModel = iDModels.get(3);
+                diagramModel = iDModels.get(7);
 //                diagramModel = iDModels.get(18);
             }
 
@@ -116,8 +135,8 @@ public class mainCls {
                 System.out.println("hhhhhhhhhhhhhhh" + idia.getId());
                 if (iDs.contains(idia.getId())) {
                     //make svg
-                    SVGList.add(GenerateSVG.getModelSVGs(idia));
-                    str += GenerateSVG.getModelSVGs(idia);
+//                    SVGList.add(GenerateSVG.getModelSVGs(idia));
+//                    str += GenerateSVG.getModelSVGs(idia);
                 }
             }
             System.out.println("IDModels Size : " + iDModels.size());

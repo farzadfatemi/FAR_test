@@ -6,7 +6,7 @@ import com.farzad.pojo.ArchiEntityProperty;
 import com.farzad.pojo.SVGLabel;
 import com.farzad.pojo.SVGSingleShape;
 
-import static com.farzad.utils.GeneralUtils.*;
+import static com.farzad.utils.ComUtils.*;
 
 /**
  * Created by FARzad - VOLCANO on 5/2/2017.
@@ -251,20 +251,20 @@ class ShapeTools {
                 return getTwoRect(svgShape,archiEnum,1);
             case ARTIFACT:
                 result = new StringBuilder();
-                svgShape.setPolyDem(new int[][]{
-                        // main shape
-                        {svgShape.getX(), svgShape.getY()},
-                        {svgShape.getX() + svgShape.getWidth() - diff, svgShape.getY()},
-                        {svgShape.getX() + svgShape.getWidth(), svgShape.getY() + diff},
-                        {svgShape.getX() + svgShape.getWidth(), svgShape.getY() + svgShape.getHeight()},
-                        {svgShape.getX(), svgShape.getY() + svgShape.getHeight()}
-                        ,
-                        // poly line
-                        {svgShape.getX() + svgShape.getWidth() - diff, svgShape.getY()},
-                        {svgShape.getX() + svgShape.getWidth() - diff, svgShape.getY() + diff},
-                        {svgShape.getX() + svgShape.getWidth(), svgShape.getY() + diff}
-
-                });
+//                svgShape.setPolyDem(new int[][]{
+//                        // main shape
+//                        {svgShape.getX(), svgShape.getY()},
+//                        {svgShape.getX() + svgShape.getWidth() - diff, svgShape.getY()},
+//                        {svgShape.getX() + svgShape.getWidth(), svgShape.getY() + diff},
+//                        {svgShape.getX() + svgShape.getWidth(), svgShape.getY() + svgShape.getHeight()},
+//                        {svgShape.getX(), svgShape.getY() + svgShape.getHeight()}
+//                        ,
+//                        // poly line
+//                        {svgShape.getX() + svgShape.getWidth() - diff, svgShape.getY()},
+//                        {svgShape.getX() + svgShape.getWidth() - diff, svgShape.getY() + diff},
+//                        {svgShape.getX() + svgShape.getWidth(), svgShape.getY() + diff}
+//
+//                });
                 result.append(getArtifactShape(svgShape));
 //                result.append(putIcon(archiEnum, svgShape));
                 result.append(putText(svgShape, 0, 0));
@@ -505,23 +505,40 @@ class ShapeTools {
     }
 
     private static String getArtifactShape(SVGSingleShape svgShape) {
-        int[][] polyDem = svgShape.getPolyDem();
+        int x = svgShape.getX();
+        int w = svgShape.getWidth();
+        int y = svgShape.getY();
+        int h = svgShape.getHeight();
+        int diff = 15;
+//        int[][] polyDem = svgShape.getPolyDem();
         svgShape.setStrokeWidth(4);
-        String shape = " <polygon fill-opacity=\"" + opacity + "\" fill=\"" + svgShape.getFillColor() + "\" points=\"" + polyDem[0][0] + " " + polyDem[0][1] + ","
-                + polyDem[1][0] + " " + polyDem[1][1] + "," + polyDem[2][0] + " " + polyDem[2][1] + "," + polyDem[3][0] + " " + polyDem[3][1] + "," + polyDem[4][0]
-                + " " + polyDem[4][1] + "\" stroke=\"" + svgShape.getStrokeColor() + "\" stroke-width=\"" + svgShape.getStrokeWidth() + "\"/>\n";
-//         shape +=  "<polygon fill=\"" + svgShape.getFillColor() + "\" points=\"" + polyDem[5][0] + " " + polyDem[5][1] + "," + polyDem[6][0] + " " + polyDem[6][1] + "," + polyDem[8][0] + " " + polyDem[8][1] +"\" stroke=\"" + svgShape.getStrokeColor() + "\" stroke-width=\"" + svgShape.getStrokeWidth() + "\"/>";
-//        shape += "<line stroke-linejoin:round; fill=\""+svgShape.getStrokeColor()+"\" x1=\"" + polyDem[5][0] + "\" x2=\"" + polyDem[6][0] + "\" y1=\"" + polyDem[5][1] + "\" y2=\"" + polyDem[6][1] + "\" " +
-//                        "stroke=\""+svgShape.getStrokeColor()+"\" stroke-width=\"" + svgShape.getStrokeWidth() + "\"/>\n";
-//        shape += "<line stroke-linejoin:round; fill=\""+svgShape.getStrokeColor()+"\" x1=\"" + polyDem[7][0] + "\" x2=\"" + polyDem[8][0] + "\" y1=\"" + polyDem[7][1] + "\" y2=\"" + polyDem[8][1] + "\" " +
-//                        "stroke=\""+svgShape.getStrokeColor()+"\" stroke-width=\"" + svgShape.getStrokeWidth() + "\"/>\n";
+        return  " <path class=\"main_style artifact\" fill-opacity=\"" + opacity + "\" " +
+                " d=\"M" + (x) + " " + y +
+                " L " + (x+w-diff) + " " + (y ) +
+                " , " + (x + w-diff) + " " + (y + diff) +
+                " , " + (x + w) + " " + (y+diff) +
+                " , " + (x + w) + " " + (y+h) +
+                " , " + (x) + " " + (y+h) +
+                " , " + (x) + " " + (y) +
+                " , " + (x+w-diff) + " " + (y) +
+                " , " + (x+w) + " " + (y+diff) +
+                "\"   /> \n"
+        ;
 
-        shape += "  <polyline stroke-linejoin=\"miter\"\n" +
-                "              points=\"" + polyDem[5][0] + " " + polyDem[5][1] + "," + polyDem[6][0] + " " + polyDem[6][1] + "," + polyDem[7][0] + " " + polyDem[7][1] + "\"\n" +
-                "              stroke=\"" + svgShape.getStrokeColor() + "\" stroke-width=\"" + svgShape.getStrokeWidth() + "\"\n" +
-                "              fill=\"none\" />\n";
+//        String shape = " <polygon class=\"main_style artifact\" fill-opacity=\"" + opacity + "\"  points=\"" + polyDem[0][0] + " " + polyDem[0][1] + ","
+//                + polyDem[1][0] + " " + polyDem[1][1] + "," + polyDem[2][0] + " " + polyDem[2][1] + "," + polyDem[3][0] + " " + polyDem[3][1] + "," + polyDem[4][0]
+//                + " " + polyDem[4][1] + "\" />\n";
+////         shape +=  "<polygon fill=\"" + svgShape.getFillColor() + "\" points=\"" + polyDem[5][0] + " " + polyDem[5][1] + "," + polyDem[6][0] + " " + polyDem[6][1] + "," + polyDem[8][0] + " " + polyDem[8][1] +"\" stroke=\"" + svgShape.getStrokeColor() + "\" stroke-width=\"" + svgShape.getStrokeWidth() + "\"/>";
+////        shape += "<line stroke-linejoin:round; fill=\""+svgShape.getStrokeColor()+"\" x1=\"" + polyDem[5][0] + "\" x2=\"" + polyDem[6][0] + "\" y1=\"" + polyDem[5][1] + "\" y2=\"" + polyDem[6][1] + "\" " +
+////                        "stroke=\""+svgShape.getStrokeColor()+"\" stroke-width=\"" + svgShape.getStrokeWidth() + "\"/>\n";
+////        shape += "<line stroke-linejoin:round; fill=\""+svgShape.getStrokeColor()+"\" x1=\"" + polyDem[7][0] + "\" x2=\"" + polyDem[8][0] + "\" y1=\"" + polyDem[7][1] + "\" y2=\"" + polyDem[8][1] + "\" " +
+////                        "stroke=\""+svgShape.getStrokeColor()+"\" stroke-width=\"" + svgShape.getStrokeWidth() + "\"/>\n";
+//
+//        shape += "  <polyline class=\"main_style artifact\" stroke-linejoin=\"miter\"\n" +
+//                "              points=\"" + polyDem[5][0] + " " + polyDem[5][1] + "," + polyDem[6][0] + " " + polyDem[6][1] + "," + polyDem[7][0] + " " + polyDem[7][1] + "\"\n" +
+//                "              fill=\"none\" />\n";
 
-        return shape;
+//        return shape;
     }
 
     private static String getSimpleTrapezium(SVGSingleShape svgShape) {
@@ -632,7 +649,7 @@ class ShapeTools {
         return " <path class=\"" + styleClassName + "\" fill-opacity=\"" + opacity + "\" d=\"M" + (x) + " " + (y + h) +
                 " C " + (x + w / 6) + " " + (y + h + difY) + " , " +
                 " " + (x + w / 3) + " " + (y + h + difY) + " , " +
-                " " + (x + w / 2) + " " + (y + h) + " , " +
+                " " + (x + w / 2) + " " + (y + h) +
                 " S " + (x + w - w / 6) + " " + (y + h - difY) + " , " +
                 " " + (x + w) + " " + (y + h) +
                 " L " + (x + w) + " " + (y + h) + " , " +
@@ -649,8 +666,8 @@ class ShapeTools {
         int h = svgShape.getHeight();
         return "  <path class=\"main_style business\" fill-opacity=\"" + opacity + "\" " +
                 "d =\"M" + (x) + " " + (y) +
-                " L " + (x + w - w / 4) + " " + (y) + " , " +
-                " A  1 1 0 0 1 " + (x + w - w / 4) + " " + (y + h) + " , " +
+                " L " + (x + w - w / 4) + " " + (y) +
+                " A  1 1 0 0 1 " + (x + w - w / 4) + " " + (y + h) +
                 " L " + (x) + " " + (y + h) + " , " +
                 " " + (x + w / 6) + " " + (y + h / 2) + " , " +
                 " " + (x) + " " + (y) + " , " +
@@ -673,8 +690,8 @@ class ShapeTools {
                 " " + (x) + " " + (y + h) + " , " +
                 " " + (x + w - diff) + " " + (y + h) + " , " +
                 " " + (x + w - diff) + " " + (y + diff) + " , " +
-                " " + (x) + " " + (y + diff) + " , " +
-                " M " + (x + w) + " " + (y) + " , " +
+                " " + (x) + " " + (y + diff)  +
+                " M " + (x + w) + " " + (y) +
                 " L" + (x + w) + " " + (y + h - diff) + " , " +
                 " " + (x + w - diff) + " " + (y + h) + " , " +
                 " " + (x + w - diff) + " " + (y + diff) + " , " +

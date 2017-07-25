@@ -27,6 +27,8 @@ public class SVGSingleShape {
     private String elementType;
     private String connectionsName;
     private String connectionsType;
+    private String relationId;
+    private int accessType;
     private List<BendPoints> connectionBendPointsList;
     private String documentation;
     private String targetId;
@@ -161,6 +163,22 @@ public class SVGSingleShape {
         this.connectionsName = connectionsName;
     }
 
+    public String getRelationId() {
+        return relationId;
+    }
+
+    public void setRelationId(String relationId) {
+        this.relationId = relationId;
+    }
+
+    public int getAccessType() {
+        return accessType;
+    }
+
+    public void setAccessType(int accessType) {
+        this.accessType = accessType;
+    }
+
     public List<BendPoints> getConnectionBendPointsList() {
         return connectionBendPointsList;
     }
@@ -292,6 +310,7 @@ public class SVGSingleShape {
                 ", elementType='" + elementType + '\'' +
                 ", connectionsName='" + connectionsName + '\'' +
                 ", connectionsType='" + connectionsType + '\'' +
+                ", accessType=" + accessType +
                 ", connectionBendPointsList=" + connectionBendPointsList +
                 ", documentation='" + documentation + '\'' +
                 ", targetId='" + targetId + '\'' +
@@ -300,6 +319,7 @@ public class SVGSingleShape {
                 ", fontColor='" + fontColor + '\'' +
                 ", textAlignment='" + textAlignment + '\'' +
                 ", URL='" + URL + '\'' +
+                ", modelName='" + modelName + '\'' +
                 ", connections=" + connections +
                 ", hasChild=" + hasChild +
                 ", shapeType=" + shapeType +

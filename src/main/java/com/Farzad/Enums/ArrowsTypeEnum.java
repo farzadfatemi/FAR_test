@@ -8,7 +8,8 @@ public enum ArrowsTypeEnum {
     TRIANGLE_BLACK("triangle_black"),
     DIAMOND_BLACK("diamond_black"),
     DIAMOND_WHITE ("diamond_white"),
-    V_TYPE("v_type"),
+    V_TYPE_READ("v_type_read"),
+    V_TYPE_WRITE("v_type_write"),
     DOUBLE_V_TYPE("double_v_type"),
     DOUBLE_ORBIT("double_orbit"),
     NORMAL("normal");

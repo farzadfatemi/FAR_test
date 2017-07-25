@@ -14,7 +14,7 @@ import java.awt.geom.AffineTransform;
 /**
  * Created by VOLCANO on 4/17/2017.
  */
-public class GeneralUtils {
+public class ComUtils {
     public static byte[] str2byteArray(String str) {
         return str.getBytes();
     }
@@ -298,43 +298,72 @@ public class GeneralUtils {
         }
     }
 
-    public static float[] findPointOnConnectionLineByRatio(int x1, int x2, int y1, int y2) {
-        float m = 0;
-        float[] xy = new float[2];
-        int diff = Math.abs(x2 - x1) / 15;
+    public static double[] findPointOnConnectionLineByRatio(int x1, int x2, int y1, int y2) {
+        double m = 0;
+        double[] xy = new double[2];
+        int d = 12;
         if ((x1 - x2) != 0) {
-            m = (float) (y1 - y2) / (x1 - x2);
+            m = (double) (y1 - y2) / (x1 - x2);
             // y = m*(x-x2) + y2
             // y = m*(x-30)+70;
-            System.out.println("(y1 - y2) = " + (y1 - y2) + " | (x1 - x2) = " + (x1 - x2) + " | (y1 - y2) / (x1 - x2) = " + ((float) (y1 - y2) / (x1 - x2)));
-
+            System.out.println("----------------------------------vvvvv----------------------------------------");
+            System.out.println(" ");
+            System.out.println("x1 " + x1   +"  y1 " +  y1 +" |  x2 " + x2  +  " y2 " +  y2 );
+            System.out.println("(y1 - y2) = " + (y1 - y2) + " | (x1 - x2) = " + (x1 - x2) + " | m or (y1 - y2) / (x1 - x2) = " + ((double) (y1 - y2) / (x1 - x2)));
+            System.out.println("y= "+m+" (x - ("+x2+")) + "+y2);
             if (x1 > x2) {
-                System.out.println("X1 = " + x1 + " | X2 = " + x2 + " | Y1 = " + y1 + " | Y2 = " + y2 + " | M = " + m + " | X target = " + (x2 + diff) + " | Y target = " + (((x2 + diff) - x1) * m + y1));
-                xy[0] = (x2 + diff);
-                xy[1] = ((x2 + diff) - x2) * m + y2;
+//                if (y1 > y2) {
+                    xy[0] = x2 + d ;
+//                    xy[1] = ((x2 + d) - x2) * m + y2;
+                    xy[1] = d * m + y2;
+//                }
+//                else if (y1 < y2){
+//                    xy[0] = x2 + d ;
+//                    xy[1] = d * m + y2;
+//                } else{
+//
+//                    xy[0] = x2 + d ;
+//                    xy[1] = d * m  ;
+//                }
+                System.out.println("(x1 > x2) == 0 | X1 = " + x1 + " | X2 = " + x2 + " | Y1 = " + y1 + " | Y2 = " + y2 + " | M = " + m + " | X target = " + xy[0] + " | Y target = " + xy[1]);
+
             } else {
-                System.out.println("X1 = " + x1 + " | X2 = " + x2 + " | Y1 = " + y1 + " | Y2 = " + y2 + " | M = " + m + " | X target = " + (x2 - diff) + " | Y target = " + (((x1 + diff) - x1) * m + y1));
-                xy[0] = (x2 - diff);
-                xy[1] = ((x2 - diff) - x2) * m + y2;
+//                if (y1 > y2) {
+                    xy[0] = x2 - d ;
+                    xy[1] = (-d) * m + y2;
+//                    xy[1] = ((x2- d) - x2) * m + y2;
+//                }
+//                else if (y1 < y2){
+//                    xy[0] = x2 - d ;
+//                    xy[1] = ((x2 - d) - x2) * m + y2;
+//                } else{
+//
+//                    xy[0] = x2 - d ;
+//                    xy[1] = ((x2 - d) - x2) * m  ;
+//                }
+                System.out.println("(x1 < x2) == 0 | X1 = " + x1 + " | X2 = " + x2 + " | Y1 = " + y1 + " | Y2 = " + y2 + " | M = " + m + " | X target = " + xy[0] + " | Y target = " + xy[1]);
+
             }
 
         } else {
             if (y2 > y1) {
-                System.out.println("(x1 - x2) == 0 | X1 = " + x1 + " | X2 = " + x2 + " | Y1 = " + y1 + " | Y2 = " + y2 + " | M = " + m + " | X target = " + x1 + " | Y target = " + (y2 + ((y2 - y1) / 12)));
                 xy[0] = (x2);
-                xy[1] = y2 + ((y2 - y1) / 12);
+                xy[1] = y2 - 10;
+                System.out.println("(x1 - x2) == 0 | X1 = " + x1 + " | X2 = " + x2 + " | Y1 = " + y1 + " | Y2 = " + y2 + " | M = " + m + " | X target = " + xy[0] + " | Y target = " + xy[1]);
             } else {
-                System.out.println("(x1 - x2) == 0 | X1 = " + x1 + " | X2 = " + x2 + " | Y1 = " + y1 + " | Y2 = " + y2 + " | M = " + m + " | X target = " + x1 + " | Y target = " + (y2 - ((y2 - y1) / 12)));
                 xy[0] = (x2);
-                xy[1] = y2 - ((y2 - y1) / 12);
+                xy[1] = y2 +10;
+                System.out.println("(x1 - x2) == 0 | X1 = " + x1 + " | X2 = " + x2 + " | Y1 = " + y1 + " | Y2 = " + y2 + " | M = " + m + " | X target = " + xy[0] + " | Y target = " + xy[1]);
             }
         }
+        System.out.println(" ");
+        System.out.println("--------------------------------^^^^----------------------------------------");
         return xy;
     }
 
     public static double[] findClosePointsForDrawingArc(int x1, int x2, int y1, int y2) {
         double[] xy = new double[2];
-        double d = 10;
+        double d = 5;
         double angle = 0;
 //        if ((x1 - x2) != 0) {
         // tan a = y2-y1/x2-x1
@@ -345,18 +374,26 @@ public class GeneralUtils {
 //        System.out.println("xt " + xy[0] + "  yt " + xy[1] + " angel would be : " + angle + " and Different number : " + d);
 
         angle = Math.toDegrees(Math.atan2(Math.abs(y1 - y2), Math.abs(x1 - x2)));
-        System.out.println("Math.abs(x1-x2)" + Math.abs(x1 - x2) +"  |  Math.abs(y1-y2) " + Math.abs(y1 - y2) +  "  |   angel would be : " + angle + " |   Different number : " + d);
+        System.out.println("----------------------------------vvvvv----------------------------------------");
+        System.out.println(" ");
+        System.out.println("x1 " + x1   +"  y1 " +  y1 +" |  x2 " + x2  +  " y2 " +  y2 );
+        System.out.println("Math.abs(x1-x2)" + Math.abs(x1 - x2) +"  |  Math.abs(y1-y2) " + Math.abs(y1 - y2) +  "  |   angel would be Math.toDegrees(Math.atan2(Math.abs(y1 - y2), Math.abs(x1 - x2))) : " + angle + " |   Different number : " + d);
         if (x1 > x2) {
             if (y1 > y2) {
                 System.out.println("x1>x2 && y1>y2 | x2= "+x2+" | cos(angle) = "+Math.cos(angle)+" | d = "+d);
                 xy[0] = x2 + (Math.abs(Math.cos(angle)) * d);
                 System.out.println("x1>x2 && y1>y2 | x2= "+x2+" | sin(angle) = "+Math.sin(angle)+" | d = "+d);
                 xy[1] = y2 + (Math.abs(Math.sin(angle)) * d);
-            } else {
-                System.out.println("x1>x2 && y1<=y2 | x2= "+x2+" | cos(angle) = "+Math.cos(angle)+" | d = "+d);
+            } else if (y1 < y2){
+                System.out.println("x1>x2 && y1< y2 | x2= "+x2+" | cos(angle) = "+Math.cos(angle)+" | d = "+d);
                 xy[0] = x2 + (Math.abs(Math.cos(angle)) * d);
-                System.out.println("x1>x2 && y1<=y2 | x2= "+x2+" | sin(angle) = "+Math.sin(angle)+" | d = "+d);
+                System.out.println("x1>x2 && y1< y2 | x2= "+x2+" | sin(angle) = "+Math.sin(angle)+" | d = "+d);
                 xy[1] = y2 - (Math.abs(Math.sin(angle)) * d);
+            } else{
+                System.out.println("x1>x2 && y1 = y2 | x2= "+x2+" | cos(angle) = "+Math.cos(angle)+" | d = "+d);
+                xy[0] = x2 + (Math.abs(Math.cos(angle)) * d);
+                System.out.println("x1>x2 && y1 = y2 | x2= "+x2+" | sin(angle) = "+Math.sin(angle)+" | d = "+d);
+                xy[1] = y2 ;
             }
 
         } else if (x1 < x2) {
@@ -365,11 +402,16 @@ public class GeneralUtils {
                 xy[0] = x2 - (Math.abs(Math.cos(angle)) * d);
                 System.out.println("x1<x2 && y1>y2 | x2= "+x2+" | sin(angle) = "+Math.sin(angle)+" | d = "+d);
                 xy[1] = y2 + (Math.abs(Math.sin(angle)) * d);
-            } else {
-                System.out.println("x1<x2 && y1<=y2 | x2= "+x2+" | cos(angle) = "+Math.cos(angle)+" | d = "+d);
+            } else if (y1 < y2){
+                System.out.println("x1<x2 && y1< y2 | x2= "+x2+" | cos(angle) = "+Math.cos(angle)+" | d = "+d);
                 xy[0] = x2 - (Math.abs(Math.cos(angle)) * d);
-                System.out.println("x1<x2 && y1<=y2 | x2= "+x2+" | sin(angle) = "+Math.sin(angle)+" | d = "+d);
+                System.out.println("x1<x2 && y1< y2 | x2= "+x2+" | sin(angle) = "+Math.sin(angle)+" | d = "+d);
                 xy[1] = y2 - (Math.abs(Math.sin(angle)) * d);
+            }else{
+                System.out.println("x1<x2 && y1 =y2 | x2= "+x2+" | cos(angle) = "+Math.cos(angle)+" | d = "+d);
+                xy[0] = x2 - (Math.abs(Math.cos(angle)) * d);
+                System.out.println("x1<x2 && y1 =y2 | x2= "+x2+" | sin(angle) = "+Math.sin(angle)+" | d = "+d);
+                xy[1] = y2 ;
             }
         } else  {
             if (y1 > y2) {
@@ -377,14 +419,21 @@ public class GeneralUtils {
                 xy[0] = x2 ;
                 System.out.println("x1=x2 && y1>y2 | x2= "+x2+" | sin(angle) = "+Math.sin(angle)+" | d = "+d);
                 xy[1] = y2 + (Math.abs(Math.sin(angle) * d));
-            } else {
-                System.out.println("x1=x2 && y1<=y2 | x2= "+x2+" | cos(angle) = "+Math.cos(angle)+" | d = "+d);
+            } else if (y1 < y2){
+                System.out.println("x1=x2 && y1< y2 | x2= "+x2+" | cos(angle) = "+Math.cos(angle)+" | d = "+d);
                 xy[0] = x2 ;
-                System.out.println("x1=x2 && y1<=y2 | x2= "+x2+" | sin(angle) = "+Math.sin(angle)+" | d = "+d);
+                System.out.println("x1=x2 && y1< y2 | x2= "+x2+" | sin(angle) = "+Math.sin(angle)+" | d = "+d);
                 xy[1] = y2 - (Math.abs(Math.sin(angle)) * d);
+            }else{
+                System.out.println("x1=x2 && y1 =y2 | x2= "+x2+" | cos(angle) = "+Math.cos(angle)+" | d = "+d);
+                xy[0] = x2 ;
+                System.out.println("x1=x2 && y1 =y2 | x2= "+x2+" | sin(angle) = "+Math.sin(angle)+" | d = "+d);
+                xy[1] = y2 ;
             }
         }
         System.out.println(" X1 = " + x1 + " | X2 = " + x2 + " | Y1 = " + y1 + " | Y2 = " + y2 +   " | X target = " + xy[0] + " | Y target = " + xy[1]);
+        System.out.println(" ");
+        System.out.println("--------------------------------^^^^----------------------------------------");
 //        } else {
 //            if (y2 > y1) {
 //                System.out.println("(x1 - x2) == 0 | X1 = " + x1 + " | X2 = " + x2 + " | Y1 = " + y1 + " | Y2 = " + y2 +   " | X target = " + x1 + " | Y target = " + (y2 + ((y2 - y1) / 12)));

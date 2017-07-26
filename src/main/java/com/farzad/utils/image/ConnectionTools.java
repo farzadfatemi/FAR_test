@@ -50,6 +50,8 @@ class ConnectionTools {
                 return lineSVGCode(source, target, ConnectionsEnum.SPECIALIZATION);
             } else if (ConnectionsEnum.FLOW.equalsName(source.getConnectionsType().toLowerCase())) {
                 return lineSVGCode(source, target, ConnectionsEnum.FLOW);
+            } else if (ConnectionsEnum.TRIGGERING.equalsName(source.getConnectionsType().toLowerCase())) {
+                return lineSVGCode(source, target, ConnectionsEnum.TRIGGERING);
             } else
                 return lineSVGCode(source, target, ConnectionsEnum.ASSOCIATION);
 //            return null;
@@ -125,6 +127,8 @@ class ConnectionTools {
                     return (makeArrows(conSVG, ArrowsTypeEnum.TRIANGLE_WHITE) + putText(conSVG, source));
                 case FLOW:
                     conSVG.setDashArray(new int[]{2, 2});
+                    return (makeArrows(conSVG, ArrowsTypeEnum.TRIANGLE_BLACK) + putText(conSVG, source));
+                case TRIGGERING:
                     return (makeArrows(conSVG, ArrowsTypeEnum.TRIANGLE_BLACK) + putText(conSVG, source));
                 default:
                     return (makeArrows(conSVG, null) + putText(conSVG, source));

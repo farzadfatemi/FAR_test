@@ -100,7 +100,7 @@ public class mainCls {
             List<IDiagramModel> iDModels = getArchiModelFromFile() != null ? getArchiModelFromFile().getDiagramModels() : null;
             if (iDModels != null) {
                 System.out.println(" Size of iDModels --------------------- " + iDModels.size());
-                diagramModel = iDModels.get(7);
+                diagramModel = iDModels.get(3);
 //                diagramModel = iDModels.get(18);
             }
 

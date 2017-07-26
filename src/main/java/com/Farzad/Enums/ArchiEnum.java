@@ -76,6 +76,7 @@ public enum ArchiEnum {
     PLATEAU(Category.PLATEAU),
     INFRASTRUCTURE_FUNCTION(Category.INFRASTRUCTURE_FUNCTION),
     WORK_PACKAGE(Category.WORK_PACKAGE),
+    JUNCTION(Category.JUNCTION),
     DEFAULT(Category.DEFAULT);
     //    private final String name;
     private Category category;
@@ -111,6 +112,7 @@ public enum ArchiEnum {
         PLATEAU,
         INFRASTRUCTURE_FUNCTION,
         WORK_PACKAGE,
+        JUNCTION,
         DEFAULT;
     }
 
@@ -166,6 +168,8 @@ public enum ArchiEnum {
                 return "infrastructure_function";
             case WORK_PACKAGE:
                 return "work_package";
+           case JUNCTION:
+                return "junction";
             case DEFAULT:
             return "default";
             default:
@@ -319,6 +323,8 @@ public enum ArchiEnum {
                 return "WorkPackage";
             case PRODUCT:
                 return "Product";
+            case JUNCTION:
+                return "Junction";
             default:
                 return null;
         }
@@ -550,6 +556,9 @@ public enum ArchiEnum {
 
         }else if (ArchiEnum.PRODUCT.equalsName(value)) {
             return ArchiEnum.PRODUCT;
+
+        }else if (ArchiEnum.JUNCTION.equalsName(value)) {
+            return ArchiEnum.JUNCTION;
 
         } else {
             return ArchiEnum.DEFAULT;

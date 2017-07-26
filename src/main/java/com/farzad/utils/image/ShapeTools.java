@@ -145,7 +145,7 @@ class ShapeTools {
             case BUSINESS_MEANING:
                 return mainRect.toString();
             case BUSINESS_OBJECT:
-                return getTwoRect(svgShape,archiEnum,1);
+                return getTwoRect(svgShape, archiEnum, 1);
             case BUSINESS_PROCESS:
                 result = new StringBuilder();
                 svgShape.setRx(8);
@@ -244,11 +244,11 @@ class ShapeTools {
             case TECHNOLOGY_SYSTEM_SOFTWARE:
                 return mainRect.toString();
             case CONTRACT:
-                return getTwoRect(svgShape,archiEnum,1 );
+                return getTwoRect(svgShape, archiEnum, 1);
             case LOCATION:
                 return mainRect.toString();
             case DATA_OBJECT:
-                return getTwoRect(svgShape,archiEnum,1);
+                return getTwoRect(svgShape, archiEnum, 1);
             case ARTIFACT:
                 result = new StringBuilder();
 //                svgShape.setPolyDem(new int[][]{
@@ -394,8 +394,8 @@ class ShapeTools {
                 });
                 result.append(getNoteShape(svgShape));
                 result.append(putText(svgShape, svgShape.getX() + 5, svgShape.getY() + 5));
-                tmpStr = putIntoLink(result.toString(), svgShape.getURL());
-                return putGroupAndSVGTag(tmpStr);
+            return putGroupAndSVGTag(result.toString());
+
             case VALUE:
                 result = new StringBuilder();
                 result.append(getValueShape(svgShape));
@@ -451,7 +451,9 @@ class ShapeTools {
                 tmpStr = putIntoLink(result.toString(), svgShape.getURL());
                 return putGroupAndSVGTag(tmpStr);
             case PRODUCT:
-                return getTwoRect(svgShape,archiEnum,2);
+                return getTwoRect(svgShape, archiEnum, 2);
+            case JUNCTION:
+                return getJuctionShape(svgShape, archiEnum );
             default:
                 return mainRect.toString();
         }
@@ -463,10 +465,11 @@ class ShapeTools {
                 "      <rect fill-opacity=\"" + opacity + "\" class=\"main_style " + archiEnum.categoryToString() + "\" x=\"" + svgShape.getX() + "\" y=\"" + svgShape.getY() + "\" width=\"" + svgShape.getWidth()
                         + "\" height=\"" + svgShape.getHeight() + "\" " + ((svgShape.getRx() > 0 || svgShape.getRy() > 0) ? (" rx=\"" + svgShape.getRx() + "\" ry=\"" + svgShape.getRy() + "\"") : "") + "/>\n"
                 ;
+
     }    private static String getSimpleUpperRect(ArchiEnum archiEnum, SVGSingleShape svgShape) {
         svgShape.setStrokeWidth(4);
         return
-                "      <rect fill-opacity=\"" + opacity + "\" class=\"main_style upper_" +archiEnum.categoryToString() + "\" x=\"" + svgShape.getX() + "\" y=\"" + svgShape.getY() + "\" width=\"" + svgShape.getWidth()
+                "      <rect fill-opacity=\"" + opacity + "\" class=\"main_style upper_" + archiEnum.categoryToString() + "\" x=\"" + svgShape.getX() + "\" y=\"" + svgShape.getY() + "\" width=\"" + svgShape.getWidth()
                         + "\" height=\"" + svgShape.getHeight() + "\" " + ((svgShape.getRx() > 0 || svgShape.getRy() > 0) ? (" rx=\"" + svgShape.getRx() + "\" ry=\"" + svgShape.getRy() + "\"") : "") + "/>\n"
                 ;
     }
@@ -485,23 +488,18 @@ class ShapeTools {
         return
                 "      \n<rect fill-opacity=\"" + opacity + "\" class=\"main_style " + archiEnum.categoryToString() + "\" " +
 //                        "fill=\"" + svgShape.getFillColor() + "\"  " +
-                        "x=\"" + svgShape.getX() + "\" y=\"" + svgShape.getY() + "\" width=\"" + svgShape.getWidth()
-                        + "\" height=\"" + svgShape.getHeight() + "\" rx=\"" + svgShape.getRx() + "\" ry=\"" + svgShape.getRy() + "\" " +
-//                        "stroke=\"" + svgShape.getStrokeColor() + "\" stroke-width=\"" + svgShape.getStrokeWidth() + "\" " +
-                        "/>\n" +
-                        "      <rect class=\"main_style " + archiEnum.categoryToString() + "\" " +
+                "x=\"" + svgShape.getX() + "\" y=\"" + svgShape.getY() + "\" width=\"" + svgShape.getWidth() + "\" height=\"" + svgShape.getHeight() + "\" rx=\"" + svgShape.getRx() + "\" ry=\""
+                + svgShape.getRy() + "\" " +
+
+                "/>\n" + "      <rect class=\"main_style " + archiEnum.categoryToString() + "\" " +
 //                        "fill=\"" + svgShape.getFillColor() + "\"  " +
-                        "x=\"" + (svgShape.getX() - 10) + "\" y=\"" + (svgShape.getY() + 10) + "\" width=\"" + smallBoxWidth
-                        + "\" height=\"" + smallBoxHeight + "\" rx=\"" + svgShape.getRx() + "\" ry=\"" + svgShape.getRy() + "\" " +
-//                        "stroke=\"" + svgShape.getStrokeColor() + "\" stroke-width=\"" + svgShape.getStrokeWidth() + "\"" +
-                        " />\n" +
-                        "      <rect class=\"main_style " + archiEnum.categoryToString() + "\" " +
+                "x=\"" + (svgShape.getX() - 10) + "\" y=\"" + (svgShape.getY() + 10) + "\" width=\"" + smallBoxWidth + "\" height=\"" + smallBoxHeight + "\" rx=\"" + svgShape.getRx() + "\" ry=\""
+                + svgShape.getRy() + "\" " +
+
 //                        "fill=\"" + svgShape.getFillColor() + "\"  " +
-                        "x=\"" + (svgShape.getX() - 10) + "\" y=\"" + (svgShape.getY() + 25) + "\" width=\"" + smallBoxWidth
-                        + "\" height=\"" + smallBoxHeight + "\" rx=\"" + svgShape.getRx() + "\" ry=\"" + svgShape.getRy() + "\" " +
+                " />\n" + "      <rect class=\"main_style " + archiEnum.categoryToString() + "\" " + "x=\"" + (svgShape.getX() - 10) + "\" y=\"" + (svgShape.getY() + 25) + "\" width=\""
+                + smallBoxWidth + "\" height=\"" + smallBoxHeight + "\" rx=\"" + svgShape.getRx() + "\" ry=\"" + svgShape.getRy() + "\" " + " />\n";
 //                        "stroke=\"" + svgShape.getStrokeColor() + "\" stroke-width=\"" + svgShape.getStrokeWidth() + "\"" +
-                        " />\n"
-                ;
     }
 
     private static String getArtifactShape(SVGSingleShape svgShape) {
@@ -512,18 +510,18 @@ class ShapeTools {
         int diff = 15;
 //        int[][] polyDem = svgShape.getPolyDem();
         svgShape.setStrokeWidth(4);
-        return  " <path class=\"main_style artifact\" fill-opacity=\"" + opacity + "\" " +
+        return " <path class=\"main_style artifact\" fill-opacity=\"" + opacity + "\" " +
                 " d=\"M" + (x) + " " + y +
-                " L " + (x+w-diff) + " " + (y ) +
-                " , " + (x + w-diff) + " " + (y + diff) +
-                " , " + (x + w) + " " + (y+diff) +
-                " , " + (x + w) + " " + (y+h) +
-                " , " + (x) + " " + (y+h) +
+                " L " + (x + w - diff) + " " + (y) +
+                " , " + (x + w - diff) + " " + (y + diff) +
+                " , " + (x + w) + " " + (y + diff) +
+                " , " + (x + w) + " " + (y + h) +
+                " , " + (x) + " " + (y + h) +
                 " , " + (x) + " " + (y) +
-                " , " + (x+w-diff) + " " + (y) +
-                " , " + (x+w) + " " + (y+diff) +
+                " , " + (x + w - diff) + " " + (y) +
+                " , " + (x + w) + " " + (y + diff) +
                 "\"   /> \n"
-        ;
+                ;
 
 //        String shape = " <polygon class=\"main_style artifact\" fill-opacity=\"" + opacity + "\"  points=\"" + polyDem[0][0] + " " + polyDem[0][1] + ","
 //                + polyDem[1][0] + " " + polyDem[1][1] + "," + polyDem[2][0] + " " + polyDem[2][1] + "," + polyDem[3][0] + " " + polyDem[3][1] + "," + polyDem[4][0]
@@ -568,8 +566,7 @@ class ShapeTools {
         int w = svgShape.getWidth();
         int y = svgShape.getY();
         int h = svgShape.getHeight();
-        return
-                " <path class=\"database\" d=\"M" + x + " " + y +
+        return " <path class=\"database\" d=\"M" + x + " " + y +
                         "           L " + x + " " + (y + h) +
                         "           A 15 1.5 0 0 0 " + (x + w) + " " + (y + h) +
                         "           L " + (x + w) + " " + (y + h) + " ," + (x + w) + " " + y +
@@ -690,7 +687,7 @@ class ShapeTools {
                 " " + (x) + " " + (y + h) + " , " +
                 " " + (x + w - diff) + " " + (y + h) + " , " +
                 " " + (x + w - diff) + " " + (y + diff) + " , " +
-                " " + (x) + " " + (y + diff)  +
+                " " + (x) + " " + (y + diff) +
                 " M " + (x + w) + " " + (y) +
                 " L" + (x + w) + " " + (y + h - diff) + " , " +
                 " " + (x + w - diff) + " " + (y + h) + " , " +
@@ -701,16 +698,21 @@ class ShapeTools {
     private static String getTwoRect(SVGSingleShape svgShape, ArchiEnum archiEnum, int widthDivision) {
         StringBuilder result = new StringBuilder();
         result.append(getSimpleRect(archiEnum, svgShape));
-        int origHeight= svgShape.getHeight();
-        svgShape.setWidth(svgShape.getWidth()/widthDivision);
+        int origHeight = svgShape.getHeight();
+        svgShape.setWidth(svgShape.getWidth() / widthDivision);
         svgShape.setHeight(12);
         result.append(getSimpleUpperRect(archiEnum, svgShape));
-        svgShape.setWidth(svgShape.getWidth()*widthDivision);
+        svgShape.setWidth(svgShape.getWidth() * widthDivision);
         svgShape.setHeight(origHeight);
         result.append(putText(svgShape, 0, 0));
 
 
         return putGroupAndSVGTag(putIntoLink(result.toString(), svgShape.getURL()));
+    }
+
+    private static String getJuctionShape(SVGSingleShape svgShape, ArchiEnum archiEnum ) {
+            svgShape.setStrokeWidth(4);
+        return "<circle class=\"main_style " +archiEnum.categoryToString() + "\" cx=\"" + (svgShape.getX()+svgShape.getWidth()/2) + "\" cy=\"" + (svgShape.getY()+svgShape.getWidth()/2) + "\" r=\"10\"/>\n";
     }
 
 

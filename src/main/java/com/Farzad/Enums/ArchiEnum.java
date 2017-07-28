@@ -164,6 +164,8 @@ public enum ArchiEnum {
                 return "deliverable";
             case PLATEAU:
                 return "plateau";
+            case GAP:
+                return "gap";
             case INFRASTRUCTURE_FUNCTION:
                 return "infrastructure_function";
             case WORK_PACKAGE:

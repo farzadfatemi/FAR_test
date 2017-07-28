@@ -52,6 +52,8 @@ class ConnectionTools {
                 return lineSVGCode(source, target, ConnectionsEnum.FLOW);
             } else if (ConnectionsEnum.TRIGGERING.equalsName(source.getConnectionsType().toLowerCase())) {
                 return lineSVGCode(source, target, ConnectionsEnum.TRIGGERING);
+            } else if (ConnectionsEnum.INFLUENCE.equalsName(source.getConnectionsType().toLowerCase())) {
+                return lineSVGCode(source, target, ConnectionsEnum.INFLUENCE);
             } else
                 return lineSVGCode(source, target, ConnectionsEnum.ASSOCIATION);
 //            return null;
@@ -130,6 +132,9 @@ class ConnectionTools {
                     return (makeArrows(conSVG, ArrowsTypeEnum.TRIANGLE_BLACK) + putText(conSVG, source));
                 case TRIGGERING:
                     return (makeArrows(conSVG, ArrowsTypeEnum.TRIANGLE_BLACK) + putText(conSVG, source));
+                case INFLUENCE:
+                    conSVG.setDashArray(new int[]{2, 2});
+                    return (makeArrows(conSVG, ArrowsTypeEnum.TRIANGLE_BLACK) + putText(conSVG, source));
                 default:
                     return (makeArrows(conSVG, null) + putText(conSVG, source));
             }
@@ -182,8 +187,8 @@ class ConnectionTools {
             BendPoints b2 = null;
             System.out.println("The list of Bend points   : ");
             for (BendPoints bb : conSvg.getBendPointses()) {
-                System.out.println(" StartX : " + (bb.getStartX()  ) + " | StartY :" + (bb.getStartY() ) + " | EndX :" + (bb.getEndX()  ) + " | EndY :" + (bb.getEndY()) +
-                        " X : " + (bb.getStartX() + sMX) + " |  Y :" + (bb.getStartY() + sMY) );
+                System.out.println(" StartX : " + (bb.getStartX()) + " | StartY :" + (bb.getStartY()) + " | EndX :" + (bb.getEndX()) + " | EndY :" + (bb.getEndY()) +
+                        " X : " + (bb.getStartX() + sMX) + " |  Y :" + (bb.getStartY() + sMY));
             }
 
 
@@ -270,13 +275,13 @@ class ConnectionTools {
 //
 //                }
 //            }
-            dim.append(" L").append(conSvg.getX2()).append(",").append(conSvg.getY2()).append("");
+        dim.append(" L").append(conSvg.getX2()).append(",").append(conSvg.getY2()).append("");
 //        dim += " L" + tMX + "," + tMY;
-            System.out.println("Final svg connection code " + dim.toString());
-            return dim.toString();
+        System.out.println("Final svg connection code " + dim.toString());
+        return dim.toString();
 
 
-        }
+    }
 
     private static String makeLineWithDoubleOrb(String line, ConnectionSVG svg) {
 
@@ -301,6 +306,8 @@ class ConnectionTools {
         int y = conSVG.getY1();
         StringBuilder text = null;
         if (source.getConnectionsType() != null) {
+            int textWidth = ComUtils.getFontSize(ComUtils.getEscapeXmlChars(source.getConnectionsName()), true);
+            int textHeight = ComUtils.getFontSize(ComUtils.getEscapeXmlChars(source.getConnectionsName()), false);
             text = new StringBuilder();
             if (conSVG.getY2() - conSVG.getY1() == 0) {
 //                textAnchor = "middle";
@@ -308,6 +315,29 @@ class ConnectionTools {
             } else {
                 x = conSVG.getX1() + 8;
             }
+            text.append("<rect  class=\"text_box\"");
+             if (conSVG.getBendPointses() != null && conSVG.getBendPointses().size() > 0) {
+                text.append(" x=\"");
+                text.append(sMX + conSVG.getBendPointses().get(0).getStartX() + 5 - (textWidth / 2));
+                text.append("\" y=\"");
+                text.append(sMY + conSVG.getBendPointses().get(0).getStartY() + 10 - (textHeight-2)+2);
+                 text.append("\"");
+             } else {
+                 text.append(" x=\"");
+                 text.append(((conSVG.getX2() + x) / 2) - (textWidth / 2) );
+                 text.append("\"");
+                 text.append(" y=\"");
+                 text.append(((conSVG.getY2() + y) / 2) - (textHeight-2)+2);
+                 text.append("\"");
+             }
+            text.append(" width=\"");
+            text.append(textWidth);
+            text.append("\"");
+            text.append(" height=\"");
+            text.append(textHeight);
+            text.append("\"");
+            text.append(" rx=\"8\" ry=\"8\"/>");
+
             text.append("<text text-anchor=\"");
             text.append(textAnchor);
             text.append("\"");
@@ -417,20 +447,20 @@ class ConnectionTools {
         }
         switch (arrowsType) {
             case TRIANGLE_BLACK:
-                arrowSVG.setDim("M0,0 L0,6 L4,3 z");
+                arrowSVG.setDim("M2,2 L2,6 L4,4 z");
 //                arrowSVG.setDim("M2,2 L2,13 L8,7 L2,2");
                 arrowSVG.setMarkerWidth(10);
                 arrowSVG.setMarkerHeight(10);
-                arrowSVG.setRefX(5);
-                arrowSVG.setRefY(3);
+                arrowSVG.setRefX(4);
+                arrowSVG.setRefY(4);
                 arrowSVG.setColor("#000000");
                 break;
             case TRIANGLE_WHITE:
-                arrowSVG.setDim("M0,0 L0,9 L6,4.5 z");
+                arrowSVG.setDim("M2,2 L2,10 L8,6 z");
                 arrowSVG.setMarkerWidth(10);
-                arrowSVG.setMarkerHeight(10);
-                arrowSVG.setRefX(5);
-                arrowSVG.setRefY(4);
+                arrowSVG.setMarkerHeight(12);
+                arrowSVG.setRefX(8);
+                arrowSVG.setRefY(6);
                 arrowSVG.setColor("#ffffff");
                 break;
             case V_TYPE_READ:
@@ -498,8 +528,8 @@ class ConnectionTools {
         }
         if (arrowsType.equals(ArrowsTypeEnum.DOUBLE_ORBIT)) {
             result += "<circle class=\"arrows " + arrowsType.toString() + "\" cx=\"" + conSvg.getX1() + "\" cy=\"" + conSvg.getY1() + "\" r=\"3\"/>\n";
+            result += "<circle class=\"arrows " + arrowsType.toString() + "\" cx=\"" + conSvg.getX2() + "\" cy=\"" + conSvg.getY2() + "\" r=\"3\" />\n";
         }
-
         if (conSvg.isOwnConnection()) {
 
             result += "<path class=\"connection\"  d=\"M" + conSvg.getX1() + "," + conSvg.getY1() + " L" + (conSvg.getX1()) + "," + (conSvg.getY1() + 10) + "\" ";
@@ -552,9 +582,7 @@ class ConnectionTools {
             }
             result += "/>\n";
         }
-        if (arrowsType.equals(ArrowsTypeEnum.DOUBLE_ORBIT)) {
-            result += "<circle class=\"arrows " + arrowsType.toString() + "\" cx=\"" + conSvg.getX2() + "\" cy=\"" + conSvg.getY2() + "\" r=\"3\" />\n";
-        }
+
         System.out.println("---- cccc ---> Connection : Source : " + conSvg.getSourceName() + " to : Target : " + conSvg.getTargetName() + " SVG Code : \n" + result);
         return result;
 
@@ -1046,7 +1074,7 @@ class ConnectionTools {
 
     private static ConnectionSVG positionWithBendPoints(SVGSingleShape source, SVGSingleShape target) {
         // the border should avoid from startpoint/endpoint connection
-       // boolean ownConnection = false;
+        // boolean ownConnection = false;
         ConnectionSVG conSVG = null;
         if (source == null || target == null) return null;
         conSVG = new ConnectionSVG();

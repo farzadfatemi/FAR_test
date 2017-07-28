@@ -15,7 +15,8 @@ public enum ConnectionsEnum {
 //    READ_AND_WRITE("read/write"),
     SPECIALIZATION("SpecialisationRelationship"),
     COMPOSITION("CompositionRelationship"),
-    TRIGGERING("TriggeringRelationship");
+    TRIGGERING("TriggeringRelationship"),
+    INFLUENCE("InfluenceRelationship");
     private final  String name;
 
     public boolean equalsName(String otherName) {
